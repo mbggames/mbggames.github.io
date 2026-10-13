@@ -1,0 +1,283 @@
+{
+ "lang": "en",
+ "hreflang": "en",
+ "dir": "ltr",
+ "ogLocale": "en_US",
+ "path": "",
+ "meta": {
+  "title": "MBG Puzzles – Codebreaker & Word Puzzle, free brain games in 10 languages",
+  "description": "Two free logic games for Android: Codebreaker (find the secret number) and Word Puzzle (find the secret word, 4–8 letters). Ten languages, no ads, works offline, daily puzzles.",
+  "keywords": "word game, number game, brain games, logic games, word puzzle app, code breaker game, Mastermind numbers, Bulls and Cows, Wordle alternative, daily word puzzle, word game in Albanian, word game in Bosnian, Arabic word game, free puzzle game without ads, Android"
+ },
+ "ui": {
+  "skip": "Skip to the content",
+  "nav": {
+   "games": "Games",
+   "clues": "How to play",
+   "daily": "Daily puzzles",
+   "languages": "Languages",
+   "faq": "Questions"
+  },
+  "langMenu": "Language",
+  "otherLangs": "This page in other languages"
+ },
+ "hero": {
+  "eyebrow": "Free · no ads · no limits",
+  "h1": "A word game and a number game, in ten languages",
+  "lead": "MBG Puzzles is a free Android app with two logic games. In Codebreaker you find a secret number, in Word Puzzle a secret word. Every guess gets coloured clues. Play in English, Albanian, Bosnian, German, Spanish, French, Turkish, Polish, Portuguese or Arabic.",
+  "soon": "Coming soon to Google Play",
+  "soonNote": "For Android phones and tablets.",
+  "live": "Get it on Google Play",
+  "liveNote": "Free for Android phones and tablets.",
+  "secondary": "How to play",
+  "boardWord": "Word Puzzle, an example game",
+  "boardCode": "Codebreaker, an example game"
+ },
+ "glance": {
+  "title": "At a glance",
+  "items": [
+   [
+    "Games",
+    "Codebreaker (numbers) and Word Puzzle (words)"
+   ],
+   [
+    "Price",
+    "Free: no ads, no purchases, no limits"
+   ],
+   [
+    "Device",
+    "Android phones and tablets, from Google Play"
+   ],
+   [
+    "Languages",
+    "English, Albanian, Bosnian, German, Spanish, French, Turkish, Polish, Portuguese (Brazil), Arabic"
+   ],
+   [
+    "Words",
+    "75,000 everyday secret words and over 1.5 million accepted words"
+   ],
+   [
+    "Ages",
+    "From about 9 years: children, students and adults"
+   ],
+   [
+    "Internet",
+    "Not needed. Both games work offline"
+   ],
+   [
+    "Account",
+    "None. Names and scores stay on the phone"
+   ],
+   [
+    "Made by",
+    "MBG – Merkur Beqiri Games, based in Kosovo, operating worldwide"
+   ]
+  ]
+ },
+ "games": {
+  "title": "Two games, one app",
+  "intro": "Both games use the same coloured clues, so once you know one, you know the other.",
+  "code": {
+   "name": "Codebreaker",
+   "tag": "Find the secret number",
+   "text": "The app picks a secret number of 4 to 8 digits. Digits can repeat and the number can start with 0, so a 4-digit secret is one of 10,000 numbers and an 8-digit secret one of 100 million. Type a number of the same length and every digit gets a clue.",
+   "facts": [
+    "4, 5, 6, 7 or 8 digits",
+    "Digits may repeat",
+    "A number keypad while you guess",
+    "The classic code-breaking game, in the family of Bulls and Cows"
+   ]
+  },
+  "word": {
+   "name": "Word Puzzle",
+   "tag": "Find the secret word",
+   "text": "The app picks a secret word of 4 to 8 letters in the language you play. Type a word of the same length and every letter gets a clue. The normal level uses everyday words. The Expert level ⭐ picks from the whole dictionary.",
+   "facts": [
+    "4, 5, 6, 7 or 8 letters",
+    "Ten languages, each with its own letters",
+    "Normal and Expert ⭐ levels",
+    "As many games as you like, not one a day"
+   ]
+  }
+ },
+ "clues": {
+  "title": "How the clues work",
+  "intro": "After every try, each letter or digit gets a colour.",
+  "legend": {
+   "O": "Green: right letter or digit, in the right place",
+   "?": "Yellow: it is in the answer, but in another place",
+   "X": "Grey: it is not in the answer"
+  },
+  "short": {
+   "O": "right place",
+   "?": "other place",
+   "X": "not in it"
+  },
+  "wordCaption": "Word Puzzle: three tries to find {secret}",
+  "wordExplain": "First try: A is in the right place, L and E are in the word but in other places, R and T are not in it. The second try keeps A, N and G. The third try is right.",
+  "codeCaption": "Codebreaker: three tries to find {secret}",
+  "codeExplain": "First try: 1 and 3 are in the number but in other places, 2 and 4 are not in it. Second try: 3 and 1 are right, 5 and 8 belong somewhere else. The third try is right.",
+  "repeat": "Repeated letters and digits count one by one. If the answer has one A and you type two, only one of them gets green or yellow."
+ },
+ "daily": {
+  "title": "Puzzles of the day",
+  "lead": "Every day there is one number of the day and one word of the day in each language. Everybody gets the same puzzle, so you can compare results with friends and family.",
+  "points": [
+   "The number of the day has 4 digits. The word of the day has 5 letters (4 in Arabic).",
+   "Each puzzle can be played once. New ones arrive at midnight, your phone's time.",
+   "Share your result as coloured squares. The letters and digits stay hidden, so nobody gets spoiled.",
+   "Every solved puzzle earns 2 hint credits. Days in a row earn a bonus: +3 at 3 days, +7 at 7, +14 at 14 and +30 at 30."
+  ],
+  "shareTitle": "A shared result",
+  "shareHead": "🧩 MBG Puzzles – Word of the day #12",
+  "shareLine": "✅ Solved in 3 tries · 🔥 5 days in a row",
+  "shareLegend": "🟩 right letter, right place · 🟨 in the word, wrong place · ⬛ not in the word"
+ },
+ "features": {
+  "title": "What is in the app",
+  "items": [
+   {
+    "h": "Ten languages",
+    "p": "Switch at any time. Each language has its own words and letters, and Arabic runs right to left."
+   },
+   {
+    "h": "No ads, no limits",
+    "p": "The free edition has no ads and no purchases. Play as many games as you like."
+   },
+   {
+    "h": "Works offline",
+    "p": "Everything runs on the phone: on the bus, on a plane or anywhere without signal."
+   },
+   {
+    "h": "Hints when you are stuck",
+    "p": "After the third try, a hint opens one letter or digit. You get 10 free hint credits a day."
+   },
+   {
+    "h": "Statistics",
+    "p": "Games played, wins, streaks, average tries and your fastest win, for every length and language."
+   },
+   {
+    "h": "Easy to read",
+    "p": "Large tiles, the Atkinson Hyperlegible font made for readers with low vision, adjustable text size and six backgrounds."
+   },
+   {
+    "h": "Key sounds",
+    "p": "If you like, every digit and letter beeps like a key on an old push-button phone."
+   },
+   {
+    "h": "Move to a new phone",
+    "p": "One code carries your names, scores and statistics to a new phone. No account needed."
+   },
+   {
+    "h": "Private",
+    "p": "No account, no ads, no tracking. What you type stays on your phone."
+   }
+  ]
+ },
+ "audience": {
+  "title": "Who it is for",
+  "items": [
+   {
+    "h": "Children and students from 9",
+    "p": "Logical thinking, spelling, memory and concentration, in short games with a clear end."
+   },
+   {
+    "h": "Adults",
+    "p": "A quick workout for the brain on the commute or in a break, and an alternative to chess when there are only a few minutes."
+   },
+   {
+    "h": "Language learners",
+    "p": "Practise the words of a language you are learning: German, Spanish, French, Turkish, Polish, Portuguese, Arabic and more."
+   },
+   {
+    "h": "Families and classes",
+    "p": "The same puzzle of the day for everyone makes a friendly daily contest at home or at school."
+   }
+  ],
+  "calm": "Calm by design: no ads and no chat. A quiet, focused kind of screen time."
+ },
+ "languages": {
+  "title": "Ten languages",
+  "intro": "Each language has its own list of everyday words for normal games and a large dictionary for the Expert level.",
+  "cols": [
+   "Language",
+   "Codebreaker",
+   "Word Puzzle",
+   "Everyday words",
+   "Accepted words",
+   "Own letters"
+  ],
+  "note": "In Spanish, French and Portuguese, accents are optional: árbol is played as ARBOL. Arabic tiles read from right to left."
+ },
+ "faq": {
+  "title": "Questions and answers",
+  "items": [
+   {
+    "q": "What is MBG Puzzles?",
+    "a": "A free Android app with two brain games: Codebreaker, a number guessing game, and Word Puzzle, a word guessing game. Both work in ten languages and give coloured clues after every guess."
+   },
+   {
+    "q": "Is it really free?",
+    "a": "Yes. The free edition has no ads, no purchases and no limit on how many games you play."
+   },
+   {
+    "q": "Where can I download it?",
+    "a_soon": "MBG Puzzles is coming soon to Google Play, for Android phones and tablets. There is no iPhone version yet.",
+    "a_live": "On [Google Play](play), for Android phones and tablets. There is no iPhone version yet."
+   },
+   {
+    "q": "Is Word Puzzle like Wordle?",
+    "a": "It uses the same idea: guess a word and get green, yellow and grey clues. The differences are words of 4 to 8 letters, ten languages, as many games as you like, an Expert level, hints and a word of the day in every language."
+   },
+   {
+    "q": "Is Codebreaker like Mastermind or Bulls and Cows?",
+    "a": "Yes, it is the same classic code-breaking idea with numbers. Here every digit gets its own clue in its own place, which makes it easier to learn. The secret has 4 to 8 digits and digits can repeat."
+   },
+   {
+    "q": "Is there a word game in Albanian, Bosnian, Turkish, Polish or Arabic?",
+    "a": "Yes. Word Puzzle has its own word lists in all ten languages: English, Albanian (Shqip), Bosnian (Bosanski, Latin script), German, Spanish, French, Turkish, Polish, Portuguese (Brazil) and Arabic."
+   },
+   {
+    "q": "Is it suitable for children?",
+    "a": "Yes, from about 9 years. There are no ads, no chat and no links to social networks, and nothing about the player leaves the phone."
+   },
+   {
+    "q": "Does it need the internet?",
+    "a": "No. Both games and the puzzles of the day work offline."
+   },
+   {
+    "q": "How do hints work?",
+    "a": "After the third try, a hint opens one letter or digit at a place you have not found yet. A hint costs 1 credit and counts as 2 extra tries in the score. You get 10 free credits a day (up to 50 a week), and every solved puzzle of the day earns 2 more."
+   },
+   {
+    "q": "What data does the app collect?",
+    "a": "None. There is no account, no advertising and no analytics. Names, scores and settings stay on your phone. Read the [privacy policy](privacy).",
+    "a_world": "Nothing, unless you join the optional world top 20 (from 13 years), which shows your player name, country and best scores. There is no account, no advertising and no analytics. Read the [privacy policy](privacy)."
+   },
+   {
+    "q": "Who makes MBG Puzzles?",
+    "a": "MBG – Merkur Beqiri Games, the games of independent developer Merkur Beqiri. MBG is based in Kosovo and operates worldwide: the games are made for players everywhere, in ten languages. Questions and ideas are welcome by [phone](tel), [WhatsApp](whatsapp) or [e-mail](mailto)."
+   }
+  ]
+ },
+ "cta": {
+  "title": "Two games in your pocket",
+  "soon": "MBG Puzzles is coming soon to Google Play. Write to me and I will tell you when it is out.",
+  "live": "Free on Google Play, for Android phones and tablets."
+ },
+ "contact": {
+  "title": "Questions or ideas?",
+  "text": "Write to me – I read every message.",
+  "email": "E-mail",
+  "whatsapp": "WhatsApp",
+  "phone": "Phone",
+  "waAction": "Send a message",
+  "waMessage": "Hello, I found you on the MBG Puzzles website:\n{url}\nI have a comment / question for you:\n"
+ },
+ "footer": {
+  "privacy": "Privacy policy",
+  "tm": "Wordle is a trademark of The New York Times Company and Mastermind a trademark of its owner; MBG Puzzles is not connected with them. Google Play is a trademark of Google LLC.",
+  "fonts": "Fonts: Atkinson Hyperlegible, Unbounded, Noto Kufi Arabic and Noto Sans Arabic (SIL Open Font License).",
+  "based": "Based in Kosovo, operating worldwide"
+ }
+}

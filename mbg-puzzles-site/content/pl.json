@@ -1,0 +1,282 @@
+{
+ "lang": "pl",
+ "hreflang": "pl",
+ "dir": "ltr",
+ "ogLocale": "pl_PL",
+ "meta": {
+  "title": "MBG Puzzles – Złam szyfr i Odgadnij słowo: darmowe łamigłówki w 10 językach",
+  "description": "Dwie darmowe gry logiczne na Androida: Złam szyfr (znajdź tajną liczbę) i Odgadnij słowo (znajdź tajne słowo z 4–8 liter). Po polsku i w 9 innych językach, bez reklam, offline.",
+  "keywords": "gra słowna po polsku, odgadnij słowo, łamigłówki, gry logiczne, gry na myślenie, gra liczbowa, słowo dnia, Wordle po polsku, Mastermind z liczbami, złam szyfr, darmowe gry bez reklam, gry dla dzieci, Android, offline"
+ },
+ "ui": {
+  "skip": "Przejdź do treści",
+  "nav": {
+   "games": "Gry",
+   "clues": "Jak grać",
+   "daily": "Zagadki dnia",
+   "languages": "Języki",
+   "faq": "Pytania"
+  },
+  "langMenu": "Język",
+  "otherLangs": "Ta strona w innych językach"
+ },
+ "hero": {
+  "eyebrow": "Za darmo · bez reklam · bez limitów",
+  "h1": "Gra słowna i gra liczbowa, w dziesięciu językach",
+  "lead": "MBG Puzzles to darmowa aplikacja na Androida z dwiema grami logicznymi. W Złam szyfr szukasz tajnej liczby, w Odgadnij słowo – tajnego słowa. Każda próba dostaje kolorowe wskazówki. Graj po polsku, angielsku, albańsku, bośniacku, niemiecku, hiszpańsku, francusku, turecku, portugalsku lub arabsku.",
+  "soon": "Wkrótce w Google Play",
+  "soonNote": "Na telefony i tablety z Androidem.",
+  "live": "Pobierz z Google Play",
+  "liveNote": "Za darmo na telefony i tablety z Androidem.",
+  "secondary": "Jak grać",
+  "boardWord": "Odgadnij słowo, przykładowa gra",
+  "boardCode": "Złam szyfr, przykładowa gra"
+ },
+ "glance": {
+  "title": "W skrócie",
+  "items": [
+   [
+    "Gry",
+    "Złam szyfr (liczby) i Odgadnij słowo (słowa)"
+   ],
+   [
+    "Cena",
+    "Za darmo: bez reklam, bez zakupów, bez limitów"
+   ],
+   [
+    "Urządzenie",
+    "Telefony i tablety z Androidem, z Google Play"
+   ],
+   [
+    "Języki",
+    "Polski, angielski, albański, bośniacki, niemiecki, hiszpański, francuski, turecki, portugalski (Brazylia), arabski"
+   ],
+   [
+    "Słowa",
+    "75 000 codziennych słów jako tajne słowa i ponad 1,5 mln akceptowanych słów"
+   ],
+   [
+    "Wiek",
+    "Od około 9 lat: dzieci, uczniowie, studenci i dorośli"
+   ],
+   [
+    "Internet",
+    "Niepotrzebny. Obie gry działają offline"
+   ],
+   [
+    "Konto",
+    "Brak. Imiona i wyniki zostają w telefonie"
+   ],
+   [
+    "Twórca",
+    "MBG – Merkur Beqiri Games, z siedzibą w Kosowie, działa na całym świecie"
+   ]
+  ]
+ },
+ "games": {
+  "title": "Dwie gry, jedna aplikacja",
+  "intro": "Obie gry używają tych samych kolorowych wskazówek: znasz jedną, znasz i drugą.",
+  "code": {
+   "name": "Złam szyfr",
+   "tag": "Znajdź tajną liczbę",
+   "text": "Aplikacja wybiera tajną liczbę z 4 do 8 cyfr. Cyfry mogą się powtarzać, a liczba może zaczynać się od 0, więc liczba 4-cyfrowa to jedna z 10 000, a 8-cyfrowa – jedna ze 100 milionów. Wpisz liczbę tej samej długości, a każda cyfra dostanie wskazówkę.",
+   "facts": [
+    "4, 5, 6, 7 lub 8 cyfr",
+    "Cyfry mogą się powtarzać",
+    "Klawiatura numeryczna podczas zgadywania",
+    "Klasyczna gra w łamanie szyfru, z rodziny Bulls and Cows"
+   ]
+  },
+  "word": {
+   "name": "Odgadnij słowo",
+   "tag": "Znajdź tajne słowo",
+   "text": "Aplikacja wybiera tajne słowo z 4 do 8 liter w języku, w którym grasz. Wpisz słowo tej samej długości, a każda litera dostanie wskazówkę. Poziom normalny używa codziennych słów, poziom Ekspert ⭐ wybiera z całego słownika.",
+   "facts": [
+    "4, 5, 6, 7 lub 8 liter",
+    "Dziesięć języków, każdy z własnymi literami (ą, ę, ł, ż …)",
+    "Poziom normalny i poziom Ekspert ⭐",
+    "Tyle gier, ile chcesz, a nie jedna dziennie"
+   ]
+  }
+ },
+ "clues": {
+  "title": "Jak działają wskazówki",
+  "intro": "Po każdej próbie każda litera lub cyfra dostaje kolor.",
+  "legend": {
+   "O": "Zielony: dobra litera lub cyfra na dobrym miejscu",
+   "?": "Żółty: jest w odpowiedzi, ale w innym miejscu",
+   "X": "Szary: nie ma jej w odpowiedzi"
+  },
+  "short": {
+   "O": "dobre miejsce",
+   "?": "inne miejsce",
+   "X": "brak"
+  },
+  "wordCaption": "Odgadnij słowo: trzy próby do słowa {secret}",
+  "wordExplain": "Pierwsza próba: T jest na dobrym miejscu, pierwsze A jest w słowie, ale gdzie indziej, a L, S i drugie A nie pasują, bo PTAKI ma tylko jedno A. Druga próba, PTASI, trafia P, T, A i I. Trzecia jest dobra.",
+  "codeCaption": "Złam szyfr: trzy próby do liczby {secret}",
+  "codeExplain": "Pierwsza próba: 1 i 3 są w liczbie, ale w innych miejscach, 2 i 4 – nie. Druga próba: 3 i 1 są na dobrym miejscu, a 5 i 8 pasują gdzie indziej. Trzecia jest dobra.",
+  "repeat": "Powtórzone litery i cyfry liczą się pojedynczo. Jeśli odpowiedź ma jedno A, a wpiszesz dwa, tylko jedno z nich zrobi się zielone lub żółte."
+ },
+ "daily": {
+  "title": "Zagadki dnia",
+  "lead": "Codziennie jest jedna liczba dnia i jedno słowo dnia w każdym języku. Wszyscy dostają tę samą zagadkę, więc możesz porównać wyniki z przyjaciółmi i rodziną.",
+  "points": [
+   "Liczba dnia ma 4 cyfry. Słowo dnia ma 5 liter (po arabsku 4).",
+   "Każdą zagadkę gra się raz. Nowe pojawiają się o północy, według zegara w twoim telefonie.",
+   "Udostępnij wynik jako kolorowe kwadraty. Litery i cyfry zostają ukryte, więc nikomu nie psujesz zabawy.",
+   "Każda rozwiązana zagadka daje 2 kredyty na podpowiedzi. Dni z rzędu dają bonus: +3 po 3 dniach, +7 po 7, +14 po 14 i +30 po 30."
+  ],
+  "shareTitle": "Udostępniony wynik",
+  "shareHead": "🧩 MBG Puzzles – Słowo dnia #12",
+  "shareLine": "✅ Rozwiązane w 3 próbach · 🔥 5 dni z rzędu",
+  "shareLegend": "🟩 dobra litera na dobrym miejscu · 🟨 jest w słowie, ale w innym miejscu · ⬛ nie ma jej w słowie"
+ },
+ "features": {
+  "title": "Co jest w aplikacji",
+  "items": [
+   {
+    "h": "Dziesięć języków",
+    "p": "Zmieniaj, kiedy chcesz. Każdy język ma własne słowa i litery, a arabski biegnie od prawej do lewej."
+   },
+   {
+    "h": "Bez reklam, bez limitów",
+    "p": "Darmowa wersja nie ma reklam ani zakupów. Graj, ile chcesz."
+   },
+   {
+    "h": "Działa offline",
+    "p": "Wszystko działa w telefonie: w autobusie, w samolocie i wszędzie bez zasięgu."
+   },
+   {
+    "h": "Podpowiedzi, gdy utkniesz",
+    "p": "Po trzeciej próbie podpowiedź odkrywa jedną literę lub cyfrę. Codziennie dostajesz 10 darmowych kredytów na podpowiedzi."
+   },
+   {
+    "h": "Statystyki",
+    "p": "Rozegrane gry, wygrane, serie, średnia liczba prób i twoja najszybsza wygrana, dla każdej długości i języka."
+   },
+   {
+    "h": "Łatwe do czytania",
+    "p": "Duże kafelki, czcionka Atkinson Hyperlegible stworzona dla osób słabowidzących, regulowany rozmiar tekstu i sześć teł."
+   },
+   {
+    "h": "Dźwięki klawiszy",
+    "p": "Jeśli chcesz, każda cyfra i litera pika jak klawisz starego telefonu z przyciskami."
+   },
+   {
+    "h": "Przenieś na nowy telefon",
+    "p": "Jeden kod przenosi twoje imiona, wyniki i statystyki na nowy telefon. Bez konta."
+   },
+   {
+    "h": "Prywatność",
+    "p": "Bez konta, bez reklam, bez śledzenia. To, co wpisujesz, zostaje w twoim telefonie."
+   }
+  ]
+ },
+ "audience": {
+  "title": "Dla kogo",
+  "items": [
+   {
+    "h": "Dzieci i uczniowie od 9 lat",
+    "p": "Logiczne myślenie, ortografia, pamięć i koncentracja, w krótkich grach z wyraźnym końcem."
+   },
+   {
+    "h": "Dorośli",
+    "p": "Szybka gimnastyka dla mózgu w drodze do pracy albo w przerwie i alternatywa dla szachów, gdy masz tylko kilka minut."
+   },
+   {
+    "h": "Uczący się języków",
+    "p": "Ćwicz słowa języka, którego się uczysz: angielskiego, niemieckiego, hiszpańskiego, francuskiego, tureckiego, arabskiego i innych."
+   },
+   {
+    "h": "Rodziny i klasy",
+    "p": "Ta sama zagadka dnia dla wszystkich zmienia się w przyjazne codzienne zawody w domu lub w szkole."
+   }
+  ],
+  "calm": "Spokojna z założenia: bez reklam i bez czatu. Cichy, skupiony czas przed ekranem."
+ },
+ "languages": {
+  "title": "Dziesięć języków",
+  "intro": "Każdy język ma własną listę codziennych słów do zwykłych gier i duży słownik do poziomu Ekspert.",
+  "cols": [
+   "Język",
+   "Złam szyfr",
+   "Odgadnij słowo",
+   "Codzienne słowa",
+   "Akceptowane słowa",
+   "Własne litery"
+  ],
+  "note": "W hiszpańskim, francuskim i portugalskim akcenty są opcjonalne: árbol gra się jako ARBOL. Arabskie kafelki czyta się od prawej do lewej."
+ },
+ "faq": {
+  "title": "Pytania i odpowiedzi",
+  "items": [
+   {
+    "q": "Czym jest MBG Puzzles?",
+    "a": "Darmową aplikacją na Androida z dwiema grami na myślenie: Złam szyfr, grą w zgadywanie liczb, i Odgadnij słowo, grą w zgadywanie słów. Obie działają w dziesięciu językach i po każdej próbie dają kolorowe wskazówki."
+   },
+   {
+    "q": "Czy naprawdę jest za darmo?",
+    "a": "Tak. Darmowa wersja nie ma reklam, zakupów ani limitu gier."
+   },
+   {
+    "q": "Gdzie mogę ją pobrać?",
+    "a_soon": "MBG Puzzles wkrótce pojawi się w Google Play, na telefony i tablety z Androidem. Wersji na iPhone’a jeszcze nie ma.",
+    "a_live": "W [Google Play](play), na telefony i tablety z Androidem. Wersji na iPhone’a jeszcze nie ma."
+   },
+   {
+    "q": "Czy Odgadnij słowo jest jak Wordle?",
+    "a": "Pomysł jest ten sam: zgadujesz słowo i dostajesz zielone, żółte i szare wskazówki. Różnice to słowa z 4 do 8 liter, dziesięć języków, w tym polski, gry bez limitu, poziom Ekspert, podpowiedzi i słowo dnia w każdym języku."
+   },
+   {
+    "q": "Czy Złam szyfr jest jak Mastermind albo Bulls and Cows?",
+    "a": "Tak, to ten sam klasyczny pomysł łamania szyfru, tyle że z liczbami. Tu każda cyfra dostaje własną wskazówkę na własnym miejscu, więc łatwiej się nauczyć. Tajna liczba ma od 4 do 8 cyfr, a cyfry mogą się powtarzać."
+   },
+   {
+    "q": "Czy jest gra słowna po polsku?",
+    "a": "Tak. Odgadnij słowo ma ponad 6 100 codziennych polskich słów i ponad 216 000 akceptowanych słów. Ą, ć, ę, ł, ń, ó, ś, ź i ż to osobne litery: SĄD to nie SAD."
+   },
+   {
+    "q": "Czy nadaje się dla dzieci?",
+    "a": "Tak, od około 9 lat. Nie ma reklam, czatu ani linków do mediów społecznościowych, a nic o graczu nie opuszcza telefonu."
+   },
+   {
+    "q": "Czy potrzebny jest internet?",
+    "a": "Nie. Obie gry i zagadki dnia działają offline."
+   },
+   {
+    "q": "Jak działają podpowiedzi?",
+    "a": "Po trzeciej próbie podpowiedź odkrywa literę lub cyfrę w miejscu, którego jeszcze nie znalazłeś. Podpowiedź kosztuje 1 kredyt i w wyniku liczy się jak 2 dodatkowe próby. Codziennie dostajesz 10 darmowych kredytów (do 50 tygodniowo), a każda rozwiązana zagadka dnia daje 2 kolejne."
+   },
+   {
+    "q": "Jakie dane zbiera aplikacja?",
+    "a": "Żadnych. Nie ma konta, reklam ani analityki. Imiona, wyniki i ustawienia zostają w twoim telefonie. Przeczytaj [politykę prywatności](privacy).",
+    "a_world": "Żadnych, chyba że sam dołączysz do światowego top 20 (od 13 lat), które pokazuje twoją nazwę gracza, kraj i najlepsze wyniki. Nie ma konta, reklam ani analityki. Przeczytaj [politykę prywatności](privacy)."
+   },
+   {
+    "q": "Kto tworzy MBG Puzzles?",
+    "a": "MBG – Merkur Beqiri Games, gry niezależnego twórcy Merkura Beqiriego. MBG ma siedzibę w Kosowie i działa na całym świecie: gry powstają dla graczy z każdego miejsca, w dziesięciu językach. Pytania i pomysły są mile widziane [telefonicznie](tel), przez [WhatsApp](whatsapp) lub [e-mail](mailto)."
+   }
+  ]
+ },
+ "cta": {
+  "title": "Dwie gry w twojej kieszeni",
+  "soon": "MBG Puzzles wkrótce w Google Play. Napisz do mnie, a dam ci znać, gdy się ukaże.",
+  "live": "Za darmo w Google Play, na telefony i tablety z Androidem."
+ },
+ "contact": {
+  "title": "Pytania lub pomysły?",
+  "text": "Napisz do mnie – czytam każdą wiadomość.",
+  "email": "E-mail",
+  "whatsapp": "WhatsApp",
+  "phone": "Telefon",
+  "waAction": "Wyślij wiadomość",
+  "waMessage": "Dzień dobry, piszę ze strony internetowej MBG Puzzles:\n{url}\nMam komentarz / pytanie:\n"
+ },
+ "footer": {
+  "privacy": "Polityka prywatności",
+  "tm": "Wordle jest znakiem towarowym The New York Times Company, a Mastermind – znakiem towarowym jego właściciela; MBG Puzzles nie jest z nimi związany. Google Play jest znakiem towarowym Google LLC.",
+  "fonts": "Czcionki: Atkinson Hyperlegible, Unbounded, Noto Kufi Arabic i Noto Sans Arabic (SIL Open Font License).",
+  "based": "Z siedzibą w Kosowie, działa na całym świecie"
+ }
+}

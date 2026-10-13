@@ -1,0 +1,282 @@
+{
+ "lang": "tr",
+ "hreflang": "tr",
+ "dir": "ltr",
+ "ogLocale": "tr_TR",
+ "meta": {
+  "title": "MBG Puzzles – Şifreyi Kır ve Kelimeyi Bul: 10 dilde ücretsiz zekâ oyunları",
+  "description": "Android için iki ücretsiz mantık oyunu: Şifreyi Kır (gizli sayıyı bul) ve Kelimeyi Bul (4–8 harfli gizli kelimeyi bul). Türkçe ve 9 dilde daha, reklamsız, internetsiz oynanır.",
+  "keywords": "Türkçe kelime oyunu, kelime bulmaca, zekâ oyunları, mantık oyunları, sayı bulmaca, günün kelimesi, Türkçe Wordle, sayılarla Mastermind, şifre kırma oyunu, reklamsız ücretsiz oyunlar, çocuklar için oyunlar, Android, internetsiz oyun"
+ },
+ "ui": {
+  "skip": "İçeriğe geç",
+  "nav": {
+   "games": "Oyunlar",
+   "clues": "Nasıl oynanır",
+   "daily": "Günün bulmacaları",
+   "languages": "Diller",
+   "faq": "Sorular"
+  },
+  "langMenu": "Dil",
+  "otherLangs": "Bu sayfa diğer dillerde"
+ },
+ "hero": {
+  "eyebrow": "Ücretsiz · reklamsız · sınırsız",
+  "h1": "Bir kelime oyunu ve bir sayı oyunu, on dilde",
+  "lead": "MBG Puzzles, iki mantık oyunu içeren ücretsiz bir Android uygulamasıdır. Şifreyi Kır’da gizli bir sayıyı, Kelimeyi Bul’da gizli bir kelimeyi ararsın. Her deneme renkli ipuçları alır. Türkçe, İngilizce, Arnavutça, Boşnakça, Almanca, İspanyolca, Fransızca, Lehçe, Portekizce ya da Arapça oyna.",
+  "soon": "Çok yakında Google Play’de",
+  "soonNote": "Android telefon ve tabletler için.",
+  "live": "Google Play’den indir",
+  "liveNote": "Android telefon ve tabletler için ücretsiz.",
+  "secondary": "Nasıl oynanır",
+  "boardWord": "Kelimeyi Bul, örnek bir oyun",
+  "boardCode": "Şifreyi Kır, örnek bir oyun"
+ },
+ "glance": {
+  "title": "Bir bakışta",
+  "items": [
+   [
+    "Oyunlar",
+    "Şifreyi Kır (sayılar) ve Kelimeyi Bul (kelimeler)"
+   ],
+   [
+    "Fiyat",
+    "Ücretsiz: reklam yok, satın alma yok, sınır yok"
+   ],
+   [
+    "Cihaz",
+    "Android telefon ve tabletler, Google Play’den"
+   ],
+   [
+    "Diller",
+    "Türkçe, İngilizce, Arnavutça, Boşnakça, Almanca, İspanyolca, Fransızca, Lehçe, Portekizce (Brezilya), Arapça"
+   ],
+   [
+    "Kelimeler",
+    "Gizli kelime olarak 75.000 günlük kelime ve 1,5 milyondan fazla kabul edilen kelime"
+   ],
+   [
+    "Yaş",
+    "Yaklaşık 9 yaşından itibaren: çocuklar, öğrenciler ve yetişkinler"
+   ],
+   [
+    "İnternet",
+    "Gerekmez. İki oyun da internetsiz çalışır"
+   ],
+   [
+    "Hesap",
+    "Yok. İsimler ve puanlar telefonda kalır"
+   ],
+   [
+    "Yapımcı",
+    "MBG – Merkur Beqiri Games, Kosova merkezli, dünya çapında faaliyet gösteriyor"
+   ]
+  ]
+ },
+ "games": {
+  "title": "İki oyun, tek uygulama",
+  "intro": "İki oyun da aynı renkli ipuçlarını kullanır: birini öğrenince diğerini de bilirsin.",
+  "code": {
+   "name": "Şifreyi Kır",
+   "tag": "Gizli sayıyı bul",
+   "text": "Uygulama 4 ila 8 basamaklı gizli bir sayı seçer. Rakamlar tekrar edebilir ve sayı 0 ile başlayabilir; yani 4 basamaklı bir sayı 10.000 sayıdan biri, 8 basamaklı bir sayı ise 100 milyon sayıdan biridir. Aynı uzunlukta bir sayı yaz, her rakam bir ipucu alır.",
+   "facts": [
+    "4, 5, 6, 7 ya da 8 rakam",
+    "Rakamlar tekrar edebilir",
+    "Tahmin ederken rakam klavyesi",
+    "Klasik şifre kırma oyunu, Bulls and Cows ailesinden"
+   ]
+  },
+  "word": {
+   "name": "Kelimeyi Bul",
+   "tag": "Gizli kelimeyi bul",
+   "text": "Uygulama, oynadığın dilde 4 ila 8 harfli gizli bir kelime seçer. Aynı uzunlukta bir kelime yaz, her harf bir ipucu alır. Normal seviye günlük kelimeleri kullanır, Uzman seviyesi ⭐ bütün sözlükten seçer.",
+   "facts": [
+    "4, 5, 6, 7 ya da 8 harf",
+    "On dil, her biri kendi harfleriyle (ç, ğ, ı, ö, ş, ü …)",
+    "Normal ve Uzman ⭐ seviyesi",
+    "Günde bir değil, istediğin kadar oyun"
+   ]
+  }
+ },
+ "clues": {
+  "title": "İpuçları nasıl çalışır",
+  "intro": "Her denemeden sonra her harf ya da rakam bir renk alır.",
+  "legend": {
+   "O": "Yeşil: doğru harf ya da rakam, doğru yerde",
+   "?": "Sarı: cevapta var, ama başka bir yerde",
+   "X": "Gri: cevapta yok"
+  },
+  "short": {
+   "O": "doğru yer",
+   "?": "başka yer",
+   "X": "yok"
+  },
+  "wordCaption": "Kelimeyi Bul: {secret} için üç deneme",
+  "wordExplain": "İlk deneme: R doğru yerde, C ve İ kelimede var ama başka yerde, Ğ ve E kelimede yok. İkinci deneme İNKAR, İ, N ve R’yi doğru yerde buluyor. Üçüncü deneme doğru.",
+  "codeCaption": "Şifreyi Kır: {secret} için üç deneme",
+  "codeExplain": "İlk deneme: 1 ve 3 sayıda var ama başka yerde, 2 ve 4 yok. İkinci deneme: 3 ve 1 doğru yerde, 5 ve 8 başka bir yere ait. Üçüncü deneme doğru.",
+  "repeat": "Tekrar eden harfler ve rakamlar tek tek sayılır. Cevapta bir A varsa ve sen iki tane yazarsan, yalnızca biri yeşil ya da sarı olur."
+ },
+ "daily": {
+  "title": "Günün bulmacaları",
+  "lead": "Her gün bir günün sayısı ve her dilde bir günün kelimesi vardır. Herkes aynı bulmacayı alır, böylece sonuçlarını arkadaşların ve ailenle karşılaştırabilirsin.",
+  "points": [
+   "Günün sayısı 4 rakamlıdır. Günün kelimesi 5 harflidir (Arapçada 4).",
+   "Her bulmaca bir kez oynanır. Yenileri gece yarısı, telefonunun saatine göre gelir.",
+   "Sonucunu renkli kareler olarak paylaş. Harfler ve rakamlar gizli kalır, kimsenin keyfini kaçırmazsın.",
+   "Çözülen her bulmaca 2 ipucu kredisi kazandırır. Üst üste günler bonus getirir: 3 günde +3, 7 günde +7, 14 günde +14 ve 30 günde +30."
+  ],
+  "shareTitle": "Paylaşılan bir sonuç",
+  "shareHead": "🧩 MBG Puzzles – Günün kelimesi #12",
+  "shareLine": "✅ 3 denemede çözdüm · 🔥 5 gün üst üste",
+  "shareLegend": "🟩 doğru harf, doğru yerde · 🟨 kelimede var, ama başka yerde · ⬛ kelimede yok"
+ },
+ "features": {
+  "title": "Uygulamada neler var",
+  "items": [
+   {
+    "h": "On dil",
+    "p": "İstediğin zaman değiştir. Her dilin kendi kelimeleri ve harfleri var, Arapça sağdan sola akar."
+   },
+   {
+    "h": "Reklamsız, sınırsız",
+    "p": "Ücretsiz sürümde reklam da satın alma da yok. İstediğin kadar oyna."
+   },
+   {
+    "h": "İnternetsiz çalışır",
+    "p": "Her şey telefonda çalışır: otobüste, uçakta ya da çekmeyen her yerde."
+   },
+   {
+    "h": "Takılınca ipucu",
+    "p": "Üçüncü denemeden sonra bir ipucu bir harf ya da rakam açar. Her gün 10 ücretsiz ipucu kredisi alırsın."
+   },
+   {
+    "h": "İstatistikler",
+    "p": "Oynanan oyunlar, galibiyetler, seriler, ortalama deneme ve en hızlı galibiyetin, her uzunluk ve dil için."
+   },
+   {
+    "h": "Kolay okunur",
+    "p": "Büyük kareler, az gören okurlar için tasarlanmış Atkinson Hyperlegible yazı tipi, ayarlanabilir yazı boyutu ve altı arka plan."
+   },
+   {
+    "h": "Tuş sesleri",
+    "p": "İstersen her rakam ve harf, eski tuşlu bir telefonun tuşu gibi bip sesi çıkarır."
+   },
+   {
+    "h": "Yeni telefona geç",
+    "p": "Tek bir kod isimlerini, puanlarını ve istatistiklerini yeni telefona taşır. Hesap gerekmez."
+   },
+   {
+    "h": "Gizlilik",
+    "p": "Hesap yok, reklam yok, takip yok. Yazdıkların telefonunda kalır."
+   }
+  ]
+ },
+ "audience": {
+  "title": "Kimler için",
+  "items": [
+   {
+    "h": "9 yaşından itibaren çocuklar ve öğrenciler",
+    "p": "Mantıklı düşünme, yazım, hafıza ve dikkat, sonu belli kısa oyunlarla."
+   },
+   {
+    "h": "Yetişkinler",
+    "p": "Yolda ya da molada hızlı bir beyin jimnastiği; yalnızca birkaç dakikan olduğunda satranca bir alternatif."
+   },
+   {
+    "h": "Dil öğrenenler",
+    "p": "Öğrendiğin dilin kelimeleriyle pratik yap: İngilizce, Almanca, Fransızca, İspanyolca, Arapça ve daha fazlası."
+   },
+   {
+    "h": "Aileler ve sınıflar",
+    "p": "Herkes için aynı günün bulmacası, evde ya da okulda her gün dostça bir yarışmaya dönüşür."
+   }
+  ],
+  "calm": "Sakin bir tasarım: reklam yok, sohbet yok. Sessiz ve odaklı bir ekran süresi."
+ },
+ "languages": {
+  "title": "On dil",
+  "intro": "Her dilin normal oyunlar için kendi günlük kelime listesi ve Uzman seviyesi için büyük bir sözlüğü var.",
+  "cols": [
+   "Dil",
+   "Şifreyi Kır",
+   "Kelimeyi Bul",
+   "Günlük kelimeler",
+   "Kabul edilen kelimeler",
+   "Kendi harfleri"
+  ],
+  "note": "İspanyolca, Fransızca ve Portekizcede aksanlar isteğe bağlıdır: árbol, ARBOL olarak oynanır. Arapça kareler sağdan sola okunur."
+ },
+ "faq": {
+  "title": "Sorular ve cevaplar",
+  "items": [
+   {
+    "q": "MBG Puzzles nedir?",
+    "a": "İki beyin oyunu içeren ücretsiz bir Android uygulaması: bir sayı tahmin oyunu olan Şifreyi Kır ve bir kelime tahmin oyunu olan Kelimeyi Bul. İkisi de on dilde oynanır ve her denemeden sonra renkli ipuçları verir."
+   },
+   {
+    "q": "Gerçekten ücretsiz mi?",
+    "a": "Evet. Ücretsiz sürümde reklam yok, satın alma yok ve oyun sayısında sınır yok."
+   },
+   {
+    "q": "Nereden indirebilirim?",
+    "a_soon": "MBG Puzzles çok yakında Google Play’de, Android telefon ve tabletler için. Henüz iPhone sürümü yok.",
+    "a_live": "[Google Play](play)’den, Android telefon ve tabletler için. Henüz iPhone sürümü yok."
+   },
+   {
+    "q": "Kelimeyi Bul, Wordle gibi mi?",
+    "a": "Fikir aynı: bir kelime tahmin edersin ve yeşil, sarı ve gri ipuçları alırsın. Farkları: 4 ila 8 harfli kelimeler, aralarında Türkçenin de olduğu on dil, sınırsız oyun, Uzman seviyesi, yardım ipuçları ve her dilde günün kelimesi."
+   },
+   {
+    "q": "Şifreyi Kır, Mastermind ya da Bulls and Cows gibi mi?",
+    "a": "Evet, sayılarla oynanan aynı klasik şifre kırma fikri. Burada her rakam kendi yerinde kendi ipucunu alır, bu yüzden öğrenmesi daha kolaydır. Gizli sayı 4 ila 8 rakamlıdır ve rakamlar tekrar edebilir."
+   },
+   {
+    "q": "Türkçe bir kelime oyunu var mı?",
+    "a": "Evet. Kelimeyi Bul’da 6.700’den fazla günlük Türkçe kelime ve 140.000’den fazla kabul edilen kelime var. Ç, ğ, ı, İ, ö, ş ve ü ayrı harflerdir: KIZ ile KİZ aynı değildir."
+   },
+   {
+    "q": "Çocuklar için uygun mu?",
+    "a": "Evet, yaklaşık 9 yaşından itibaren. Reklam, sohbet ya da sosyal ağ bağlantısı yok ve oyuncuyla ilgili hiçbir şey telefondan çıkmaz."
+   },
+   {
+    "q": "İnternet gerekir mi?",
+    "a": "Hayır. İki oyun ve günün bulmacaları internetsiz çalışır."
+   },
+   {
+    "q": "Yardım ipuçları nasıl çalışır?",
+    "a": "Üçüncü denemeden sonra bir ipucu, henüz bulmadığın bir yerdeki harfi ya da rakamı açar. Bir ipucu 1 kredi tutar ve puanda 2 ek deneme gibi sayılır. Her gün 10 ücretsiz kredi alırsın (haftada en çok 50) ve çözdüğün her günün bulmacası 2 kredi daha kazandırır."
+   },
+   {
+    "q": "Uygulama hangi verileri topluyor?",
+    "a": "Hiçbirini. Hesap, reklam ya da analiz yok. İsimler, puanlar ve ayarlar telefonunda kalır. [Gizlilik politikasını](privacy) oku.",
+    "a_world": "Hiçbirini; yalnızca dünya ilk 20 listesine kendin katılırsan (13 yaşından itibaren) oyuncu adın, ülken ve en iyi puanların gösterilir. Hesap, reklam ya da analiz yok. [Gizlilik politikasını](privacy) oku."
+   },
+   {
+    "q": "MBG Puzzles’ı kim yapıyor?",
+    "a": "MBG – Merkur Beqiri Games, bağımsız geliştirici Merkur Beqiri’nin oyunları. MBG Kosova merkezlidir ve dünya çapında faaliyet gösterir: oyunlar her yerdeki oyuncular için, on dilde yapılmıştır. Soru ve fikirlerini [telefon](tel), [WhatsApp](whatsapp) ya da [e-posta](mailto) ile iletebilirsin."
+   }
+  ]
+ },
+ "cta": {
+  "title": "Cebinde iki oyun",
+  "soon": "MBG Puzzles çok yakında Google Play’de. Bana yaz, çıktığında haber vereyim.",
+  "live": "Google Play’de ücretsiz, Android telefon ve tabletler için."
+ },
+ "contact": {
+  "title": "Soruların ya da fikirlerin mi var?",
+  "text": "Bana yaz – her mesajı okuyorum.",
+  "email": "E-posta",
+  "whatsapp": "WhatsApp",
+  "phone": "Telefon",
+  "waAction": "Mesaj gönder",
+  "waMessage": "Merhaba, sizi MBG Puzzles web sitesinde buldum:\n{url}\nSize bir yorumum / sorum var:\n"
+ },
+ "footer": {
+  "privacy": "Gizlilik politikası",
+  "tm": "Wordle, The New York Times Company’nin; Mastermind ise sahibinin ticari markasıdır; MBG Puzzles’ın onlarla bir bağlantısı yoktur. Google Play, Google LLC’nin ticari markasıdır.",
+  "fonts": "Yazı tipleri: Atkinson Hyperlegible, Unbounded, Noto Kufi Arabic ve Noto Sans Arabic (SIL Open Font License).",
+  "based": "Kosova merkezli, dünya çapında faaliyet gösteriyor"
+ }
+}

@@ -1,0 +1,282 @@
+{
+ "lang": "bs",
+ "hreflang": "bs",
+ "dir": "ltr",
+ "ogLocale": "bs_BA",
+ "meta": {
+  "title": "MBG Puzzles – Razbij šifru i Pogodi riječ, besplatne igre za mozak na 10 jezika",
+  "description": "Dvije besplatne logičke igre za Android: Razbij šifru (pronađi tajni broj) i Pogodi riječ (pronađi tajnu riječ od 4 do 8 slova). Na bosanskom i još 9 jezika, bez reklama, radi bez interneta.",
+  "keywords": "igra riječi na bosanskom, igre za mozak, logičke igre, igra s brojevima, pogodi riječ, riječ dana, igra kao Wordle na bosanskom, Mastermind s brojevima, razbij šifru, besplatne igre bez reklama, igre za djecu, Android, Bosna i Hercegovina, Hrvatska, Crna Gora"
+ },
+ "ui": {
+  "skip": "Preskoči na sadržaj",
+  "nav": {
+   "games": "Igre",
+   "clues": "Kako se igra",
+   "daily": "Zagonetke dana",
+   "languages": "Jezici",
+   "faq": "Pitanja"
+  },
+  "langMenu": "Jezik",
+  "otherLangs": "Ova stranica na drugim jezicima"
+ },
+ "hero": {
+  "eyebrow": "Besplatno · bez reklama · bez ograničenja",
+  "h1": "Igra riječi i igra brojeva, na deset jezika",
+  "lead": "MBG Puzzles je besplatna aplikacija za Android s dvije logičke igre. U igri Razbij šifru tražiš tajni broj, a u igri Pogodi riječ tajnu riječ. Svaki pokušaj dobija tragove u bojama. Igraj na bosanskom, engleskom, albanskom, njemačkom, španskom, francuskom, turskom, poljskom, portugalskom ili arapskom.",
+  "soon": "Uskoro na Google Playu",
+  "soonNote": "Za Android telefone i tablete.",
+  "live": "Preuzmi s Google Playa",
+  "liveNote": "Besplatno za Android telefone i tablete.",
+  "secondary": "Kako se igra",
+  "boardWord": "Pogodi riječ, primjer igre",
+  "boardCode": "Razbij šifru, primjer igre"
+ },
+ "glance": {
+  "title": "Ukratko",
+  "items": [
+   [
+    "Igre",
+    "Razbij šifru (brojevi) i Pogodi riječ (riječi)"
+   ],
+   [
+    "Cijena",
+    "Besplatno: bez reklama, bez kupovine, bez ograničenja"
+   ],
+   [
+    "Uređaj",
+    "Android telefoni i tableti, s Google Playa"
+   ],
+   [
+    "Jezici",
+    "Bosanski, engleski, albanski, njemački, španski, francuski, turski, poljski, portugalski (Brazil), arapski"
+   ],
+   [
+    "Riječi",
+    "75.000 svakodnevnih tajnih riječi i više od 1,5 miliona prihvaćenih riječi"
+   ],
+   [
+    "Uzrast",
+    "Od oko 9 godina: djeca, učenici, studenti i odrasli"
+   ],
+   [
+    "Internet",
+    "Nije potreban. Obje igre rade bez interneta"
+   ],
+   [
+    "Račun",
+    "Nema ga. Imena i bodovi ostaju na telefonu"
+   ],
+   [
+    "Autor",
+    "MBG – Merkur Beqiri Games, sa sjedištem na Kosovu, posluje širom svijeta"
+   ]
+  ]
+ },
+ "games": {
+  "title": "Dvije igre, jedna aplikacija",
+  "intro": "Obje igre koriste iste tragove u bojama: kad naučiš jednu, znaš i drugu.",
+  "code": {
+   "name": "Razbij šifru",
+   "tag": "Pronađi tajni broj",
+   "text": "Aplikacija bira tajni broj od 4 do 8 cifara. Cifre se mogu ponavljati i broj može početi nulom, pa je tajni broj od 4 cifre jedan od 10.000 brojeva, a od 8 cifara jedan od 100 miliona. Upiši broj iste dužine i svaka cifra dobija trag.",
+   "facts": [
+    "4, 5, 6, 7 ili 8 cifara",
+    "Cifre se mogu ponavljati",
+    "Brojčana tastatura dok pogađaš",
+    "Klasična igra razbijanja šifre, iz porodice igre Bulls and Cows"
+   ]
+  },
+  "word": {
+   "name": "Pogodi riječ",
+   "tag": "Pronađi tajnu riječ",
+   "text": "Aplikacija bira tajnu riječ od 4 do 8 slova na jeziku na kojem igraš. Upiši riječ iste dužine i svako slovo dobija trag. Normalni nivo koristi svakodnevne riječi, a nivo Ekspert ⭐ bira iz cijelog rječnika.",
+   "facts": [
+    "4, 5, 6, 7 ili 8 slova",
+    "Deset jezika, svaki sa svojim slovima (č, ć, đ, š, ž …)",
+    "Normalni nivo i nivo Ekspert ⭐",
+    "Koliko god igara želiš, ne samo jedna dnevno"
+   ]
+  }
+ },
+ "clues": {
+  "title": "Kako rade tragovi",
+  "intro": "Nakon svakog pokušaja svako slovo ili cifra dobija boju.",
+  "legend": {
+   "O": "Zeleno: tačno slovo ili cifra, na pravom mjestu",
+   "?": "Žuto: nalazi se u odgovoru, ali na drugom mjestu",
+   "X": "Sivo: nije u odgovoru"
+  },
+  "short": {
+   "O": "pravo mjesto",
+   "?": "drugo mjesto",
+   "X": "nije tu"
+  },
+  "wordCaption": "Pogodi riječ: tri pokušaja do riječi {secret}",
+  "wordExplain": "Prvi pokušaj: H je na pravom mjestu, A je u riječi, ali na drugom mjestu, a J, D i E nisu u njoj. Drugi pokušaj, OBALA, ima tačna posljednja tri slova. Treći pokušaj je tačan.",
+  "codeCaption": "Razbij šifru: tri pokušaja do broja {secret}",
+  "codeExplain": "Prvi pokušaj: 1 i 3 su u broju, ali na drugim mjestima, a 2 i 4 nisu. Drugi pokušaj: 3 i 1 su na pravom mjestu, a 5 i 8 su negdje drugdje. Treći pokušaj je tačan.",
+  "repeat": "Ponovljena slova i cifre broje se jedno po jedno. Ako odgovor ima jedno A, a ti upišeš dva, samo jedno od njih postaje zeleno ili žuto."
+ },
+ "daily": {
+  "title": "Zagonetke dana",
+  "lead": "Svaki dan postoji jedan broj dana i jedna riječ dana na svakom jeziku. Svi dobijaju istu zagonetku, pa rezultate možeš porediti s prijateljima i porodicom.",
+  "points": [
+   "Broj dana ima 4 cifre. Riječ dana ima 5 slova (na arapskom 4).",
+   "Svaka zagonetka igra se jednom. Nove stižu u ponoć, po vremenu tvog telefona.",
+   "Podijeli rezultat kao obojene kvadratiće. Slova i cifre ostaju skriveni, pa nikome ne kvariš igru.",
+   "Svaka riješena zagonetka donosi 2 kredita za nagovještaje. Dani zaredom donose bonus: +3 za 3 dana, +7 za 7, +14 za 14 i +30 za 30."
+  ],
+  "shareTitle": "Podijeljeni rezultat",
+  "shareHead": "🧩 MBG Puzzles – Riječ dana #12",
+  "shareLine": "✅ Riješeno u 3 pokušaja · 🔥 5 dana zaredom",
+  "shareLegend": "🟩 tačno slovo na pravom mjestu · 🟨 u riječi, ali na drugom mjestu · ⬛ nije u riječi"
+ },
+ "features": {
+  "title": "Šta ima u aplikaciji",
+  "items": [
+   {
+    "h": "Deset jezika",
+    "p": "Promijeni jezik kad god želiš. Svaki jezik ima svoje riječi i slova, a arapski ide zdesna nalijevo."
+   },
+   {
+    "h": "Bez reklama, bez ograničenja",
+    "p": "Besplatna verzija nema reklama ni kupovine. Igraj koliko god igara želiš."
+   },
+   {
+    "h": "Radi bez interneta",
+    "p": "Sve radi na telefonu: u autobusu, u avionu ili bilo gdje bez signala."
+   },
+   {
+    "h": "Nagovještaji kad zapne",
+    "p": "Nakon trećeg pokušaja nagovještaj otkriva jedno slovo ili cifru. Svaki dan dobijaš 10 besplatnih kredita za nagovještaje."
+   },
+   {
+    "h": "Statistika",
+    "p": "Odigrane igre, pobjede, nizovi, prosječan broj pokušaja i najbrža pobjeda, za svaku dužinu i jezik."
+   },
+   {
+    "h": "Lako za čitanje",
+    "p": "Velike pločice, font Atkinson Hyperlegible napravljen za slabovide čitaoce, podesiva veličina teksta i šest pozadina."
+   },
+   {
+    "h": "Zvukovi tipki",
+    "p": "Ako želiš, svaka cifra i slovo zapište kao tipka starog telefona s dugmićima."
+   },
+   {
+    "h": "Prelazak na novi telefon",
+    "p": "Jedan kod prenosi tvoja imena, bodove i statistiku na novi telefon. Bez računa."
+   },
+   {
+    "h": "Privatnost",
+    "p": "Bez računa, bez reklama, bez praćenja. Ono što upišeš ostaje na tvom telefonu."
+   }
+  ]
+ },
+ "audience": {
+  "title": "Za koga je",
+  "items": [
+   {
+    "h": "Djeca i učenici od 9 godina",
+    "p": "Logičko razmišljanje, pravopis, pamćenje i koncentracija, u kratkim igrama s jasnim krajem."
+   },
+   {
+    "h": "Odrasli",
+    "p": "Brza gimnastika za mozak na putu do posla ili u pauzi, i zamjena za šah kad imaš samo nekoliko minuta."
+   },
+   {
+    "h": "Oni koji uče jezike",
+    "p": "Vježbaj riječi jezika koji učiš: engleski, njemački, španski, francuski, turski, arapski i druge."
+   },
+   {
+    "h": "Porodice i razredi",
+    "p": "Ista zagonetka dana za sve postaje prijateljsko svakodnevno takmičenje kod kuće ili u školi."
+   }
+  ],
+  "calm": "Mirna po zamisli: bez reklama i bez četa. Tiho i usredsređeno vrijeme pred ekranom."
+ },
+ "languages": {
+  "title": "Deset jezika",
+  "intro": "Svaki jezik ima svoju listu svakodnevnih riječi za normalne igre i veliki rječnik za nivo Ekspert.",
+  "cols": [
+   "Jezik",
+   "Razbij šifru",
+   "Pogodi riječ",
+   "Svakodnevne riječi",
+   "Prihvaćene riječi",
+   "Posebna slova"
+  ],
+  "note": "U španskom, francuskom i portugalskom akcenti nisu obavezni: árbol se igra kao ARBOL. Arapske pločice čitaju se zdesna nalijevo."
+ },
+ "faq": {
+  "title": "Pitanja i odgovori",
+  "items": [
+   {
+    "q": "Šta je MBG Puzzles?",
+    "a": "Besplatna aplikacija za Android s dvije igre za mozak: Razbij šifru, igrom pogađanja brojeva, i Pogodi riječ, igrom pogađanja riječi. Obje rade na deset jezika i nakon svakog pokušaja daju tragove u bojama."
+   },
+   {
+    "q": "Je li zaista besplatna?",
+    "a": "Da. Besplatna verzija nema reklama, nema kupovine i nema ograničenja broja igara."
+   },
+   {
+    "q": "Gdje je mogu preuzeti?",
+    "a_soon": "MBG Puzzles uskoro stiže na Google Play, za Android telefone i tablete. Verzija za iPhone još ne postoji.",
+    "a_live": "Na [Google Playu](play), za Android telefone i tablete. Verzija za iPhone još ne postoji."
+   },
+   {
+    "q": "Je li Pogodi riječ kao Wordle?",
+    "a": "Ideja je ista: pogađaš riječ i dobijaš zelene, žute i sive tragove. Razlike su riječi od 4 do 8 slova, deset jezika među kojima i bosanski, igre bez ograničenja, nivo Ekspert, nagovještaji i riječ dana na svakom jeziku."
+   },
+   {
+    "q": "Je li Razbij šifru kao Mastermind ili Bulls and Cows?",
+    "a": "Da, to je ista klasična ideja razbijanja šifre, s brojevima. Ovdje svaka cifra dobija svoj trag na svom mjestu, pa se igra lakše uči. Tajni broj ima od 4 do 8 cifara, a cifre se mogu ponavljati."
+   },
+   {
+    "q": "Postoji li igra riječi na bosanskom?",
+    "a": "Da. Pogodi riječ ima više od 7.100 svakodnevnih bosanskih riječi i preko 56.000 prihvaćenih riječi, ijekavicom i latinicom, sa slovima č, ć, đ, š i ž. Pogodna je i za igrače iz Hrvatske i Crne Gore."
+   },
+   {
+    "q": "Je li pogodna za djecu?",
+    "a": "Da, od oko 9 godina. Nema reklama, četa ni linkova na društvene mreže, a ništa o igraču ne napušta telefon."
+   },
+   {
+    "q": "Treba li internet?",
+    "a": "Ne. Obje igre i zagonetke dana rade bez interneta."
+   },
+   {
+    "q": "Kako rade nagovještaji?",
+    "a": "Nakon trećeg pokušaja nagovještaj otkriva jedno slovo ili cifru na mjestu koje još nisi pronašao. Nagovještaj košta 1 kredit i u bodovima se računa kao 2 dodatna pokušaja. Svaki dan dobijaš 10 besplatnih kredita (najviše 50 sedmično), a svaka riješena zagonetka dana donosi još 2."
+   },
+   {
+    "q": "Koje podatke aplikacija prikuplja?",
+    "a": "Nikakve. Nema računa, reklama ni analitike. Imena, bodovi i postavke ostaju na tvom telefonu. Pročitaj [pravila privatnosti](privacy).",
+    "a_world": "Nikakve, osim ako se sam prijaviš na svjetsku listu top 20 (od 13 godina), gdje se vide ime igrača, država i najbolji bodovi. Nema računa, reklama ni analitike. Pročitaj [pravila privatnosti](privacy)."
+   },
+   {
+    "q": "Ko pravi MBG Puzzles?",
+    "a": "MBG – Merkur Beqiri Games, igre nezavisnog developera Merkura Beqirija. MBG ima sjedište na Kosovu i posluje širom svijeta: igre su napravljene za igrače svugdje, na deset jezika. Pitanja i ideje su dobrodošli [telefonom](tel), na [WhatsApp](whatsapp) ili [e-mailom](mailto)."
+   }
+  ]
+ },
+ "cta": {
+  "title": "Dvije igre u tvom džepu",
+  "soon": "MBG Puzzles uskoro stiže na Google Play. Piši mi i javiću ti kad izađe.",
+  "live": "Besplatno na Google Playu, za Android telefone i tablete."
+ },
+ "contact": {
+  "title": "Pitanja ili ideje?",
+  "text": "Piši mi – čitam svaku poruku.",
+  "email": "E-mail",
+  "whatsapp": "WhatsApp",
+  "phone": "Telefon",
+  "waAction": "Pošalji poruku",
+  "waMessage": "Pozdrav, javljam se preko web stranice MBG Puzzles:\n{url}\nImam komentar / pitanje za vas:\n"
+ },
+ "footer": {
+  "privacy": "Pravila privatnosti",
+  "tm": "Wordle je zaštitni znak kompanije The New York Times Company, a Mastermind zaštitni znak svog vlasnika; MBG Puzzles nije povezan s njima. Google Play je zaštitni znak kompanije Google LLC.",
+  "fonts": "Fontovi: Atkinson Hyperlegible, Unbounded, Noto Kufi Arabic i Noto Sans Arabic (SIL Open Font License).",
+  "based": "Sa sjedištem na Kosovu, posluje širom svijeta"
+ }
+}
