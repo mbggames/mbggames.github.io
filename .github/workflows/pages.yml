@@ -1,0 +1,54 @@
+name: Publish website
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      base_url: ${{ steps.pages.outputs.base_url }}
+      dir: ${{ steps.dir.outputs.dir }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: pages
+        uses: actions/configure-pages@v5
+      - id: dir
+        name: Find the website folder
+        run: |
+          if [ -f tools/build.py ]; then echo "dir=." >> "$GITHUB_OUTPUT"; else echo "dir=mbg-puzzles-site" >> "$GITHUB_OUTPUT"; fi
+      - name: Build the ten language pages
+        run: python3 "${{ steps.dir.outputs.dir }}/tools/build.py" --site-url "${{ steps.pages.outputs.base_url }}" --out _site
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
+
+  tell-search-engines:
+    needs: [build, deploy]
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - name: Tell Bing and others about the new pages (IndexNow)
+        run: python3 "${{ needs.build.outputs.dir }}/tools/indexnow.py" --site-url "${{ needs.build.outputs.base_url }}"
