@@ -329,3 +329,10 @@ footer p { margin: 0; }
 @media (prefers-reduced-motion: no-preference) {
   html { scroll-behavior: smooth; }
 }
+
+/* web preview button ("Play in your browser") */
+a.store.web { background: var(--accent); color: var(--on-accent); }
+a.store.web:hover { background: var(--ink); color: var(--surface); }
+.cta-stores { display: flex; flex-direction: column; gap: 12px; align-items: stretch; }
+.cta a.store.web { background: var(--surface); color: var(--ink); }
+.cta a.store.web:hover { background: var(--ink); color: var(--surface); }
