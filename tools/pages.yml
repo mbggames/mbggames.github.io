@@ -1,0 +1,54 @@
+# MBG Puzzles website - builds the site and publishes it on GitHub Pages.
+# Runs by itself after every change on main, or by hand: Actions > Publish website > Run workflow.
+# Needs once: Settings > Pages > Build and deployment > Source: GitHub Actions.
+name: Publish website
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      base_url: ${{ steps.pages.outputs.base_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: pages
+        uses: actions/configure-pages@v5
+      - name: Build the ten language pages
+        run: python3 tools/build.py --site-url "${{ steps.pages.outputs.base_url }}" --out _site
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
+
+  tell-search-engines:
+    # IndexNow tells Bing (which ChatGPT and Copilot search use), Yandex, Seznam and others
+    # that the pages changed. Google is told through Search Console (see README).
+    needs: [build, deploy]
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - name: Ping IndexNow
+        run: python3 tools/indexnow.py --site-url "${{ needs.build.outputs.base_url }}"

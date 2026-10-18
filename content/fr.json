@@ -1,0 +1,282 @@
+{
+ "lang": "fr",
+ "hreflang": "fr",
+ "dir": "ltr",
+ "ogLocale": "fr_FR",
+ "meta": {
+  "title": "MBG Puzzles – Casse le code et Devine le mot : jeux de logique gratuits en 10 langues",
+  "description": "Deux jeux de logique gratuits pour Android : Casse le code (trouve le nombre secret) et Devine le mot (trouve le mot secret, de 4 à 8 lettres). En français et 9 autres langues, sans pub, hors ligne.",
+  "keywords": "jeu de mots en français, devine le mot, jeux de logique, jeux pour le cerveau, jeu de chiffres, mot du jour, Wordle en français, Mastermind avec des chiffres, casse le code, jeux gratuits sans pub, jeux pour enfants, Android, hors ligne"
+ },
+ "ui": {
+  "skip": "Aller au contenu",
+  "nav": {
+   "games": "Jeux",
+   "clues": "Comment jouer",
+   "daily": "Défis du jour",
+   "languages": "Langues",
+   "faq": "Questions"
+  },
+  "langMenu": "Langue",
+  "otherLangs": "Cette page dans d’autres langues"
+ },
+ "hero": {
+  "eyebrow": "Gratuit · sans pub · sans limites",
+  "h1": "Un jeu de mots et un jeu de chiffres, en dix langues",
+  "lead": "MBG Puzzles est une appli gratuite pour Android avec deux jeux de logique. Dans Casse le code, tu cherches un nombre secret ; dans Devine le mot, un mot secret. Chaque essai reçoit des indices en couleurs. Joue en français, anglais, albanais, bosnien, allemand, espagnol, turc, polonais, portugais ou arabe.",
+  "soon": "Bientôt sur Google Play",
+  "soonNote": "Pour téléphones et tablettes Android.",
+  "live": "Télécharger sur Google Play",
+  "liveNote": "Gratuit pour téléphones et tablettes Android.",
+  "secondary": "Comment jouer",
+  "boardWord": "Devine le mot, une partie d’exemple",
+  "boardCode": "Casse le code, une partie d’exemple"
+ },
+ "glance": {
+  "title": "En bref",
+  "items": [
+   [
+    "Jeux",
+    "Casse le code (chiffres) et Devine le mot (mots)"
+   ],
+   [
+    "Prix",
+    "Gratuit : sans pub, sans achats, sans limites"
+   ],
+   [
+    "Appareil",
+    "Téléphones et tablettes Android, sur Google Play"
+   ],
+   [
+    "Langues",
+    "Français, anglais, albanais, bosnien, allemand, espagnol, turc, polonais, portugais (Brésil), arabe"
+   ],
+   [
+    "Mots",
+    "75 000 mots courants comme mots secrets et plus de 1,5 million de mots acceptés"
+   ],
+   [
+    "Âge",
+    "Dès 9 ans environ : enfants, élèves, étudiants et adultes"
+   ],
+   [
+    "Internet",
+    "Pas nécessaire. Les deux jeux marchent hors ligne"
+   ],
+   [
+    "Compte",
+    "Aucun. Les noms et les scores restent sur le téléphone"
+   ],
+   [
+    "Créé par",
+    "MBG – Merkur Beqiri Games, basé au Kosovo, actif dans le monde entier"
+   ]
+  ]
+ },
+ "games": {
+  "title": "Deux jeux, une appli",
+  "intro": "Les deux jeux utilisent les mêmes indices en couleurs : quand tu connais l’un, tu connais l’autre.",
+  "code": {
+   "name": "Casse le code",
+   "tag": "Trouve le nombre secret",
+   "text": "L’appli choisit un nombre secret de 4 à 8 chiffres. Les chiffres peuvent se répéter et le nombre peut commencer par 0 : un nombre de 4 chiffres est donc un parmi 10 000, et un nombre de 8 chiffres un parmi 100 millions. Tape un nombre de la même longueur et chaque chiffre reçoit un indice.",
+   "facts": [
+    "4, 5, 6, 7 ou 8 chiffres",
+    "Les chiffres peuvent se répéter",
+    "Un pavé numérique pendant la partie",
+    "Le jeu classique de code à casser, de la famille de Bulls and Cows"
+   ]
+  },
+  "word": {
+   "name": "Devine le mot",
+   "tag": "Trouve le mot secret",
+   "text": "L’appli choisit un mot secret de 4 à 8 lettres dans la langue où tu joues. Tape un mot de la même longueur et chaque lettre reçoit un indice. Le niveau normal utilise des mots courants ; le niveau Expert ⭐ pioche dans tout le dictionnaire.",
+   "facts": [
+    "4, 5, 6, 7 ou 8 lettres",
+    "Dix langues, chacune avec ses lettres (ë, ç, ñ, ß …)",
+    "Niveau normal et niveau Expert ⭐",
+    "Autant de parties que tu veux, pas une seule par jour"
+   ]
+  }
+ },
+ "clues": {
+  "title": "Comment marchent les indices",
+  "intro": "Après chaque essai, chaque lettre ou chiffre prend une couleur.",
+  "legend": {
+   "O": "Vert : bonne lettre ou bon chiffre, à la bonne place",
+   "?": "Jaune : il est dans la réponse, mais à une autre place",
+   "X": "Gris : il n’est pas dans la réponse"
+  },
+  "short": {
+   "O": "bonne place",
+   "?": "autre place",
+   "X": "absent"
+  },
+  "wordCaption": "Devine le mot : trois essais pour trouver {secret}",
+  "wordExplain": "Premier essai : B est à la bonne place, I et S sont dans le mot mais ailleurs, O et U n’y sont pas. Le deuxième essai, BRUME, trouve B, R et E. Le troisième est le bon.",
+  "codeCaption": "Casse le code : trois essais pour trouver {secret}",
+  "codeExplain": "Premier essai : 1 et 3 sont dans le nombre mais ailleurs, 2 et 4 n’y sont pas. Deuxième essai : 3 et 1 sont à la bonne place, 5 et 8 vont ailleurs. Le troisième est le bon.",
+  "repeat": "Les lettres et chiffres répétés comptent un par un. Si la réponse a un seul A et que tu en tapes deux, un seul devient vert ou jaune."
+ },
+ "daily": {
+  "title": "Défis du jour",
+  "lead": "Chaque jour, il y a un nombre du jour et, dans chaque langue, un mot du jour. Tout le monde reçoit le même défi : tu peux comparer tes résultats avec tes amis et ta famille.",
+  "points": [
+   "Le nombre du jour a 4 chiffres. Le mot du jour a 5 lettres (4 en arabe).",
+   "Chaque défi se joue une seule fois. Les nouveaux arrivent à minuit, à l’heure de ton téléphone.",
+   "Partage ton résultat en carrés de couleur. Les lettres et les chiffres restent cachés : tu ne gâches le défi de personne.",
+   "Chaque défi résolu rapporte 2 crédits d’indices. Les jours d’affilée donnent un bonus : +3 à 3 jours, +7 à 7, +14 à 14 et +30 à 30."
+  ],
+  "shareTitle": "Un résultat partagé",
+  "shareHead": "🧩 MBG Puzzles – Mot du jour n° 12",
+  "shareLine": "✅ Trouvé en 3 essais · 🔥 5 jours d’affilée",
+  "shareLegend": "🟩 bonne lettre, bonne place · 🟨 dans le mot, mais à une autre place · ⬛ pas dans le mot"
+ },
+ "features": {
+  "title": "Ce que propose l’appli",
+  "items": [
+   {
+    "h": "Dix langues",
+    "p": "Change quand tu veux. Chaque langue a ses propres mots et lettres, et l’arabe se lit de droite à gauche."
+   },
+   {
+    "h": "Sans pub, sans limites",
+    "p": "La version gratuite n’a ni pub ni achats. Joue autant de parties que tu veux."
+   },
+   {
+    "h": "Marche hors ligne",
+    "p": "Tout tourne sur le téléphone : dans le bus, dans l’avion ou partout sans réseau."
+   },
+   {
+    "h": "Des indices quand tu bloques",
+    "p": "Après le troisième essai, un indice dévoile une lettre ou un chiffre. Tu reçois 10 crédits d’indices gratuits par jour."
+   },
+   {
+    "h": "Statistiques",
+    "p": "Parties jouées, victoires, séries, moyenne d’essais et ta victoire la plus rapide, pour chaque longueur et chaque langue."
+   },
+   {
+    "h": "Facile à lire",
+    "p": "De grandes tuiles, la police Atkinson Hyperlegible conçue pour les personnes malvoyantes, une taille de texte réglable et six fonds."
+   },
+   {
+    "h": "Sons des touches",
+    "p": "Si tu veux, chaque chiffre et chaque lettre bipe comme une touche d’un vieux téléphone à touches."
+   },
+   {
+    "h": "Passer à un nouveau téléphone",
+    "p": "Un seul code transfère tes noms, scores et statistiques. Sans compte."
+   },
+   {
+    "h": "Confidentialité",
+    "p": "Pas de compte, pas de pub, pas de pistage. Ce que tu tapes reste sur ton téléphone."
+   }
+  ]
+ },
+ "audience": {
+  "title": "Pour qui",
+  "items": [
+   {
+    "h": "Enfants et élèves dès 9 ans",
+    "p": "Logique, orthographe, mémoire et concentration, en parties courtes avec une vraie fin."
+   },
+   {
+    "h": "Adultes",
+    "p": "Un peu de gym pour le cerveau dans les transports ou à la pause, et une alternative aux échecs quand on n’a que quelques minutes."
+   },
+   {
+    "h": "Apprenants en langues",
+    "p": "Entraîne-toi aux mots d’une langue que tu apprends : anglais, espagnol, allemand, portugais, turc, arabe et plus."
+   },
+   {
+    "h": "Familles et classes",
+    "p": "Le même défi du jour pour tous devient un petit concours amical chaque jour, à la maison ou à l’école."
+   }
+  ],
+  "calm": "Calme par nature : pas de pub, pas de chat. Un temps d’écran paisible et concentré."
+ },
+ "languages": {
+  "title": "Dix langues",
+  "intro": "Chaque langue a sa liste de mots courants pour les parties normales et un grand dictionnaire pour le niveau Expert.",
+  "cols": [
+   "Langue",
+   "Casse le code",
+   "Devine le mot",
+   "Mots courants",
+   "Mots acceptés",
+   "Lettres propres"
+  ],
+  "note": "En espagnol, en français et en portugais, les accents sont facultatifs : árbol se joue ARBOL. Les tuiles en arabe se lisent de droite à gauche."
+ },
+ "faq": {
+  "title": "Questions et réponses",
+  "items": [
+   {
+    "q": "Qu’est-ce que MBG Puzzles ?",
+    "a": "Une appli gratuite pour Android avec deux jeux pour le cerveau : Casse le code, un jeu où l’on devine des nombres, et Devine le mot, un jeu où l’on devine des mots. Les deux existent en dix langues et donnent des indices en couleurs après chaque essai."
+   },
+   {
+    "q": "C’est vraiment gratuit ?",
+    "a": "Oui. La version gratuite n’a ni pub, ni achats, ni limite de parties."
+   },
+   {
+    "q": "Où la télécharger ?",
+    "a_soon": "MBG Puzzles arrive bientôt sur Google Play, pour téléphones et tablettes Android. Il n’y a pas encore de version iPhone.",
+    "a_live": "Sur [Google Play](play), pour téléphones et tablettes Android. Il n’y a pas encore de version iPhone."
+   },
+   {
+    "q": "Devine le mot ressemble-t-il à Wordle ?",
+    "a": "L’idée est la même : tu devines un mot et tu reçois des indices verts, jaunes et gris. Les différences : des mots de 4 à 8 lettres, dix langues, des parties illimitées, un niveau Expert, des indices à la demande et un mot du jour dans chaque langue."
+   },
+   {
+    "q": "Casse le code ressemble-t-il au Mastermind ?",
+    "a": "Oui, c’est la même idée classique de code à casser, avec des chiffres. Ici, chaque chiffre reçoit son propre indice à sa propre place, ce qui le rend plus facile à apprendre. Le nombre secret a de 4 à 8 chiffres et les chiffres peuvent se répéter."
+   },
+   {
+    "q": "Existe-t-il un jeu de mots en français ?",
+    "a": "Oui. Devine le mot compte plus de 7 700 mots courants en français et plus de 63 000 mots acceptés. Les accents sont facultatifs : forêt se joue FORET et cœur se joue COEUR."
+   },
+   {
+    "q": "Est-ce adapté aux enfants ?",
+    "a": "Oui, dès 9 ans environ. Pas de pub, pas de chat, pas de liens vers les réseaux sociaux, et rien sur le joueur ne quitte le téléphone."
+   },
+   {
+    "q": "Faut-il internet ?",
+    "a": "Non. Les deux jeux et les défis du jour marchent hors ligne."
+   },
+   {
+    "q": "Comment marchent les indices à la demande ?",
+    "a": "Après le troisième essai, un indice dévoile une lettre ou un chiffre à une place que tu n’as pas encore trouvée. Un indice coûte 1 crédit et compte comme 2 essais de plus dans le score. Tu reçois 10 crédits gratuits par jour (jusqu’à 50 par semaine), et chaque défi du jour résolu en rapporte 2 de plus."
+   },
+   {
+    "q": "Quelles données l’appli collecte-t-elle ?",
+    "a": "Aucune. Pas de compte, pas de publicité, pas de mesure d’audience. Les noms, scores et réglages restent sur ton téléphone. Lis la [politique de confidentialité](privacy).",
+    "a_world": "Aucune, sauf si tu rejoins toi-même le top 20 mondial (dès 13 ans), qui affiche ton nom de joueur, ton pays et tes meilleurs scores. Pas de compte, pas de publicité, pas de mesure d’audience. Lis la [politique de confidentialité](privacy)."
+   },
+   {
+    "q": "Qui fait MBG Puzzles ?",
+    "a": "MBG – Merkur Beqiri Games, les jeux du développeur indépendant Merkur Beqiri. MBG est basé au Kosovo et actif dans le monde entier : les jeux sont faits pour les joueurs de partout, en dix langues. Questions et idées sont les bienvenues par [téléphone](tel), sur [WhatsApp](whatsapp) ou par [e-mail](mailto)."
+   }
+  ]
+ },
+ "cta": {
+  "title": "Deux jeux dans ta poche",
+  "soon": "MBG Puzzles arrive bientôt sur Google Play. Écris-moi et je te préviens dès sa sortie.",
+  "live": "Gratuit sur Google Play, pour téléphones et tablettes Android."
+ },
+ "contact": {
+  "title": "Des questions ou des idées ?",
+  "text": "Écris-moi, je lis chaque message.",
+  "email": "E-mail",
+  "whatsapp": "WhatsApp",
+  "phone": "Téléphone",
+  "waAction": "Envoyer un message",
+  "waMessage": "Bonjour, je vous ai trouvé grâce au site de MBG Puzzles :\n{url}\nJ’ai un commentaire / une question pour vous :\n"
+ },
+ "footer": {
+  "privacy": "Politique de confidentialité",
+  "tm": "Wordle est une marque de The New York Times Company et Mastermind une marque de son propriétaire ; MBG Puzzles n’a aucun lien avec eux. Google Play est une marque de Google LLC.",
+  "fonts": "Polices : Atkinson Hyperlegible, Unbounded, Noto Kufi Arabic et Noto Sans Arabic (SIL Open Font License).",
+  "based": "Basé au Kosovo, actif dans le monde entier"
+ }
+}

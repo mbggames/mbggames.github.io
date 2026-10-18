@@ -1,0 +1,282 @@
+{
+ "lang": "de",
+ "hreflang": "de",
+ "dir": "ltr",
+ "ogLocale": "de_DE",
+ "meta": {
+  "title": "MBG Puzzles – Knack den Code & Errate das Wort: kostenlose Denkspiele in 10 Sprachen",
+  "description": "Zwei kostenlose Logikspiele für Android: Knack den Code (finde die geheime Zahl) und Errate das Wort (finde das geheime Wort, 4–8 Buchstaben). Auf Deutsch und in 9 weiteren Sprachen, ohne Werbung, offline.",
+  "keywords": "Wortspiel auf Deutsch, Worträtsel, Zahlenrätsel, Denkspiele, Logikspiele, Gehirnjogging, Wort des Tages, Wordle auf Deutsch, Mastermind mit Zahlen, Code knacken, kostenlose Spiele ohne Werbung, Spiele für Kinder, Android, offline"
+ },
+ "ui": {
+  "skip": "Zum Inhalt springen",
+  "nav": {
+   "games": "Spiele",
+   "clues": "So geht’s",
+   "daily": "Rätsel des Tages",
+   "languages": "Sprachen",
+   "faq": "Fragen"
+  },
+  "langMenu": "Sprache",
+  "otherLangs": "Diese Seite in anderen Sprachen"
+ },
+ "hero": {
+  "eyebrow": "Gratis · ohne Werbung · ohne Grenzen",
+  "h1": "Ein Wortspiel und ein Zahlenspiel, in zehn Sprachen",
+  "lead": "MBG Puzzles ist eine kostenlose Android-App mit zwei Logikspielen. In Knack den Code suchst du eine geheime Zahl, in Errate das Wort ein geheimes Wort. Jeder Versuch bekommt farbige Hinweise. Spiel auf Deutsch, Englisch, Albanisch, Bosnisch, Spanisch, Französisch, Türkisch, Polnisch, Portugiesisch oder Arabisch.",
+  "soon": "Bald bei Google Play",
+  "soonNote": "Für Android-Handys und -Tablets.",
+  "live": "Jetzt bei Google Play",
+  "liveNote": "Kostenlos für Android-Handys und -Tablets.",
+  "secondary": "So geht’s",
+  "boardWord": "Errate das Wort, ein Beispielspiel",
+  "boardCode": "Knack den Code, ein Beispielspiel"
+ },
+ "glance": {
+  "title": "Auf einen Blick",
+  "items": [
+   [
+    "Spiele",
+    "Knack den Code (Zahlen) und Errate das Wort (Wörter)"
+   ],
+   [
+    "Preis",
+    "Kostenlos: ohne Werbung, ohne Käufe, ohne Grenzen"
+   ],
+   [
+    "Gerät",
+    "Android-Handys und -Tablets, über Google Play"
+   ],
+   [
+    "Sprachen",
+    "Deutsch, Englisch, Albanisch, Bosnisch, Spanisch, Französisch, Türkisch, Polnisch, Portugiesisch (Brasilien), Arabisch"
+   ],
+   [
+    "Wörter",
+    "75.000 Alltagswörter als geheime Wörter und über 1,5 Millionen erlaubte Wörter"
+   ],
+   [
+    "Alter",
+    "Ab etwa 9 Jahren: Kinder, Schüler, Studierende und Erwachsene"
+   ],
+   [
+    "Internet",
+    "Nicht nötig. Beide Spiele laufen offline"
+   ],
+   [
+    "Konto",
+    "Keins. Namen und Punkte bleiben auf dem Handy"
+   ],
+   [
+    "Von",
+    "MBG – Merkur Beqiri Games, mit Sitz im Kosovo, weltweit tätig"
+   ]
+  ]
+ },
+ "games": {
+  "title": "Zwei Spiele, eine App",
+  "intro": "Beide Spiele nutzen dieselben farbigen Hinweise: Kennst du eins, kennst du auch das andere.",
+  "code": {
+   "name": "Knack den Code",
+   "tag": "Finde die geheime Zahl",
+   "text": "Die App wählt eine geheime Zahl mit 4 bis 8 Ziffern. Ziffern dürfen sich wiederholen und die Zahl darf mit 0 beginnen, also ist eine 4-stellige Zahl eine von 10.000 und eine 8-stellige eine von 100 Millionen. Tipp eine Zahl derselben Länge ein, und jede Ziffer bekommt einen Hinweis.",
+   "facts": [
+    "4, 5, 6, 7 oder 8 Ziffern",
+    "Ziffern dürfen sich wiederholen",
+    "Zifferntastatur beim Raten",
+    "Das klassische Code-Knacker-Spiel, aus der Familie von Bulls and Cows"
+   ]
+  },
+  "word": {
+   "name": "Errate das Wort",
+   "tag": "Finde das geheime Wort",
+   "text": "Die App wählt ein geheimes Wort mit 4 bis 8 Buchstaben in der Sprache, in der du spielst. Tipp ein Wort derselben Länge ein, und jeder Buchstabe bekommt einen Hinweis. Die normale Stufe nimmt Alltagswörter, die Expertenstufe ⭐ wählt aus dem ganzen Wörterbuch.",
+   "facts": [
+    "4, 5, 6, 7 oder 8 Buchstaben",
+    "Zehn Sprachen, jede mit eigenen Buchstaben (ä, ö, ü, ß …)",
+    "Normale Stufe und Expertenstufe ⭐",
+    "So viele Spiele, wie du willst, nicht nur eins am Tag"
+   ]
+  }
+ },
+ "clues": {
+  "title": "So funktionieren die Hinweise",
+  "intro": "Nach jedem Versuch bekommt jeder Buchstabe und jede Ziffer eine Farbe.",
+  "legend": {
+   "O": "Grün: richtiger Buchstabe oder richtige Ziffer, an der richtigen Stelle",
+   "?": "Gelb: kommt in der Lösung vor, aber an einer anderen Stelle",
+   "X": "Grau: kommt in der Lösung nicht vor"
+  },
+  "short": {
+   "O": "richtige Stelle",
+   "?": "andere Stelle",
+   "X": "nicht enthalten"
+  },
+  "wordCaption": "Errate das Wort: drei Versuche bis {secret}",
+  "wordExplain": "Erster Versuch: Ö steht an der richtigen Stelle, L ist im Wort, aber an einer anderen Stelle, W, I und N kommen nicht vor. Der zweite Versuch, MÖGEN, trifft Ö, G und E. Der dritte Versuch ist richtig. Ä, Ö, Ü und ß sind eigene Buchstaben.",
+  "codeCaption": "Knack den Code: drei Versuche bis {secret}",
+  "codeExplain": "Erster Versuch: 1 und 3 sind in der Zahl, aber an anderen Stellen, 2 und 4 kommen nicht vor. Zweiter Versuch: 3 und 1 stimmen, 5 und 8 gehören woandershin. Der dritte Versuch ist richtig.",
+  "repeat": "Doppelte Buchstaben und Ziffern werden einzeln gezählt. Hat die Lösung ein A und du tippst zwei, wird nur eins davon grün oder gelb."
+ },
+ "daily": {
+  "title": "Rätsel des Tages",
+  "lead": "Jeden Tag gibt es eine Zahl des Tages und in jeder Sprache ein Wort des Tages. Alle bekommen dasselbe Rätsel, also kannst du deine Ergebnisse mit Freunden und Familie vergleichen.",
+  "points": [
+   "Die Zahl des Tages hat 4 Ziffern. Das Wort des Tages hat 5 Buchstaben (auf Arabisch 4).",
+   "Jedes Rätsel kann einmal gespielt werden. Neue gibt es um Mitternacht, nach der Uhr deines Handys.",
+   "Teil dein Ergebnis als farbige Kästchen. Buchstaben und Ziffern bleiben verborgen, also verrätst du niemandem etwas.",
+   "Jedes gelöste Rätsel bringt 2 Tipp-Credits. Tage in Folge bringen einen Bonus: +3 nach 3 Tagen, +7 nach 7, +14 nach 14 und +30 nach 30."
+  ],
+  "shareTitle": "Ein geteiltes Ergebnis",
+  "shareHead": "🧩 MBG Puzzles – Wort des Tages #12",
+  "shareLine": "✅ Gelöst mit 3 Versuchen · 🔥 5 Tage in Folge",
+  "shareLegend": "🟩 richtiger Buchstabe, richtige Stelle · 🟨 im Wort, aber an anderer Stelle · ⬛ nicht im Wort"
+ },
+ "features": {
+  "title": "Was die App kann",
+  "items": [
+   {
+    "h": "Zehn Sprachen",
+    "p": "Wechsle jederzeit. Jede Sprache hat ihre eigenen Wörter und Buchstaben, und Arabisch läuft von rechts nach links."
+   },
+   {
+    "h": "Ohne Werbung, ohne Grenzen",
+    "p": "Die kostenlose Version hat keine Werbung und keine Käufe. Spiel so viele Runden, wie du willst."
+   },
+   {
+    "h": "Läuft offline",
+    "p": "Alles läuft auf dem Handy: im Bus, im Flugzeug oder überall ohne Empfang."
+   },
+   {
+    "h": "Tipps, wenn du feststeckst",
+    "p": "Nach dem dritten Versuch deckt ein Tipp einen Buchstaben oder eine Ziffer auf. Jeden Tag gibt es 10 Tipp-Credits gratis."
+   },
+   {
+    "h": "Statistik",
+    "p": "Gespielte Runden, Siege, Serien, durchschnittliche Versuche und dein schnellster Sieg, für jede Länge und Sprache."
+   },
+   {
+    "h": "Gut lesbar",
+    "p": "Große Kacheln, die Schrift Atkinson Hyperlegible für Menschen mit Sehschwäche, einstellbare Textgröße und sechs Hintergründe."
+   },
+   {
+    "h": "Tastentöne",
+    "p": "Wenn du magst, piept jede Ziffer und jeder Buchstabe wie eine Taste an einem alten Tastentelefon."
+   },
+   {
+    "h": "Umzug aufs neue Handy",
+    "p": "Ein Code bringt deine Namen, Punkte und Statistik aufs neue Handy. Ohne Konto."
+   },
+   {
+    "h": "Privat",
+    "p": "Kein Konto, keine Werbung, kein Tracking. Was du tippst, bleibt auf deinem Handy."
+   }
+  ]
+ },
+ "audience": {
+  "title": "Für wen",
+  "items": [
+   {
+    "h": "Kinder und Schüler ab 9",
+    "p": "Logisches Denken, Rechtschreibung, Gedächtnis und Konzentration, in kurzen Runden mit klarem Ende."
+   },
+   {
+    "h": "Erwachsene",
+    "p": "Schnelles Gehirnjogging auf dem Weg zur Arbeit oder in der Pause, und eine Alternative zu Schach, wenn nur ein paar Minuten Zeit sind."
+   },
+   {
+    "h": "Sprachlernende",
+    "p": "Üb die Wörter einer Sprache, die du lernst: Englisch, Spanisch, Französisch, Türkisch, Polnisch, Arabisch und mehr."
+   },
+   {
+    "h": "Familien und Klassen",
+    "p": "Dasselbe Rätsel des Tages für alle wird zum freundlichen täglichen Wettbewerb, zu Hause oder in der Schule."
+   }
+  ],
+  "calm": "Ruhig gestaltet: keine Werbung und kein Chat. Stille, konzentrierte Bildschirmzeit."
+ },
+ "languages": {
+  "title": "Zehn Sprachen",
+  "intro": "Jede Sprache hat eine eigene Liste mit Alltagswörtern für normale Spiele und ein großes Wörterbuch für die Expertenstufe.",
+  "cols": [
+   "Sprache",
+   "Knack den Code",
+   "Errate das Wort",
+   "Alltagswörter",
+   "Erlaubte Wörter",
+   "Eigene Buchstaben"
+  ],
+  "note": "Auf Spanisch, Französisch und Portugiesisch sind Akzente egal: árbol wird als ARBOL gespielt. Arabische Kacheln liest man von rechts nach links."
+ },
+ "faq": {
+  "title": "Fragen und Antworten",
+  "items": [
+   {
+    "q": "Was ist MBG Puzzles?",
+    "a": "Eine kostenlose Android-App mit zwei Denkspielen: Knack den Code, ein Zahlenrätsel, und Errate das Wort, ein Worträtsel. Beide gibt es in zehn Sprachen, und nach jedem Versuch kommen farbige Hinweise."
+   },
+   {
+    "q": "Ist es wirklich kostenlos?",
+    "a": "Ja. Die kostenlose Version hat keine Werbung, keine Käufe und keine Grenze, wie oft du spielst."
+   },
+   {
+    "q": "Wo kann ich es herunterladen?",
+    "a_soon": "MBG Puzzles kommt bald zu Google Play, für Android-Handys und -Tablets. Eine iPhone-Version gibt es noch nicht.",
+    "a_live": "Bei [Google Play](play), für Android-Handys und -Tablets. Eine iPhone-Version gibt es noch nicht."
+   },
+   {
+    "q": "Ist Errate das Wort wie Wordle?",
+    "a": "Die Idee ist dieselbe: Du rätst ein Wort und bekommst grüne, gelbe und graue Hinweise. Anders sind Wörter mit 4 bis 8 Buchstaben, zehn Sprachen, unbegrenzt viele Spiele, eine Expertenstufe, Tipps und ein Wort des Tages in jeder Sprache."
+   },
+   {
+    "q": "Ist Knack den Code wie Mastermind oder Bulls and Cows?",
+    "a": "Ja, es ist dieselbe klassische Code-Knacker-Idee, mit Zahlen. Hier bekommt jede Ziffer ihren eigenen Hinweis an ihrer eigenen Stelle, deshalb lernt man es leichter. Die geheime Zahl hat 4 bis 8 Ziffern, und Ziffern dürfen sich wiederholen."
+   },
+   {
+    "q": "Gibt es ein Wortspiel auf Deutsch?",
+    "a": "Ja. Errate das Wort hat über 7.700 deutsche Alltagswörter und mehr als 59.000 erlaubte Wörter, mit ä, ö, ü und ß als eigenen Buchstaben. Auch auf Handys aus Österreich und der Schweiz startet die App auf Deutsch."
+   },
+   {
+    "q": "Ist es für Kinder geeignet?",
+    "a": "Ja, ab etwa 9 Jahren. Es gibt keine Werbung, keinen Chat und keine Links zu sozialen Netzwerken, und nichts über die Spieler verlässt das Handy."
+   },
+   {
+    "q": "Braucht es Internet?",
+    "a": "Nein. Beide Spiele und die Rätsel des Tages laufen offline."
+   },
+   {
+    "q": "Wie funktionieren die Tipps?",
+    "a": "Nach dem dritten Versuch deckt ein Tipp einen Buchstaben oder eine Ziffer an einer Stelle auf, die du noch nicht gefunden hast. Ein Tipp kostet 1 Credit und zählt in der Wertung wie 2 zusätzliche Versuche. Du bekommst jeden Tag 10 Credits gratis (bis zu 50 pro Woche), und jedes gelöste Rätsel des Tages bringt 2 dazu."
+   },
+   {
+    "q": "Welche Daten sammelt die App?",
+    "a": "Keine. Es gibt kein Konto, keine Werbung und keine Analyse. Namen, Punkte und Einstellungen bleiben auf deinem Handy. Lies die [Datenschutzerklärung](privacy).",
+    "a_world": "Keine, außer du trittst selbst der Welt-Top-20 bei (ab 13 Jahren), die deinen Spielernamen, dein Land und deine besten Punkte zeigt. Es gibt kein Konto, keine Werbung und keine Analyse. Lies die [Datenschutzerklärung](privacy)."
+   },
+   {
+    "q": "Wer macht MBG Puzzles?",
+    "a": "MBG – Merkur Beqiri Games, die Spiele des unabhängigen Entwicklers Merkur Beqiri. MBG hat seinen Sitz im Kosovo und ist weltweit tätig: Die Spiele sind für Spielerinnen und Spieler überall gemacht, in zehn Sprachen. Fragen und Ideen sind per [Telefon](tel), [WhatsApp](whatsapp) oder [E-Mail](mailto) willkommen."
+   }
+  ]
+ },
+ "cta": {
+  "title": "Zwei Spiele für die Hosentasche",
+  "soon": "MBG Puzzles kommt bald zu Google Play. Schreib mir, und ich sage dir Bescheid, sobald es da ist.",
+  "live": "Kostenlos bei Google Play, für Android-Handys und -Tablets."
+ },
+ "contact": {
+  "title": "Fragen oder Ideen?",
+  "text": "Schreib mir – ich lese jede Nachricht.",
+  "email": "E-Mail",
+  "whatsapp": "WhatsApp",
+  "phone": "Telefon",
+  "waAction": "Nachricht schreiben",
+  "waMessage": "Hallo, ich habe Sie über die Website von MBG Puzzles gefunden:\n{url}\nIch habe einen Kommentar / eine Frage an Sie:\n"
+ },
+ "footer": {
+  "privacy": "Datenschutzerklärung",
+  "tm": "Wordle ist eine Marke der The New York Times Company, Mastermind eine Marke ihres Inhabers; MBG Puzzles hat mit ihnen nichts zu tun. Google Play ist eine Marke der Google LLC.",
+  "fonts": "Schriften: Atkinson Hyperlegible, Unbounded, Noto Kufi Arabic und Noto Sans Arabic (SIL Open Font License).",
+  "based": "Mit Sitz im Kosovo, weltweit tätig"
+ }
+}

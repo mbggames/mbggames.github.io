@@ -1,0 +1,282 @@
+{
+ "lang": "sq",
+ "hreflang": "sq",
+ "dir": "ltr",
+ "ogLocale": "sq_AL",
+ "meta": {
+  "title": "MBG Puzzles – Thyej kodin dhe Gjeje fjalën, lojëra falas për trurin në 10 gjuhë",
+  "description": "Dy lojëra logjike falas për Android: Thyej kodin (gjej numrin e fshehtë) dhe Gjeje fjalën (gjej fjalën e fshehtë, 4–8 shkronja). Në shqip dhe 9 gjuhë të tjera, pa reklama, pa internet.",
+  "keywords": "lojë fjalësh në shqip, lojë me fjalë, lojë me numra, lojëra për trurin, lojëra logjike, gjej fjalën, fjala e ditës, lojë si Wordle në shqip, Mastermind me numra, thyej kodin, lojëra falas pa reklama, lojëra për fëmijë, Android, Kosovë, Shqipëri"
+ },
+ "ui": {
+  "skip": "Kalo te përmbajtja",
+  "nav": {
+   "games": "Lojërat",
+   "clues": "Si luhet",
+   "daily": "Lojërat e ditës",
+   "languages": "Gjuhët",
+   "faq": "Pyetje"
+  },
+  "langMenu": "Gjuha",
+  "otherLangs": "Kjo faqe në gjuhë të tjera"
+ },
+ "hero": {
+  "eyebrow": "Falas · pa reklama · pa kufi",
+  "h1": "Një lojë me fjalë dhe një lojë me numra, në dhjetë gjuhë",
+  "lead": "MBG Puzzles është një aplikacion falas për Android me dy lojëra logjike. Te Thyej kodin gjen një numër të fshehtë, te Gjeje fjalën një fjalë të fshehtë. Çdo provë merr ndihma me ngjyra. Luaj në shqip, anglisht, boshnjakisht, gjermanisht, spanjisht, frëngjisht, turqisht, polonisht, portugalisht ose arabisht.",
+  "soon": "Së shpejti në Google Play",
+  "soonNote": "Për telefona dhe tableta Android.",
+  "live": "Shkarkoje nga Google Play",
+  "liveNote": "Falas për telefona dhe tableta Android.",
+  "secondary": "Si luhet",
+  "boardWord": "Gjeje fjalën, një lojë shembull",
+  "boardCode": "Thyej kodin, një lojë shembull"
+ },
+ "glance": {
+  "title": "Me një shikim",
+  "items": [
+   [
+    "Lojërat",
+    "Thyej kodin (numra) dhe Gjeje fjalën (fjalë)"
+   ],
+   [
+    "Çmimi",
+    "Falas: pa reklama, pa blerje, pa kufi"
+   ],
+   [
+    "Pajisja",
+    "Telefona dhe tableta Android, nga Google Play"
+   ],
+   [
+    "Gjuhët",
+    "Shqip, anglisht, boshnjakisht, gjermanisht, spanjisht, frëngjisht, turqisht, polonisht, portugalisht (Brazil), arabisht"
+   ],
+   [
+    "Fjalët",
+    "75,000 fjalë të përditshme si fjalë të fshehta dhe mbi 1,5 milion fjalë të pranuara"
+   ],
+   [
+    "Mosha",
+    "Nga rreth 9 vjeç: fëmijë, nxënës, studentë dhe të rritur"
+   ],
+   [
+    "Interneti",
+    "Nuk nevojitet. Të dyja lojërat punojnë pa internet"
+   ],
+   [
+    "Llogaria",
+    "Asnjë. Emrat dhe pikët mbeten në telefon"
+   ],
+   [
+    "Bërë nga",
+    "MBG – Merkur Beqiri Games, me bazë në Kosovë, vepron në mbarë botën"
+   ]
+  ]
+ },
+ "games": {
+  "title": "Dy lojëra, një aplikacion",
+  "intro": "Të dyja lojërat kanë të njëjtat ndihma me ngjyra: kur mëson njërën, e di edhe tjetrën.",
+  "code": {
+   "name": "Thyej kodin",
+   "tag": "Gjej numrin e fshehtë",
+   "text": "Aplikacioni zgjedh një numër të fshehtë me 4 deri në 8 shifra. Shifrat mund të përsëriten dhe numri mund të fillojë me 0, prandaj një numër me 4 shifra është një nga 10,000 numra, kurse një me 8 shifra një nga 100 milionë. Shkruaj një numër me po aq shifra dhe çdo shifër merr një ndihmë.",
+   "facts": [
+    "4, 5, 6, 7 ose 8 shifra",
+    "Shifrat mund të përsëriten",
+    "Tastierë me numra gjatë lojës",
+    "Loja klasike e thyerjes së kodit, nga familja e Bulls and Cows"
+   ]
+  },
+  "word": {
+   "name": "Gjeje fjalën",
+   "tag": "Gjej fjalën e fshehtë",
+   "text": "Aplikacioni zgjedh një fjalë të fshehtë me 4 deri në 8 shkronja, në gjuhën që luan. Shkruaj një fjalë me po aq shkronja dhe çdo shkronjë merr një ndihmë. Niveli normal përdor fjalë të përditshme, niveli Ekspert ⭐ zgjedh nga i gjithë fjalori.",
+   "facts": [
+    "4, 5, 6, 7 ose 8 shkronja",
+    "Dhjetë gjuhë, secila me shkronjat e veta (ë, ç …)",
+    "Niveli normal dhe niveli Ekspert ⭐",
+    "Sa lojëra të duash, jo vetëm një në ditë"
+   ]
+  }
+ },
+ "clues": {
+  "title": "Si funksionojnë ndihmat",
+  "intro": "Pas çdo prove, çdo shkronjë ose shifër merr një ngjyrë.",
+  "legend": {
+   "O": "E gjelbër: shkronja ose shifra e saktë, në vendin e duhur",
+   "?": "E verdhë: është në përgjigje, por në vend tjetër",
+   "X": "Gri: nuk është në përgjigje"
+  },
+  "short": {
+   "O": "në vend",
+   "?": "vend tjetër",
+   "X": "nuk është"
+  },
+  "wordCaption": "Gjeje fjalën: tri prova për të gjetur {secret}",
+  "wordExplain": "Prova e parë: F është në vendin e duhur, A dhe L janë në fjalë, por në vende të tjera, N dhe I nuk janë në fjalë. Prova e dytë, DJALI, i ka në vend J, A dhe L. Prova e tretë është e sakta.",
+  "codeCaption": "Thyej kodin: tri prova për të gjetur {secret}",
+  "codeExplain": "Prova e parë: 1 dhe 3 janë në numër, por në vende të tjera, 2 dhe 4 nuk janë. Prova e dytë: 3 dhe 1 janë në vend, 5 dhe 8 janë diku tjetër. Prova e tretë është e sakta.",
+  "repeat": "Shkronjat dhe shifrat e përsëritura numërohen një nga një. Nëse përgjigja ka një A dhe ti shkruan dy, vetëm njëra prej tyre bëhet e gjelbër ose e verdhë."
+ },
+ "daily": {
+  "title": "Lojërat e ditës",
+  "lead": "Çdo ditë ka një numër të ditës dhe një fjalë të ditës në secilën gjuhë. Të gjithë marrin të njëjtën lojë, ndaj rezultatet mund t’i krahasosh me shokët dhe familjen.",
+  "points": [
+   "Numri i ditës ka 4 shifra. Fjala e ditës ka 5 shkronja (në arabisht 4).",
+   "Secila lojë luhet një herë. Të rejat vijnë në mesnatë, sipas orës së telefonit tënd.",
+   "Ndaje rezultatin si katrorë me ngjyra. Shkronjat dhe shifrat mbeten të fshehura, që të mos ia prishësh lojën askujt.",
+   "Çdo lojë e ditës e zgjidhur jep 2 kredite për sugjerime. Ditët radhazi japin shpërblim: +3 pas 3 ditësh, +7 pas 7, +14 pas 14 dhe +30 pas 30."
+  ],
+  "shareTitle": "Një rezultat i ndarë",
+  "shareHead": "🧩 MBG Puzzles – Fjala e ditës #12",
+  "shareLine": "✅ E zgjidha me 3 prova · 🔥 5 ditë radhazi",
+  "shareLegend": "🟩 shkronjë e saktë, në vendin e duhur · 🟨 në fjalë, por në vend tjetër · ⬛ nuk është në fjalë"
+ },
+ "features": {
+  "title": "Çfarë ka aplikacioni",
+  "items": [
+   {
+    "h": "Dhjetë gjuhë",
+    "p": "Ndërro gjuhën kur të duash. Çdo gjuhë ka fjalët dhe shkronjat e veta, ndërsa arabishtja shkon nga e djathta në të majtë."
+   },
+   {
+    "h": "Pa reklama, pa kufi",
+    "p": "Versioni falas nuk ka reklama dhe as blerje. Luaj sa lojëra të duash."
+   },
+   {
+    "h": "Punon pa internet",
+    "p": "Gjithçka ndodh në telefon: në autobus, në aeroplan ose kudo pa sinjal."
+   },
+   {
+    "h": "Sugjerime kur ngec",
+    "p": "Pas provës së tretë, një sugjerim hap një shkronjë ose shifër. Çdo ditë merr 10 kredite falas për sugjerime."
+   },
+   {
+    "h": "Statistika",
+    "p": "Lojërat e luajtura, fitoret, seritë, mesatarja e provave dhe fitorja më e shpejtë, për çdo gjatësi dhe gjuhë."
+   },
+   {
+    "h": "Lehtë për t’u lexuar",
+    "p": "Pllaka të mëdha, shkronjat Atkinson Hyperlegible të krijuara për lexuesit me shikim të dobët, madhësi teksti që ndryshon dhe gjashtë sfonde."
+   },
+   {
+    "h": "Tingujt e tasteve",
+    "p": "Po të duash, çdo shifër dhe shkronjë bën bip si tastet e një telefoni të vjetër me butona."
+   },
+   {
+    "h": "Kalo në telefon të ri",
+    "p": "Një kod i vetëm i çon emrat, pikët dhe statistikat në telefonin e ri. Pa llogari."
+   },
+   {
+    "h": "Privatësi",
+    "p": "Pa llogari, pa reklama, pa gjurmim. Çfarë shkruan mbetet në telefonin tënd."
+   }
+  ]
+ },
+ "audience": {
+  "title": "Për kë është",
+  "items": [
+   {
+    "h": "Fëmijë dhe nxënës nga 9 vjeç",
+    "p": "Mendim logjik, drejtshkrim, kujtesë dhe përqendrim, në lojëra të shkurtra me një fund të qartë."
+   },
+   {
+    "h": "Të rriturit",
+    "p": "Gjimnastikë e shpejtë për trurin rrugës për në punë ose në pushim, dhe një alternativë e shahut kur ke vetëm pak minuta."
+   },
+   {
+    "h": "Kush mëson gjuhë të huaja",
+    "p": "Ushtro fjalët e gjuhës që po mëson: anglisht, gjermanisht, spanjisht, frëngjisht, turqisht, arabisht e të tjera."
+   },
+   {
+    "h": "Familje dhe klasa",
+    "p": "E njëjta lojë e ditës për të gjithë bëhet një garë miqësore çdo ditë, në shtëpi ose në shkollë."
+   }
+  ],
+  "calm": "E qetë që në krijim: pa reklama dhe pa chat. Kohë para ekranit, e qetë dhe e përqendruar."
+ },
+ "languages": {
+  "title": "Dhjetë gjuhë",
+  "intro": "Çdo gjuhë ka listën e vet me fjalë të përditshme për lojërat normale dhe një fjalor të madh për nivelin Ekspert.",
+  "cols": [
+   "Gjuha",
+   "Thyej kodin",
+   "Gjeje fjalën",
+   "Fjalë të përditshme",
+   "Fjalë të pranuara",
+   "Shkronja të veta"
+  ],
+  "note": "Në spanjisht, frëngjisht dhe portugalisht theksat nuk janë të detyrueshme: árbol luhet si ARBOL. Pllakat në arabisht lexohen nga e djathta në të majtë."
+ },
+ "faq": {
+  "title": "Pyetje dhe përgjigje",
+  "items": [
+   {
+    "q": "Çfarë është MBG Puzzles?",
+    "a": "Një aplikacion falas për Android me dy lojëra për trurin: Thyej kodin, një lojë me numra, dhe Gjeje fjalën, një lojë me fjalë. Të dyja janë në dhjetë gjuhë dhe japin ndihma me ngjyra pas çdo prove."
+   },
+   {
+    "q": "A është vërtet falas?",
+    "a": "Po. Versioni falas nuk ka reklama, nuk ka blerje dhe nuk ka kufi se sa lojëra luan."
+   },
+   {
+    "q": "Ku mund ta shkarkoj?",
+    "a_soon": "MBG Puzzles vjen së shpejti në Google Play, për telefona dhe tableta Android. Version për iPhone nuk ka ende.",
+    "a_live": "Në [Google Play](play), për telefona dhe tableta Android. Version për iPhone nuk ka ende."
+   },
+   {
+    "q": "A është Gjeje fjalën si Wordle?",
+    "a": "Ideja është e njëjtë: gjen një fjalë dhe merr ndihma të gjelbra, të verdha dhe gri. Ndryshimet janë fjalët me 4 deri në 8 shkronja, dhjetë gjuhë mes të cilave shqipja, sa lojëra të duash, niveli Ekspert, sugjerimet dhe fjala e ditës në çdo gjuhë."
+   },
+   {
+    "q": "A është Thyej kodin si Mastermind ose Bulls and Cows?",
+    "a": "Po, është e njëjta ide klasike e thyerjes së kodit, me numra. Këtu çdo shifër merr ndihmën e vet në vendin e vet, ndaj mësohet më lehtë. Numri i fshehtë ka 4 deri në 8 shifra dhe shifrat mund të përsëriten."
+   },
+   {
+    "q": "A ka lojë fjalësh në shqip?",
+    "a": "Po. Gjeje fjalën ka mbi 9,000 fjalë të përditshme shqipe dhe mbi 90,000 fjalë nga fjalori, me ë dhe ç si shkronja më vete. Loja është edhe në anglisht, boshnjakisht, gjermanisht, spanjisht, frëngjisht, turqisht, polonisht, portugalisht dhe arabisht."
+   },
+   {
+    "q": "A është e përshtatshme për fëmijë?",
+    "a": "Po, nga rreth 9 vjeç. Nuk ka reklama, chat apo lidhje me rrjete sociale, dhe asgjë për lojtarin nuk del nga telefoni."
+   },
+   {
+    "q": "A duhet interneti?",
+    "a": "Jo. Të dyja lojërat dhe lojërat e ditës punojnë pa internet."
+   },
+   {
+    "q": "Si funksionojnë sugjerimet?",
+    "a": "Pas provës së tretë, një sugjerim hap një shkronjë ose shifër në një vend që nuk e ke gjetur ende. Një sugjerim kushton 1 kredit dhe në pikë numërohet si 2 prova më shumë. Çdo ditë merr 10 kredite falas (deri në 50 në javë), dhe çdo lojë e ditës e zgjidhur jep edhe 2 të tjera."
+   },
+   {
+    "q": "Çfarë të dhënash mbledh aplikacioni?",
+    "a": "Asnjë. Nuk ka llogari, reklama apo analitikë. Emrat, pikët dhe cilësimet mbeten në telefonin tënd. Lexo [politikën e privatësisë](privacy).",
+    "a_world": "Asnjë, përveç nëse hyn vetë në listën botërore të 20 më të mirëve (nga 13 vjeç), ku shfaqen emri i lojtarit, shteti dhe pikët më të mira. Nuk ka llogari, reklama apo analitikë. Lexo [politikën e privatësisë](privacy)."
+   },
+   {
+    "q": "Kush e bën MBG Puzzles?",
+    "a": "MBG – Merkur Beqiri Games, lojërat e zhvilluesit të pavarur Merkur Beqiri. MBG ka bazën në Kosovë dhe vepron në mbarë botën: lojërat janë bërë për lojtarë kudo, në dhjetë gjuhë. Pyetjet dhe idetë janë të mirëseardhura me [telefon](tel), në [WhatsApp](whatsapp) ose me [e-mail](mailto)."
+   }
+  ]
+ },
+ "cta": {
+  "title": "Dy lojëra në xhepin tënd",
+  "soon": "MBG Puzzles vjen së shpejti në Google Play. Më shkruaj dhe të njoftoj kur të dalë.",
+  "live": "Falas në Google Play, për telefona dhe tableta Android."
+ },
+ "contact": {
+  "title": "Pyetje apo ide?",
+  "text": "Më shkruaj – e lexoj çdo mesazh.",
+  "email": "E-mail",
+  "whatsapp": "WhatsApp",
+  "phone": "Telefoni",
+  "waAction": "Dërgo një mesazh",
+  "waMessage": "Përshëndetje, ju gjeta në faqen e internetit të MBG Puzzles:\n{url}\nKam një koment / pyetje për ju:\n"
+ },
+ "footer": {
+  "privacy": "Politika e privatësisë",
+  "tm": "Wordle është markë tregtare e The New York Times Company dhe Mastermind markë e pronarit të vet; MBG Puzzles nuk ka lidhje me ta. Google Play është markë tregtare e Google LLC.",
+  "fonts": "Shkronjat: Atkinson Hyperlegible, Unbounded, Noto Kufi Arabic dhe Noto Sans Arabic (SIL Open Font License).",
+  "based": "Me bazë në Kosovë, vepron në mbarë botën"
+ }
+}

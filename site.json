@@ -1,0 +1,22 @@
+{
+  "_help": "Settings of the MBG Puzzles website. Change a value, save, and the site is built again on GitHub. See README.md.",
+
+  "playStatus": "soon",
+  "_playStatus": "soon = 'Coming soon to Google Play' · live = a download button and the Google Play link everywhere",
+
+  "playUrl": "https://play.google.com/store/apps/details?id=com.mbggames.puzzles",
+  "edition": "free",
+  "_edition": "free = 'Free · no ads · no limits'. Do not switch to paid here before the texts in content/*.json are updated for the paid edition.",
+
+  "worldList": false,
+  "_worldList": "true once the world top 20 server is online (then the privacy answer mentions it)",
+
+  "email": "merkur@gmail.com",
+  "whatsapp": "38349311911",
+  "phone": "+383 49 311 911",
+
+  "siteUrl": "https://mbggames.github.io",
+  "_siteUrl": "Only used when you build by hand. On GitHub the address is filled in automatically.",
+
+  "indexNowKey": "77c4ab46394cfadf721d64a6e6a070e4"
+}

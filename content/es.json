@@ -1,0 +1,282 @@
+{
+ "lang": "es",
+ "hreflang": "es",
+ "dir": "ltr",
+ "ogLocale": "es_ES",
+ "meta": {
+  "title": "MBG Puzzles – Descifra el código y Adivina la palabra: juegos de lógica gratis en 10 idiomas",
+  "description": "Dos juegos de lógica gratis para Android: Descifra el código (encuentra el número secreto) y Adivina la palabra (encuentra la palabra secreta, de 4 a 8 letras). En español y 9 idiomas más, sin anuncios, sin conexión.",
+  "keywords": "juego de palabras en español, adivina la palabra, juegos de lógica, juegos para el cerebro, juego de números, palabra del día, Wordle en español, Mastermind con números, picas y fijas, descifra el código, juegos gratis sin anuncios, juegos para niños, Android, sin conexión"
+ },
+ "ui": {
+  "skip": "Saltar al contenido",
+  "nav": {
+   "games": "Juegos",
+   "clues": "Cómo se juega",
+   "daily": "Retos del día",
+   "languages": "Idiomas",
+   "faq": "Preguntas"
+  },
+  "langMenu": "Idioma",
+  "otherLangs": "Esta página en otros idiomas"
+ },
+ "hero": {
+  "eyebrow": "Gratis · sin anuncios · sin límites",
+  "h1": "Un juego de palabras y un juego de números, en diez idiomas",
+  "lead": "MBG Puzzles es una app gratis para Android con dos juegos de lógica. En Descifra el código buscas un número secreto y en Adivina la palabra, una palabra secreta. Cada intento recibe pistas de colores. Juega en español, inglés, albanés, bosnio, alemán, francés, turco, polaco, portugués o árabe.",
+  "soon": "Muy pronto en Google Play",
+  "soonNote": "Para teléfonos y tabletas Android.",
+  "live": "Descárgala en Google Play",
+  "liveNote": "Gratis para teléfonos y tabletas Android.",
+  "secondary": "Cómo se juega",
+  "boardWord": "Adivina la palabra, una partida de ejemplo",
+  "boardCode": "Descifra el código, una partida de ejemplo"
+ },
+ "glance": {
+  "title": "De un vistazo",
+  "items": [
+   [
+    "Juegos",
+    "Descifra el código (números) y Adivina la palabra (palabras)"
+   ],
+   [
+    "Precio",
+    "Gratis: sin anuncios, sin compras, sin límites"
+   ],
+   [
+    "Dispositivo",
+    "Teléfonos y tabletas Android, en Google Play"
+   ],
+   [
+    "Idiomas",
+    "Español, inglés, albanés, bosnio, alemán, francés, turco, polaco, portugués (Brasil), árabe"
+   ],
+   [
+    "Palabras",
+    "75.000 palabras cotidianas como palabras secretas y más de 1,5 millones de palabras aceptadas"
+   ],
+   [
+    "Edad",
+    "Desde unos 9 años: niños, estudiantes y adultos"
+   ],
+   [
+    "Internet",
+    "No hace falta. Los dos juegos funcionan sin conexión"
+   ],
+   [
+    "Cuenta",
+    "Ninguna. Los nombres y puntos se quedan en el teléfono"
+   ],
+   [
+    "Creado por",
+    "MBG – Merkur Beqiri Games, con sede en Kosovo, activo en todo el mundo"
+   ]
+  ]
+ },
+ "games": {
+  "title": "Dos juegos, una app",
+  "intro": "Los dos juegos usan las mismas pistas de colores: si sabes jugar a uno, sabes jugar al otro.",
+  "code": {
+   "name": "Descifra el código",
+   "tag": "Encuentra el número secreto",
+   "text": "La app elige un número secreto de 4 a 8 cifras. Las cifras se pueden repetir y el número puede empezar por 0, así que un número de 4 cifras es uno entre 10.000, y uno de 8 cifras, uno entre 100 millones. Escribe un número del mismo largo y cada cifra recibe una pista.",
+   "facts": [
+    "4, 5, 6, 7 u 8 cifras",
+    "Las cifras se pueden repetir",
+    "Teclado numérico mientras adivinas",
+    "El clásico juego de descifrar códigos, de la familia de Picas y Fijas"
+   ]
+  },
+  "word": {
+   "name": "Adivina la palabra",
+   "tag": "Encuentra la palabra secreta",
+   "text": "La app elige una palabra secreta de 4 a 8 letras en el idioma en que juegas. Escribe una palabra del mismo largo y cada letra recibe una pista. El nivel normal usa palabras cotidianas; el nivel Experto ⭐ elige del diccionario completo.",
+   "facts": [
+    "4, 5, 6, 7 u 8 letras",
+    "Diez idiomas, cada uno con sus letras (ñ, ç, ë …)",
+    "Nivel normal y nivel Experto ⭐",
+    "Todas las partidas que quieras, no solo una al día"
+   ]
+  }
+ },
+ "clues": {
+  "title": "Cómo funcionan las pistas",
+  "intro": "Después de cada intento, cada letra o cifra recibe un color.",
+  "legend": {
+   "O": "Verde: letra o cifra correcta, en su sitio",
+   "?": "Amarillo: está en la respuesta, pero en otro sitio",
+   "X": "Gris: no está en la respuesta"
+  },
+  "short": {
+   "O": "en su sitio",
+   "?": "en otro sitio",
+   "X": "no está"
+  },
+  "wordCaption": "Adivina la palabra: tres intentos para encontrar {secret}",
+  "wordExplain": "Primer intento: la A está en su sitio, la L y la I están en la palabra pero en otro sitio, y la C y la M no están. El segundo intento, LINCE, acierta la L, la I y la N. El tercero es el correcto.",
+  "codeCaption": "Descifra el código: tres intentos para encontrar {secret}",
+  "codeExplain": "Primer intento: el 1 y el 3 están en el número pero en otro sitio, el 2 y el 4 no están. Segundo intento: el 3 y el 1 están en su sitio, el 5 y el 8 van en otro lugar. El tercero es el correcto.",
+  "repeat": "Las letras y cifras repetidas se cuentan una a una. Si la respuesta tiene una sola A y escribes dos, solo una de ellas sale verde o amarilla."
+ },
+ "daily": {
+  "title": "Retos del día",
+  "lead": "Cada día hay un número del día y una palabra del día en cada idioma. Todo el mundo recibe el mismo reto, así que puedes comparar resultados con tus amigos y tu familia.",
+  "points": [
+   "El número del día tiene 4 cifras. La palabra del día tiene 5 letras (4 en árabe).",
+   "Cada reto se juega una vez. Los nuevos llegan a medianoche, según la hora de tu teléfono.",
+   "Comparte tu resultado como cuadrados de colores. Las letras y cifras quedan ocultas, así no le arruinas el reto a nadie.",
+   "Cada reto resuelto da 2 créditos de pistas. Los días seguidos dan un extra: +3 a los 3 días, +7 a los 7, +14 a los 14 y +30 a los 30."
+  ],
+  "shareTitle": "Un resultado compartido",
+  "shareHead": "🧩 MBG Puzzles – Palabra del día #12",
+  "shareLine": "✅ Lo resolví en 3 intentos · 🔥 5 días seguidos",
+  "shareLegend": "🟩 letra correcta en su sitio · 🟨 está en la palabra, pero en otro sitio · ⬛ no está en la palabra"
+ },
+ "features": {
+  "title": "Qué trae la app",
+  "items": [
+   {
+    "h": "Diez idiomas",
+    "p": "Cambia cuando quieras. Cada idioma tiene sus propias palabras y letras, y el árabe va de derecha a izquierda."
+   },
+   {
+    "h": "Sin anuncios, sin límites",
+    "p": "La versión gratis no tiene anuncios ni compras. Juega todas las partidas que quieras."
+   },
+   {
+    "h": "Funciona sin conexión",
+    "p": "Todo funciona en el teléfono: en el autobús, en el avión o donde no haya señal."
+   },
+   {
+    "h": "Pistas cuando te atascas",
+    "p": "Después del tercer intento, una pista descubre una letra o cifra. Cada día recibes 10 créditos de pistas gratis."
+   },
+   {
+    "h": "Estadísticas",
+    "p": "Partidas jugadas, victorias, rachas, media de intentos y tu victoria más rápida, para cada largo e idioma."
+   },
+   {
+    "h": "Fácil de leer",
+    "p": "Fichas grandes, la letra Atkinson Hyperlegible creada para personas con baja visión, tamaño de texto ajustable y seis fondos."
+   },
+   {
+    "h": "Sonido de las teclas",
+    "p": "Si quieres, cada cifra y letra suena como una tecla de un viejo teléfono de botones."
+   },
+   {
+    "h": "Pasa a un teléfono nuevo",
+    "p": "Un código lleva tus nombres, puntos y estadísticas al teléfono nuevo. Sin cuenta."
+   },
+   {
+    "h": "Privada",
+    "p": "Sin cuenta, sin anuncios, sin rastreo. Lo que escribes se queda en tu teléfono."
+   }
+  ]
+ },
+ "audience": {
+  "title": "Para quién es",
+  "items": [
+   {
+    "h": "Niños y estudiantes desde 9 años",
+    "p": "Pensamiento lógico, ortografía, memoria y concentración, en partidas cortas con un final claro."
+   },
+   {
+    "h": "Adultos",
+    "p": "Gimnasia rápida para el cerebro en el transporte o en un descanso, y una alternativa al ajedrez cuando solo hay unos minutos."
+   },
+   {
+    "h": "Quienes aprenden idiomas",
+    "p": "Practica las palabras del idioma que estás aprendiendo: inglés, francés, alemán, portugués, turco, árabe y más."
+   },
+   {
+    "h": "Familias y clases",
+    "p": "El mismo reto del día para todos se convierte en una competencia amistosa diaria, en casa o en el colegio."
+   }
+  ],
+  "calm": "Tranquila por diseño: sin anuncios y sin chat. Un tiempo de pantalla calmado y concentrado."
+ },
+ "languages": {
+  "title": "Diez idiomas",
+  "intro": "Cada idioma tiene su propia lista de palabras cotidianas para las partidas normales y un gran diccionario para el nivel Experto.",
+  "cols": [
+   "Idioma",
+   "Descifra el código",
+   "Adivina la palabra",
+   "Palabras cotidianas",
+   "Palabras aceptadas",
+   "Letras propias"
+  ],
+  "note": "En español, francés y portugués las tildes son opcionales: árbol se juega como ARBOL. Las fichas en árabe se leen de derecha a izquierda."
+ },
+ "faq": {
+  "title": "Preguntas frecuentes",
+  "items": [
+   {
+    "q": "¿Qué es MBG Puzzles?",
+    "a": "Una app gratis para Android con dos juegos para el cerebro: Descifra el código, un juego de adivinar números, y Adivina la palabra, un juego de adivinar palabras. Los dos están en diez idiomas y dan pistas de colores después de cada intento."
+   },
+   {
+    "q": "¿De verdad es gratis?",
+    "a": "Sí. La versión gratis no tiene anuncios, ni compras, ni límite de partidas."
+   },
+   {
+    "q": "¿Dónde la descargo?",
+    "a_soon": "MBG Puzzles llega muy pronto a Google Play, para teléfonos y tabletas Android. Todavía no hay versión para iPhone.",
+    "a_live": "En [Google Play](play), para teléfonos y tabletas Android. Todavía no hay versión para iPhone."
+   },
+   {
+    "q": "¿Adivina la palabra es como Wordle?",
+    "a": "La idea es la misma: adivinas una palabra y recibes pistas verdes, amarillas y grises. Las diferencias son palabras de 4 a 8 letras, diez idiomas, partidas ilimitadas, un nivel Experto, pistas de ayuda y una palabra del día en cada idioma."
+   },
+   {
+    "q": "¿Descifra el código es como Mastermind o Picas y Fijas?",
+    "a": "Sí, es la misma idea clásica de descifrar un código, con números. Aquí cada cifra recibe su propia pista en su propio sitio, por eso se aprende más fácil. El número secreto tiene de 4 a 8 cifras y las cifras se pueden repetir."
+   },
+   {
+    "q": "¿Hay un juego de palabras en español?",
+    "a": "Sí. Adivina la palabra tiene más de 7.500 palabras cotidianas en español y más de 74.000 palabras aceptadas. La ñ es una letra propia y las tildes son opcionales: árbol se juega como ARBOL."
+   },
+   {
+    "q": "¿Es apta para niños?",
+    "a": "Sí, desde unos 9 años. No hay anuncios, ni chat, ni enlaces a redes sociales, y nada sobre el jugador sale del teléfono."
+   },
+   {
+    "q": "¿Necesita internet?",
+    "a": "No. Los dos juegos y los retos del día funcionan sin conexión."
+   },
+   {
+    "q": "¿Cómo funcionan las pistas de ayuda?",
+    "a": "Después del tercer intento, una pista descubre una letra o cifra en un sitio que aún no has encontrado. Una pista cuesta 1 crédito y cuenta como 2 intentos más en la puntuación. Recibes 10 créditos gratis al día (hasta 50 por semana), y cada reto del día resuelto te da 2 más."
+   },
+   {
+    "q": "¿Qué datos recoge la app?",
+    "a": "Ninguno. No hay cuenta, ni publicidad, ni analítica. Los nombres, puntos y ajustes se quedan en tu teléfono. Lee la [política de privacidad](privacy).",
+    "a_world": "Ninguno, salvo que te unas tú mismo al top 20 mundial (desde 13 años), que muestra tu nombre de jugador, tu país y tus mejores puntos. No hay cuenta, ni publicidad, ni analítica. Lee la [política de privacidad](privacy)."
+   },
+   {
+    "q": "¿Quién hace MBG Puzzles?",
+    "a": "MBG – Merkur Beqiri Games, los juegos del desarrollador independiente Merkur Beqiri. MBG tiene su sede en Kosovo y trabaja para todo el mundo: los juegos están hechos para jugadores de cualquier lugar, en diez idiomas. Las preguntas e ideas son bienvenidas por [teléfono](tel), [WhatsApp](whatsapp) o [correo](mailto)."
+   }
+  ]
+ },
+ "cta": {
+  "title": "Dos juegos en tu bolsillo",
+  "soon": "MBG Puzzles llega muy pronto a Google Play. Escríbeme y te aviso cuando salga.",
+  "live": "Gratis en Google Play, para teléfonos y tabletas Android."
+ },
+ "contact": {
+  "title": "¿Preguntas o ideas?",
+  "text": "Escríbeme: leo todos los mensajes.",
+  "email": "Correo",
+  "whatsapp": "WhatsApp",
+  "phone": "Teléfono",
+  "waAction": "Enviar un mensaje",
+  "waMessage": "Hola, encontré la web de MBG Puzzles:\n{url}\nTengo un comentario / una pregunta:\n"
+ },
+ "footer": {
+  "privacy": "Política de privacidad",
+  "tm": "Wordle es una marca de The New York Times Company y Mastermind, una marca de su titular; MBG Puzzles no tiene relación con ellos. Google Play es una marca de Google LLC.",
+  "fonts": "Tipografías: Atkinson Hyperlegible, Unbounded, Noto Kufi Arabic y Noto Sans Arabic (SIL Open Font License).",
+  "based": "Con sede en Kosovo, activo en todo el mundo"
+ }
+}
