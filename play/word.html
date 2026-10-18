@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Word Puzzle · MBG Puzzles</title>
+<meta name="theme-color" content="#E6EBEF">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="icons/favicon.png" type="image/png">
+<link rel="preload" href="fonts/AtkinsonHyperlegibleMono-Bold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/game.css">
+<link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="css/preview.css">
+</head>
+<body>
+<div class="app" id="app">
+  <header class="topbar">
+    <button type="button" class="brand homebtn" id="btnHome">
+      <svg class="back" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+      <span class="mark" aria-hidden="true"><span class="mt o">M</span><span class="mt q">B</span><span class="mt x">G</span></span>
+      <span class="brandtext">
+        <span class="appname" id="appName"></span>
+        <span class="appby" id="appBy"></span>
+      </span>
+    </button>
+    <div class="tools">
+      <button type="button" class="ib" id="btnLang"></button>
+      <button type="button" class="ib" id="btnHelp">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.4 9.3a2.7 2.7 0 0 1 5.2.9c0 1.9-2.6 2.2-2.6 4.1"/><path d="M12 17.4v.2"/></svg>
+      </button>
+      <button type="button" class="ib" id="btnSettings">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="status" id="status">
+    <button type="button" class="pill user" id="btnUser">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.4-3.6 4.4-5.5 8-5.5s6.6 1.9 8 5.5"/></svg>
+      <span class="pill-text" id="stUser"></span>
+    </button>
+    <span class="st st-time">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/></svg>
+      <span id="stTime"></span>
+    </span>
+    <span class="grow"></span>
+    <button type="button" class="pill len" id="btnLength" aria-haspopup="dialog">
+      <span class="pill-text" id="lenLabel"></span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5"/></svg>
+    </button>
+  </div>
+
+  <section class="boardcard" id="boardcard">
+    <main class="history" id="history" aria-label="Game board" tabindex="-1">
+      <div class="watermark" aria-hidden="true">
+        <div class="mark big"><span class="mt o">M</span><span class="mt q">B</span><span class="mt x">G</span></div>
+        <span class="wm-name" id="wmName"></span>
+        <span class="wm-by" id="wmBy"></span>
+      </div>
+      <div class="log" id="log" aria-live="polite" aria-relevant="additions"></div>
+    </main>
+    <!-- the word being typed: pinned to the bottom of the board, right above the input,
+         so it stays in view when a phone keyboard covers the lower half of the screen -->
+    <div class="guess preview" id="preview" aria-hidden="true" hidden></div>
+  </section>
+
+  <form id="entryForm" autocomplete="off" novalidate>
+    <label id="promptLabel" class="sr-only" for="guess"></label>
+    <!-- the latest try with its colours, right above the input (in view with the keyboard open) -->
+    <div class="lasttry" id="lastTry" aria-hidden="true" hidden></div>
+    <div class="entryrow">
+      <div class="field">
+        <input id="guess" name="guess" type="text" inputmode="text" autocomplete="off" autocorrect="off"
+               autocapitalize="none" spellcheck="false" enterkeyhint="go" maxlength="40">
+        <span class="counter" id="counter" aria-hidden="true"></span>
+      </div>
+      <button type="button" class="hintbtn" id="btnHint" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.7.6 1.1 1.4 1.1 2.2h5c0-.8.4-1.6 1.1-2.2A6 6 0 0 0 12 3z"/><path d="M12 7.5v3"/><path d="M12 12.6v.1"/></svg>
+        <span class="hb-badge" id="hintBadge" hidden></span>
+      </button>
+    </div>
+    <p class="hint" id="hint" role="status" aria-live="polite" hidden></p>
+  </form>
+
+  <footer class="actions">
+    <button type="button" class="btn reveal" id="btnReveal"></button>
+    <span class="grow"></span>
+    <button type="button" class="btn quit" id="btnQuit"></button>
+    <button type="submit" class="btn submit" id="btnSubmit" form="entryForm"></button>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<dialog class="dlg" id="dlgConfirm" aria-labelledby="cfTitle">
+  <form method="dialog" class="dlg-body">
+    <h2 id="cfTitle"></h2>
+    <p id="cfText"></p>
+    <div class="dlg-actions">
+      <button value="cancel" class="btn ghost" id="cfCancel"></button>
+      <button value="ok" class="btn submit" id="cfOk"></button>
+    </div>
+  </form>
+</dialog>
+
+<dialog class="dlg" id="dlgLogin" aria-labelledby="lgTitle">
+  <div class="dlg-body">
+    <h2 id="lgTitle"></h2>
+    <p class="muted" id="lgLede"></p>
+    <div class="saved" id="lgSavedWrap" hidden>
+      <span class="fieldlabel" id="lgSavedLabel"></span>
+      <div class="saved-list" id="lgSaved"></div>
+    </div>
+    <label class="fieldlabel" id="lgLabel" for="lgName"></label>
+    <input id="lgName" class="textfield" type="text" autocomplete="username" autocapitalize="words" spellcheck="false" maxlength="20" enterkeyhint="go">
+    <p class="hint" id="lgMsg" role="status" aria-live="polite" hidden></p>
+    <div class="dlg-actions">
+      <button type="button" class="btn ghost" id="lgCancel"></button>
+      <button type="button" class="btn submit" id="lgSubmit"></button>
+    </div>
+    <button type="button" class="linkbtn" id="lgAlt"></button>
+  </div>
+</dialog>
+
+<dialog class="dlg" id="dlgAccount" aria-labelledby="acName">
+  <div class="dlg-body">
+    <h2 id="acName"></h2>
+    <p class="muted" id="acBest"></p>
+    <div class="dlg-actions">
+      <button type="button" class="btn ghost" id="acClose"></button>
+      <button type="button" class="btn submit" id="acLogout"></button>
+    </div>
+  </div>
+</dialog>
+
+<dialog class="dlg sheet" id="dlgSettings" aria-labelledby="setTitle">
+  <div class="sheet-head">
+    <h2 id="setTitle"></h2>
+    <form method="dialog"><button class="btn ghost small" id="setClose" value="close"></button></form>
+  </div>
+  <div class="sheet-scroll settings">
+    <button type="button" class="srow srow-btn srow-plan" id="btnPlan">
+      <span class="srow-label">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/></svg>
+        <span class="lbl"></span>
+      </span>
+      <span class="srow-value" id="planVal"></span>
+    </button>
+    <button type="button" class="srow srow-btn" id="btnCredits">
+      <span class="srow-label"><span aria-hidden="true">💡</span> <span class="lbl"></span></span>
+      <span class="srow-value" id="creditsVal"></span>
+    </button>
+    <button type="button" class="srow srow-btn" id="btnWorld" hidden>
+      <span class="srow-label"><span aria-hidden="true">🏆</span> <span class="lbl"></span></span>
+      <span class="srow-value" id="worldVal"></span>
+    </button>
+    <button type="button" class="srow srow-btn" id="btnStats">
+      <span class="srow-label"><span aria-hidden="true">📊</span> <span class="lbl"></span></span>
+      <span class="srow-value"></span>
+    </button>
+    <button type="button" class="srow srow-btn" id="btnMove">
+      <span class="srow-label"><span aria-hidden="true">📲</span> <span class="lbl"></span></span>
+      <span class="srow-value"></span>
+    </button>
+    <div class="srow">
+      <span class="srow-label" id="lblSound"></span>
+      <button type="button" class="switch" id="swSound" role="switch" aria-labelledby="lblSound"><span class="knob"></span></button>
+    </div>
+    <div class="srow srow-pool srow-keys">
+      <span class="srow-label"><span id="lblKeys"></span><small id="hintKeys"></small></span>
+      <span class="seg" role="radiogroup" aria-labelledby="lblKeys">
+        <button type="button" class="seg-btn" id="keysPhone" role="radio"></button>
+        <button type="button" class="seg-btn" id="keysSame" role="radio"></button>
+        <button type="button" class="seg-btn" id="keysOff" role="radio"></button>
+      </span>
+    </div>
+    <button type="button" class="srow srow-btn" id="btnTheme">
+      <span class="srow-label">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" class="fill"/></svg>
+        <span class="lbl"></span>
+      </span>
+      <span class="srow-value" id="themeName"></span>
+    </button>
+    <div class="srow">
+      <span class="srow-label" id="lblFont"></span>
+      <span class="stepper">
+        <button type="button" class="ib font" id="btnFontDown">A−</button>
+        <span class="stepper-val" id="fontVal"></span>
+        <button type="button" class="ib font" id="btnFontUp">A+</button>
+      </span>
+    </div>
+    <label class="srow opt" for="optValidate">
+      <span class="srow-label"><span id="lblValidate"></span><small id="hintValidate"></small></span>
+      <input type="checkbox" id="optValidate">
+    </label>
+    <div class="srow srow-pool">
+      <span class="srow-label"><span id="lblPool"></span><small id="hintPool"></small></span>
+      <span class="seg" role="radiogroup" aria-labelledby="lblPool">
+        <button type="button" class="seg-btn" id="poolEveryday" role="radio"></button>
+        <button type="button" class="seg-btn" id="poolAll" role="radio"></button>
+      </span>
+    </div>
+  </div>
+</dialog>
+
+<dialog class="dlg sheet" id="dlgHelp" aria-labelledby="helpTitle">
+  <div class="sheet-head">
+    <h2 id="helpTitle"></h2>
+    <form method="dialog"><button class="btn ghost small" id="helpClose" value="close"></button></form>
+  </div>
+  <div class="sheet-scroll" id="helpBody"></div>
+  <label class="sheet-foot intro-opt" for="optIntro"><input type="checkbox" id="optIntro"> <span id="lblIntro"></span></label>
+</dialog>
+
+<dialog class="dlg sheet" id="dlgWheel" aria-labelledby="wheelTitle">
+  <div class="sheet-head">
+    <h2 id="wheelTitle"></h2>
+  </div>
+  <div class="wheel-wrap">
+    <div class="wheel-band" aria-hidden="true"></div>
+    <div class="wheel" id="wheel" role="listbox" tabindex="0" aria-labelledby="wheelTitle"></div>
+  </div>
+  <div class="wheel-level">
+    <span class="wl-title" id="levelTitle"></span>
+    <div class="seg" role="radiogroup" aria-labelledby="levelTitle">
+      <button type="button" class="seg-btn" id="levelNormal" role="radio"></button>
+      <button type="button" class="seg-btn" id="levelExpert" role="radio"></button>
+    </div>
+    <p class="muted" id="levelHint"></p>
+  </div>
+  <form method="dialog" class="dlg-actions">
+    <button value="cancel" class="btn ghost" id="wheelCancel"></button>
+    <button value="ok" class="btn submit" id="wheelDone"></button>
+  </form>
+</dialog>
+
+<div class="goodbye" id="goodbye" hidden>
+  <div class="gb-inner">
+    <div class="gb-mark" aria-hidden="true"><span class="mt o">M</span><span class="mt q">B</span><span class="mt x">G</span></div>
+    <h2 id="gbTitle"></h2>
+    <p id="gbText"></p>
+    <p class="gb-sign" id="gbSign"></p>
+    <p class="gb-close" id="gbClose"></p>
+    <button type="button" class="btn submit" id="gbAgain"></button>
+  </div>
+</div>
+
+<noscript><p class="noscript">MBG Puzzles needs JavaScript. Please enable it in your browser settings.</p></noscript>
+<script src="js/app/edition.js"></script>
+<script src="js/vendor/capacitor.js"></script>
+<script src="js/vendor/capacitor-app.js"></script>
+<script src="js/vendor/native-purchases.js"></script>
+<script src="js/app/i18n-app.js"></script>
+<script src="js/app/access.js"></script>
+<script src="js/app/app.js"></script>
+<script src="js/app/flags.js"></script>
+<script src="js/app/langmenu.js"></script>
+<script src="js/app/billing.js"></script>
+<script src="js/app/paywall.js"></script>
+<script src="js/app/preview.js"></script>
+<script src="js/app/credits.js"></script>
+<script src="js/app/countries.js"></script>
+<script src="js/app/world.js"></script>
+<script src="js/shared/stats.js"></script>
+<script src="js/shared/daily.js"></script>
+<script src="js/app/daily-words.js"></script>
+<script src="js/app/transfer.js"></script>
+<script src="js/app/sheets.js"></script>
+<script src="js/word/config.js"></script>
+<script src="js/word/i18n.js"></script>
+<script src="js/word/engine.js"></script>
+<script src="js/shared/storage.js"></script>
+<script src="js/word/vocabulary.js"></script>
+<script src="js/word/words-embedded.js"></script>
+<script src="js/shared/audio.js"></script>
+<script src="js/word/controller.js"></script>
+<script src="js/word/ui.js"></script>
+</body>
+</html>

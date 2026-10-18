@@ -1,0 +1,82 @@
+MBG Puzzles · Word Puzzle - where the word lists come from
+
+The files in this folder and www/js/word/words-embedded.js are lists of words selected
+by tools/build_vocab.py from these sources. Each list keeps the licence of its source.
+
+English (en-dict.txt, en-extra.txt, English everyday words)
+  ENABLE word list - public domain.
+  english-words by dwyl (github.com/dwyl/english-words) - The Unlicense (public domain).
+
+Albanian (sq-dict.txt, sq-extra.txt, Albanian everyday words)
+  Albanian (sq_AL) Hunspell dictionary, LibreOffice dictionaries - GNU General Public
+  License version 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html). These word lists
+  are distributed under the same licence; the lists themselves are their source form.
+
+Bosnian (bs-dict.txt, bs-extra.txt, Bosnian everyday words)
+  Bosnian (bs_BA) Hunspell dictionary, LibreOffice dictionaries - GNU GPL 2.0 or later,
+  GNU LGPL 2.1 or later, or Mozilla Public License 1.1 or later; used here under the
+  Mozilla Public License (https://www.mozilla.org/MPL/).
+  Serbian Latin-script entries of the LibreOffice "sr" dictionary by Milutin Smiljanić,
+  used only after removing ekavian forms, names and blocked words - GNU LGPL 3.0 or later,
+  MPL 2.0 or later, or GNU GPL 3.0 or later; used here under the Mozilla Public License 2.0.
+
+German (de-dict.txt, de-extra.txt, German everyday words)
+  German (de_DE_frami) Hunspell dictionary of LibreOffice, based on igerman98 by Bjoern Jacke,
+  extended by Franz Michael Baumann - GNU General Public License version 2 or 3
+  (https://www.gnu.org/licenses/). These word lists are distributed under the same licence.
+
+Spanish (es-dict.txt, es-extra.txt, Spanish everyday words)
+  Spanish (es_ES) Hunspell dictionary of LibreOffice by Santiago Bosio and the RLA-ES
+  project - GNU GPL 3.0 or later, GNU LGPL 3.0 or later, or Mozilla Public License 1.1 or
+  later; used here under the Mozilla Public License.
+
+French (fr-dict.txt, fr-extra.txt, French everyday words)
+  French Hunspell dictionary of Grammalecte by Olivier R. and contributors
+  (https://grammalecte.net) - Mozilla Public License 2.0.
+
+Turkish (tr-dict.txt, tr-extra.txt, Turkish everyday words)
+  Turkish (tr_TR) Hunspell dictionary by the Turkish Data Depository group
+  (github.com/tdd-ai/hunspell-tr) - Mozilla Public License 2.0.
+  Headwords of the Zemberek lexicon by Ahmet A. Akin and Mehmet D. Akin
+  (github.com/ahmetaa/zemberek-nlp) - Apache License 2.0: used to tell headwords (adam,
+  almak) from inflected forms (adamlar, aldı), and to add common headwords.
+
+Polish (pl-dict.txt, pl-extra.txt, Polish everyday words)
+  Polish (pl_PL) Hunspell dictionary of sjp.pl, LibreOffice dictionaries, maintained by
+  Marek Futrega - GNU GPL, GNU LGPL, Mozilla Public License, Apache License 2.0 or Creative
+  Commons ShareAlike; used here under the Mozilla Public License (https://www.mozilla.org/MPL/).
+
+Portuguese (pt-dict.txt, pt-extra.txt, Portuguese everyday words)
+  Brazilian Portuguese (pt_BR) Hunspell dictionary VERO by Raimundo Santos Moura and team,
+  LibreOffice dictionaries - GNU LGPL 3.0 or Mozilla Public License; used here under the
+  Mozilla Public License.
+  Word classes of the Portuguese (pt_PT) Hunspell dictionary of Projecto Natura, Universidade
+  do Minho (natura.di.uminho.pt) - GNU GPL 2.0, GNU LGPL 2.1 or Mozilla Public License 1.1;
+  used here under the Mozilla Public License: only to tell base words (casa, livro, aceitar)
+  from plurals and verb forms. Every secret word is also a word of the Brazilian dictionary.
+
+Arabic (ar-dict.txt, ar-extra.txt, Arabic everyday words)
+  Arabic Hunspell dictionary of the Ayaspell project (ayaspell.sourceforge.net), LibreOffice
+  dictionaries - GNU GPL 2.0 or later, GNU LGPL 2.1 or later, or Mozilla Public License 1.1.
+  Arramooz, the Arabic dictionary for morphological analysis by Taha Zerrouki
+  (github.com/linuxscout/arramooz) - GNU General Public License: used to tell base words
+  (nouns, their plurals and verbs: كتاب, مدارس, كتب) from forms with endings and clitics,
+  and to add common base words.
+  The Arabic word lists are therefore distributed under the GNU General Public License
+  version 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html).
+
+Accents: in Spanish, French and Portuguese the lists are written without accents (árbol ->
+arbol, école -> ecole, ação -> acao), as the game plays them; German keeps ä, ö, ü and ß,
+Turkish and Polish their own letters. Arabic is written without short vowels and with
+alif instead of alif with hamza or madda (أ إ آ -> ا); ء ؤ ئ ة ى stay letters.
+
+Words that are never secret words (rude words, slurs, drugs, violence) were chosen by hand,
+helped by the List of Dirty, Naughty, Obscene and Otherwise Bad Words (LDNOOBW,
+github.com/LDNOOBW, CC BY 4.0); none of its words are included in the lists.
+
+Choice of everyday (common) words
+  FrequencyWords by Hermit Dave (github.com/hermitdave/FrequencyWords), built from the
+  OpenSubtitles 2018 corpus - content CC BY-SA 4.0. Used only to decide which dictionary
+  words are common; the frequency lists themselves are not included.
+
+Hand-picked lists by MBG - Merkur Beqiri Games.

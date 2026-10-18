@@ -48,6 +48,15 @@ META = {l[0]: dict(code=l[0], native=l[1], english=l[2], folder=l[3], hreflang=l
                    wordName=l[7], everyday=l[8], accepted=l[9], letters=l[10]) for l in LANGS}
 SEP = {'en': ',', 'sq': ',', 'bs': '.', 'de': '.', 'es': '.', 'fr': ' ', 'tr': '.', 'pl': ' ', 'pt': '.', 'ar': ','}
 
+# The web preview of the game (folder play/, switch "webPreview" in site.json): button texts.
+WEB_PREVIEW = {
+    'en': ('Web preview', 'Play in your browser'), 'sq': ('Version prove', 'Luaj në shfletues'),
+    'bs': ('Web verzija za probu', 'Igraj u pregledniku'), 'de': ('Web-Vorschau', 'Im Browser spielen'),
+    'es': ('Vista previa web', 'Jugar en el navegador'), 'fr': ('Aperçu web', 'Jouer dans le navigateur'),
+    'tr': ('Web önizlemesi', 'Tarayıcıda oyna'), 'pl': ('Wersja próbna', 'Graj w przeglądarce'),
+    'pt': ('Prévia na web', 'Jogar no navegador'), 'ar': ('نسخة تجريبية', 'العب في المتصفح'),
+}
+
 ICONS = {
     'globe': '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17"/><path d="M12 3.5c2.4 2.4 3.6 5.2 3.6 8.5s-1.2 6.1-3.6 8.5c-2.4-2.4-3.6-5.2-3.6-8.5S9.6 5.9 12 3.5z"/></svg>',
     'phone': '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="2.8" width="11" height="18.4" rx="2.6"/><path d="M10.5 18h3"/></svg>',
@@ -56,6 +65,7 @@ ICONS = {
     'mail': '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5"/><path d="M4.5 7l7.5 6 7.5-6"/></svg>',
     'call': '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.8h2.6l1.5 4-2 1.3a11 11 0 0 0 6.2 6.2l1.3-2 4 1.5v2.6a2 2 0 0 1-2.1 2A16.5 16.5 0 0 1 4.6 5.9a2 2 0 0 1 2-2.1z"/></svg>',
     'chat': '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 19.5l1.2-3.6A8 8 0 1 1 8.4 18.6z"/></svg>',
+    'play': '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M10.2 8.6v6.8l5.3-3.4z"/></svg>',
     'arrow': '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14"/><path d="M6 13l6 6 6-6"/></svg>',
 }
 
@@ -290,6 +300,14 @@ class Site:
             return f'<a class="store {cls}" href="{esc(self.play_link(code))}">{ICONS["down"]}<span><b>{esc(text)}</b></span></a>'
         return f'<p class="store soon {cls}">{ICONS["clock"]}<span><b>{esc(c["hero"]["soon"])}</b></span></p>'
 
+    def web(self, code):
+        """The "Play in your browser" button (web preview in play/), while it is switched on."""
+        if not self.cfg.get('webPreview', True) or not os.path.isdir(os.path.join(ROOT, 'play')):
+            return ''
+        small, label = WEB_PREVIEW.get(code, WEB_PREVIEW['en'])
+        href = ('' if code == 'en' else '../') + 'play/' + ('index.html' if self.preview else '') + '?lang=' + code
+        return f'<a class="store web" href="{esc(href)}">{ICONS["play"]}<span><small>{esc(small)}</small><b>{esc(label)}</b></span></a>'
+
     def hero(self, code, c):
         h = c['hero']
         ex = self.examples['word'][code]
@@ -301,7 +319,7 @@ class Site:
 <p class="eyebrow">{esc(h['eyebrow'])}</p>
 <h1 id="h1">{esc(h['h1'])}</h1>
 <p class="lead">{esc(h['lead'])}</p>
-<div class="cta-row">{self.store(code, c)}<a class="ghost" href="#how-to-play">{esc(h['secondary'])}{ICONS['arrow']}</a></div>
+<div class="cta-row">{self.web(code)}{self.store(code, c)}<a class="ghost" href="#how-to-play">{esc(h['secondary'])}{ICONS['arrow']}</a></div>
 <p class="cta-note">{esc(note)}</p>
 </div>
 <div class="stage">
@@ -434,7 +452,7 @@ class Site:
 <li><a href="{esc(self.whatsapp(code))}">{ICONS['chat']}<span class="k">{esc(ct['whatsapp'])}</span><span class="v">{esc(ct['waAction'])}</span></a></li>
 <li><a href="{esc(self.mailto(code))}">{ICONS['mail']}<span class="k">{esc(ct['email'])}</span><span class="v ltr">{esc(self.cfg['email'])}</span></a></li>
 </ul></div>
-<div>{self.store(code, c)}</div>
+<div class="cta-stores">{self.web(code)}{self.store(code, c)}</div>
 </div></section>'''
 
     def footer(self, code, c, rel):
@@ -500,6 +518,8 @@ class Site:
         for o in CODES:
             out.append(f'  <url>\n    <loc>{esc(self.page_url(o))}</loc>\n    <lastmod>{self.today}</lastmod>'
                        f'\n    <priority>{"1.0" if o == "en" else "0.9"}</priority>{alts}\n  </url>')
+        if self.web('en'):
+            out.append(f'  <url>\n    <loc>{esc(self.url)}/play/</loc>\n    <lastmod>{self.today}</lastmod>\n    <priority>0.5</priority>\n  </url>')
         out.append(f'  <url>\n    <loc>{esc(self.url)}/privacy.html</loc>\n    <lastmod>{self.today}</lastmod>\n    <priority>0.3</priority>\n  </url>')
         out.append('</urlset>\n')
         return '\n'.join(out)
@@ -591,6 +611,10 @@ class Site:
         os.makedirs(out)
         shutil.copytree(os.path.join(ROOT, 'assets'), os.path.join(out, 'assets'))
         shutil.copy(os.path.join(ROOT, 'privacy.html'), os.path.join(out, 'privacy.html'))
+        # The web preview of the game: the folder play/ is published as it is (mbggames.github.io/play/).
+        if self.web('en'):
+            shutil.copytree(os.path.join(ROOT, 'play'), os.path.join(out, 'play'),
+                            ignore=shutil.ignore_patterns('README-preview.txt'))
         for code in CODES:
             folder = os.path.join(out, META[code]['folder'])
             os.makedirs(folder, exist_ok=True)

@@ -8,6 +8,9 @@
   "edition": "free",
   "_edition": "free = 'Free · no ads · no limits'. Do not switch to paid here before the texts in content/*.json are updated for the paid edition.",
 
+  "webPreview": true,
+  "_webPreview": "true = a 'Play in your browser' button on every page, leading to the web preview in the folder play/ (puzzles of the day + one free game of each game a day). false = no button, and play/ is not published.",
+
   "worldList": false,
   "_worldList": "true once the world top 20 server is online (then the privacy answer mentions it)",
 

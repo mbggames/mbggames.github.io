@@ -1,0 +1,20 @@
+/* MBG Puzzles - web preview: the "Web preview" strip and the Google Play sheet */
+.pv-strip {
+  display: block; width: 100%; margin: 0; padding: 7px 12px;
+  border: 0; border-bottom: 1px solid var(--line); border-radius: 0;
+  background: var(--accent-soft); color: var(--ink);
+  font: inherit; font-size: min(calc(var(--fs, 17px) * .78), 14px); font-weight: 700; line-height: 1.3;
+  text-align: center; cursor: pointer; flex: none;
+}
+.pv-strip::before { content: "▶ "; color: var(--accent); }
+.pv-strip:hover { text-decoration: underline; }
+.home > .pv-strip { border: 1px solid var(--line); border-radius: 12px; }
+.app.kb-open .pv-strip, .app.compact .pv-strip { display: none; }
+.pv-sheet .dlg-body { display: flex; flex-direction: column; gap: 12px; }
+.pv-sheet h2 { margin: 0; }
+.pv-sheet p { margin: 0; line-height: 1.45; }
+.pv-sheet .pv-lock { font-weight: 700; }
+.pv-sheet .pv-note { font-size: .92em; }
+.pv-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.pv-actions .btn { flex: 1 1 12rem; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
+.pv-close { align-self: center; }

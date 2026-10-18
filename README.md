@@ -76,6 +76,7 @@ Bing's index is used by ChatGPT search, Microsoft Copilot and DuckDuckGo.
 | What | Where |
 |---|---|
 | The app is live on Google Play | `site.json`: change `"playStatus": "soon"` to `"playStatus": "live"`. Every page then shows a download button with the Play link in the page's language, and the structured data gets the download address. |
+| The "Play in your browser" button and the web preview (`/play/`) | `site.json`: `"webPreview": true` or `false`. The game itself is the folder `play/`; its switches ("Join the test" / "Get it on Google Play", the test link) are in `play/js/app/edition.js`, see `play/README-preview.txt`. |
 | The world top 20 is online | `site.json`: `"worldList": true` (the privacy answer then mentions it) |
 | Phone / WhatsApp number, e-mail, Play link | `site.json` |
 | The opening text of WhatsApp messages and e-mails ("Hello, I found you on the MBG Puzzles website …") | `waMessage` in each `content/*.json`; `{url}` becomes the address of that language page |
