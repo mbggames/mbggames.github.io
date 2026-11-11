@@ -65,6 +65,22 @@ Arabic (ar-dict.txt, ar-extra.txt, Arabic everyday words)
   The Arabic word lists are therefore distributed under the GNU General Public License
   version 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html).
 
+Korean (ko-dict.txt, ko-extra.txt, Korean everyday words) - version 1.11
+  hunspell-dict-ko, the Korean spelling dictionary (github.com/spellcheck-ko/hunspell-dict-ko),
+  whose words come from 한국어기초사전 (Basic Korean Dictionary) of the National Institute of Korean
+  Language (krdict.korean.go.kr) - Creative Commons Attribution-ShareAlike 2.0 Korea - and from
+  표준국어대사전 / 우리말샘; the word data of hunspell-dict-ko is CC BY-SA 4.0. The Korean word lists
+  are therefore distributed under the Creative Commons Attribution-ShareAlike 4.0 licence
+  (https://creativecommons.org/licenses/by-sa/4.0/). Secret words (everyday and "All words") are
+  only nouns, pronouns, numerals, adverbs, determiners and interjections of 한국어기초사전 - no
+  names of people, companies or parties.
+  Korean frequency and accepted-word lists supplied by MBG (ko_KR easy / medium / hard,
+  accepted words, headwords): used to decide which dictionary words are everyday words, and as
+  more accepted guesses.
+  Korean is written in these files in the letters of the Korean keyboard (풀어쓰기, one letter
+  per key of the 두벌식 keyboard: 사과 -> ㅅㅏㄱㅗㅏ), and so are the everyday words in
+  www/js/word/words-embedded.js. Built by tools/build_ko_words.py.
+
 Accents: in Spanish, French and Portuguese the lists are written without accents (árbol ->
 arbol, école -> ecole, ação -> acao), as the game plays them; German keeps ä, ö, ü and ß,
 Turkish and Polish their own letters. Arabic is written without short vowels and with
@@ -72,7 +88,8 @@ alif instead of alif with hamza or madda (أ إ آ -> ا); ء ؤ ئ ة ى stay l
 
 Words that are never secret words (rude words, slurs, drugs, violence) were chosen by hand,
 helped by the List of Dirty, Naughty, Obscene and Otherwise Bad Words (LDNOOBW,
-github.com/LDNOOBW, CC BY 4.0); none of its words are included in the lists.
+github.com/LDNOOBW, CC BY 4.0); none of its words are included in the lists (Korean: in no list
+at all, not even as an accepted guess).
 
 Choice of everyday (common) words
   FrequencyWords by Hermit Dave (github.com/hermitdave/FrequencyWords), built from the

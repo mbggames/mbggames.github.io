@@ -724,3 +724,72 @@ html:not([dir="rtl"]) .lm-text { text-align: left; }
 :lang(ar) * { letter-spacing: normal !important; }
 :lang(ar) { --font-body: system-ui, 'Noto Sans Arabic', 'Noto Naskh Arabic', Tahoma, 'Segoe UI', Roboto, sans-serif;
   --font-display: system-ui, 'Noto Kufi Arabic', 'Noto Sans Arabic', Tahoma, 'Segoe UI', sans-serif; }
+
+/* MBG accounts in the list of saved names: ✓ signs in at once, 🔒 needs the password again. */
+.saved-user .acct-mark {
+  flex: none; display: inline-grid; place-items: center; min-width: 1.4em; height: 1.4em; padding: 0 2px; border-radius: 999px;
+  background: var(--accent); color: var(--on-accent, #fff); font-size: .72em; font-weight: 800; line-height: 1;
+}
+.saved-user .acct-mark.locked { background: none; color: inherit; font-size: .9em; }
+
+/* Version 1.7 - Codebreaker Expert level (hidden positions): the digits stay plain, the clues of the
+   try are shown sorted (O, ?, X) below them, not under a digit. */
+.guess.expert .pegs { grid-column: 2; display: flex; flex-wrap: wrap; gap: 4px; margin-top: -2px; }
+.lasttry .guess.expert .pegs { grid-column: 1; margin-top: 4px; }
+.peg { display: inline-grid; place-items: center; min-width: 1.6em; height: 1.6em; padding: 0 3px; border-radius: 6px;
+  font: 700 min(calc(var(--fs) * .72), 3.4vw)/1 var(--font-mono); }
+.peg.o { background: var(--hit); color: var(--on-hit); }
+.peg.q { background: var(--near); color: var(--on-near); }
+.peg.x { background: var(--miss); color: var(--on-miss); }
+.peg.anim { animation: flip .34s var(--ease) both; animation-delay: calc(var(--i) * 210ms); }
+/* the difficulty points on a win card */
+.modeline { margin: 2px 0 0; font-weight: 700; color: var(--accent); }
+
+/* Version 1.7.2 - the way on is always at the top: a screen's main button next to Close, and
+   "Play now / Read the rules" at the top of the rules. */
+.sheet-head h2 { min-width: 0; overflow-wrap: anywhere; }
+.head-actions { flex: none; display: flex; align-items: center; gap: 8px; }
+.helpstart { display: grid; gap: 10px; margin: 0 0 14px; padding: 12px 14px; border-radius: 14px;
+  background: var(--accent-soft); }
+.helpstart[hidden] { display: none; }
+.helpstart p { margin: 0; font-weight: 700; }
+.helpstart-btns { display: flex; flex-wrap: wrap; gap: 8px; }
+.helpstart-btns .btn { flex: 1 1 9rem; }
+/* Version 1.7.2: the language welcome at the first start */
+.langmenu.lm-welcome .sheet-head { justify-content: center; text-align: center; padding-top: 22px; }
+.langmenu.lm-welcome .sheet-head h2 { font-size: 22px; }
+.lm-hello { display: grid; justify-items: center; gap: 4px; margin: -4px 0 14px; text-align: center; }
+.lm-hello[hidden], .lm-later[hidden] { display: none; }
+.lm-wave { font-size: 40px; line-height: 1; }
+.lm-hello-sub { margin: 0; font-weight: 700; color: var(--muted); }
+.lm-later { margin: 14px 0 4px; text-align: center; font-size: .9em; }
+@media (prefers-reduced-motion: no-preference) {
+  .lm-wave { display: inline-block; animation: lm-wave 1.6s ease-in-out 2; transform-origin: 70% 70%; }
+  @keyframes lm-wave { 0%, 60%, 100% { transform: rotate(0); } 15% { transform: rotate(16deg); } 30% { transform: rotate(-8deg); } 45% { transform: rotate(12deg); } }
+}
+
+/* Version 1.9: MBG Games promo on the first-start card and at the top of the rules */
+.mbgpromo { margin: 0 auto 10px; max-width: 520px; border-radius: 14px; overflow: hidden; line-height: 0; background: #000; }
+.mbgpromo[hidden] { display: none; }
+.mbgpromo img { display: block; width: 100%; height: auto; aspect-ratio: 508 / 337; }
+
+/* Korean (version 1.11): one tile per key of the Korean keyboard; the tiles of a syllable stay
+   together (a small gap after each syllable) and the word is written in syllables next to them. */
+.guess.ko { grid-template-columns: 1.7em minmax(0, 1fr) auto; }
+.guess.ko .tile.syl-end { margin-inline-end: calc(var(--tile-gap) + 5px); }
+.guess.ko .syl {
+  font: 700 min(calc(var(--fs) * 1.15), 5.2vw)/1.1 var(--font-body); color: var(--ink);
+  white-space: nowrap; min-width: 2.2em; text-align: start; letter-spacing: .02em;
+}
+.preview.ko .syl { color: var(--muted); }
+.lasttry .guess.ko { grid-template-columns: minmax(0, 1fr) auto; gap: 8px; }
+.lasttry .guess.ko .syl { font-size: min(var(--fs), 4.6vw); }
+.lasttry .guess.ko .tile.syl-end { margin-inline-end: calc(max(3px, calc(var(--tile-gap) * .7)) + 4px); }
+/* long words on a phone: the word in syllables under its tiles */
+.guess.ko.syl-under { grid-template-columns: 1.7em minmax(0, 1fr); row-gap: 2px; }
+.guess.ko.syl-under .syl { grid-column: 2; font-size: min(var(--fs), 4.4vw); color: var(--muted); }
+.lasttry .guess.ko.syl-under { grid-template-columns: minmax(0, 1fr); }
+.lasttry .guess.ko.syl-under .syl { grid-column: 1; }
+.preview.ko.syl-under .syl:empty { display: none; }
+:lang(ko) .tile .ch, .guess.ko .tile .ch { font-family: var(--font-body), "Noto Sans KR", "Noto Sans CJK KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; }
+:lang(ko) { word-break: keep-all; }

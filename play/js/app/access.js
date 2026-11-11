@@ -14,6 +14,11 @@
  * start the free week either, so when a later update switches to the paid edition,
  * every player still gets a full free week from that day.
  *
+ * Kosovo (paid edition): Google Play does not sell to buyers in Kosovo, so there the paid
+ * edition works like the free one. The country of the Google Play account (getStorefront of
+ * the purchases plugin, Google Play Billing's getBillingConfig) is asked when a screen opens and
+ * again every 6 hours; regionFree() decides with the last answer, nextRegion() keeps it.
+ *
  * The state is kept on the phone (local storage). Runs in the browser (window.MBG.Access)
  * and in Node.js (require) for the automated tests.
  */
@@ -125,11 +130,32 @@
     return true;
   };
 
+  /* ---------------------------------------------------------------- Kosovo --- */
+  var FREE_REGIONS = ['XK'];                 // Google Play's code for Kosovo
+  var REGION_CHECK_MS = 6 * 60 * 60 * 1000;
+  /** True when this edition plays without limits: the free edition, or the paid one in Kosovo. */
+  function regionFree(edition, region) {
+    if (edition !== 'paid') return true;
+    return !!(region && FREE_REGIONS.indexOf(region.code) !== -1);
+  }
+  /**
+   * The region to keep after Google Play answered with countryCode at time now: { code, at }.
+   * An empty answer (Play not reachable) keeps the last known country; the time is noted
+   * either way, so the next question waits for REGION_CHECK_MS.
+   */
+  function nextRegion(prev, countryCode, now) {
+    var code = String(countryCode || '').trim().toUpperCase();
+    if (!/^[A-Z]{2}$/.test(code)) code = prev && prev.code ? prev.code : '';
+    return { code: code, at: now };
+  }
+  function regionDue(region, now) { return !region || typeof region.at !== 'number' || now - region.at >= REGION_CHECK_MS || region.at > now; }
+
   /** "13 h 20 min" style countdown parts. */
   function splitDuration(ms) {
     var totalMin = Math.max(0, Math.ceil(ms / 60000));
     return { h: Math.floor(totalMin / 60), m: totalMin % 60 };
   }
 
-  return { RULES: RULES, DAY: DAY, AccessStore: AccessStore, splitDuration: splitDuration };
+  return { RULES: RULES, DAY: DAY, AccessStore: AccessStore, splitDuration: splitDuration,
+    FREE_REGIONS: FREE_REGIONS, REGION_CHECK_MS: REGION_CHECK_MS, regionFree: regionFree, nextRegion: nextRegion, regionDue: regionDue };
 });

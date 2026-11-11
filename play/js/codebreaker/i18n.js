@@ -1,6 +1,6 @@
 /*!
  * MBG Puzzles · Codebreaker - all user-facing text (English, Albanian, Bosnian, German, Spanish,
- * French, Turkish, Polish, Portuguese (Brazil) and Arabic). All languages address the player
+ * French, Turkish, Polish, Portuguese (Brazil), Arabic and Korean). All languages address the player
  * informally (ti, du, tú, tu, sen, ty, você, أنت), as
  * FR-LANG-004 asks for Albanian and Bosnian. Bosnian is ijekavian and written in the Latin
  * script only.
@@ -53,7 +53,7 @@
       /* control captions (section 7 of the specification) */
       'btn.submit': 'Submit',
       'btn.help': 'Help',
-      'btn.quit': 'Quit',
+      'btn.quit': 'Back',
       'btn.user': 'User',
       'btn.login': 'Log in',
       'btn.logout': 'Log out',
@@ -184,7 +184,7 @@
           '<h3>Users</h3><p>You start playing at once as <b>Anonymous</b>. Its high score is shared by everyone who plays on this device. To keep your own high score, tap <b>Log in</b> and type your username, or create a new one. Names you have used before are listed there, so logging in again is one tap. In the same window you can also choose to play without saving anything. Scores are kept on this device.</p>' +
           '<h3>Settings</h3><p>The ⚙ button holds the sound switch (tick-tock clock, a tone for each O and ?, and the winning tune, grander the higher the score), the background colours and the text size (A+ / A−).</p>' +
           '<h3>New game</h3><p>After a game, press <b>New Game</b> or type <code>Y</code>. Changing the number length during a game starts a new game after you confirm. Switching the language keeps your game.</p>' +
-          '<h3>Back to the games</h3><p>Press <b>Quit</b>, the Back button or the MBG mark at the top left to return to the list of games. An unfinished game is kept and continues when you come back. To close the app, use the ⏻ button on the home screen.</p>';
+          '<h3>Back to the games</h3><p>Press <b>Back</b>, the Back button or the MBG mark at the top left to return to the list of games. An unfinished game is kept and continues when you come back. To close the app, use the ⏻ button on the home screen.</p>';
       },
       'help.scoreHead': ['Length', 'Top score', 'Low score'],
       'help.scoreRow': function (p) { return [p.length + ' digits', p.hiScore + ' with ' + p.hiAttempt + ' tries', p.loScore + ' with ' + p.loAttempt + ' tries']; },
@@ -203,12 +203,12 @@
     },
 
     sq: {
-      'app.title': 'Thyej kodin',
+      'app.title': 'Zhblloko kodin',
       'app.by': 'MBG Puzzles · nga MBG',
 
       'btn.submit': 'Ok-Provo',
       'btn.help': 'Udhëzimet',
-      'btn.quit': 'Dil',
+      'btn.quit': 'Kthehu',
       'btn.user': 'Përdoruesi',
       'btn.login': 'Hyr',
       'btn.logout': 'Dil nga llogaria',
@@ -333,7 +333,7 @@
           '<h3>Përdoruesit</h3><p>Fillon të luash menjëherë si <b>Anonim</b>. Rezultati i tij më i lartë ndahet me këdo që luan në këtë pajisje. Për të ruajtur rezultatin tënd, prek <b>Hyr</b> dhe shkruaj emrin tënd të përdoruesit, ose krijo një të ri. Emrat që ke përdorur më parë shfaqen aty, kështu që hyrja e radhës bëhet me një prekje. Në të njëjtën dritare mund të zgjedhësh edhe të luash pa ruajtur asgjë. Rezultatet ruhen në këtë pajisje.</p>' +
           '<h3>Cilësimet</h3><p>Butoni ⚙ ka çelësin e zërit (tik-taku i orës, një tingull për çdo O dhe ?, dhe melodia e fitores, aq më madhështore sa më i lartë rezultati), ngjyrat e sfondit dhe madhësinë e tekstit (A+ / A−).</p>' +
           '<h3>Lojë e re</h3><p>Pas çdo loje shtyp <b>Lojë e Re</b> ose shkruaj <code>Y</code>. Nëse e ndërron gjatësinë e numrit gjatë lojës, nis një lojë e re pasi ta konfirmosh. Ndërrimi i gjuhës nuk e ndërpret lojën.</p>' +
-          '<h3>Kthimi te lojërat</h3><p>Shtyp <b>Dil</b>, butonin Prapa ose shenjën MBG lart majtas për t’u kthyer te lista e lojërave. Një lojë e pambaruar ruhet dhe vazhdon kur të kthehesh. Aplikacioni mbyllet me butonin ⏻ në faqen kryesore.</p>';
+          '<h3>Kthimi te lojërat</h3><p>Shtyp <b>Kthehu</b>, butonin Prapa ose shenjën MBG lart majtas për t’u kthyer te lista e lojërave. Një lojë e pambaruar ruhet dhe vazhdon kur të kthehesh. Aplikacioni mbyllet me butonin ⏻ në faqen kryesore.</p>';
       },
       'help.scoreHead': ['Gjatësia', 'Pikët më të larta', 'Pikët më të ulëta'],
       'help.scoreRow': function (p) { return [p.length + ' shifra', p.hiScore + ' me ' + p.hiAttempt + ' prova', p.loScore + ' me ' + p.loAttempt + ' prova']; },
@@ -345,7 +345,7 @@
         ['Y / N', 'Pas lojës: luaj përsëri ose kthehu te lojërat']
       ],
       'help.about': 'Rreth lojës',
-      'about.version': 'MBG Puzzles 1.0 · Thyej kodin. © 2026 MBG · Merkur Beqiri Games.',
+      'about.version': 'MBG Puzzles 1.0 · Zhblloko kodin. © 2026 MBG · Merkur Beqiri Games.',
       'about.numbers': function (p) { return 'Numrat e fshehtë zgjidhen rastësisht në këtë pajisje: ' + p.min + ' numra të mundshëm me 4 shifra, deri në ' + p.max + ' me 8.'; },
       'about.privacy': 'Luhet edhe pa internet. Nuk nevojitet llogari: emrat dhe pikët mbeten në këtë telefon. Abonimet paguhen dhe menaxhohen përmes Google Play.',
       'about.privacyFree': 'Luhet edhe pa internet. Falas, pa reklama dhe pa blerje brenda aplikacionit. Emrat dhe pikët mbeten në këtë telefon.'
@@ -357,7 +357,7 @@
 
       'btn.submit': 'Provjeri',
       'btn.help': 'Pomoć',
-      'btn.quit': 'Izađi',
+      'btn.quit': 'Nazad',
       'btn.user': 'Korisnik',
       'btn.login': 'Prijava',
       'btn.logout': 'Odjava',
@@ -482,7 +482,7 @@
           '<h3>Korisnici</h3><p>Odmah počinješ igrati anonimno. Anonimni rekord dijele svi koji igraju na ovom uređaju. Da čuvaš svoj rekord, dodirni <b>Prijava</b> i upiši svoje korisničko ime ili napravi novo. Imena korištena ranije prikazana su tu, pa je ponovna prijava samo jedan dodir. U istom prozoru možeš izabrati i igru bez čuvanja. Rezultati se čuvaju na ovom uređaju.</p>' +
           '<h3>Postavke</h3><p>Dugme ⚙ sadrži prekidač za zvuk (tik-tak sata, ton za svako O i ?, i pobjedničku melodiju, to svečaniju što je rezultat veći), boje pozadine i veličinu teksta (A+ / A−).</p>' +
           '<h3>Nova igra</h3><p>Nakon igre pritisni <b>Nova igra</b> ili upiši <code>D</code>. Promjena dužine broja tokom igre pokreće novu igru nakon potvrde. Promjena jezika ne prekida igru.</p>' +
-          '<h3>Povratak na igre</h3><p>Pritisni <b>Izađi</b>, dugme Nazad ili znak MBG gore lijevo da se vratiš na listu igara. Nezavršena igra se čuva i nastavlja kad se vratiš. Aplikaciju zatvaraš dugmetom ⏻ na početnom ekranu.</p>';
+          '<h3>Povratak na igre</h3><p>Pritisni <b>Nazad</b>, dugme Nazad ili znak MBG gore lijevo da se vratiš na listu igara. Nezavršena igra se čuva i nastavlja kad se vratiš. Aplikaciju zatvaraš dugmetom ⏻ na početnom ekranu.</p>';
       },
       'help.scoreHead': ['Dužina', 'Najviše bodova', 'Najmanje bodova'],
       'help.scoreRow': function (p) { return [p.length + ' ' + cif(p.length), p.hiScore + ' iz ' + p.hiAttempt + '. pokušaja', p.loScore + ' iz ' + p.loAttempt + '. pokušaja']; },
@@ -506,7 +506,7 @@
 
       'btn.submit': 'Prüfen',
       'btn.help': 'Hilfe',
-      'btn.quit': 'Beenden',
+      'btn.quit': 'Zurück',
       'btn.user': 'Spieler',
       'btn.login': 'Anmelden',
       'btn.logout': 'Abmelden',
@@ -631,7 +631,7 @@
           '<h3>Spieler</h3><p>Du spielst sofort als <b>Anonym</b>. Diesen Rekord teilen sich alle, die auf diesem Gerät spielen. Um deinen eigenen Rekord zu behalten, tipp auf <b>Anmelden</b> und gib deinen Spielernamen ein oder leg einen neuen an. Namen, die du schon benutzt hast, stehen dort, sodass die nächste Anmeldung ein Tipp ist. Im selben Fenster kannst du auch ohne Speichern spielen. Die Ergebnisse bleiben auf diesem Gerät.</p>' +
           '<h3>Einstellungen</h3><p>Der Knopf ⚙ enthält den Ton (Ticken der Uhr, ein Ton für jedes O und ?, und die Siegesmelodie – je höher die Punktzahl, desto prächtiger), die Hintergrundfarben und die Schriftgröße (A+ / A−).</p>' +
           '<h3>Neues Spiel</h3><p>Nach einem Spiel drückst du <b>Neues Spiel</b> oder schreibst <code>J</code>. Wenn du während eines Spiels die Länge der Zahl wechselst, beginnt nach deiner Bestätigung ein neues Spiel. Ein Sprachwechsel behält dein Spiel.</p>' +
-          '<h3>Zurück zu den Spielen</h3><p>Drück <b>Beenden</b>, die Zurück-Taste oder das MBG-Zeichen oben links, um zur Liste der Spiele zurückzukehren. Ein angefangenes Spiel bleibt erhalten und geht weiter, wenn du zurückkommst. Die App schließt du mit dem Knopf ⏻ auf dem Startbildschirm.</p>';
+          '<h3>Zurück zu den Spielen</h3><p>Drück <b>Zurück</b>, die Zurück-Taste oder das MBG-Zeichen oben links, um zur Liste der Spiele zurückzukehren. Ein angefangenes Spiel bleibt erhalten und geht weiter, wenn du zurückkommst. Die App schließt du mit dem Knopf ⏻ auf dem Startbildschirm.</p>';
       },
       'help.scoreHead': ['Länge', 'Höchste Punkte', 'Wenigste Punkte'],
       'help.scoreRow': function (p) { return [p.length + ' Ziffern', p.hiScore + ' mit ' + p.hiAttempt + ' Versuchen', p.loScore + ' mit ' + p.loAttempt + ' Versuchen']; },
@@ -654,7 +654,7 @@
 
       'btn.submit': 'Comprobar',
       'btn.help': 'Ayuda',
-      'btn.quit': 'Salir',
+      'btn.quit': 'Volver',
       'btn.user': 'Jugador',
       'btn.login': 'Entrar',
       'btn.logout': 'Cerrar sesión',
@@ -779,7 +779,7 @@
           '<h3>Jugadores</h3><p>Empiezas a jugar enseguida como <b>Anónimo</b>. Ese récord lo comparten todos los que juegan en este dispositivo. Para guardar tu propio récord, toca <b>Entrar</b> y escribe tu nombre de jugador o crea uno nuevo. Los nombres que ya has usado aparecen ahí, así que volver a entrar es un solo toque. En la misma ventana también puedes jugar sin guardar nada. Las puntuaciones se guardan en este dispositivo.</p>' +
           '<h3>Ajustes</h3><p>El botón ⚙ tiene el sonido (el tictac del reloj, un tono por cada O y ? y la melodía de la victoria, más vistosa cuanto más alta es la puntuación), los colores de fondo y el tamaño del texto (A+ / A−).</p>' +
           '<h3>Partida nueva</h3><p>Al terminar, pulsa <b>Partida nueva</b> o escribe <code>S</code>. Si cambias la longitud del número durante una partida, empieza una nueva después de confirmarlo. Cambiar de idioma no interrumpe la partida.</p>' +
-          '<h3>Volver a los juegos</h3><p>Pulsa <b>Salir</b>, el botón Atrás o la marca MBG arriba a la izquierda para volver a la lista de juegos. Una partida sin terminar se guarda y sigue cuando vuelves. Para cerrar la app, usa el botón ⏻ de la pantalla de inicio.</p>';
+          '<h3>Volver a los juegos</h3><p>Pulsa <b>Volver</b>, el botón Atrás o la marca MBG arriba a la izquierda para volver a la lista de juegos. Una partida sin terminar se guarda y sigue cuando vuelves. Para cerrar la app, usa el botón ⏻ de la pantalla de inicio.</p>';
       },
       'help.scoreHead': ['Longitud', 'Máximo', 'Mínimo'],
       'help.scoreRow': function (p) { return [p.length + ' cifras', p.hiScore + ' con ' + p.hiAttempt + ' intentos', p.loScore + ' con ' + p.loAttempt + ' intentos']; },
@@ -802,7 +802,7 @@
 
       'btn.submit': 'Valider',
       'btn.help': 'Aide',
-      'btn.quit': 'Quitter',
+      'btn.quit': 'Retour',
       'btn.user': 'Joueur',
       'btn.login': 'Connexion',
       'btn.logout': 'Déconnexion',
@@ -927,7 +927,7 @@
           '<h3>Joueurs</h3><p>Tu commences tout de suite en <b>Anonyme</b>. Ce record est partagé par tous ceux qui jouent sur cet appareil. Pour garder ton propre record, touche <b>Connexion</b> et tape ton nom de joueur, ou crées-en un nouveau. Les noms déjà utilisés y sont listés, alors se reconnecter se fait d’un seul geste. Dans la même fenêtre, tu peux aussi jouer sans rien enregistrer. Les scores restent sur cet appareil.</p>' +
           '<h3>Réglages</h3><p>Le bouton ⚙ contient le son (le tic-tac de l’horloge, un son pour chaque O et ?, et la musique de la victoire, plus éclatante quand le score est plus élevé), les couleurs de fond et la taille du texte (A+ / A−).</p>' +
           '<h3>Nouvelle partie</h3><p>Après une partie, appuie sur <b>Nouvelle partie</b> ou tape <code>O</code>. Si tu changes la longueur du nombre pendant une partie, une nouvelle partie commence après confirmation. Changer de langue garde ta partie.</p>' +
-          '<h3>Revenir aux jeux</h3><p>Appuie sur <b>Quitter</b>, sur le bouton Retour ou sur le logo MBG en haut à gauche pour revenir à la liste des jeux. Une partie non terminée est gardée et continue à ton retour. Pour fermer l’app, utilise le bouton ⏻ de l’écran d’accueil.</p>';
+          '<h3>Revenir aux jeux</h3><p>Appuie sur <b>Retour</b>, sur le bouton Retour ou sur le logo MBG en haut à gauche pour revenir à la liste des jeux. Une partie non terminée est gardée et continue à ton retour. Pour fermer l’app, utilise le bouton ⏻ de l’écran d’accueil.</p>';
       },
       'help.scoreHead': ['Longueur', 'Score maximal', 'Score minimal'],
       'help.scoreRow': function (p) { return [p.length + ' chiffres', p.hiScore + ' en ' + p.hiAttempt + ' essais', p.loScore + ' en ' + p.loAttempt + ' essais']; },
@@ -950,7 +950,7 @@
 
       'btn.submit': 'Dene',
       'btn.help': 'Yardım',
-      'btn.quit': 'Çık',
+      'btn.quit': 'Geri',
       'btn.user': 'Oyuncu',
       'btn.login': 'Giriş',
       'btn.logout': 'Çıkış yap',
@@ -1075,7 +1075,7 @@
           '<h3>Oyuncular</h3><p>Hemen <b>Anonim</b> olarak oynamaya başlarsın. Bu rekoru bu cihazda oynayan herkes paylaşır. Kendi rekorunu saklamak için <b>Giriş</b>’e dokun ve oyuncu adını yaz ya da yeni bir ad oluştur. Daha önce kullandığın adlar orada listelenir, böylece yeniden giriş tek dokunuştur. Aynı pencerede hiçbir şey kaydetmeden oynamayı da seçebilirsin. Skorlar bu cihazda saklanır.</p>' +
           '<h3>Ayarlar</h3><p>⚙ düğmesinde ses (saatin tik takı, her O ve ? için bir ses ve puan yükseldikçe daha görkemli olan zafer melodisi), arka plan renkleri ve yazı boyutu (A+ / A−) bulunur.</p>' +
           '<h3>Yeni oyun</h3><p>Bir oyundan sonra <b>Yeni oyun</b>’a bas ya da <code>E</code> yaz. Oyun sırasında sayı uzunluğunu değiştirirsen, onayladıktan sonra yeni bir oyun başlar. Dili değiştirmek oyununu bozmaz.</p>' +
-          '<h3>Oyunlara dönmek</h3><p>Oyun listesine dönmek için <b>Çık</b>’a, Geri tuşuna ya da sol üstteki MBG işaretine bas. Bitmemiş bir oyun saklanır ve döndüğünde devam eder. Uygulamayı kapatmak için ana ekrandaki ⏻ düğmesini kullan.</p>';
+          '<h3>Oyunlara dönmek</h3><p>Oyun listesine dönmek için <b>Geri</b>’a, Geri tuşuna ya da sol üstteki MBG işaretine bas. Bitmemiş bir oyun saklanır ve döndüğünde devam eder. Uygulamayı kapatmak için ana ekrandaki ⏻ düğmesini kullan.</p>';
       },
       'help.scoreHead': ['Uzunluk', 'En yüksek puan', 'En düşük puan'],
       'help.scoreRow': function (p) { return [p.length + ' rakam', p.hiAttempt + ' denemede ' + p.hiScore, p.loAttempt + ' denemede ' + p.loScore]; },
@@ -1098,7 +1098,7 @@
 
       'btn.submit': 'Sprawdź',
       'btn.help': 'Pomoc',
-      'btn.quit': 'Wyjdź',
+      'btn.quit': 'Wróć',
       'btn.user': 'Gracz',
       'btn.login': 'Zaloguj',
       'btn.logout': 'Wyloguj',
@@ -1223,7 +1223,7 @@
           '<h3>Gracze</h3><p>Od razu grasz jako <b>Anonim</b>. Jego rekord jest wspólny dla wszystkich, którzy grają na tym urządzeniu. Aby mieć własny rekord, dotknij <b>Zaloguj</b> i wpisz swoją nazwę albo utwórz nową. Nazwy użyte wcześniej na tym urządzeniu są tam wymienione, więc ponowne logowanie to jedno dotknięcie. W tym samym oknie możesz też wybrać grę bez zapisywania. Wyniki są przechowywane na tym urządzeniu.</p>' +
           '<h3>Ustawienia</h3><p>Przycisk ⚙ zawiera włącznik dźwięku (tykanie zegara, ton dla każdego O i ? oraz zwycięska melodia – tym okazalsza, im wyższy wynik), kolory tła i rozmiar tekstu (A+ / A−).</p>' +
           '<h3>Nowa gra</h3><p>Po grze naciśnij <b>Nowa gra</b> albo wpisz <code>T</code>. Zmiana długości liczby w trakcie gry zaczyna nową grę po potwierdzeniu. Zmiana języka nie przerywa gry.</p>' +
-          '<h3>Powrót do gier</h3><p>Naciśnij <b>Wyjdź</b>, przycisk Wstecz albo znak MBG w lewym górnym rogu, aby wrócić do listy gier. Niedokończona gra zostaje zachowana i trwa dalej, gdy wrócisz. Aby zamknąć aplikację, użyj przycisku ⏻ na ekranie startowym.</p>';
+          '<h3>Powrót do gier</h3><p>Naciśnij <b>Wróć</b>, przycisk Wstecz albo znak MBG w lewym górnym rogu, aby wrócić do listy gier. Niedokończona gra zostaje zachowana i trwa dalej, gdy wrócisz. Aby zamknąć aplikację, użyj przycisku ⏻ na ekranie startowym.</p>';
       },
       'help.scoreHead': ['Długość', 'Najwyższy wynik', 'Najniższy wynik'],
       'help.scoreRow': function (p) { return [p.length + ' ' + plPl(p.length, 'cyfra', 'cyfry', 'cyfr'), p.hiScore + ' przy ' + p.hiAttempt + ' ' + plPl(p.hiAttempt, 'próbie', 'próbach', 'próbach'), p.loScore + ' przy ' + p.loAttempt + ' ' + plPl(p.loAttempt, 'próbie', 'próbach', 'próbach')]; },
@@ -1246,7 +1246,7 @@
 
       'btn.submit': 'Enviar',
       'btn.help': 'Ajuda',
-      'btn.quit': 'Sair',
+      'btn.quit': 'Voltar',
       'btn.user': 'Jogador',
       'btn.login': 'Entrar',
       'btn.logout': 'Sair da conta',
@@ -1371,7 +1371,7 @@
           '<h3>Jogadores</h3><p>Você começa a jogar na hora como <b>Anônimo</b>. O recorde dele é compartilhado por todos que jogam neste aparelho. Para ter o seu próprio recorde, toque em <b>Entrar</b> e digite o seu nome de jogador, ou crie um novo. Os nomes que você já usou aparecem ali, então entrar de novo é um toque. Na mesma janela você também pode jogar sem salvar nada. As pontuações ficam neste aparelho.</p>' +
           '<h3>Configurações</h3><p>O botão ⚙ tem o interruptor de som (o tique-taque do relógio, um tom para cada O e ? e a música da vitória, mais grandiosa quanto maior a pontuação), as cores de fundo e o tamanho do texto (A+ / A−).</p>' +
           '<h3>Nova partida</h3><p>Depois de uma partida, toque em <b>Nova partida</b> ou digite <code>S</code>. Mudar o tamanho do número durante uma partida começa uma nova depois que você confirmar. Mudar o idioma mantém a partida.</p>' +
-          '<h3>Voltar aos jogos</h3><p>Toque em <b>Sair</b>, no botão Voltar ou na marca MBG no canto superior esquerdo para voltar à lista de jogos. Uma partida não terminada fica guardada e continua quando você voltar. Para fechar o app, use o botão ⏻ na tela inicial.</p>';
+          '<h3>Voltar aos jogos</h3><p>Toque em <b>Voltar</b>, no botão Voltar ou na marca MBG no canto superior esquerdo para voltar à lista de jogos. Uma partida não terminada fica guardada e continua quando você voltar. Para fechar o app, use o botão ⏻ na tela inicial.</p>';
       },
       'help.scoreHead': ['Tamanho', 'Maior pontuação', 'Menor pontuação'],
       'help.scoreRow': function (p) { return [p.length + ' dígitos', p.hiScore + ' com ' + p.hiAttempt + ' tentativas', p.loScore + ' com ' + p.loAttempt + ' tentativas']; },
@@ -1394,7 +1394,7 @@
 
       'btn.submit': 'تحقّق',
       'btn.help': 'مساعدة',
-      'btn.quit': 'خروج',
+      'btn.quit': 'رجوع',
       'btn.user': 'اللاعب',
       'btn.login': 'دخول',
       'btn.logout': 'خروج من الحساب',
@@ -1519,7 +1519,7 @@
           '<h3>اللاعبون</h3><p>تبدأ اللعب فورًا باسم <b>مجهول</b>. وأفضل نتيجة له مشتركة بين كل من يلعب على هذا الجهاز. لتحتفظ بأفضل نتيجة خاصة بك، اضغط <b>دخول</b> واكتب اسم لاعبك أو أنشئ اسمًا جديدًا. الأسماء التي استُخدمت من قبل تظهر هناك، فالدخول مرة أخرى بلمسة واحدة. ومن النافذة نفسها يمكنك أيضًا اللعب دون حفظ أي شيء. تُحفظ النتائج على هذا الجهاز.</p>' +
           '<h3>الإعدادات</h3><p>زر ⚙ فيه مفتاح الصوت (تكتكة الساعة، ونغمة لكل O و?، ولحن الفوز الذي يزداد فخامة كلما ارتفعت النتيجة)، وألوان الخلفية، وحجم النص (A+ / A−).</p>' +
           '<h3>لعبة جديدة</h3><p>بعد اللعبة اضغط <b>لعبة جديدة</b> أو اكتب <code>ن</code>. تغيير طول الرقم أثناء اللعبة يبدأ لعبة جديدة بعد التأكيد. وتغيير اللغة يُبقي لعبتك.</p>' +
-          '<h3>العودة إلى الألعاب</h3><p>اضغط <b>خروج</b> أو زر الرجوع أو شعار MBG في الأعلى للعودة إلى قائمة الألعاب. اللعبة غير المكتملة تبقى محفوظة وتتابع عند عودتك. لإغلاق التطبيق استخدم زر ⏻ في الشاشة الرئيسية.</p>';
+          '<h3>العودة إلى الألعاب</h3><p>اضغط <b>رجوع</b> أو زر الرجوع أو شعار MBG في الأعلى للعودة إلى قائمة الألعاب. اللعبة غير المكتملة تبقى محفوظة وتتابع عند عودتك. لإغلاق التطبيق استخدم زر ⏻ في الشاشة الرئيسية.</p>';
       },
       'help.scoreHead': ['الطول', 'أعلى نتيجة', 'أدنى نتيجة'],
       'help.scoreRow': function (p) { return [p.length + ' أرقام', p.hiScore + ' مع ' + arN(p.hiAttempt, 'محاولة واحدة', 'محاولتين', 'محاولات', 'محاولة'), p.loScore + ' مع ' + arN(p.loAttempt, 'محاولة واحدة', 'محاولتين', 'محاولات', 'محاولة')]; },
@@ -1535,6 +1535,161 @@
       'about.numbers': function (p) { return 'تُختار الأرقام السرية عشوائيًا على هذا الجهاز: ' + p.min + ' رقم ممكن من 4 خانات، حتى ' + p.max + ' من 8 خانات.'; },
       'about.privacy': 'تعمل دون إنترنت. لا حاجة إلى حساب: الأسماء والنتائج تبقى على هذا الهاتف. تُدفع الاشتراكات وتُدار عبر Google Play.',
       'about.privacyFree': 'تعمل دون إنترنت. مجانية، بلا إعلانات وبلا مشتريات داخل التطبيق. الأسماء والنتائج تبقى على هذا الهاتف.'
+    },
+    ko: {
+      'app.title': '암호 풀기',
+      'app.by': 'MBG Puzzles · MBG 제작',
+
+      /* control captions (section 7 of the specification) */
+      'btn.submit': '입력',
+      'btn.help': '도움말',
+      'btn.quit': '뒤로',
+      'btn.user': '사용자',
+      'btn.login': '로그인',
+      'btn.logout': '로그아웃',
+      'btn.settings': '설정',
+      'btn.fontUp': 'A+',
+      'btn.fontDown': 'A−',
+      'btn.theme': '배경 바꾸기',
+      'btn.reveal': '정답 보기',
+      'btn.newGame': '새 게임',
+      'btn.length': function (p) { return p.n + '자리로 바꾸기'; },
+      'btn.close': '닫기',
+      'aria.fontUp': '글자 크게',
+      'aria.fontDown': '글자 작게',
+      'aria.length': function (p) { return '숫자 길이: ' + p.n + '자리. 바꾸기'; },
+      'aria.history': '게임판',
+      'aria.user': function (p) { return '사용자: ' + p.name; },
+
+      /* status line */
+      'status.anonymous': '익명',
+      'status.noData': '저장 안 함',
+      'status.time': function (p) { return p.n + '초'; },
+      'len.chip': function (p) { return p.n + '자리'; },
+
+      /* input */
+      'label.play': function (p) { return p.n + '자리 숫자 또는 명령어를 입력하세요'; },
+      'label.yesno': '한 판 더 할까요? 네 / 아니요',
+      'ph.play': function (p) { return p.n + '자리 숫자를 입력하세요'; },
+      'ph.yesno': '한 판 더? 네 / 아니요',
+
+      /* short messages */
+      'notice.storageUnavailable': '이 브라우저에서는 점수를 저장할 수 없어요.',
+      'notice.loggedIn': function (p) { return p.name + '님, 다시 오신 걸 환영해요! 최고 점수: ' + p.best; },
+      'notice.registered': function (p) { return p.name + '님, 환영해요!'; },
+      'notice.noData': '저장하지 않고 플레이 중',
+      'notice.anonymous': '익명으로 플레이 중',
+      'notice.restored': '게임을 이어서 할 수 있게 복원했어요',
+      'warn.empty': function (p) { return p.length + '자리 숫자를 입력하세요.'; },
+      'reveal.what': '숫자 전체',
+      'hint.btn': '힌트',
+      'hint.what': '숫자 하나 더',
+      'hint.shown': function (p) { return '힌트 ' + p.number + ': ' + p.pos + '번째 자리 = ' + p.ch; },
+      'warn.noHint': '힌트는 여기까지예요 – 나머지는 직접 찾아보세요.',
+      'win.hints': function (p) { return '힌트 ' + p.n + '개 사용 – 힌트 하나는 점수에서 시도 ' + p.k + '번으로 계산돼요.'; },
+      'warn.digits': '숫자(0~9)만 입력하세요. 이번 시도는 세지 않았어요.',
+      'warn.length': function (p) { return '입력한 숫자는 ' + p.got + '자리인데 이 게임은 ' + p.length + '자리예요. 시도로 세지 않았어요.'; },
+      'warn.roundOver': '게임이 끝났어요. 한 판 더 하려면 ‘네’, 게임 목록으로 돌아가려면 ‘아니요’를 입력하세요.',
+
+      /* round end */
+      'win.title': '축하해요!',
+      'win.titleName': function (p) { return p.name + '님, 축하해요!'; },
+      'win.found': function (p) { return p.word + '을(를) ' + p.attempts + '번 만에 ' + p.seconds + '초 걸려 찾았어요.'; },
+      'win.luck': '대박! 한 번에 맞혔어요!',
+      'score.label': '점수',
+      'score.yourBest': '내 최고 점수',
+      'score.allTime': '역대 최고 점수',
+      'score.newBest': '신기록!',
+      'score.newAllTime': '역대 신기록!',
+      'score.notSaved': '저장 안 됨',
+      'reveal.text': '다음엔 꼭 맞힐 거예요!',
+      'reveal.word': function (p) { return '비밀 숫자는 ' + p.word + '였어요.'; },
+
+      /* dialogs */
+      'dlg.cancel': '취소',
+      'restart.title': '새 게임을 시작할까요?',
+      'restart.length': function (p) { return p.n + '자리 숫자로 바꾸면 지금 게임이 끝나요. 점수는 기록되지 않아요.'; },
+      'restart.ok': '새 게임',
+      'login.title': '로그인',
+      'login.lede': '로그인하면 내 최고 점수를 따로 저장할 수 있어요.',
+      'login.label': '사용자 이름',
+      'login.saved': '저장된 이름',
+      'login.other': '또는 이름 입력',
+      'login.pick': function (p) { return p.name + '(으)로 로그인, 최고 점수 ' + p.best; },
+      'login.submit': '로그인',
+      'login.create': function (p) { return '“' + p.name + '” 만들기'; },
+      'login.unknown': function (p) { return '“' + p.name + '” 사용자가 아직 없어요. 새로 만들까요?'; },
+      'login.empty': '사용자 이름을 입력하세요.',
+      'login.invalid': '글자나 숫자 2~20자로 정하세요 (띄어쓰기, 마침표, 하이픈 가능).',
+      'login.reserved': function (p) { return '“' + p.name + '”은(는) 쓸 수 없는 이름이에요. 다른 이름을 고르세요.'; },
+      'login.noData': '저장하지 않고 플레이',
+      'login.anonymous': '익명으로 점수 저장',
+      'account.best': function (p) { return '내 최고 점수: ' + p.best; },
+      'settings.title': '설정',
+      'settings.sound': '소리',
+      'settings.background': '배경',
+      'settings.textSize': '글자 크기',
+      'goodbye.title': '플레이해 주셔서 고마워요!',
+      'goodbye.text': '즐거운 시간이었길 바라요. 또 한 판 하러 와 주세요!',
+      'goodbye.sign': 'MBG · Merkur Beqiri Games 드림',
+      'goodbye.again': '다시 하기',
+      'goodbye.close': '이제 이 창을 닫아도 돼요.',
+      'wheel.title': '숫자 길이',
+      'wheel.done': '완료',
+      'wheel.item': function (p) { return p.n + '자리'; },
+      'help.title': '게임 방법',
+
+      /* toasts */
+      'toast.font': function (p) { return '글자 크기: ' + p.px + 'px'; },
+      'toast.fontMax': '가장 큰 글자 크기예요.',
+      'toast.fontMin': '가장 작은 글자 크기예요.',
+      'theme.light': '밝게',
+      'theme.dark': '어둡게',
+      'theme.adriatic': '아드리아해',
+      'theme.meadow': '초원',
+      'theme.rose': '장미',
+      'theme.random': '랜덤 색상',
+
+      'last.try': function (p) { return p.n + '번째 시도'; },
+      'sr.guess': function (p) { return p.attempt + '번째 시도: ' + p.word + '. 단서: ' + p.clues; },
+      'legend.O': '맞는 숫자, 맞는 자리',
+      'legend.Q': '숫자에 있지만 다른 자리',
+      'legend.X': '숫자에 없음',
+
+      'help.html': function (c) {
+        return '' +
+          '<h3>목표</h3><p>컴퓨터가 비밀 숫자를 무작위로 골라요: 처음에는 4자리, 원하면 5, 6, 7, 8자리. 같은 숫자가 여러 번 나올 수 있고 0으로 시작할 수도 있어서, 4자리 숫자만 해도 10,000가지예요. 되도록 적은 시도로 맞혀 보세요. 숫자야구와 비슷하지만, 단서가 자리마다 따로 붙어요.</p>' +
+          '<h3>단서 읽기</h3><p>시도할 때마다 내 숫자의 자리마다 같은 순서로 단서가 붙어요:</p>' + c.legend +
+          '<p class="example">예: 비밀 숫자가 1234이고 2135를 입력하면 → <code>? ? O X</code></p>' +
+          '<p class="example">같은 숫자가 여러 번 나오면 꼼꼼히 셉니다. 비밀 숫자 7703, 입력 1777 → <code>X O ? X</code>. 두 번째 7은 맞는 자리예요. 세 번째 7은 숫자에 있지만 다른 자리예요(비밀 숫자의 다른 7). 마지막 7에 남은 7이 없어서 X가 돼요.</p>' +
+          '<h3>숫자 입력</h3><p>자릿수가 정확히 맞는 숫자를 입력하고 <b>입력</b> 버튼이나 Enter를 누르세요. 휴대폰에서는 숫자 키패드가 열려요. <b>입력</b>을 눌러 시도를 보내세요. 같은 숫자가 여러 번 나와도 돼요. 자릿수가 모자라거나 넘치거나, 글자·기호가 섞인 입력은 시도로 세지 않아요.</p>' +
+          '<p class="example">팁: 먼저 0123, 다음에 4567을 입력해 보세요. 두 번이면 어떤 숫자가 들어 있는지 알 수 있어요.</p>' +
+          '<h3>숫자 길이</h3><p>4, 5, 6, 7, 8자리 숫자로 플레이할 수 있어요. 시계 옆의 길이 버튼(예: <b>4자리</b>)을 누르고 길이를 고르세요. 휴대폰에서는 휠을 밀어서 고르면 돼요.</p>' +
+          '<h3>정답</h3><p>모든 단서가 O가 되면 숫자를 찾은 거예요. O가 하트 ❤️로 바뀌고, 소리가 켜져 있으면 축하 음악이 나와요.</p>' +
+          '<h3>힌트 💡</h3><p>막혔나요? 세 번째 시도부터 입력란 옆에 전구 버튼이 나타나요. 힌트를 쓸 때마다 아직 찾지 못한 자리 중 하나에 비밀 숫자가 하나 더 열리고, 힌트 크레딧이 하나 들어요 (⚙ › 힌트 크레딧: 날마다 무료 크레딧, 높은 점수를 내면 더 받아요). 숫자 전체를 알려 주지는 않아요: 적어도 한 자리는 늘 직접 찾아야 해요. 힌트 하나는 점수에서 시도 2번으로 계산돼요. 시도가 계속 틀리면 버튼이 더 자주 흔들리며 알려 줘요.</p>' +
+          '<h3>정답 보기</h3><p><b>정답 보기</b>를 누르거나 <code>정답</code> 또는 <code>reveal</code>을 입력하면 비밀 숫자를 볼 수 있어요. 게임은 0점으로 끝나요.</p>' +
+          '<h3>점수</h3><p>시도가 적을수록 점수가 높아요: 시도가 하나 늘 때마다 점수가 크게 줄어요. 빨리 풀면 작은 속도 보너스(최대 20%)도 있어요.</p>' + c.scoreTable +
+          '<p>내 최고 점수와 역대 최고 점수만 저장되고, 점수를 합산하지는 않아요.</p>' +
+          '<h3>명령어</h3>' + c.commandTable + '<p>영어 명령어(help, reveal, quit)는 모든 언어에서 쓸 수 있어요. 휴대폰의 숫자 키패드에는 글자가 없으니 버튼을 쓰세요.</p>' +
+          '<h3>사용자</h3><p>처음에는 바로 <b>익명</b>으로 플레이해요. 익명의 최고 점수는 이 기기에서 플레이하는 모두가 함께 써요. 내 최고 점수를 따로 저장하려면 <b>로그인</b>을 누르고 사용자 이름을 입력하거나 새로 만드세요. 전에 쓴 이름은 목록에 나와서 한 번만 누르면 다시 로그인돼요. 같은 창에서 아무것도 저장하지 않고 플레이할 수도 있어요. 점수는 이 기기에 저장돼요.</p>' +
+          '<h3>설정</h3><p>⚙ 버튼에는 소리 켜기/끄기(째깍거리는 시계, O와 ?마다 나는 소리, 점수가 높을수록 화려해지는 축하 음악), 배경 색, 글자 크기(A+ / A−)가 있어요.</p>' +
+          '<h3>새 게임</h3><p>게임이 끝나면 <b>새 게임</b>을 누르거나 <code>네</code>를 입력하세요. 게임 중에 숫자 길이를 바꾸면 확인한 뒤 새 게임이 시작돼요. 언어를 바꿔도 게임은 그대로예요.</p>' +
+          '<h3>게임 목록으로</h3><p><b>뒤로</b> 버튼, 휴대폰의 뒤로 버튼, 또는 왼쪽 위의 MBG 표시를 누르면 게임 목록으로 돌아가요. 끝나지 않은 게임은 저장되어 돌아오면 이어서 할 수 있어요. 앱을 닫으려면 홈 화면의 ⏻ 버튼을 누르세요.</p>';
+      },
+      'help.scoreHead': ['길이', '최고 점수', '최저 점수'],
+      'help.scoreRow': function (p) { return [p.length + '자리', p.hiAttempt + '번 만에 ' + p.hiScore, p.loAttempt + '번 만에 ' + p.loScore]; },
+      'help.cmdHead': ['입력', '하는 일'],
+      'help.cmdRows': [
+        ['도움말 · 규칙 · help', '이 설명 열기'],
+        ['정답 · 정답보기 · reveal', '비밀 숫자 보기 (0점)'],
+        ['나가기 · 종료 · quit', '게임 목록으로 돌아가기'],
+        ['네 / 아니요', '게임이 끝난 뒤: 한 판 더 하거나 게임 목록으로']
+      ],
+      'help.about': '정보',
+      'about.version': 'MBG Puzzles 1.0 · 암호 풀기. © 2026 MBG · Merkur Beqiri Games.',
+      'about.numbers': function (p) { return '비밀 숫자는 이 기기에서 무작위로 골라요: 4자리는 ' + p.min + '가지, 8자리는 ' + p.max + '가지까지.'; },
+      'about.privacy': '오프라인으로 플레이해요. 계정이 없어도 돼요: 이름과 점수는 이 휴대폰에만 저장돼요. 구독은 Google Play에서 결제하고 관리해요.',
+      'about.privacyFree': '오프라인으로 플레이해요. 무료이고 광고도 인앱 결제도 없어요. 이름과 점수는 이 휴대폰에만 저장돼요.'
     }
   };
 

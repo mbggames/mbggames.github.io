@@ -12,7 +12,7 @@
   var $ = function (id) { return document.getElementById(id); };
   var GAMES = ['codebreaker', 'word'];
   var WORD_TILES = { en: 'WORD', sq: 'FJALË', bs: 'RIJEČ', de: 'WORT', es: 'PALABRA', fr: 'MOTS', tr: 'KELİME',
-    pl: 'SŁOWO', pt: 'PALAVRA', ar: 'كلمة' };
+    pl: 'SŁOWO', pt: 'PALAVRA', ar: 'كلمة', ko: 'ㄷㅏㄴㅇㅓ' };   // ko: 단어, in its letters
   var WORD_MARKS = ['o', 'x', 'q', 'o', 'q'];
 
   function t(k, p) { return Shell.t(k, p); }
@@ -87,6 +87,8 @@
     var expert = (Shell.getPrefs() || {}).wordPool === 'all';
     $('lvlWord').hidden = !expert;
     $('lvlWord').textContent = t('home.expert');
+    $('lvlCodebreaker').hidden = !(Shell.getPrefs() || {}).cbExpert;      // version 1.7: Codebreaker's Expert level
+    $('lvlCodebreaker').textContent = t('home.expert');
 
     var word = WORD_TILES[lang] || WORD_TILES.en;
     var tiles = $('tilesWord');
@@ -102,12 +104,35 @@
     }
 
     renderDaily(lang);
+    renderWelcome();
 
     var world = MBG.World && MBG.World.enabled();
     $('cardWorld').hidden = !world;
     if (world) {
       $('worldTitle').textContent = t('world.title');
       $('worldText').textContent = t('world.cardText');
+    }
+
+    var A = MBG.Account;
+    var acc = !!(A && A.enabled());
+    $('cardAccount').hidden = !acc;
+    if (acc) {
+      $('accountTitle').textContent = A.signedIn() ? A.username() : t('account.title');
+      var ic = $('cardAccount').querySelector('.wc-icon');
+      ic.textContent = '';
+      ic.appendChild(A.picture('av-card'));
+      $('accountText').textContent = A.signedIn() ? t('account.cardOn') : t(A.ways().google ? 'account.cardText' : 'account.cardTextEmail');
+    }
+    // Version 1.7.2: the MBG account also at the top right, so signing in or creating an account is
+    // always one tap away (the card further down stays).
+    var top = $('btnAccTop');
+    top.hidden = true;            // version 1.10: the account is the first row of the menu
+    if (acc) {
+      top.textContent = '';
+      top.appendChild(A.picture('av-top'));
+      var lbl = A.signedIn() ? t('account.title') + ': ' + A.username() : t('account.title');
+      top.setAttribute('aria-label', lbl);
+      top.title = lbl;
     }
 
     var C = Shell.CONTACT;
@@ -122,15 +147,90 @@
     $('lblEmail').textContent = C.email;
     $('lnkEmail').setAttribute('aria-label', t('contact.emailLabel', { email: C.email }));
     $('lnkPrivacy').textContent = t('home.privacy');
+    renderMenu(lang);
     $('version').textContent = t('home.version', { v: Shell.VERSION });
+    $('powered').textContent = t('app.powered');
   }
+
+  /* ----------------------------------------------------------- menu --- */
+  // Version 1.10: what used to fill the home screen below the games - MBG account, world top 20,
+  // language, contact, privacy policy, closing the app, version - now sits in one menu that
+  // slides up from the bottom (the way GitHub's phone app keeps its screens calm). The home
+  // screen keeps only what players come for: the puzzles of the day and the two games.
+  function renderTopRow() {
+    var on = !!(MBG.World && MBG.World.enabled());
+    $('topRow').hidden = !on;
+    $('cardWorld').hidden = true;          // the world list is on the page, not in the menu
+    if (!on) return;
+    $('topWorldTitle').textContent = t('world.title');
+    $('topWorldText').textContent = t('top.worldText');
+    $('topTodayTitle').textContent = t('top.today');
+    $('topTodayText').textContent = t('top.todayText');
+    $('topBestTitle').textContent = t('dtop.title');
+  }
+  function renderMenu(lang) {
+    renderTopRow();
+    var open = t('menu.open');
+    $('btnMenu').setAttribute('aria-label', open);
+    $('btnMenu').title = open;
+    $('menuTitle').textContent = t('menu.title');
+    $('menuClose').textContent = t('btn.close');
+    $('menuLangTitle').textContent = t('lang.label');
+    $('menuLangText').textContent = Shell.langName(lang);
+    var flag = $('menuLangFlag');
+    if (flag.getAttribute('data-lang') !== lang) {
+      flag.setAttribute('data-lang', lang);
+      flag.innerHTML = MBG.LangMenu.flagSvg(lang, true);
+    }
+    $('menuPrivacyTitle').textContent = t('home.privacy');
+    $('menuExitTitle').textContent = t('home.exit');
+  }
+  function menuOpen() { return $('dlgMenu').open; }
+  function openMenu() {
+    var d = $('dlgMenu');
+    if (d.open) return;
+    render();
+    try { d.showModal(); } catch (e) { d.setAttribute('open', ''); }
+  }
+  /** Closes the menu, then runs `next` (a sheet of its own opens on a clean screen). */
+  function fromMenu(next) {
+    return function (e) {
+      if (e) e.preventDefault();
+      var d = $('dlgMenu');
+      if (d.open) d.close();
+      setTimeout(next, 0);
+    };
+  }
+  function backToMenuButton() { try { $('btnMenu').focus(); } catch (e) { /* ignore */ } }
+  $('btnMenu').addEventListener('click', openMenu);
+  $('menuClose').addEventListener('click', function () { $('dlgMenu').close(); });
+  $('dlgMenu').addEventListener('click', function (e) { if (e.target === $('dlgMenu')) $('dlgMenu').close(); });
+  $('dlgMenu').addEventListener('close', function () { if (!document.querySelector('dialog[open]')) backToMenuButton(); });
+  $('btnTopWorld').addEventListener('click', function () {
+    MBG.World.openBoard({ period: 'week' }).then(function () { $('btnTopWorld').focus(); });
+  });
+  $('btnTopToday').addEventListener('click', function () {
+    MBG.World.openBoard({ period: 'day' }).then(function () { $('btnTopToday').focus(); });
+  });
+  $('btnTopBest').addEventListener('click', function () {
+    MBG.World.openDailyTop({ lang: Shell.getLang() }).then(function () { $('btnTopBest').focus(); });
+  });
+  $('menuLang').addEventListener('click', fromMenu(function () {
+    MBG.LangMenu.open(Shell.getLang()).then(function (l) {
+      if (l) { Shell.setLang(l); render(); }
+      backToMenuButton();
+    });
+  }));
+  $('menuExit').addEventListener('click', fromMenu(function () { confirmExit(); }));
 
   /* -------------------------------------------------- daily puzzles --- */
   // Today's number and word (MBG.Daily): free for everyone, once a day, on top of the free game.
-  var dailyStore = new MBG.Daily.DailyStore(Shell.store);
+  // Each player has their own puzzles of the day: the card shows those of the player chosen now.
+  var dailyStore = null;
   function renderDaily(lang) {
     var D = MBG.Daily;
-    dailyStore.load();
+    var key = D.keyFor(Shell.getUser());
+    if (!dailyStore || dailyStore.key !== key) dailyStore = new D.DailyStore(Shell.store, key); else dailyStore.load();
     var n = D.dayNumber();
     $('dailyTitle').textContent = '📅 ' + t('daily.title');
     $('dailyNo').textContent = '#' + n;
@@ -154,16 +254,174 @@
         both = false;
       }
       if (st.cur > 0) state += ' · 🔥 ' + st.cur;
+      // Version 1.8: every day has its own lengths - say today's first ("6 letters · New today ...").
+      state = (game === 'word' ? t('world.letters', { n: D.wordLength(lang, n) }) : t('world.digits', { n: D.codeLength(n) })) + ' · ' + state;
       $('daily' + C + 'State').textContent = state;
       $('daily' + C + 'Go').textContent = go;
       $('daily' + C).classList.toggle('done', !!(e && e.done));
       $('daily' + C).setAttribute('aria-label', $('daily' + C + 'Name').textContent + '. ' + state);
     });
+    // The folded line tells how many of today's puzzles are still open.
+    var open = ['dailyCode', 'dailyWord'].filter(function (id) { return !$(id).classList.contains('done'); }).length;
+    $('dailySum').textContent = open ? (open === 1 ? t('daily.sumOne') : t('daily.sumOpen', { n: open })) : t('daily.sumDone');
+    $('dailySum').classList.toggle('done', !open);
+    setDailyOpen(dailyOpen(), true);
     var first = MBG.Daily && (WORD_TILES[lang] || 'A');
     $('dailyWordIc').textContent = Array.from(String(first))[0];
-    $('dailyFoot').textContent = both ? t('daily.nextBoth', { time: Shell.duration(D.msUntilNext()) }) : t('daily.free');
+    var who = Shell.getUser();
+    $('dailyFoot').textContent = (both ? t('daily.nextBoth', { time: Shell.duration(D.msUntilNext()) }) : t('daily.free')) + ' ' +
+      t('daily.playerLine', { name: who.mode === 'registered' ? who.name : t('welcome.anonName') });
     $('dailyReward').textContent = '🎁 ' + t('daily.rewardLine', { n: D.REWARD, list: MBG.Credits ? MBG.Credits.bonusList() : '' });
   }
+  /* ------------------------------------------------- first start: how to play --- */
+  // Once, at the first start: a small card with three ways to play - anonymously, with a name on
+  // this phone, or with an MBG account (Google or e-mail; scores on every phone and, if wanted,
+  // on the world top 20). The same choices stay available in the games and on the account card.
+  function welcomeWanted() {
+    var p = Shell.getPrefs();
+    if (p.welcomeDone) return false;
+    if (MBG.Account && MBG.Account.enabled() && MBG.Account.signedIn()) return false;
+    return Shell.getUser().mode === 'anonymous';
+  }
+  function welcomeDone() {
+    var prefs = Shell.getPrefs();
+    prefs.welcomeDone = true;
+    try { Shell.store.setItem(Shell.KEYS.prefs, JSON.stringify(prefs)); } catch (e) { /* ignore */ }
+    $('welcomeCard').hidden = true;
+  }
+  /** A name on this phone: a player of both games, chosen now (the games' own rules for names). */
+  function useLocalName(name) {
+    var S = MBG.Storage;
+    var n = String(name || '').normalize('NFC').trim();
+    var problem = S.validateUsername(n);
+    if (problem) return problem;
+    var found = null;
+    ['MBG.Codebreaker.Users', 'MBG.Word.Users'].forEach(function (k) {
+      var st = new S.UserStore(Shell.store, k);
+      var u = st.find(n) || st.create(n);
+      found = found || u.name;
+    });
+    Shell.setUser({ mode: 'registered', name: found });
+    var prefs = Shell.getPrefs();
+    var recent = Array.isArray(prefs.recent) ? prefs.recent : [];
+    prefs.recent = [found].concat(recent.filter(function (r) { return String(r).toLowerCase() !== found.toLowerCase(); })).slice(0, 20);
+    try { Shell.store.setItem(Shell.KEYS.prefs, JSON.stringify(prefs)); } catch (e) { /* ignore */ }
+    return null;
+  }
+  function promoFigure(alt) {
+    // Version 1.9: the MBG Games promo (animated; a still picture for players who reduce motion).
+    var f = document.createElement('figure');
+    f.className = 'mbgpromo';
+    var pic = document.createElement('picture');
+    var still = document.createElement('source');
+    still.media = '(prefers-reduced-motion: reduce)';
+    still.srcset = 'img/mbg-promo-still.webp';
+    var img = document.createElement('img');
+    img.src = 'img/mbg-promo.webp';
+    img.width = 508; img.height = 337;
+    img.alt = alt;
+    img.decoding = 'async';
+    img.addEventListener('error', function () { f.hidden = true; });   // a missing picture never blocks the page
+    pic.appendChild(still); pic.appendChild(img); f.appendChild(pic);
+    return f;
+  }
+
+  function renderWelcome() {
+    var card = $('welcomeCard');
+    if (!welcomeWanted()) { card.hidden = true; return; }
+    var acc = !!(MBG.Account && MBG.Account.enabled());
+    card.hidden = false;
+    card.innerHTML = '';
+    var head = document.createElement('div');
+    head.className = 'wlc-head';
+    var h = document.createElement('h2');
+    h.id = 'wlcTitle';
+    h.textContent = t('welcome.title');
+    var x = document.createElement('button');
+    x.type = 'button';
+    x.className = 'wlc-x';
+    x.setAttribute('aria-label', t('welcome.close'));
+    x.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+    x.addEventListener('click', function () { Shell.setUser({ mode: 'anonymous' }); welcomeDone(); render(); });
+    head.appendChild(h);
+    head.appendChild(x);
+    card.appendChild(head);
+    card.appendChild(promoFigure(t('promo.alt')));
+    function option(icon, title, text, onPick) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'wlc-opt';
+      b.innerHTML = '<span class="wlc-ic" aria-hidden="true"></span><span class="wlc-t"><strong></strong><span></span></span>' +
+        '<svg class="wlc-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>';
+      b.querySelector('.wlc-ic').textContent = icon;
+      b.querySelector('strong').textContent = title;
+      b.querySelector('.wlc-t span').textContent = text;
+      b.addEventListener('click', onPick);
+      card.appendChild(b);
+      return b;
+    }
+    option('🎮', t('welcome.anon'), t('welcome.anonText'), function () {
+      Shell.setUser({ mode: 'anonymous' });
+      welcomeDone();
+      render();
+      if (MBG.Paywall && MBG.Paywall.toast) MBG.Paywall.toast(t('welcome.anonOk'));
+    });
+    var local = option('📱', t('welcome.local'), t('welcome.localText'), function () {
+      local.hidden = true;
+      form.hidden = false;
+      input.focus();
+    });
+    // The name form opens in place of the second choice.
+    var form = document.createElement('form');
+    form.className = 'wlc-form';
+    form.hidden = true;
+    form.innerHTML = '<label class="fieldlabel" for="wlcName"></label><div class="wlc-row"><input class="textfield" id="wlcName" maxlength="20" autocomplete="nickname" spellcheck="false">' +
+      '<button type="submit" class="btn submit"></button></div><p class="pw-msg" role="status" aria-live="polite" hidden></p>';
+    var input = form.querySelector('input');
+    form.querySelector('label').textContent = t('welcome.nameLabel');
+    input.placeholder = t('welcome.namePh');
+    form.querySelector('button').textContent = t('welcome.nameOk');
+    var msg = form.querySelector('.pw-msg');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var problem = useLocalName(input.value);
+      if (problem) {
+        msg.textContent = t(problem === 'reserved' ? 'welcome.nameReserved' : 'welcome.nameInvalid');
+        msg.hidden = false;
+        input.focus();
+        return;
+      }
+      var name = Shell.getUser().name;
+      welcomeDone();
+      render();
+      if (MBG.Paywall && MBG.Paywall.toast) MBG.Paywall.toast(t('welcome.nameHello', { name: name }));
+    });
+    card.appendChild(form);
+    if (acc) option('🌍', t('welcome.world'), t(MBG.Account.ways().google ? 'welcome.worldText' : 'welcome.worldTextEmail'), function () {
+      MBG.Account.open().then(function () {
+        if (MBG.Account.signedIn()) welcomeDone();
+        render();
+      });
+    });
+    var fine = document.createElement('p');
+    fine.className = 'wlc-fine';
+    fine.textContent = t('welcome.later');
+    card.appendChild(fine);
+  }
+
+  /** Folded by default; once the player opens (or folds) it, the next start shows it the same way. */
+  function dailyOpen() { return Shell.getPrefs().dailyOpen === true; }
+  function setDailyOpen(open, quiet) {
+    $('dailyBody').hidden = !open;
+    $('dailyCard').classList.toggle('folded', !open);
+    $('dailyToggle').setAttribute('aria-expanded', open ? 'true' : 'false');
+    $('dailyToggle').setAttribute('aria-label', t('daily.title') + ' · ' + $('dailySum').textContent + ' · ' + t(open ? 'daily.hide' : 'daily.show'));
+    if (quiet) return;
+    var prefs = Shell.getPrefs();
+    prefs.dailyOpen = open;
+    try { Shell.store.setItem(Shell.KEYS.prefs, JSON.stringify(prefs)); } catch (e) { /* ignore */ }
+  }
+  $('dailyToggle').addEventListener('click', function () { setDailyOpen(!dailyOpen()); });
   ['codebreaker', 'word'].forEach(function (g) {
     $(g === 'word' ? 'dailyWord' : 'dailyCode').addEventListener('click', function (e) {
       e.preventDefault();
@@ -192,9 +450,18 @@
   });
 
   /* ---------------------------------------------------- world top 20 --- */
-  $('cardWorld').addEventListener('click', function () {
-    MBG.World.openBoard({}).then(function () { $('cardWorld').focus(); });
+  $('cardWorld').addEventListener('click', fromMenu(function () {
+    MBG.World.openBoard({}).then(backToMenuButton);
+  }));
+
+  /* ------------------------------------------------------ MBG account --- */
+  $('btnAccTop').addEventListener('click', function () {
+    MBG.Account.open().then(function () { render(); $('btnAccTop').focus(); });
   });
+  $('cardAccount').addEventListener('click', fromMenu(function () {
+    MBG.Account.open().then(function () { render(); backToMenuButton(); });
+  }));
+  if (MBG.Account) MBG.Account.onChange(function (type) { if (type !== 'status') render(); });
 
   /* ------------------------------------------------- closing the app --- */
   var closeTimer = null;
@@ -213,7 +480,7 @@
   }
   $('dlgConfirm').addEventListener('close', function () {
     if ($('dlgConfirm').returnValue === 'ok') showGoodbye();
-    else $('btnExit').focus();
+    else backToMenuButton();
   });
 
   function showGoodbye() {
@@ -251,5 +518,11 @@
 
   Shell.applyLook();
   render();
-  MBG.home = { render: render, confirmExit: confirmExit };
+  // Version 1.7.2 - the very first start: a greeting and the languages (eleven since 1.11), so every player starts
+  // in their own language (the phone's language is marked). Shown once: the choice is kept, and
+  // players who already used the app (they made the "how to play" choice) are not asked.
+  if (!Shell.langChosen() && !Shell.getPrefs().welcomeDone) {
+    MBG.LangMenu.open(Shell.getLang(), { welcome: true }).then(function (l) { Shell.setLang(l); render(); });
+  }
+  MBG.home = { render: render, confirmExit: confirmExit, openMenu: openMenu, menuOpen: menuOpen };
 })(typeof self !== 'undefined' ? self : globalThis);

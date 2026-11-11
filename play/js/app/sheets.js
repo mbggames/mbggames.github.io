@@ -41,7 +41,12 @@
   var statsStore = null;
   function stats() { if (!statsStore) statsStore = new MBG.Stats.StatsStore(Shell.store); else statsStore.load(); return statsStore; }
   var dailyStore = null;
-  function daily() { if (!dailyStore) dailyStore = new MBG.Daily.DailyStore(Shell.store); else dailyStore.load(); return dailyStore; }
+  /** The puzzles of the day of a player (default: the one playing now) - every player has their own. */
+  function daily(user) {
+    var key = MBG.Daily.keyFor(user && user.mode ? user : Shell.getUser());
+    if (!dailyStore || dailyStore.key !== key) dailyStore = new MBG.Daily.DailyStore(Shell.store, key); else dailyStore.load();
+    return dailyStore;
+  }
 
   /** The name the numbers are kept under: the player's name, or Anonymous (null: nothing kept). */
   function statsName(user) {
@@ -52,7 +57,7 @@
 
   /** A game is over: count it (also the daily puzzle's result). Returns the new summary. */
   function record(game, evt) {
-    if (evt.daily) daily().finish(game, evt.daily, evt.won);
+    if (evt.daily) daily(evt.user).finish(game, evt.daily, evt.won);
     var name = statsName(evt.user && evt.user.mode ? evt.user : null);
     if (!name) return null;
     return stats().record(name, game, { lang: evt.lang, length: evt.length, won: evt.won, tries: evt.tries, seconds: evt.seconds });
@@ -65,7 +70,7 @@
    */
   function dailyReward(game, evt) {
     if (!evt.daily || !evt.won || !MBG.Credits || !MBG.Daily) return null;
-    var d = daily();
+    var d = daily(evt.user);
     if (!d.claim(game, evt.daily)) return null;
     var st = d.streak(game);
     var bonus = MBG.Daily.streakBonus(st.cur);
@@ -182,6 +187,15 @@
       var p = el('p', 'st-daily');
       p.textContent = '📅 ' + t('stats.daily', { solved: ds.solved, played: ds.played, cur: ds.cur, best: ds.best });
       body.appendChild(p);
+    }
+    // Version 1.8: the best puzzles of the day of everyone - the words and numbers, scores, who and when.
+    if (MBG.World && MBG.World.enabled()) {
+      var top = el('button', 'btn ghost st-dtop', t('dtop.open'));
+      top.type = 'button';
+      top.addEventListener('click', function () {
+        MBG.World.openDailyTop({ game: view.game, lang: view.game === 'word' ? (view.lang || Shell.getLang()) : '' });
+      });
+      body.appendChild(top);
     }
   }
 

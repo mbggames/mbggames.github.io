@@ -34,7 +34,8 @@
     tr: { help: ['yardım', 'yardim', 'kurallar'], reveal: ['göster', 'goster'], quit: ['çık', 'cik', 'çıkış', 'cikis'] },
     pl: { help: ['zasady'], reveal: ['pokaż', 'pokaz'], quit: ['wyjdź', 'wyjdz', 'koniec'] },
     pt: { help: ['ajuda', 'regras'], reveal: ['revelar'], quit: ['sair'] },
-    ar: { help: ['مساعدة', 'قواعد'], reveal: ['اكشف', 'كشف'], quit: ['خروج'] }
+    ar: { help: ['مساعدة', 'قواعد'], reveal: ['اكشف', 'كشف'], quit: ['خروج'] },
+    ko: { help: ['도움말', '규칙'], reveal: ['정답보기', '정답'], quit: ['나가기', '종료'] }
   };
   var COMMAND_WORDS = [];
   Object.keys(COMMANDS).forEach(function (k) { COMMAND_WORDS = COMMAND_WORDS.concat(COMMANDS[k]); });
@@ -53,9 +54,31 @@
     timeBonusMax: 0.2,
     timeBonusSecondsPerDigit: 30,
     capAtHighAnchor: false, // true = attempts before the high anchor score the anchor value
+    fasterTryBonus: 0.05,   // version 1.7: each try fewer than the high anchor adds 5 % (no longer doubling)
     minimumWinScore: 1,
     hintTries: 2            // a hint counts like this many extra tries in the score
   };
+
+  /**
+   * Difficulty (version 1.7): MODE.EXPERT - "hidden positions": the clues of a try are shown
+   * sorted (O first, then ?, then X), as in the classic board game, so they no longer say which
+   * digit each clue belongs to. The score is multiplied by MODE_FACTORS: normal 1, expert 2 (as
+   * much as Word Puzzle's hardest mode). A puzzle of the day is always played in mode 0.
+   */
+  var MODE = { EXPERT: 1 };
+  var MODE_FACTORS = { 0: 1, 1: 2 };
+  /** Expert clues: the same O / ? / X, sorted (O first, then ?, then X) - positions are hidden. */
+  function sortClues(feedback) {
+    var rank = { O: 0, '?': 1, X: 2 };
+    return (feedback || []).slice().sort(function (a, b) { return rank[a] - rank[b]; });
+  }
+  /** The clues as the player sees them in a game of that mode. */
+  function shownClues(feedback, mode) { return (Number(mode) || 0) & MODE.EXPERT ? sortClues(feedback) : feedback; }
+  /** The difficulty factor of a mode (unknown bits count as 0, an unknown mode as normal). */
+  function modeFactor(mode) {
+    var f = MODE_FACTORS[Number(mode) || 0];
+    return typeof f === 'number' ? f : 1;
+  }
 
   /**
    * NFKC-normalise, trim and lower-case. NFKC also turns full-width digits
@@ -105,12 +128,16 @@
    * Y/N answers for confirmation prompts (FR-CMD-005), in every language: Albanian po/jo,
    * Bosnian da/ne, German ja/nein, Spanish sí/no, French oui/non, Turkish evet/hayır.
    */
-  var YES = ['y', 'yes', 'po', 'd', 'da', 'j', 'ja', 's', 'si', 'sí', 'o', 'oui', 'e', 'evet', 't', 'tak', 'sim', 'نعم', 'ن'];
-  var NO = ['n', 'no', 'jo', 'ne', 'nein', 'non', 'h', 'hayır', 'hayir', 'nie', 'não', 'nao', 'لا', 'ل'];
+  var YES = ['y', 'yes', 'po', 'd', 'da', 'j', 'ja', 's', 'si', 'sí', 'o', 'oui', 'e', 'evet', 't', 'tak', 'sim', 'نعم', 'ن',
+    '네', '예', '응', 'ㅇ', 'ㅇㅇ'];
+  var NO = ['n', 'no', 'jo', 'ne', 'nein', 'non', 'h', 'hayır', 'hayir', 'nie', 'não', 'nao', 'لا', 'ل',
+    '아니', '아니요', '아니오', 'ㄴ', 'ㄴㄴ'];
+  // NFKC turns the Korean letters ㅇ and ㄴ into their old conjoining forms: compare normalized
+  var YES_N = YES.map(function (w) { return normalize(w); }), NO_N = NO.map(function (w) { return normalize(w); });
   function parseYesNo(raw) {
     var s = normalize(raw);
-    if (YES.indexOf(s) !== -1) return 'yes';
-    if (NO.indexOf(s) !== -1) return 'no';
+    if (YES_N.indexOf(s) !== -1) return 'yes';
+    if (NO_N.indexOf(s) !== -1) return 'no';
     return null;
   }
 
@@ -187,6 +214,9 @@
     var r = Math.pow(a.low.score / a.high.score, 1 / (a.low.attempt - a.high.attempt));
     var n = attempts;
     if (SCORING.capAtHighAnchor && n < a.high.attempt) n = a.high.attempt;
+    // Fewer tries than the high anchor (often luck): +5 % per try instead of doubling, so the very
+    // best game stays near 1,000,000 points even at the hardest mode.
+    if (n < a.high.attempt) return Math.round(a.high.score * (1 + SCORING.fasterTryBonus * (a.high.attempt - n)));
     var value = Math.round(a.high.score * Math.pow(r, n - a.high.attempt));
     return Math.max(SCORING.minimumWinScore, value);
   }
@@ -197,10 +227,16 @@
     return Math.round(base * factor);
   }
 
-  function computeScore(length, attempts, seconds) {
+  /**
+   * The score of a win: { base, bonus (speed), mode, extra (difficulty points), total }.
+   * total = (base + bonus) x the mode's factor. server/worker.js computes exactly the same.
+   */
+  function computeScore(length, attempts, seconds, mode) {
     var base = baseScore(length, attempts);
     var bonus = timeBonus(length, base, seconds);
-    return { base: base, bonus: bonus, total: base + bonus };
+    var m = Number(mode) || 0;
+    var total = Math.round((base + bonus) * modeFactor(m));
+    return { base: base, bonus: bonus, mode: m, extra: total - base - bonus, total: total };
   }
 
   /** Thousands separators, e.g. 40,000 (FR-SCORE-001). */
@@ -213,8 +249,9 @@
   }
 
   /* ----------------------------------------------------------- rounds --- */
-  function createRound(secret, length, lang, now) {
+  function createRound(secret, length, lang, now, mode) {
     return {
+      mode: Number(mode) || 0,   // difficulty bits (MODE), fixed when the game starts
       secret: normalize(secret),
       length: length,
       lang: lang,
@@ -241,7 +278,7 @@
     if (won) {
       round.status = 'won';
       round.endedAt = now;
-      round.score = computeScore(round.length, scoreTries(round), elapsedSeconds(round, now));
+      round.score = computeScore(round.length, scoreTries(round), elapsedSeconds(round, now), round.mode);
     }
     return { attempt: round.guesses.length, feedback: feedback, won: won };
   }
@@ -257,7 +294,11 @@
     var n = letters(round.secret).length;
     var known = [];
     for (var i = 0; i < n; i++) known.push(false);
-    round.guesses.forEach(function (g) { g.feedback.forEach(function (f, j) { if (f === 'O') known[j] = true; }); });
+    // Expert (hidden positions): the player does not see which digits are right, so a hint may open any
+    // place not opened by a hint yet (it must not tell which places are right).
+    if (!((Number(round.mode) || 0) & MODE.EXPERT)) {
+      round.guesses.forEach(function (g) { g.feedback.forEach(function (f, j) { if (f === 'O') known[j] = true; }); });
+    }
     (round.hints || []).forEach(function (h) { known[h.index] = true; });
     return known;
   }
@@ -320,6 +361,11 @@
     commandLists: commandLists,
     SCORE_ANCHORS: SCORE_ANCHORS,
     SCORING: SCORING,
+    MODE: MODE,
+    MODE_FACTORS: MODE_FACTORS,
+    modeFactor: modeFactor,
+    sortClues: sortClues,
+    shownClues: shownClues,
     normalize: normalize,
     letters: letters,
     letterCount: letterCount,

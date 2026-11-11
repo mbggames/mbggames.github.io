@@ -9,6 +9,10 @@
  * each one higher, longer and richer, at the same scores that earn hint credits.
  *
  * Key sounds (Settings › Key sounds, shared by both games):
+ *   'wood'   (default since 1.9) every digit and letter knocks like a wooden block, each key its own
+ *            note on a pentatonic scale (same keys as the phone: ABC = 2 …); clues: right place one
+ *            full "tock", wrong place two quick "ticks", not there silent; the game clock ticks and
+ *            tocks in wood too. Made with the Web Audio API.
  *   'phone'  every digit and letter beeps like the key of a push-button phone of the 80s and 90s:
  *            its own two-tone beep (DTMF); letters sound like the key they had on the phone
  *            (ABC = 2, DEF = 3 … WXYZ = 9; accents like their letter; Arabic as on Arabic keypads)
@@ -26,8 +30,8 @@
 })(typeof self !== 'undefined' ? self : globalThis, function (root) {
   'use strict';
 
-  // Score from which each win sound plays: win1 below 5,000 ... win7 from 200,000.
-  var WIN_STEPS = [0, 5000, 10000, 25000, 50000, 100000, 200000];
+  // Score from which each win sound plays: win1 below 10,000 ... win7 from 500,000 (version 1.7).
+  var WIN_STEPS = [0, 10000, 25000, 50000, 100000, 200000, 500000];   // = the credit reward steps (1.7)
   function winKey(score) {
     var s = Number(score) || 0, k = 1;
     for (var i = 1; i < WIN_STEPS.length; i++) if (s >= WIN_STEPS[i]) k = i + 1;
@@ -43,13 +47,21 @@
   };
 
   var SAME_KEY = '5';               // 'same': every key sounds like the 5 in the middle of the keypad
-  var KEY_MODES = ['phone', 'same', 'off'];
+  var KEY_MODES = ['wood', 'phone', 'same', 'off'];
+  // 'wood': the note of each key (Hz), a pentatonic scale so any word or number sounds friendly.
+  var WOOD_HZ = { 1: 392, 2: 440, 3: 523.25, 4: 587.33, 5: 659.25, 6: 783.99, 7: 880, 8: 1046.5, 9: 1174.66, 0: 329.63 };
+  var WOOD_CLOCK = [988, 740];     // the clock in 'wood': tick (higher), tock (lower), one per second
   // Letters on the keys of a phone keypad (ITU E.161), and Arabic as on Arabic phone keypads.
   var LETTER_KEYS = { abc: 2, def: 3, ghi: 4, jkl: 5, mno: 6, pqrs: 7, tuv: 8, wxyz: 9,
     'بتثة': 2, 'اأإآءؤئ': 3, 'سشصض': 4, 'دذرز': 5, 'نهويى': 6, 'فقكلم': 7, 'جحخ': 8, 'طظعغ': 9 };
   var KEY_OF = {};
   Object.keys(LETTER_KEYS).forEach(function (g) { Array.from(g).forEach(function (c) { KEY_OF[c] = String(LETTER_KEYS[g]); }); });
   var SPECIAL = { 'ı': 'i', 'ł': 'l', 'đ': 'd', 'ß': 's', 'ẞ': 's', 'æ': 'a', 'ø': 'o', 'œ': 'o' };
+  // Korean (1.11): the keys of the Korean phone keypad 천지인 (ㅣ 1, ㆍ 2, ㅡ 3, ㄱㅋ 4, ㄴㄹ 5, ㄷㅌ 6,
+  // ㅂㅍ 7, ㅅㅎ 8, ㅈㅊ 9, ㅇㅁ 0); a vowel sounds like its first stroke (ㅏ = ㅣ + ㆍ: 1).
+  var KO_KEYS = { 'ㄱㅋㄲ': 4, 'ㄴㄹ': 5, 'ㄷㅌㄸ': 6, 'ㅂㅍㅃ': 7, 'ㅅㅎㅆ': 8, 'ㅈㅊㅉ': 9, 'ㅇㅁ': 0,
+    'ㅏㅑㅐㅒㅣ': 1, 'ㅓㅕㅔㅖㅗㅛ': 2, 'ㅜㅠㅡ': 3 };
+  Object.keys(KO_KEYS).forEach(function (g) { Array.from(g).forEach(function (c) { KEY_OF[c] = String(KO_KEYS[g]); }); });
   /** The phone key of a digit or letter ('0'-'9'), or null. */
   function keyFor(ch) {
     var c = String(ch == null ? '' : ch).charAt(0);
@@ -57,6 +69,9 @@
     var a = c.replace(/[\u0660-\u0669]/, function (d) { return String(d.charCodeAt(0) - 0x0660); });
     if (/[0-9]/.test(a)) return a;
     if (KEY_OF[c]) return KEY_OF[c];
+    // a Korean syllable sounds like the last key typed in it (사 → ㅏ, 삭 → ㄱ)
+    var H = root.MBG && root.MBG.Hangul;
+    if (H && H.hasHangul(c)) { var keys = Array.from(H.decompose(c)); return KEY_OF[keys[keys.length - 1]] || null; }
     var l = c.toLowerCase();
     l = SPECIAL[l] || l.normalize('NFD').charAt(0);
     return KEY_OF[l] || null;
@@ -78,7 +93,8 @@
     this.hidden = false;
     this.available = typeof root.Audio === 'function';
     this.ctx = undefined;          // Web Audio, made at the first touch (phones allow it only then)
-    this.keys = KEY_MODES.indexOf(options.keys) !== -1 ? options.keys : 'phone';
+    this.keys = KEY_MODES.indexOf(options.keys) !== -1 ? options.keys : 'wood';
+    this.woodTimer = null;
   }
 
   var P = AudioService.prototype;
@@ -113,7 +129,7 @@
     var self = this;
     Object.keys(this.pools).forEach(function (key) {
       self.pools[key].forEach(function (el) {
-        if (key === 'tick' && self.tickWanted && self.enabled) return;
+        if (key === 'tick' && self.tickWanted && self.enabled && self.keys !== 'wood') return;
         try {
           el.muted = true;
           var p = el.play();
@@ -142,9 +158,8 @@
     if (!this.enabled) {
       this.generation += 1;          // cancels queued hit/win sounds
       this._stopAll();
-    } else if (this.tickWanted) {
-      this._startTickElement();      // FR-AUD-010
     }
+    this._syncClock();               // FR-AUD-010: the clock comes back when sound is switched on
   };
 
   P._stopAll = function () {
@@ -154,38 +169,55 @@
     });
   };
 
-  P._startTickElement = function () {
+  /**
+   * The game clock: the ticktock file, or (key sounds 'wood') a wooden tick and tock made on the spot.
+   * Runs only while it is wanted, sound is on and the app is in the foreground.
+   */
+  P._syncClock = function () {
+    var run = this.tickWanted && this.enabled && !this.hidden;
+    var wood = this.keys === 'wood';
+    var self = this;
+    if (run && wood) {
+      if (!this.woodTimer) {
+        var n = 0;
+        var beat = function () { self._knock(WOOD_CLOCK[n % 2], 0, 0.13, 'clock'); n += 1; };
+        beat();
+        this.woodTimer = setInterval(beat, 1000);
+      }
+    } else if (this.woodTimer) {
+      clearInterval(this.woodTimer);
+      this.woodTimer = null;
+    }
     var el = this.els.tick;
-    if (!el || this.broken.tick || !this.enabled || this.hidden) return;
-    try {
-      el.currentTime = 0;
-      el.muted = false;
-      var p = el.play();
-      if (p && p.catch) p.catch(function () { /* ignore */ });
-    } catch (e) { /* ignore */ }
+    if (!el) return;
+    if (run && !wood && !this.broken.tick) {
+      if (!el.paused) return;
+      try {
+        el.currentTime = 0;
+        el.muted = false;
+        var p = el.play();
+        if (p && p.catch) p.catch(function () { /* ignore */ });
+      } catch (e) { /* ignore */ }
+    } else {
+      try { el.pause(); } catch (e) { /* ignore */ }
+    }
   };
 
   P.startTick = function () {
     if (this.tickWanted) return;
     this.tickWanted = true;
-    this._startTickElement();
+    this._syncClock();
   };
 
   P.stopTick = function () {
     this.tickWanted = false;
-    var el = this.els.tick;
-    if (el) { try { el.pause(); } catch (e) { /* ignore */ } }
+    this._syncClock();
   };
 
   /** Pause the clock sound while the app is in the background. */
   P.setHidden = function (hidden) {
     this.hidden = !!hidden;
-    var el = this.els.tick;
-    if (!el) return;
-    if (hidden) { try { el.pause(); } catch (e) { /* ignore */ } }
-    else if (this.tickWanted && this.enabled) {
-      try { var p = el.play(); if (p && p.catch) p.catch(function () {}); } catch (e) { /* ignore */ }
-    }
+    this._syncClock();
   };
 
   /**
@@ -248,8 +280,68 @@
       });
     } catch (e) { /* no Web Audio: silent */ }
   };
-  /** 'phone' | 'same' | 'off' (Settings › Key sounds). */
-  P.setKeys = function (mode) { if (KEY_MODES.indexOf(mode) !== -1) this.keys = mode; };
+  /* ------------------------------------------------------ wooden knocks --- */
+  P._noise = function (ctx) {
+    if (!this.noiseBuf) {
+      var len = Math.floor(ctx.sampleRate * 0.25), b = ctx.createBuffer(1, len, ctx.sampleRate), d = b.getChannelData(0);
+      for (var i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+      this.noiseBuf = b;
+    }
+    return this.noiseBuf;
+  };
+  /**
+   * One knock on wood: a pitched body with a tiny pitch drop, a hollow overtone and a short click.
+   * kind: 'key' (typing), 'tock' (right place: fuller and longer), 'tick' (wrong place: short),
+   * 'clock' (the game clock: soft).
+   */
+  P._knock = function (hz, at, vol, kind) {
+    var ctx = this._ctx();
+    if (!ctx || !hz) return;
+    try {
+      var t0 = ctx.currentTime + 0.01 + (at || 0);
+      var len = kind === 'tock' ? 0.34 : kind === 'tick' ? 0.12 : kind === 'clock' ? 0.09 : 0.2;
+      var body = ctx.createOscillator(), bg = ctx.createGain();
+      body.type = 'sine';
+      body.frequency.setValueAtTime(hz * 1.035, t0);
+      body.frequency.exponentialRampToValueAtTime(hz, t0 + 0.035);
+      bg.gain.setValueAtTime(0.0001, t0);
+      bg.gain.exponentialRampToValueAtTime(vol, t0 + 0.004);
+      bg.gain.exponentialRampToValueAtTime(0.0001, t0 + len);
+      body.connect(bg); bg.connect(ctx.destination);
+      body.start(t0); body.stop(t0 + len + 0.03);
+      if (kind === 'tock') {                         // a little more wood underneath
+        var low = ctx.createOscillator(), lg = ctx.createGain();
+        low.type = 'sine'; low.frequency.value = hz / 2;
+        lg.gain.setValueAtTime(0.0001, t0);
+        lg.gain.exponentialRampToValueAtTime(vol * 0.5, t0 + 0.006);
+        lg.gain.exponentialRampToValueAtTime(0.0001, t0 + len * 0.8);
+        low.connect(lg); lg.connect(ctx.destination);
+        low.start(t0); low.stop(t0 + len);
+      }
+      var wood = ctx.createOscillator(), wg = ctx.createGain();
+      wood.type = 'triangle'; wood.frequency.value = hz * 2.76;
+      wg.gain.setValueAtTime(0.0001, t0);
+      wg.gain.exponentialRampToValueAtTime(vol * 0.26, t0 + 0.002);
+      wg.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.07);
+      wood.connect(wg); wg.connect(ctx.destination);
+      wood.start(t0); wood.stop(t0 + 0.1);
+      var click = ctx.createBufferSource(), cf = ctx.createBiquadFilter(), cg = ctx.createGain();
+      click.buffer = this._noise(ctx);
+      cf.type = 'bandpass'; cf.frequency.value = Math.min(9000, hz * 3); cf.Q.value = 4;
+      cg.gain.setValueAtTime(vol * 0.6, t0);
+      cg.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.018);
+      click.connect(cf); cf.connect(cg); cg.connect(ctx.destination);
+      click.start(t0); click.stop(t0 + 0.03);
+    } catch (e) { /* no Web Audio: silent */ }
+  };
+  P._woodHz = function (ch) { var k = keyFor(ch); return WOOD_HZ[k] || WOOD_HZ[5]; };
+
+  /** 'wood' | 'phone' | 'same' | 'off' (Settings › Key sounds). */
+  P.setKeys = function (mode) {
+    if (KEY_MODES.indexOf(mode) === -1) return;
+    this.keys = mode;
+    this._syncClock();                               // the clock follows the choice (wood or file)
+  };
   P._keyOf = function (ch) {
     if (this.keys === 'off') return null;
     var k = keyFor(ch);
@@ -258,6 +350,7 @@
   /** A digit or letter typed: its key tone (or the one tone for all, or nothing). */
   P.keyTone = function (ch) {
     if (!this.enabled || this.hidden) return;
+    if (this.keys === 'wood') { if (keyFor(ch)) this._knock(this._woodHz(ch), 0, 0.42, 'key'); return; }
     var k = this._keyOf(ch);
     if (k) this._dtmf(k, 0, 0.12, 0.17);
   };
@@ -265,6 +358,10 @@
   P.keySample = function () {
     if (!this.enabled || this.keys === 'off') return;
     var self = this;
+    if (this.keys === 'wood') {                      // tick, tock … and a full tock
+      ['1', '5', '9'].forEach(function (d, i) { self._knock(WOOD_HZ[d], i * 0.2, 0.42, i === 2 ? 'tock' : 'key'); });
+      return;
+    }
     ['1', '5', '9'].forEach(function (d, i) { var k = self._keyOf(d); if (k) self._dtmf(k, i * 0.17, 0.12, 0.17); });
   };
   /**
@@ -282,6 +379,12 @@
       feedback.forEach(function (f, i) {
         setTimeout(function () {
           if (gen !== self.generation || !self.enabled) return;
+          if (self.keys === 'wood') {
+            var hz = self._woodHz(list[i]);
+            if (f === 'O') self._knock(hz, 0, 0.5, 'tock');
+            else if (f === '?') { self._knock(hz, 0, 0.34, 'tick'); self._knock(hz, 0.085, 0.34, 'tick'); }
+            return;
+          }
           var k = self._keyOf(list[i]) || SAME_KEY;
           if (f === 'O') self._dtmf(k, 0, 0.17, 0.2);
           else if (f === '?') { self._dtmf(k, 0, 0.055, 0.15); self._dtmf(k, 0.085, 0.055, 0.15); }
@@ -296,6 +399,6 @@
   /** Cancels queued sounds without changing the on/off setting (e.g. when a round is abandoned). */
   P.cancelPending = function () { this.generation += 1; };
 
-  return { AudioService: AudioService, winKey: winKey, WIN_STEPS: WIN_STEPS, DTMF: DTMF, keyFor: keyFor, KEY_MODES: KEY_MODES };
+  return { AudioService: AudioService, winKey: winKey, WIN_STEPS: WIN_STEPS, DTMF: DTMF, keyFor: keyFor, KEY_MODES: KEY_MODES, WOOD_HZ: WOOD_HZ };
 });
 

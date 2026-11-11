@@ -241,6 +241,65 @@ body.home-page { overflow-y: auto; }
 .wj-agree input { width: 22px; height: 22px; accent-color: var(--accent); }
 .worldjoin select.textfield { appearance: auto; }
 
+/* MBG account (sign in with Google): the sheet, the home card, the line in the login window */
+.acsheet .ac { display: grid; gap: 12px; }
+.acsheet h3 { margin: 4px 0 0; font: 700 1em/1.3 var(--font-body); }
+.acsheet select.textfield { appearance: auto; }
+.ac-lede { margin: 0; }
+.ac-fine { margin: 0; color: var(--muted); font-size: .86em; }
+.ac-google-box { display: flex; justify-content: center; min-height: 48px; }
+.ac-google-box .ac-fine { align-self: center; text-align: center; }
+.btn.ac-google {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: 48px;
+  background: var(--card); color: var(--ink); border: 1px solid var(--line); border-radius: 999px; font-weight: 700;
+}
+.btn.ac-google svg, .ac-ic svg { flex: none; width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+.ac-or { margin: 0; text-align: center; color: var(--muted); font-size: .9em; }
+.ac-mail-box { display: grid; gap: 8px; }
+.ac-mail-box:empty { display: none; }
+.ac-tabs { display: flex; }
+.ac-tabs .seg-btn { flex: 1 1 0; min-height: 40px; }
+.textfield.ac-code { font: 700 1.5em/1.2 var(--font-mono, monospace); letter-spacing: .35em; text-align: center; }
+.acsheet .ac .linkbtn { justify-self: start; }
+/* pictures: avatar, own photo, default silhouette */
+.av { flex: none; display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; overflow: hidden;
+  background: var(--accent-soft); color: var(--accent); line-height: 1; font-size: 22px; }
+.av img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.av svg { width: 60%; height: 60%; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+.av-sm { width: 1.6em; height: 1.6em; font-size: .95em; }
+.av-md { width: 48px; height: 48px; font-size: 26px; }
+.av-lg { width: 64px; height: 64px; font-size: 36px; }
+.av-card { width: 40px; height: 40px; font-size: 22px; }
+.ac-picbtn { flex: none; padding: 0; border: 0; background: none; border-radius: 50%; cursor: pointer; }
+.ac-picbtn:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.ac-picrow { display: flex; align-items: center; gap: 12px; }
+.av-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(56px, 1fr)); gap: 8px; }
+.av-pick { display: grid; place-items: center; padding: 4px; border: 2px solid transparent; border-radius: 50%; background: none; cursor: pointer; }
+.av-pick.on { border-color: var(--accent); }
+.av-pick:focus-visible { outline: 3px solid var(--focus); outline-offset: 1px; }
+.btn.ac-upload { display: inline-flex; align-items: center; justify-content: center; gap: 10px; }
+.btn.ac-upload svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linejoin: round; }
+.accountcard .wc-icon.ac-ic { background: none; }
+.ac-who { display: flex; align-items: center; gap: 12px; }
+.ac-who .ac-ic { flex: none; display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); }
+.ac-who-text { display: grid; gap: 2px; min-width: 0; }
+.ac-who-text strong { font: 700 1.15em/1.2 var(--font-display); overflow-wrap: anywhere; }
+.ac-who-text span { color: var(--muted); font-size: .88em; overflow-wrap: anywhere; }
+.ac-sync { margin: 0; font-weight: 700; }
+.ac-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 8px 8px 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); }
+.ac-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.ac-actions .btn { flex: 1 1 140px; }
+.linkbtn.ac-delete { justify-self: start; color: var(--brand); }
+.btn.danger { background: var(--brand); border-color: var(--brand); color: #FFFFFF; }
+.accountcard .wc-icon.ac-ic { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); font-size: inherit; }
+.accountcard .wc-text strong { overflow-wrap: anywhere; }
+.lg-account { display: grid; gap: 8px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
+.lg-account .ac-fine { text-align: center; }
+.wl-acct {
+  flex: none; display: inline-grid; place-items: center; width: 1.2em; height: 1.2em; border-radius: 50%;
+  background: var(--accent); color: var(--on-accent); font-size: .7em; font-weight: 800; line-height: 1;
+}
+
 /* the line under a win: rank on the world list, or how to get on it */
 .world-line { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; margin-top: 8px; font-weight: 700; }
 .world-line .linkbtn { padding: 0; min-height: 36px; }
@@ -254,9 +313,22 @@ body.home-page { overflow-y: auto; }
   display: grid; gap: 8px; padding: 14px 16px; border-radius: 16px;
   background: var(--card); border: 1px solid var(--line);
 }
-.dc-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+/* Folded: one line that opens the puzzles of the day (the choice is remembered). */
+.dc-head {
+  display: flex; align-items: center; gap: 10px; width: 100%; min-height: 44px; margin: -6px -4px; padding: 6px 4px;
+  border: 0; border-radius: 10px; background: none; color: var(--ink); font: inherit; text-align: start; cursor: pointer;
+}
+.dc-head:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .dc-head strong { font: 700 1.05em/1.25 var(--font-display); }
+.dc-tt { flex: 1; min-width: 0; display: grid; gap: 1px; }
+.dc-sum { color: var(--accent); font-size: .86em; font-weight: 700; }
+.dc-sum.done { color: var(--hit); }
 .dc-no { color: var(--muted); font: 700 .9em/1 var(--font-mono); font-variant-numeric: tabular-nums; }
+.dc-chev { flex: none; width: 22px; height: 22px; fill: none; stroke: var(--muted); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; transition: transform .2s; }
+.dc-head[aria-expanded="true"] .dc-chev { transform: rotate(180deg); }
+.dc-body { display: grid; gap: 8px; }
+.dc-body[hidden] { display: none; }
+.dailycard.folded { padding-block: 10px; }
 .dc-row {
   display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 8px 10px; border-radius: 12px;
   background: var(--surface); border: 1px solid var(--line); color: var(--ink); text-decoration: none;
@@ -342,7 +414,7 @@ body.home-page { overflow-y: auto; }
   border-top: 1px solid var(--line); font-weight: 700; cursor: pointer;
 }
 .intro-opt input { flex: none; width: 22px; height: 22px; margin: 0; accent-color: var(--accent); }
-@media (prefers-reduced-motion: reduce) { .dc-row { transition: none; transform: none !important; } }
+@media (prefers-reduced-motion: reduce) { .dc-row, .dc-chev { transition: none; transform: none !important; } }
 
 /* "Share via": the game's own list of apps, where the phone's share sheet is not available */
 .sharesheet .sh { display: grid; gap: 14px; }
@@ -363,7 +435,144 @@ body.home-page { overflow-y: auto; }
 }
 .srow.srow-keys { flex-direction: column; align-items: stretch; flex-wrap: nowrap; gap: 8px; padding-block: 10px; }
 .srow-keys .srow-label { flex: none; }
-.srow-keys .seg { display: flex; width: 100%; }
-.srow-keys .seg-btn { flex: 1 1 0; min-width: 0; padding: 0 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.srow-keys .seg { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); width: 100%; }
+.srow-keys .seg-btn { min-width: 0; padding: 0 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* version 1.9: four key sounds - two rows of two on phones, so no word is cut off */
+@media (max-width: 520px) { .srow-keys .seg { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .share-btn { display: inline-flex; align-items: center; gap: 6px; }
 .share-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+
+/* Password field with an eye button that shows what is typed. */
+.pwfield { position: relative; display: flex; align-items: center; }
+.pwfield .textfield { flex: 1; padding-inline-end: 52px; }
+.pw-eye {
+  position: absolute; inset-inline-end: 4px; top: 50%; transform: translateY(-50%);
+  display: grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 10px;
+  background: none; color: var(--muted); cursor: pointer;
+}
+.pw-eye svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.pw-eye[aria-pressed="true"] { color: var(--accent); }
+.pw-eye:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+/* World list: where the older scores start (fewer than 20 names in the last two weeks). */
+.wl-older { list-style: none; margin: 6px 0 2px; padding: 4px 2px; color: var(--muted); font-size: .8em; font-weight: 700;
+  letter-spacing: .05em; text-transform: uppercase; border-top: 1px dashed var(--line); }
+.wl-row.old .wl-score { color: var(--muted); }
+
+/* First start: how to play (anonymously, a name on this phone, an MBG account) - shown once. */
+.welcomecard {
+  display: grid; gap: 8px; padding: 14px 16px; border-radius: 16px;
+  background: var(--card); border: 1px solid var(--accent); box-shadow: 0 2px 10px rgba(0, 0, 0, .06);
+}
+.welcomecard[hidden] { display: none; }
+.wlc-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.wlc-head h2 { margin: 0; font: 700 1.05em/1.3 var(--font-display); }
+.wlc-x { flex: none; display: grid; place-items: center; width: 40px; height: 40px; margin: -8px -8px 0 0; border: 0; border-radius: 50%;
+  background: none; color: var(--muted); cursor: pointer; }
+.wlc-x svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; }
+.wlc-opt {
+  display: flex; align-items: center; gap: 12px; width: 100%; min-height: 56px; padding: 8px 10px; border-radius: 12px;
+  background: var(--surface); border: 1px solid var(--line); color: var(--ink); font: inherit; text-align: start; cursor: pointer;
+  transition: transform .1s, border-color .15s;
+}
+.wlc-opt[hidden] { display: none; }
+.wlc-opt:active { transform: scale(.985); }
+@media (hover: hover) { .wlc-opt:hover { border-color: var(--accent); } }
+.wlc-opt:focus-visible, .wlc-x:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.wlc-ic { flex: none; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 10px; background: var(--accent-soft); font-size: 20px; line-height: 1; }
+.wlc-t { display: grid; gap: 2px; flex: 1; min-width: 0; }
+.wlc-t strong { font-weight: 700; line-height: 1.25; }
+.wlc-t span { color: var(--muted); font-size: .86em; line-height: 1.35; }
+.wlc-go { flex: none; width: 20px; height: 20px; fill: none; stroke: var(--muted); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+[dir="rtl"] .wlc-go { transform: scaleX(-1); }
+.wlc-form { display: grid; gap: 6px; padding: 10px; border-radius: 12px; background: var(--surface); border: 1px solid var(--accent); }
+.wlc-form[hidden] { display: none; }
+.wlc-row { display: flex; gap: 8px; }
+.wlc-row .textfield { flex: 1; min-width: 0; }
+.wlc-fine { margin: 0; color: var(--muted); font-size: .8em; line-height: 1.35; }
+@media (prefers-reduced-motion: reduce) { .wlc-opt { transition: none; transform: none !important; } }
+.ac-remember { align-items: flex-start; }
+
+/* Version 1.7: difficulty marks on the world list (⭐ expert, 📖 only real words) and their legend */
+.wl-mode { flex: none; font-size: .85em; line-height: 1; }
+.wl-legend { list-style: none; margin: 8px 0 2px; padding: 8px 2px 0; border-top: 1px dashed var(--line);
+  color: var(--muted); font-size: .8em; line-height: 1.4; }
+/* "Powered by MBG Games" - home footer, help, credits, e-mails */
+.powered { color: var(--muted); font-size: .85em; letter-spacing: .02em; }
+p.powered { margin: 12px 0 0; text-align: center; }
+/* Version 1.7.2: the account button in the home top bar */
+.ib.ib-acc { padding: 0; overflow: hidden; }
+.ib.ib-acc[hidden] { display: none; }
+.av-top { width: 100%; height: 100%; font-size: 22px; border-radius: inherit; }
+
+/* Version 1.8: the best puzzles of the day (MBG.World.openDailyTop) */
+.dt-row .wl-who { gap: 2px; }
+.dt-row .wl-detail { white-space: normal; line-height: 1.35; }
+.dt-ans { font: 700 1.12em/1.25 var(--font-mono); letter-spacing: .14em; color: var(--accent); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dt-ans:lang(ar) { font-family: inherit; letter-spacing: .3em; }
+.dt-ans.hidden { color: var(--muted); letter-spacing: .22em; font-size: .95em; }
+.dt-note { color: var(--muted); font-size: .82em; line-height: 1.4; padding: 12px 4px 4px; margin: 0; }
+.st-dtop { display: block; width: 100%; margin-top: 10px; }
+.daily-top-link { margin-top: 8px; }
+
+/* ------------------------------------------------ version 1.10: the menu */
+/* One button at the top right opens a sheet with everything that is not a game: MBG account,
+   world top 20, language, contact, privacy policy, closing the app and the version line. */
+.tools .ib[hidden] { display: none; }
+.ib-menu svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+
+.menusheet .menu-list { display: flex; flex-direction: column; gap: 8px; }
+.menusheet .menu-list > * { flex: none; }
+.menusheet .worldcard { padding: 10px 14px; gap: 12px; min-height: 56px; border-radius: 12px; background: var(--surface); text-decoration: none; }
+.menusheet .worldcard[hidden] { display: none; }
+.menusheet .wc-icon { font-size: 24px; width: 32px; display: grid; place-items: center; }
+.menusheet .wc-text strong { font: 700 1em/1.25 var(--font-body, inherit); }
+.menusheet .wc-text span { font-size: .86em; }
+.menusheet .accountcard { background: var(--accent-soft); border-color: transparent; padding-block: 12px; }
+.menusheet .accountcard .wc-icon.ac-ic { width: 40px; height: 40px; }
+.menusheet .accountcard .wc-text strong { font-family: var(--font-display); font-size: 1.05em; }
+.mr-flag { width: 30px; height: 30px; border-radius: 50%; overflow: hidden; box-shadow: 0 0 0 1px var(--line); }
+.mr-flag .flag-svg { width: 100%; height: 100%; display: block; }
+.mr-ic svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; color: var(--muted); }
+.menusheet .mr-exit { color: var(--ink); }
+.menusheet .contactcard { background: var(--surface); border-radius: 12px; padding: 12px 14px; gap: 8px; }
+.menusheet .cc-text strong { font-size: 1em; }
+.menusheet .cc-link { background: var(--card); }
+.menusheet .homefoot { margin-top: 6px; padding-top: 4px; }
+
+/* free edition: the "free · no ads · no limits" note is one slim line */
+.plancard.is-free { padding: 8px 14px; gap: 2px 10px; }
+.plancard.is-free .pc-text { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; }
+.plancard.is-free .pc-sub { display: none; }
+.plancard.is-free .pc-title { font-size: .95em; }
+
+/* the "Crack the Code" film (Albanian rules of Codebreaker) is nearly square */
+.mbgpromo.mbgpromo-code { max-width: 360px; }
+.mbgpromo.mbgpromo-code img { aspect-ratio: 412 / 407; }
+.mr-flag.sm { display: inline-block; width: 22px; height: 22px; flex: none; }
+.app .tools .ib[hidden] { display: none; }
+
+/* version 1.10: the world lists on the home screen - two big buttons and a link */
+.toprow { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.toprow[hidden] { display: none; }
+.topbtn {
+  display: flex; align-items: center; gap: 10px; text-align: start;
+  padding: 12px; border-radius: var(--radius, 16px); border: 1px solid var(--line);
+  background: linear-gradient(135deg, #fff6d6, #ffe7a3); color: #4a3200; font: inherit; cursor: pointer;
+  box-shadow: 0 2px 8px rgba(160, 110, 0, .12); min-height: 64px;
+}
+.topbtn:active { transform: translateY(1px); }
+.topbtn .tb-ic { font-size: 26px; line-height: 1; flex: none; }
+.topbtn .tb-text { display: flex; flex-direction: column; min-width: 0; }
+.topbtn .tb-text strong { font-family: var(--font-display); font-size: .98em; line-height: 1.15; }
+.topbtn .tb-text span { font-size: .8em; opacity: .8; }
+.toprow-best { grid-column: 1 / -1; justify-self: center; font-size: .92em; }
+:root[data-theme="dark"] .topbtn, .dark .topbtn { background: linear-gradient(135deg, #3b3010, #4d3c0c); color: #ffe6a0; border-color: #6b5518; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .topbtn { background: linear-gradient(135deg, #3b3010, #4d3c0c); color: #ffe6a0; border-color: #6b5518; } }
+
+/* games: the 🏆 button in the top bar */
+.ib-top { font-size: 20px; line-height: 1; }
+.ib-top[hidden] { display: none; }
+
+/* 1.11: eleven language coins in one row - a little smaller on narrow phones */
+@media (max-width: 400px) { .wl-lang .wl-coin { width: 18px; height: 18px; } .wl-lang .seg-btn:first-child { padding: 0 4px; } }

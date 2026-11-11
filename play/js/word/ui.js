@@ -40,7 +40,8 @@
     theme: null,
     fontSize: C.font.def,
     sound: true,
-    keySound: 'phone',                            // key sounds: 'phone' (each key its own tone), 'same', 'off'
+    keySound: 'wood',                             // key sounds: 'wood' (default since 1.9), 'phone', 'same', 'off'
+    keyChosen: false,                             // true once the player picked a key sound in Settings
     length: C.defaultLength,
     validateGuesses: C.validateGuessesDefault,
     wordPool: C.wordPoolDefault,                  // secret words: 'everyday' or 'all' (whole dictionary)
@@ -53,7 +54,11 @@
     if (typeof saved.hue === 'number') prefs.hue = saved.hue;
     if (typeof saved.fontSize === 'number') prefs.fontSize = Math.min(C.font.max, Math.max(C.font.min, Math.round(saved.fontSize)));
     if (typeof saved.sound === 'boolean') prefs.sound = saved.sound;
-    if (['phone', 'same', 'off'].indexOf(saved.keySound) !== -1) prefs.keySound = saved.keySound;
+    if (['wood', 'phone', 'same', 'off'].indexOf(saved.keySound) !== -1) prefs.keySound = saved.keySound;
+    if (saved.keyChosen === true) prefs.keyChosen = true;
+    // Version 1.9: 'wood' is the new default. Players who never chose (still on the old default
+    // 'phone') get wood; an explicit choice in Settings is kept.
+    if (prefs.keySound === 'phone' && !prefs.keyChosen) prefs.keySound = 'wood';
     var savedLen = saved.lengths && typeof saved.lengths === 'object' ? saved.lengths[GAME_ID] : null;
     if (C.lengths.indexOf(savedLen) !== -1) prefs.length = savedLen;
     if (typeof saved.validateGuesses === 'boolean') prefs.validateGuesses = saved.validateGuesses;
@@ -115,6 +120,30 @@
     s = String(s).replace(/ß/g, 'ẞ');
     try { return s.toLocaleUpperCase(game.lang); } catch (e) { return s.toUpperCase(); }
   }
+  // A whole word in a text, as players read it: capitals, and Korean letters put back together
+  // into syllables (ㅅㅏㄱㅗㅏ -> 사과, version 1.11). Single tiles keep their letter (up).
+  function showWord(w) { return up(E.display(w, game.lang)); }
+  var KO = function () { return game.lang === 'ko' && !!MBG.Hangul; };
+  /** Korean (1.11): the tiles of each syllable stay together, with a little gap after each
+   *  syllable, and the word is written in syllables next to the tiles (사과). */
+  function syllableMarks(tiles, word) {
+    if (!KO()) return;
+    var ends = {}, at = 0;
+    MBG.Hangul.syllableSizes(word).forEach(function (n) { at += n; ends[at - 1] = true; });
+    Array.prototype.forEach.call(tiles.children, function (tile, i) {
+      if (ends[i] && i < tiles.children.length - 1) tile.classList.add('syl-end');
+    });
+  }
+  // Long words on a phone: the syllables go under the tiles, so the tiles keep their width.
+  function sylUnder(n) { return n >= 7 && window.innerWidth < 600; }
+  function syllableCaption(row, word) {
+    if (!KO()) return;
+    row.classList.add('ko');
+    row.classList.toggle('syl-under', sylUnder(E.letters(word || '').length));
+    var c = el('span', 'syl', word ? MBG.Hangul.compose(word) : '');
+    c.setAttribute('aria-hidden', 'true');
+    row.appendChild(c);
+  }
   function el(tag, cls, text) {
     var n = document.createElement(tag);
     if (cls) n.className = cls;
@@ -146,9 +175,11 @@
     });
     num.setAttribute('aria-hidden', 'true');
     tiles.setAttribute('aria-hidden', 'true');
+    syllableMarks(tiles, word);
     row.appendChild(num);
     row.appendChild(tiles);
-    if (feedback && opts.attempt != null) row.appendChild(el('span', 'sr-only', t('sr.guess', { attempt: opts.attempt, word: up(word), clues: feedback.join(' ') })));
+    syllableCaption(row, word);
+    if (feedback && opts.attempt != null) row.appendChild(el('span', 'sr-only', t('sr.guess', { attempt: opts.attempt, word: showWord(word), clues: feedback.join(' ') })));
     return row;
   }
 
@@ -183,7 +214,7 @@
       hearts.appendChild(h);
     }
     card.appendChild(hearts);
-    card.appendChild(el('p', null, t('win.found', { word: up(evt.word), attempts: evt.attempts, seconds: evt.seconds })));
+    card.appendChild(el('p', null, t('win.found', { word: showWord(evt.word), attempts: evt.attempts, seconds: evt.seconds })));
     if (evt.firstTry) card.appendChild(el('p', 'luck', t('win.luck')));
     if (evt.hints > 0) card.appendChild(el('p', 'hintnote', t('win.hints', { n: evt.hints, k: E.SCORING.hintTries })));
 
@@ -193,6 +224,8 @@
     if (evt.newAllTime) line.appendChild(el('span', 'badge', t('score.newAllTime')));
     else if (evt.newBest) line.appendChild(el('span', 'badge', t('score.newBest')));
     card.appendChild(line);
+    var dm = modeLine(evt);
+    if (dm) card.appendChild(dm);
 
     // "Your best" always; "All-time best" only when someone else holds it (no repeated numbers).
     var parts = [];
@@ -225,6 +258,14 @@
     card.appendChild(worldLine(evt));
     return card;
   }
+  /** Version 1.7: the difficulty of the game and the points it added ("⭐ Expert: ×2 · +480,000 points"). */
+  function modeLine(evt) {
+    var m = (evt.score && evt.score.mode) || evt.gameMode || 0;
+    if (!m || !evt.score || !evt.score.extra) return null;
+    var names = [[E.MODE.EXPERT, 'mode.expert'], [E.MODE.REAL, 'mode.real']].filter(function (x) { return m & x[0]; })
+      .map(function (x) { return T(x[1]); });
+    return el('p', 'modeline', T('mode.bonus', { modes: names.join(' + '), factor: MBG.AppText.dec(Shell.getLang(), E.modeFactor(m), 2).replace(/[.,]?0+$/, ''), n: fmt(evt.score.extra) }));
+  }
   /** Hint credits earned by this win (or, playing anonymously, what a name would have earned). */
   function rewardLine(evt) {
     if (evt.reward > 0) return el('p', 'reward', T('credits.reward', { n: evt.reward, score: fmt(evt.score.total), total: evt.rewardTotal }));
@@ -248,7 +289,7 @@
     card.appendChild(tileRow(evt.word, null, {}));
     var p = el('p', null, t('reveal.text') + ' · ' + t('score.label') + ' 0');
     card.appendChild(p);
-    card.appendChild(el('span', 'sr-only', t('reveal.word', { word: up(evt.word) })));
+    card.appendChild(el('span', 'sr-only', t('reveal.word', { word: showWord(evt.word) })));
     if (evt.daily) card.appendChild(dailyBox(evt, false));
     return card;
   }
@@ -280,13 +321,22 @@
     if (rw && rw.next) box.appendChild(el('p', 'daily-nextbonus', T('daily.nextBonus', { days: rw.next.days, n: rw.next.credits, left: rw.next.days - rw.streak })));
     box.appendChild(el('p', 'daily-next', T('daily.next', { time: Shell.duration(Daily.msUntilNext()) })));
     if (game.round && game.round.daily === evt.daily) box.appendChild(Sheets.shareButtons(dailyShare(won)));
+    // 1.8: the best puzzles of the day of everyone (words and numbers of past days, scores, who and when)
+    if (World && World.enabled()) {
+      var top = el('button', 'linkbtn daily-top-link', '🏆 ' + T('dtop.title'));
+      top.type = 'button';
+      top.addEventListener('click', function () {
+        World.openDailyTop({ game: GAME_ID, lang: GAME_ID === 'word' ? game.lang : '' }).then(function () { afterDialog(); });
+      });
+      box.appendChild(top);
+    }
     return box;
   }
   function saveDaily() { var s = game.dailyState(); if (s) Sheets.daily().put(GAME_ID, s.lang, s); }
   /** Starts (or shows again) today's puzzle; Word Puzzle: the one of that language. */
   function startDailyFor(lang) {
     var n = Daily.dayNumber();
-    var length = GAME_ID === 'word' ? Daily.wordLength(lang) : Daily.CODE_LENGTH;
+    var length = GAME_ID === 'word' ? Daily.wordLength(lang, n) : Daily.codeLength(n);   // 1.8: a new length every day
     var secret = GAME_ID === 'word' ? Daily.wordFor(lang, n) : Daily.codeFor(n);
     return game.startDaily({ n: n, secret: secret, length: length }, Sheets.daily().get(GAME_ID, lang));
   }
@@ -401,6 +451,7 @@
     var src = evt.params || {};
     for (var k in src) p[k] = src[k];
     if (p.best != null) p.best = fmt(p.best);
+    if (p.word != null) p.word = E.display(p.word, game.lang);
     if (p.lang) p.listName = t('lang.listName.' + p.lang);
     return t((evt.level === 'warn' ? 'warn.' : 'notice.') + evt.key, p);
   }
@@ -418,6 +469,7 @@
         Sheets.record(GAME_ID, evt);           // statistics (and the daily streak)
         if (evt.daily && evt.won) pendingDailyReward = Sheets.dailyReward(GAME_ID, evt);   // shown on the win card
         if (evt.daily) saveDaily();
+        if (MBG.Account) MBG.Account.changed();   // saved on the MBG account (when signed in)
         break;
       case 'guess':
       case 'win':
@@ -453,8 +505,15 @@
         refreshAll();
         break;
       case 'user':
+        // Every player has their own puzzle of the day: keep the board of the one leaving, then
+        // show the newcomer's (their own board, result or a fresh puzzle).
+        var userBefore = Shell.getUser();
+        var dailyBefore = DAILY && game.daily && game.round && game.round.daily ? Daily.keyFor(userBefore) : null;
+        if (dailyBefore) saveDaily();
         if (evt.user && evt.user.mode === 'registered') { rememberUser(evt.user.name); scheduleBackup(); }
         Shell.setUser(evt.user);                   // the other game starts with the same user
+        if (MBG.Account && MBG.Account.playerChanged) MBG.Account.playerChanged(userBefore, evt.user);
+        if (dailyBefore && dailyBefore !== Daily.keyFor(evt.user)) { startDailyFor(game.lang); rerenderHistory(); }
         refreshAll();
         break;
       case 'locked':
@@ -494,9 +553,14 @@
     // Language: the round flags (the language in use in front); tap for the language sheet.
     if (btn.lang.getAttribute('data-lang') !== game.lang) MBG.LangMenu.paint(btn.lang, game.lang);
     btn.help.setAttribute('aria-label', t('btn.help'));
+    // Version 1.10: the world top 20 always one tap away in the top bar
+    var top20 = $('btnTop20');
+    top20.hidden = !(World && World.enabled());
+    top20.setAttribute('aria-label', T('world.title'));
+    top20.title = T('world.title');
     btn.help.title = t('btn.help');
-    btn.settings.setAttribute('aria-label', t('btn.settings'));
-    btn.settings.title = t('btn.settings');
+    btn.settings.setAttribute('aria-label', T('menu.open'));     // version 1.10: settings, rules and language in one menu
+    btn.settings.title = T('menu.open');
 
     // user button: "Log in" for Anonymous, otherwise the user's name
     var u = st.user || { mode: 'anonymous' };
@@ -646,8 +710,16 @@
       tile.appendChild(el('span', 'mk', '·'));
       tiles.appendChild(tile);
     }
+    syllableMarks(tiles, raw && !isCmd ? raw : '');
     preview.appendChild(num);
     preview.appendChild(tiles);
+    preview.classList.toggle('ko', KO());
+    preview.classList.toggle('syl-under', KO() && sylUnder(Math.max(len, n)));
+    if (KO()) {
+      var cap = el('span', 'syl', isCmd ? '' : MBG.Hangul.compose(raw));
+      cap.setAttribute('aria-hidden', 'true');
+      preview.appendChild(cap);
+    }
     scrollToEnd();
   }
 
@@ -900,6 +972,13 @@
     loginPending = null;
     setLoginSubmit();
     setLoginMessage('');
+    var A = MBG.Account;
+    var offerAccount = !!(A && A.enabled() && !A.signedIn() && !A.young());
+    $('lgAccount').hidden = !offerAccount;
+    if (offerAccount) {
+      $('lgAccountText').textContent = T('account.loginLine');
+      $('lgAccountLbl').textContent = T('account.signInBtn');
+    }
     onClose(d, function () { afterDialog(); });
     openDialog(d);
     // With saved names, the list comes first (no keyboard needed); otherwise type a name.
@@ -929,9 +1008,21 @@
       b.type = 'button';
       b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.4-3.6 4.4-5.5 8-5.5s6.6 1.9 8 5.5"/></svg>';
       b.appendChild(el('span', 'nm', u.name));
+      // MBG accounts on this phone: ✓ signs in at once, 🔒 asks for the password again.
+      var A = MBG.Account, how = A && A.knows ? A.knows(u.name) : null;
+      if (how) {
+        var mk = el('span', 'acct-mark' + (how === 'locked' ? ' locked' : ''), how === 'locked' ? '🔒' : '✓');
+        mk.title = T(how === 'locked' ? 'account.lockedMark' : 'account.savedMark');
+        b.appendChild(mk);
+      }
       b.appendChild(el('span', 'sc', fmt(u.best)));
-      b.setAttribute('aria-label', t('login.pick', { name: u.name, best: fmt(u.best) }));
+      b.setAttribute('aria-label', t('login.pick', { name: u.name, best: fmt(u.best) }) + (how ? ' · ' + T(how === 'locked' ? 'account.lockedMark' : 'account.savedMark') : ''));
       b.addEventListener('click', function () {
+        if (how === 'saved') {
+          A.activate(u.name).then(function (r) { if (r === 'ok') { var res2 = game.login(u.name); if (res2.ok) closeDialog($('dlgLogin')); } else askPassword(u.name); });
+          return;
+        }
+        if (how === 'locked') { askPassword(u.name); return; }
         var res = game.login(u.name);
         if (res.ok) closeDialog($('dlgLogin'));
       });
@@ -939,6 +1030,17 @@
     });
     $('lgSavedWrap').hidden = list.length === 0;
     return list.length;
+  }
+
+  /** An MBG account that needs its password again: the sign-in sheet, then the game logs it in. */
+  function askPassword(name) {
+    closeDialog($('dlgLogin'));
+    setTimeout(function () {
+      MBG.Account.signInFor(name).then(function () {
+        if (MBG.Account.isMine(name)) game.login(name);
+        afterDialog();
+      });
+    }, 0);
   }
 
   function submitLogin() {
@@ -965,6 +1067,10 @@
     if (loginPending && E.normalize($('lgName').value) !== E.normalize(loginPending)) { loginPending = null; setLoginSubmit(); setLoginMessage(''); }
   });
   $('lgCancel').addEventListener('click', function () { closeDialog($('dlgLogin')); });
+  $('lgAccountBtn').addEventListener('click', function () {
+    closeDialog($('dlgLogin'));
+    setTimeout(function () { MBG.Account.open().then(function () { afterDialog(); }); }, 0);
+  });
   $('lgAlt').addEventListener('click', function () {
     if ((game.user || {}).mode === 'nodata') game.logout(); else game.playWithoutSaving();
     closeDialog($('dlgLogin'));
@@ -977,12 +1083,31 @@
     $('acBest').textContent = t('account.best', { best: fmt(f ? f.best : 0) }) + ' · 💡 ' + T('credits.total', { n: Credits.status().total });
     $('acClose').textContent = t('btn.close');
     $('acLogout').textContent = t('btn.logout');
+    var A = MBG.Account;
+    var mine = !!(A && A.isMine(game.user.name));
+    var offer = !!(A && A.enabled() && (mine || (!A.signedIn() && !A.young())));
+    $('acMbg').hidden = !offer;
+    if (offer) $('acMbg').textContent = mine ? T('account.manage') : T('account.signInBtn');
     onClose(d, function () { afterDialog(); });
     openDialog(d);
     $('acClose').focus();
   }
   $('acClose').addEventListener('click', function () { closeDialog($('dlgAccount')); });
   $('acLogout').addEventListener('click', function () { game.logout(); closeDialog($('dlgAccount')); });
+  $('acMbg').addEventListener('click', function () {
+    closeDialog($('dlgAccount'));
+    setTimeout(function () { MBG.Account.open().then(function () { afterDialog(); }); }, 0);
+  });
+  // MBG account: games merged in from the account, or the account's username became the player.
+  window.addEventListener('mbg:account', function (e) {
+    var type = e.detail && e.detail.type;
+    if (type === 'data' || type === 'signedin' || type === 'deleted') users.load();
+    if (type === 'signedin' && e.detail.username) game.login(e.detail.username);
+    // A deleted account is gone from this phone too: its player plays as Anonymous.
+    if (type === 'deleted' && game.user && game.user.mode === 'registered' && e.detail.username &&
+      game.user.name.toLowerCase() === String(e.detail.username).toLowerCase()) game.logout();
+    refreshAll();
+  });
 
   /* ------------------------- backup of saved names (live link only) --- */
   // On the published claude.ai page, names and best scores are also kept in the viewer's
@@ -1041,11 +1166,17 @@
 
   /* -------------------------------------------------------- settings --- */
   function refreshSettings() {
-    $('setTitle').textContent = t('settings.title');
+    $('setTitle').textContent = T('menu.title');
+    $('btnMenuHelp').querySelector('.lbl').textContent = t('help.title');
+    $('btnMenuLang').querySelector('.lbl').textContent = T('lang.label');
+    $('menuLangVal').textContent = Shell.langName(game.lang);
+    var mf = $('menuLangFlag');
+    if (mf.getAttribute('data-lang') !== game.lang) { mf.setAttribute('data-lang', game.lang); mf.innerHTML = MBG.LangMenu.flagSvg(game.lang, true); }
     $('btnPlan').hidden = Shell.free;          // the free edition has no plans
     $('btnCredits').querySelector('.lbl').textContent = T('credits.title').replace('💡 ', '');
     $('creditsVal').textContent = T('credits.total', { n: Credits.status().total });
     $('btnWorld').hidden = !(World && World.enabled());
+
     $('btnWorld').querySelector('.lbl').textContent = T('world.settings');
     $('worldVal').textContent = World && World.enabled() ? World.statusText() : '';
     $('btnStats').querySelector('.lbl').textContent = T('stats.title');
@@ -1057,7 +1188,7 @@
     $('swSound').setAttribute('aria-checked', prefs.sound ? 'true' : 'false');
     $('lblKeys').textContent = T('settings.keys');
     $('hintKeys').textContent = T('settings.keysHint');
-    [['keysPhone', 'phone'], ['keysSame', 'same'], ['keysOff', 'off']].forEach(function (k) {
+    [['keysWood', 'wood'], ['keysPhone', 'phone'], ['keysSame', 'same'], ['keysOff', 'off']].forEach(function (k) {
       var b = $(k[0]);
       b.textContent = T('settings.keys' + k[1].charAt(0).toUpperCase() + k[1].slice(1));
       b.setAttribute('aria-checked', prefs.keySound === k[1] ? 'true' : 'false');
@@ -1094,9 +1225,10 @@
     $('setClose').focus();
   }
 
-  [['keysPhone', 'phone'], ['keysSame', 'same'], ['keysOff', 'off']].forEach(function (k) {
+  [['keysWood', 'wood'], ['keysPhone', 'phone'], ['keysSame', 'same'], ['keysOff', 'off']].forEach(function (k) {
     $(k[0]).addEventListener('click', function () {
       prefs.keySound = k[1];
+      prefs.keyChosen = true;
       audio.unlock();
       audio.setKeys(k[1]);
       audio.keySample();                 // let the player hear the choice
@@ -1112,7 +1244,18 @@
     refreshSettings();
     refreshTick();
   });
-  $('optValidate').addEventListener('change', function () { prefs.validateGuesses = $('optValidate').checked; savePrefs(); });
+  // "Only real words" (version 1.7: worth more points): before the first try it counts for this game,
+  // switched on later it counts from the next game; switched off, this game counts as a normal one.
+  $('optValidate').addEventListener('change', function () {
+    var on = $('optValidate').checked;
+    prefs.validateGuesses = on;
+    savePrefs();
+    var r = game.round, REAL = E.MODE.REAL;
+    if (!r || r.status !== 'active' || DAILY) return;
+    if (!r.guesses.length) { r.mode = on ? (r.mode | REAL) : (r.mode & ~REAL); toast(T(on ? 'mode.realOn' : 'mode.realOff'), 2600); return; }
+    if (!on) r.mode &= ~REAL;
+    toast(on ? T('mode.realOn') + ' ' + t('toast.poolNext') : T('mode.realLost'), 2600);
+  });
   ['poolEveryday', 'poolAll'].forEach(function (id) {
     $(id).addEventListener('click', function () {
       var p = id === 'poolAll' ? 'all' : 'everyday';
@@ -1141,6 +1284,24 @@
     return wrap.outerHTML;
   }
 
+  function promoFigure(alt) {
+    // Version 1.9: the MBG Games promo (animated; a still picture for players who reduce motion).
+    var f = document.createElement('figure');
+    f.className = 'mbgpromo';
+    var pic = document.createElement('picture');
+    var still = document.createElement('source');
+    still.media = '(prefers-reduced-motion: reduce)';
+    still.srcset = 'img/mbg-promo-still.webp';
+    var img = document.createElement('img');
+    img.src = 'img/mbg-promo.webp';
+    img.width = 508; img.height = 337;
+    img.alt = alt;
+    img.decoding = 'async';
+    img.addEventListener('error', function () { f.hidden = true; });   // a missing picture never blocks the page
+    pic.appendChild(still); pic.appendChild(img); f.appendChild(pic);
+    return f;
+  }
+
   function openHelp() {
     var d = $('dlgHelp');
     if (d.open) return;
@@ -1158,14 +1319,38 @@
       scoreTable: table(t('help.scoreHead'), rows),
       commandTable: table(t('help.cmdHead'), t('help.cmdRows'))
     });
+    // Version 1.7.2: at the top, "Play now" (closes the rules) or "Read the rules" - for players who
+    // just want to play, without scrolling to find the way out.
+    var start = el('div', 'helpstart');
+    start.appendChild(el('p', null, T('help.startText')));
+    var row = el('div', 'helpstart-btns');
+    var play = el('button', 'btn submit', T('help.playNow'));
+    play.type = 'button';
+    play.addEventListener('click', function () { closeDialog(d); });
+    var read = el('button', 'btn ghost', T('help.readRules'));
+    read.type = 'button';
+    read.addEventListener('click', function () { start.hidden = true; body.scrollTop = 0; var h = body.querySelector('h3'); if (h) { h.tabIndex = -1; h.focus(); } });
+    row.appendChild(play);
+    row.appendChild(read);
+    start.appendChild(row);
+    body.insertBefore(start, body.firstChild);
+    body.insertBefore(promoFigure(T('promo.alt')), body.firstChild);
     if (!Shell.free) {
       body.appendChild(el('h3', null, T('help.planTitle')));
       body.appendChild(el('p', null, T('help.plan')));
       body.appendChild(el('p', null, T('help.hintsPaid')));
     }
+    // Version 1.7: points for the difficulty, and the credits high scores earn.
+    var dec = function (x) { return MBG.AppText.dec(Shell.getLang(), x, 2).replace(/[.,]?0+$/, ''); };
+    body.appendChild(el('h3', null, T('help.modesTitle')));
+    body.appendChild(el('p', null, T('help.modesWord', { real: dec(E.modeFactor(E.MODE.REAL)), expert: dec(E.modeFactor(E.MODE.EXPERT)),
+      both: dec(E.modeFactor(E.MODE.EXPERT | E.MODE.REAL)), best: fmt(1000000) })));
+    body.appendChild(el('p', null, '💡 ' + T('help.creditRewards', {
+      list: Credits.RULES.rewards.map(function (r, i, a) { return fmt(r[0]) + (i === a.length - 1 ? '+' : '') + ' → ' + r[1]; }).join(' · ')
+    })));
     body.appendChild(el('h3', null, '📅 ' + T('help.dailyTitle')));
     body.appendChild(el('p', null, T(GAME_ID === 'word' ? 'help.dailyWord' : 'help.dailyCode')));
-    body.appendChild(el('p', null, '🎁 ' + T('help.dailyReward', { n: Daily.REWARD, list: Credits.bonusList() })));
+    body.appendChild(el('p', null, '🎁 ' + T('help.dailyReward', { n: Daily.REWARD, list: Credits.bonusList(), rep: Daily.REPEAT.credits, every: Daily.REPEAT.every })));
     body.appendChild(el('h3', null, '📊 ' + T('stats.title')));
     body.appendChild(el('p', null, T('help.stats')));
     body.appendChild(el('h3', null, t('help.about')));
@@ -1184,13 +1369,14 @@
     priv.href = 'privacy.html';
     priv.addEventListener('click', function (e) { e.preventDefault(); saveNow(); closeDialog(d); window.location.href = 'privacy.html'; });
     about.appendChild(priv);
+    about.appendChild(el('p', 'powered', T('app.powered')));
     body.appendChild(about);
     onClose(d, function () { afterDialog(); });
     openDialog(d);
     body.scrollTop = 0;
     $('lblIntro').textContent = T('intro.dontShow');
     $('optIntro').checked = !!prefs.intro[GAME_ID];
-    $('helpClose').focus();
+    play.focus();                        // "Play now" first: one tap (or Enter) and the game is there
   }
 
   /* ---------------------------------------------- word-length wheel --- */
@@ -1453,6 +1639,8 @@
       box.appendChild(el('span', 'muted', T('world.winQueued')));
     } else if (w.status === 'name') {
       box.appendChild(el('span', 'muted', T('world.winName')));
+    } else if (w.status === 'taken') {
+      box.appendChild(el('span', 'muted', T('world.winTaken')));
     } else {
       box.appendChild(link('🏆 ' + T('world.winOpen'), function () { openWorld(evt.daily ? 'day' : null); }));
     }
@@ -1469,7 +1657,7 @@
     World.submit({
       ref: evt.worldRef, game: GAME_ID, user: { mode: evt.mode, name: evt.userName }, length: evt.length,
       lang: game.lang, attempts: evt.attempts, hints: evt.hints || 0, seconds: evt.seconds,
-      score: evt.score ? evt.score.total : 0, daily: evt.daily || null
+      score: evt.score ? evt.score.total : 0, daily: evt.daily || null, gameMode: evt.gameMode || 0
     }).then(function (res) { evt.world = res; updateWorldLine(evt); });
   }
   function joinWorld(evt) {
@@ -1486,10 +1674,14 @@
     if (GAME_ID === 'word') o.lang = o.period === 'day' ? game.lang : '';
     World.openBoard(o).then(function () { afterDialog(); });
   }
+  $('btnTop20').addEventListener('click', function () { openWorld(); });
   $('btnCredits').addEventListener('click', function () {
     closeDialog($('dlgSettings'));
     Credits.openSheet({}).then(function () { afterDialog(); });
   });
+  // Version 1.10: the menu's first two rows do what the old top-bar buttons did.
+  $('btnMenuHelp').addEventListener('click', function () { closeDialog($('dlgSettings')); setTimeout(function () { btn.help.click(); }, 0); });
+  $('btnMenuLang').addEventListener('click', function () { closeDialog($('dlgSettings')); setTimeout(function () { btn.lang.click(); }, 0); });
   $('btnStats').addEventListener('click', function () { closeDialog($('dlgSettings')); setTimeout(openStats, 0); });
   $('btnMove').addEventListener('click', function () {
     closeDialog($('dlgSettings'));

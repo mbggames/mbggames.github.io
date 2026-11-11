@@ -1,9 +1,10 @@
 /*!
  * MBG Puzzles · Word Puzzle - all user-facing text (English, Albanian, Bosnian, German, Spanish,
- * French, Turkish, Polish, Brazilian Portuguese and Arabic). All languages address the player
+ * French, Turkish, Polish, Brazilian Portuguese, Arabic and Korean). All languages address the player
  * informally (ti, du, tú, tu, sen, ty, você, أنت), as FR-LANG-004 asks for Albanian and Bosnian.
  * Bosnian is ijekavian and written in the Latin script only. Arabic is shown right to left
- * (see MBG.AppText.RTL) with Western digits.
+ * (see MBG.AppText.RTL) with Western digits. Korean (1.11) uses the polite 해요체 that Korean apps
+ * use, without 당신; word lengths are counted in 칸 (tiles: one letter of the Korean keyboard each).
  * To change a caption or message, edit it here; no screen code needs to change.
  */
 (function (root, factory) {
@@ -58,11 +59,12 @@
       'lang.listName.pl': 'Polish',
       'lang.listName.pt': 'Portuguese',
       'lang.listName.ar': 'Arabic',
+      'lang.listName.ko': 'Korean',
 
       /* control captions (section 7 of the specification) */
       'btn.submit': 'Submit',
       'btn.help': 'Help',
-      'btn.quit': 'Quit',
+      'btn.quit': 'Back',
       'btn.user': 'User',
       'btn.login': 'Log in',
       'btn.logout': 'Log out',
@@ -107,6 +109,7 @@
       'warn.noHint': 'No more hints – the rest is up to you.',
       'win.hints': function (p) { return 'With ' + p.n + ' ' + pl(p.n, 'hint', 'hints') + ' – each counts as ' + p.k + ' tries in the score.'; },
       'warn.alpha': 'Letters only, please. This try was not counted.',
+      'warn.hangul': 'Please type whole Korean syllables (for example 사과). This try was not counted.',
       'warn.length': function (p) { return 'Your word has ' + p.got + ' ' + pl(p.got, 'letter', 'letters') + '; this game needs ' + p.length + '. Not counted.'; },
       'warn.vocab': function (p) { return '“' + p.word + '” is not in the word list. Not counted.'; },
       'warn.roundOver': 'Game over. Type Y to play again or N to go back to the games.',
@@ -182,7 +185,7 @@
 
       'help.html': function (c) {
         return '' +
-          '<h3>The goal</h3><p>The computer picks a secret word at random from the word list of the current language (English, Albanian, Bosnian, German, Spanish, French, Turkish, Polish, Portuguese or Arabic). Find it in as few tries as possible.</p>' +
+          '<h3>The goal</h3><p>The computer picks a secret word at random from the word list of the current language (English, Albanian, Bosnian, German, Spanish, French, Turkish, Polish, Portuguese, Arabic or Korean). Find it in as few tries as possible.</p>' +
           '<h3>Reading the clues</h3><p>After each try, every letter of your word gets a clue, in the same order:</p>' + c.legend +
           '<p class="example">Example: the secret word is APPLE and you type PAPER → <code>? ? O ? X</code></p>' +
           '<p class="example">Repeated letters are counted carefully. Secret word HOUSE, guess GOOSE → <code>X O X O O</code>. HOUSE has only one O, and the second letter already matches it.</p>' +
@@ -197,7 +200,7 @@
           '<h3>Users</h3><p>You start playing at once as <b>Anonymous</b>. Its high score is shared by everyone who plays on this device. To keep your own high score, tap <b>Log in</b> and type your username, or create a new one. Names you have used before are listed there, so logging in again is one tap. In the same window you can also choose to play without saving anything. Scores are kept on this device.</p>' +
           '<h3>Settings</h3><p>The ⚙ button holds the sound switch (tick-tock clock, a tone for each O and ?, and the winning tune, grander the higher the score), the background colours, the text size (A+ / A−) and an option to accept only words from the word list.</p>' +
           '<h3>New game</h3><p>After a game, press <b>New Game</b> or type <code>Y</code>. Changing the language or the word length during a game starts a new game after you confirm.</p>' +
-          '<h3>Back to the games</h3><p>Press <b>Quit</b>, the Back button or the MBG mark at the top left to return to the list of games. An unfinished game is kept and continues when you come back. To close the app, use the ⏻ button on the home screen.</p>';
+          '<h3>Back to the games</h3><p>Press <b>Back</b>, the Back button or the MBG mark at the top left to return to the list of games. An unfinished game is kept and continues when you come back. To close the app, use the ⏻ button on the home screen.</p>';
       },
       'help.scoreHead': ['Length', 'Top score', 'Low score'],
       'help.scoreRow': function (p) { return [p.length + ' letters', p.hiScore + ' with ' + p.hiAttempt + ' tries', p.loScore + ' with ' + p.loAttempt + ' tries']; },
@@ -221,7 +224,7 @@
       'opt.poolEveryday': 'Normal',
       'opt.poolAll': 'Expert ⭐',
       'toast.poolNext': 'From the next game.',
-      'about.sources': 'Dictionaries: ENABLE and english-words (public domain); the LibreOffice dictionaries for Albanian, Bosnian, German, Spanish, French, Turkish, Polish, Brazilian Portuguese and Arabic, and Latin-script entries checked for ijekavian (open licences); Zemberek for the Turkish and Arramooz for the Arabic base forms; FrequencyWords for the everyday words. Details: words/LICENSES.txt.',
+      'about.sources': 'Dictionaries: ENABLE and english-words (public domain); the LibreOffice dictionaries for Albanian, Bosnian, German, Spanish, French, Turkish, Polish, Brazilian Portuguese and Arabic, and Latin-script entries checked for ijekavian (open licences); Zemberek for the Turkish and Arramooz for the Arabic base forms; hunspell-dict-ko, based on the Basic Korean Dictionary of the National Institute of Korean Language (CC BY-SA), for Korean; FrequencyWords for the everyday words. Details: words/LICENSES.txt.',
       'about.version': 'MBG Puzzles 1.0 · Word Puzzle. © 2026 MBG · Merkur Beqiri Games.',
       'about.privacy': 'Plays offline. No account is needed: names and scores stay on this phone. Subscriptions are paid and managed through Google Play.',
       'about.privacyFree': 'Plays offline. Free, with no ads and no in-app purchases. Names and scores stay on this phone.',
@@ -241,10 +244,11 @@
       'lang.listName.pl': 'polake',
       'lang.listName.pt': 'portugeze',
       'lang.listName.ar': 'arabe',
+      'lang.listName.ko': 'koreane',
 
       'btn.submit': 'Ok-Provo',
       'btn.help': 'Udhëzimet',
-      'btn.quit': 'Dil',
+      'btn.quit': 'Kthehu',
       'btn.user': 'Përdoruesi',
       'btn.login': 'Hyr',
       'btn.logout': 'Dil nga llogaria',
@@ -286,6 +290,7 @@
       'warn.noHint': 'S’ka më sugjerime – pjesën tjetër e gjen ti.',
       'win.hints': function (p) { return 'Me ' + p.n + ' ' + pl(p.n, 'sugjerim', 'sugjerime') + ' – secili llogaritet si ' + p.k + ' prova në pikë.'; },
       'warn.alpha': 'Vetëm shkronja, të lutem. Kjo provë nuk u numërua.',
+      'warn.hangul': 'Shkruaj rrokje të plota koreane (p.sh. 사과). Kjo provë nuk u numërua.',
       'warn.length': function (p) { return 'Fjala jote ka ' + p.got + ' ' + pl(p.got, 'shkronjë', 'shkronja') + '; kjo lojë kërkon ' + p.length + '. Nuk u numërua.'; },
       'warn.vocab': function (p) { return '“' + p.word + '” nuk është në listën e fjalëve. Nuk u numërua.'; },
       'warn.roundOver': 'Loja mbaroi. Shkruaj Y për të luajtur përsëri ose N për t’u kthyer te lojërat.',
@@ -358,7 +363,7 @@
 
       'help.html': function (c) {
         return '' +
-          '<h3>Qëllimi</h3><p>Kompjuteri zgjedh rastësisht një fjalë të fshehtë nga lista e fjalëve të gjuhës aktuale (shqip, anglisht, boshnjakisht, gjermanisht, spanjisht, frëngjisht, turqisht, polonisht, portugalisht ose arabisht). Gjeje me sa më pak prova.</p>' +
+          '<h3>Qëllimi</h3><p>Kompjuteri zgjedh rastësisht një fjalë të fshehtë nga lista e fjalëve të gjuhës aktuale (shqip, anglisht, boshnjakisht, gjermanisht, spanjisht, frëngjisht, turqisht, polonisht, portugalisht, arabisht ose koreanisht). Gjeje me sa më pak prova.</p>' +
           '<h3>Si t’i lexosh ndihmat</h3><p>Pas çdo prove, secila shkronjë e fjalës sate merr një ndihmë, në të njëjtin rend:</p>' + c.legend +
           '<p class="example">Shembull: fjala e fshehtë është MALI dhe ti shkruan ILAÇ → <code>? ? ? X</code></p>' +
           '<p class="example">Shkronjat e përsëritura numërohen me kujdes. Fjala e fshehtë DITA, prova DATA → <code>O X O O</code>. DITA ka vetëm një A dhe ajo përputhet me shkronjën e fundit.</p>' +
@@ -373,7 +378,7 @@
           '<h3>Përdoruesit</h3><p>Fillon të luash menjëherë si <b>Anonim</b>. Rezultati i tij më i lartë ndahet me këdo që luan në këtë pajisje. Për të ruajtur rezultatin tënd, prek <b>Hyr</b> dhe shkruaj emrin tënd të përdoruesit, ose krijo një të ri. Emrat që ke përdorur më parë shfaqen aty, kështu që hyrja e radhës bëhet me një prekje. Në të njëjtën dritare mund të zgjedhësh edhe të luash pa ruajtur asgjë. Rezultatet ruhen në këtë pajisje.</p>' +
           '<h3>Cilësimet</h3><p>Butoni ⚙ ka çelësin e zërit (tik-taku i orës, një tingull për çdo O dhe ?, dhe melodia e fitores, aq më madhështore sa më i lartë rezultati), ngjyrat e sfondit, madhësinë e tekstit (A+ / A−) dhe mundësinë për të pranuar vetëm fjalë nga lista e fjalëve.</p>' +
           '<h3>Lojë e re</h3><p>Pas çdo loje shtyp <b>Lojë e Re</b> ose shkruaj <code>Y</code>. Nëse e ndërron gjuhën ose gjatësinë e fjalës gjatë lojës, nis një lojë e re pasi ta konfirmosh.</p>' +
-          '<h3>Kthimi te lojërat</h3><p>Shtyp <b>Dil</b>, butonin Prapa ose shenjën MBG lart majtas për t’u kthyer te lista e lojërave. Një lojë e pambaruar ruhet dhe vazhdon kur të kthehesh. Aplikacioni mbyllet me butonin ⏻ në faqen kryesore.</p>';
+          '<h3>Kthimi te lojërat</h3><p>Shtyp <b>Kthehu</b>, butonin Prapa ose shenjën MBG lart majtas për t’u kthyer te lista e lojërave. Një lojë e pambaruar ruhet dhe vazhdon kur të kthehesh. Aplikacioni mbyllet me butonin ⏻ në faqen kryesore.</p>';
       },
       'help.scoreHead': ['Gjatësia', 'Pikët më të larta', 'Pikët më të ulëta'],
       'help.scoreRow': function (p) { return [p.length + ' shkronja', p.hiScore + ' me ' + p.hiAttempt + ' prova', p.loScore + ' me ' + p.loAttempt + ' prova']; },
@@ -397,7 +402,7 @@
       'opt.poolEveryday': 'Normal',
       'opt.poolAll': 'Ekspert ⭐',
       'toast.poolNext': 'Nga loja e ardhshme.',
-      'about.sources': 'Fjalorët: ENABLE dhe english-words (domen publik); fjalorët e LibreOffice për shqipen, boshnjakishten, gjermanishten, spanjishten, frëngjishten, turqishten, polonishten, portugalishten e Brazilit dhe arabishten, si dhe fjalë me alfabet latin të kontrolluara për ijekavicë (licenca të hapura); Zemberek për format bazë të turqishtes dhe Arramooz për ato të arabishtes; FrequencyWords për fjalët e përditshme. Hollësi: words/LICENSES.txt.',
+      'about.sources': 'Fjalorët: ENABLE dhe english-words (domen publik); fjalorët e LibreOffice për shqipen, boshnjakishten, gjermanishten, spanjishten, frëngjishten, turqishten, polonishten, portugalishten e Brazilit dhe arabishten, si dhe fjalë me alfabet latin të kontrolluara për ijekavicë (licenca të hapura); Zemberek për format bazë të turqishtes dhe Arramooz për ato të arabishtes; hunspell-dict-ko, mbështetur në Fjalorin bazë të koreanishtes të Institutit Kombëtar të Gjuhës Koreane (CC BY-SA), për koreanishten; FrequencyWords për fjalët e përditshme. Hollësi: words/LICENSES.txt.',
       'about.version': 'MBG Puzzles 1.0 · Gjeje fjalën. © 2026 MBG · Merkur Beqiri Games.',
       'about.privacy': 'Luhet edhe pa internet. Nuk nevojitet llogari: emrat dhe pikët mbeten në këtë telefon. Abonimet paguhen dhe menaxhohen përmes Google Play.',
       'about.privacyFree': 'Luhet edhe pa internet. Falas, pa reklama dhe pa blerje brenda aplikacionit. Emrat dhe pikët mbeten në këtë telefon.',
@@ -417,10 +422,11 @@
       'lang.listName.pl': 'poljskoj',
       'lang.listName.pt': 'portugalskoj',
       'lang.listName.ar': 'arapskoj',
+      'lang.listName.ko': 'korejskoj',
 
       'btn.submit': 'Provjeri',
       'btn.help': 'Pomoć',
-      'btn.quit': 'Izađi',
+      'btn.quit': 'Nazad',
       'btn.user': 'Korisnik',
       'btn.login': 'Prijava',
       'btn.logout': 'Odjava',
@@ -462,6 +468,7 @@
       'warn.noHint': 'Nema više nagovještaja – ostalo je na tebi.',
       'win.hints': function (p) { return 'Uz ' + p.n + ' ' + plBs(p.n, 'nagovještaj', 'nagovještaja', 'nagovještaja') + ' – svaki se u bodovima računa kao ' + p.k + ' pokušaja.'; },
       'warn.alpha': 'Upiši samo slova. Ovaj pokušaj se ne računa.',
+      'warn.hangul': 'Upiši cijele korejske slogove (npr. 사과). Ovaj pokušaj se ne računa.',
       'warn.length': function (p) { return 'Tvoja riječ ima ' + p.got + ' ' + plBs(p.got, 'slovo', 'slova', 'slova') + ', a ova igra traži ' + p.length + '. Ne računa se.'; },
       'warn.vocab': function (p) { return '„' + p.word + '“ nije na listi riječi. Ne računa se.'; },
       'warn.roundOver': 'Igra je završena. Upiši D za novu igru ili N za povratak na listu igara.',
@@ -534,7 +541,7 @@
 
       'help.html': function (c) {
         return '' +
-          '<h3>Cilj</h3><p>Računar nasumično bira tajnu riječ s liste riječi trenutnog jezika (bosanski, engleski, albanski, njemački, španski, francuski, turski, poljski, portugalski ili arapski). Pronađi je iz što manje pokušaja.</p>' +
+          '<h3>Cilj</h3><p>Računar nasumično bira tajnu riječ s liste riječi trenutnog jezika (bosanski, engleski, albanski, njemački, španski, francuski, turski, poljski, portugalski, arapski ili korejski). Pronađi je iz što manje pokušaja.</p>' +
           '<h3>Kako čitati tragove</h3><p>Nakon svakog pokušaja svako slovo tvoje riječi dobija trag, istim redom:</p>' + c.legend +
           '<p class="example">Primjer: tajna riječ je MAČKA, a ti upišeš KAMEN → <code>? O ? X X</code></p>' +
           '<p class="example">Ponovljena slova broje se pažljivo. Tajna riječ TORBA, pokušaj OLOVO → <code>? X X X X</code>. TORBA ima samo jedno O, pa trag dobija samo prvo O iz tvoje riječi; ostala dva O dobijaju X.</p>' +
@@ -550,7 +557,7 @@
           '<h3>Korisnici</h3><p>Odmah počinješ igrati anonimno. Anonimni rekord dijele svi koji igraju na ovom uređaju. Da čuvaš svoj rekord, dodirni <b>Prijava</b> i upiši svoje korisničko ime ili napravi novo. Imena korištena ranije prikazana su tu, pa je ponovna prijava samo jedan dodir. U istom prozoru možeš izabrati i igru bez čuvanja. Rezultati se čuvaju na ovom uređaju.</p>' +
           '<h3>Postavke</h3><p>Dugme ⚙ sadrži prekidač za zvuk (tik-tak sata, ton za svako O i ?, i pobjedničku melodiju, to svečaniju što je rezultat veći), boje pozadine, veličinu teksta (A+ / A−) i izbor da se prihvataju samo riječi s liste riječi.</p>' +
           '<h3>Nova igra</h3><p>Nakon igre pritisni <b>Nova igra</b> ili upiši <code>D</code>. Promjena jezika ili dužine riječi tokom igre pokreće novu igru nakon potvrde.</p>' +
-          '<h3>Povratak na igre</h3><p>Pritisni <b>Izađi</b>, dugme Nazad ili znak MBG gore lijevo da se vratiš na listu igara. Nezavršena igra se čuva i nastavlja kad se vratiš. Aplikaciju zatvaraš dugmetom ⏻ na početnom ekranu.</p>';
+          '<h3>Povratak na igre</h3><p>Pritisni <b>Nazad</b>, dugme Nazad ili znak MBG gore lijevo da se vratiš na listu igara. Nezavršena igra se čuva i nastavlja kad se vratiš. Aplikaciju zatvaraš dugmetom ⏻ na početnom ekranu.</p>';
       },
       'help.scoreHead': ['Dužina', 'Najviše bodova', 'Najmanje bodova'],
       'help.scoreRow': function (p) { return [p.length + ' slova', p.hiScore + ' iz ' + p.hiAttempt + '. pokušaja', p.loScore + ' iz ' + p.loAttempt + '. pokušaja']; },
@@ -574,7 +581,7 @@
       'opt.poolEveryday': 'Normalno',
       'opt.poolAll': 'Ekspert ⭐',
       'toast.poolNext': 'Od sljedeće igre.',
-      'about.sources': 'Rječnici: ENABLE i english-words (javno dobro); LibreOffice rječnici za albanski, bosanski, njemački, španski, francuski, turski, poljski, brazilski portugalski i arapski i riječi latinicom provjerene na ijekavicu (otvorene licence); Zemberek za osnovne oblike turskih i Arramooz za osnovne oblike arapskih riječi; FrequencyWords za svakodnevne riječi. Detalji: words/LICENSES.txt.',
+      'about.sources': 'Rječnici: ENABLE i english-words (javno dobro); LibreOffice rječnici za albanski, bosanski, njemački, španski, francuski, turski, poljski, brazilski portugalski i arapski i riječi latinicom provjerene na ijekavicu (otvorene licence); Zemberek za osnovne oblike turskih i Arramooz za osnovne oblike arapskih riječi; hunspell-dict-ko, zasnovan na Osnovnom rječniku korejskog jezika Nacionalnog instituta za korejski jezik (CC BY-SA), za korejski; FrequencyWords za svakodnevne riječi. Detalji: words/LICENSES.txt.',
       'about.version': 'MBG Puzzles 1.0 · Pogodi riječ. © 2026 MBG · Merkur Beqiri Games.',
       'about.privacy': 'Radi i bez interneta. Račun nije potreban: imena i rezultati ostaju na ovom telefonu. Pretplate se plaćaju preko Google Playa i tamo se njima upravlja.',
       'about.privacyFree': 'Radi i bez interneta. Besplatno, bez reklama i bez kupovine u aplikaciji. Imena i rezultati ostaju na ovom telefonu.',
@@ -594,10 +601,11 @@
       'lang.listName.pl': 'polnischen',
       'lang.listName.pt': 'portugiesischen',
       'lang.listName.ar': 'arabischen',
+      'lang.listName.ko': 'koreanischen',
 
       'btn.submit': 'Prüfen',
       'btn.help': 'Hilfe',
-      'btn.quit': 'Beenden',
+      'btn.quit': 'Zurück',
       'btn.user': 'Spieler',
       'btn.login': 'Anmelden',
       'btn.logout': 'Abmelden',
@@ -639,6 +647,7 @@
       'warn.noHint': 'Keine Tipps mehr – den Rest schaffst du selbst.',
       'win.hints': function (p) { return 'Mit ' + p.n + ' ' + pl(p.n, 'Tipp', 'Tipps') + ' – jeder zählt wie ' + p.k + ' Versuche in der Punktzahl.'; },
       'warn.alpha': 'Bitte nur Buchstaben. Dieser Versuch zählt nicht.',
+      'warn.hangul': 'Bitte ganze koreanische Silben eingeben (zum Beispiel 사과). Dieser Versuch zählt nicht.',
       'warn.length': function (p) { return 'Dein Wort hat ' + p.got + ' ' + pl(p.got, 'Buchstaben', 'Buchstaben') + ', dieses Spiel braucht ' + p.length + '. Zählt nicht.'; },
       'warn.vocab': function (p) { return '„' + p.word + '“ steht nicht in der Wortliste. Zählt nicht.'; },
       'warn.roundOver': 'Spiel vorbei. Gib J ein für ein neues Spiel oder N für zurück zu den Spielen.',
@@ -711,7 +720,7 @@
 
       'help.html': function (c) {
         return '' +
-          '<h3>Das Ziel</h3><p>Der Computer wählt zufällig ein geheimes Wort aus der Wortliste der eingestellten Sprache (Deutsch, Englisch, Albanisch, Bosnisch, Spanisch, Französisch, Türkisch, Polnisch, Portugiesisch oder Arabisch). Finde es mit so wenigen Versuchen wie möglich.</p>' +
+          '<h3>Das Ziel</h3><p>Der Computer wählt zufällig ein geheimes Wort aus der Wortliste der eingestellten Sprache (Deutsch, Englisch, Albanisch, Bosnisch, Spanisch, Französisch, Türkisch, Polnisch, Portugiesisch, Arabisch oder Koreanisch). Finde es mit so wenigen Versuchen wie möglich.</p>' +
           '<h3>Die Hinweise lesen</h3><p>Nach jedem Versuch bekommt jeder Buchstabe deines Wortes einen Hinweis, in derselben Reihenfolge:</p>' + c.legend +
           '<p class="example">Beispiel: Das geheime Wort ist APFEL und du schreibst PFERD → <code>? ? ? X X</code></p>' +
           '<p class="example">Doppelte Buchstaben werden genau gezählt. Geheimes Wort BLATT, Versuch BALLT → <code>O ? ? X O</code>. BLATT hat nur ein L: Das erste L deines Wortes bekommt ?, für das zweite bleibt keines übrig, also X.</p>' +
@@ -727,7 +736,7 @@
           '<h3>Spieler</h3><p>Du spielst sofort als <b>Anonym</b>. Diesen Rekord teilen sich alle, die auf diesem Gerät spielen. Um deinen eigenen Rekord zu behalten, tipp auf <b>Anmelden</b> und gib deinen Spielernamen ein oder leg einen neuen an. Namen, die du schon benutzt hast, stehen dort, sodass die nächste Anmeldung ein Tipp ist. Im selben Fenster kannst du auch ohne Speichern spielen. Die Ergebnisse bleiben auf diesem Gerät.</p>' +
           '<h3>Einstellungen</h3><p>Der Knopf ⚙ enthält den Ton (Ticken der Uhr, ein Ton für jedes O und ?, und die Siegesmelodie – je höher die Punktzahl, desto prächtiger), die Hintergrundfarben, die Schriftgröße (A+ / A−) und die Option, nur Wörter aus der Wortliste anzunehmen.</p>' +
           '<h3>Neues Spiel</h3><p>Nach einem Spiel drückst du <b>Neues Spiel</b> oder schreibst <code>J</code>. Wenn du während eines Spiels die Sprache oder die Wortlänge wechselst, beginnt nach deiner Bestätigung ein neues Spiel.</p>' +
-          '<h3>Zurück zu den Spielen</h3><p>Drück <b>Beenden</b>, die Zurück-Taste oder das MBG-Zeichen oben links, um zur Liste der Spiele zurückzukehren. Ein angefangenes Spiel bleibt erhalten und geht weiter, wenn du zurückkommst. Die App schließt du mit dem Knopf ⏻ auf dem Startbildschirm.</p>';
+          '<h3>Zurück zu den Spielen</h3><p>Drück <b>Zurück</b>, die Zurück-Taste oder das MBG-Zeichen oben links, um zur Liste der Spiele zurückzukehren. Ein angefangenes Spiel bleibt erhalten und geht weiter, wenn du zurückkommst. Die App schließt du mit dem Knopf ⏻ auf dem Startbildschirm.</p>';
       },
       'help.scoreHead': ['Länge', 'Höchste Punkte', 'Wenigste Punkte'],
       'help.scoreRow': function (p) { return [p.length + ' Buchstaben', p.hiScore + ' mit ' + p.hiAttempt + ' Versuchen', p.loScore + ' mit ' + p.loAttempt + ' Versuchen']; },
@@ -751,7 +760,7 @@
       'opt.poolEveryday': 'Normal',
       'opt.poolAll': 'Experte ⭐',
       'toast.poolNext': 'Ab dem nächsten Spiel.',
-      'about.sources': 'Wörterbücher: ENABLE und english-words (gemeinfrei); die LibreOffice-Wörterbücher für Albanisch, Bosnisch, Deutsch, Spanisch, Französisch, Türkisch, Polnisch, brasilianisches Portugiesisch und Arabisch sowie auf Ijekavisch geprüfte Wörter in lateinischer Schrift (offene Lizenzen); Zemberek für die türkischen und Arramooz für die arabischen Grundformen; FrequencyWords für die Alltagswörter. Einzelheiten: words/LICENSES.txt.',
+      'about.sources': 'Wörterbücher: ENABLE und english-words (gemeinfrei); die LibreOffice-Wörterbücher für Albanisch, Bosnisch, Deutsch, Spanisch, Französisch, Türkisch, Polnisch, brasilianisches Portugiesisch und Arabisch sowie auf Ijekavisch geprüfte Wörter in lateinischer Schrift (offene Lizenzen); Zemberek für die türkischen und Arramooz für die arabischen Grundformen; hunspell-dict-ko, auf Grundlage des Basiswörterbuchs Koreanisch des Nationalen Instituts für die koreanische Sprache (CC BY-SA), für Koreanisch; FrequencyWords für die Alltagswörter. Einzelheiten: words/LICENSES.txt.',
       'about.version': 'MBG Puzzles 1.0 · Errate das Wort. © 2026 MBG · Merkur Beqiri Games.',
       'about.privacy': 'Läuft auch offline. Kein Konto nötig: Namen und Ergebnisse bleiben auf diesem Handy. Abos werden über Google Play bezahlt und verwaltet.',
       'about.privacyFree': 'Läuft auch offline. Gratis, ohne Werbung und ohne In-App-Käufe. Namen und Ergebnisse bleiben auf diesem Handy.',
@@ -770,10 +779,11 @@
       'lang.listName.pl': 'polaca',
       'lang.listName.pt': 'portuguesa',
       'lang.listName.ar': 'árabe',
+      'lang.listName.ko': 'coreana',
 
       'btn.submit': 'Comprobar',
       'btn.help': 'Ayuda',
-      'btn.quit': 'Salir',
+      'btn.quit': 'Volver',
       'btn.user': 'Jugador',
       'btn.login': 'Entrar',
       'btn.logout': 'Cerrar sesión',
@@ -815,6 +825,7 @@
       'warn.noHint': 'No quedan más pistas: el resto depende de ti.',
       'win.hints': function (p) { return 'Con ' + p.n + ' ' + pl(p.n, 'pista', 'pistas') + ': cada una cuenta como ' + p.k + ' intentos en la puntuación.'; },
       'warn.alpha': 'Solo letras, por favor. Este intento no cuenta.',
+      'warn.hangul': 'Escribe sílabas coreanas completas (por ejemplo, 사과). Este intento no cuenta.',
       'warn.length': function (p) { return 'Tu palabra tiene ' + p.got + ' ' + pl(p.got, 'letra', 'letras') + ' y esta partida necesita ' + p.length + '. No cuenta.'; },
       'warn.vocab': function (p) { return '«' + p.word + '» no está en la lista de palabras. No cuenta.'; },
       'warn.roundOver': 'Fin de la partida. Escribe S para jugar otra o N para volver a los juegos.',
@@ -887,7 +898,7 @@
 
       'help.html': function (c) {
         return '' +
-          '<h3>El objetivo</h3><p>El ordenador elige al azar una palabra secreta de la lista del idioma elegido (español, inglés, albanés, bosnio, alemán, francés, turco, polaco, portugués o árabe). Encuéntrala con los menos intentos posibles.</p>' +
+          '<h3>El objetivo</h3><p>El ordenador elige al azar una palabra secreta de la lista del idioma elegido (español, inglés, albanés, bosnio, alemán, francés, turco, polaco, portugués, árabe o coreano). Encuéntrala con los menos intentos posibles.</p>' +
           '<h3>Cómo leer las pistas</h3><p>Después de cada intento, cada letra de tu palabra recibe una pista, en el mismo orden:</p>' + c.legend +
           '<p class="example">Ejemplo: la palabra secreta es PLAYA y escribes PALMA → <code>O ? ? X O</code></p>' +
           '<p class="example">Las letras repetidas se cuentan con cuidado. Palabra secreta LIBRO, intento LLAVE → <code>O X X X X</code>. LIBRO tiene una sola L: la primera L de LLAVE ya es O, así que la segunda recibe X.</p>' +
@@ -903,7 +914,7 @@
           '<h3>Jugadores</h3><p>Empiezas a jugar enseguida como <b>Anónimo</b>. Ese récord lo comparten todos los que juegan en este dispositivo. Para guardar tu propio récord, toca <b>Entrar</b> y escribe tu nombre de jugador o crea uno nuevo. Los nombres que ya has usado aparecen ahí, así que volver a entrar es un solo toque. En la misma ventana también puedes jugar sin guardar nada. Las puntuaciones se guardan en este dispositivo.</p>' +
           '<h3>Ajustes</h3><p>El botón ⚙ tiene el sonido (el tictac del reloj, un tono por cada O y ? y la melodía de la victoria, más vistosa cuanto más alta es la puntuación), los colores de fondo, el tamaño del texto (A+ / A−) y la opción de aceptar solo palabras de la lista.</p>' +
           '<h3>Partida nueva</h3><p>Al terminar, pulsa <b>Partida nueva</b> o escribe <code>S</code>. Si cambias el idioma o la longitud durante una partida, empieza una nueva después de confirmarlo.</p>' +
-          '<h3>Volver a los juegos</h3><p>Pulsa <b>Salir</b>, el botón Atrás o la marca MBG arriba a la izquierda para volver a la lista de juegos. Una partida sin terminar se guarda y sigue cuando vuelves. Para cerrar la app, usa el botón ⏻ de la pantalla de inicio.</p>';
+          '<h3>Volver a los juegos</h3><p>Pulsa <b>Volver</b>, el botón Atrás o la marca MBG arriba a la izquierda para volver a la lista de juegos. Una partida sin terminar se guarda y sigue cuando vuelves. Para cerrar la app, usa el botón ⏻ de la pantalla de inicio.</p>';
       },
       'help.scoreHead': ['Longitud', 'Máximo', 'Mínimo'],
       'help.scoreRow': function (p) { return [p.length + ' letras', p.hiScore + ' con ' + p.hiAttempt + ' intentos', p.loScore + ' con ' + p.loAttempt + ' intentos']; },
@@ -927,7 +938,7 @@
       'opt.poolEveryday': 'Normal',
       'opt.poolAll': 'Experto ⭐',
       'toast.poolNext': 'A partir de la próxima partida.',
-      'about.sources': 'Diccionarios: ENABLE y english-words (dominio público); los diccionarios de LibreOffice de albanés, bosnio, alemán, español, francés, turco, polaco, portugués de Brasil y árabe, y palabras en alfabeto latino revisadas para el ijekavo (licencias abiertas); Zemberek para las formas base del turco y Arramooz para las del árabe; FrequencyWords para las palabras de todos los días. Detalles: words/LICENSES.txt.',
+      'about.sources': 'Diccionarios: ENABLE y english-words (dominio público); los diccionarios de LibreOffice de albanés, bosnio, alemán, español, francés, turco, polaco, portugués de Brasil y árabe, y palabras en alfabeto latino revisadas para el ijekavo (licencias abiertas); Zemberek para las formas base del turco y Arramooz para las del árabe; hunspell-dict-ko, basado en el Diccionario Básico de Coreano del Instituto Nacional de la Lengua Coreana (CC BY-SA), para el coreano; FrequencyWords para las palabras de todos los días. Detalles: words/LICENSES.txt.',
       'about.version': 'MBG Puzzles 1.0 · Adivina la palabra. © 2026 MBG · Merkur Beqiri Games.',
       'about.privacy': 'Funciona sin conexión. No hace falta cuenta: los nombres y las puntuaciones se quedan en este teléfono. Las suscripciones se pagan y se gestionan a través de Google Play.',
       'about.privacyFree': 'Funciona sin conexión. Gratis, sin anuncios y sin compras en la app. Los nombres y las puntuaciones se quedan en este teléfono.',
@@ -946,10 +957,11 @@
       'lang.listName.pl': 'polonaise',
       'lang.listName.pt': 'portugaise',
       'lang.listName.ar': 'arabe',
+      'lang.listName.ko': 'coréenne',
 
       'btn.submit': 'Valider',
       'btn.help': 'Aide',
-      'btn.quit': 'Quitter',
+      'btn.quit': 'Retour',
       'btn.user': 'Joueur',
       'btn.login': 'Connexion',
       'btn.logout': 'Déconnexion',
@@ -991,6 +1003,7 @@
       'warn.noHint': 'Plus d’indices – la suite, c’est à toi.',
       'win.hints': function (p) { return 'Avec ' + p.n + ' ' + plFr(p.n, 'indice', 'indices') + ' – chacun compte comme ' + p.k + ' essais dans le score.'; },
       'warn.alpha': 'Seulement des lettres, s’il te plaît. Cet essai ne compte pas.',
+      'warn.hangul': 'Écris des syllabes coréennes complètes (par exemple 사과). Cet essai ne compte pas.',
       'warn.length': function (p) { return 'Ton mot a ' + p.got + ' ' + plFr(p.got, 'lettre', 'lettres') + ' ; cette partie en demande ' + p.length + '. Ça ne compte pas.'; },
       'warn.vocab': function (p) { return '« ' + p.word + ' » n’est pas dans la liste de mots. Ça ne compte pas.'; },
       'warn.roundOver': 'Partie terminée. Tape O pour rejouer ou N pour revenir aux jeux.',
@@ -1063,7 +1076,7 @@
 
       'help.html': function (c) {
         return '' +
-          '<h3>Le but</h3><p>L’ordinateur choisit au hasard un mot secret dans la liste de la langue choisie (français, anglais, albanais, bosnien, allemand, espagnol, turc, polonais, portugais ou arabe). Trouve-le en aussi peu d’essais que possible.</p>' +
+          '<h3>Le but</h3><p>L’ordinateur choisit au hasard un mot secret dans la liste de la langue choisie (français, anglais, albanais, bosnien, allemand, espagnol, turc, polonais, portugais, arabe ou coréen). Trouve-le en aussi peu d’essais que possible.</p>' +
           '<h3>Lire les indices</h3><p>Après chaque essai, chaque lettre de ton mot reçoit un indice, dans le même ordre :</p>' + c.legend +
           '<p class="example">Exemple : le mot secret est POMME et tu tapes PLUME → <code>O X X O O</code></p>' +
           '<p class="example">Les lettres répétées sont comptées avec soin. Mot secret LIVRE, essai LILAS → <code>O O X X X</code>. LIVRE n’a qu’un L : il est déjà trouvé au début, donc le deuxième L de LILAS reçoit X.</p>' +
@@ -1079,7 +1092,7 @@
           '<h3>Joueurs</h3><p>Tu commences tout de suite en <b>Anonyme</b>. Ce record est partagé par tous ceux qui jouent sur cet appareil. Pour garder ton propre record, touche <b>Connexion</b> et tape ton nom de joueur, ou crées-en un nouveau. Les noms déjà utilisés y sont listés, alors se reconnecter se fait d’un seul geste. Dans la même fenêtre, tu peux aussi jouer sans rien enregistrer. Les scores restent sur cet appareil.</p>' +
           '<h3>Réglages</h3><p>Le bouton ⚙ contient le son (le tic-tac de l’horloge, un son pour chaque O et ?, et la musique de la victoire, plus éclatante quand le score est plus élevé), les couleurs de fond, la taille du texte (A+ / A−) et l’option d’accepter seulement les mots de la liste.</p>' +
           '<h3>Nouvelle partie</h3><p>Après une partie, appuie sur <b>Nouvelle partie</b> ou tape <code>O</code>. Si tu changes de langue ou de longueur pendant une partie, une nouvelle partie commence après confirmation.</p>' +
-          '<h3>Revenir aux jeux</h3><p>Appuie sur <b>Quitter</b>, sur le bouton Retour ou sur le logo MBG en haut à gauche pour revenir à la liste des jeux. Une partie non terminée est gardée et continue à ton retour. Pour fermer l’app, utilise le bouton ⏻ de l’écran d’accueil.</p>';
+          '<h3>Revenir aux jeux</h3><p>Appuie sur <b>Retour</b>, sur le bouton Retour ou sur le logo MBG en haut à gauche pour revenir à la liste des jeux. Une partie non terminée est gardée et continue à ton retour. Pour fermer l’app, utilise le bouton ⏻ de l’écran d’accueil.</p>';
       },
       'help.scoreHead': ['Longueur', 'Score maximal', 'Score minimal'],
       'help.scoreRow': function (p) { return [p.length + ' lettres', p.hiScore + ' en ' + p.hiAttempt + ' essais', p.loScore + ' en ' + p.loAttempt + ' essais']; },
@@ -1103,7 +1116,7 @@
       'opt.poolEveryday': 'Normal',
       'opt.poolAll': 'Expert ⭐',
       'toast.poolNext': 'À partir de la prochaine partie.',
-      'about.sources': 'Dictionnaires : ENABLE et english-words (domaine public) ; les dictionnaires LibreOffice d’albanais, de bosnien, d’allemand, d’espagnol, de français, de turc, de polonais, de portugais du Brésil et d’arabe, et des mots en alphabet latin vérifiés pour l’ijékavien (licences libres) ; Zemberek pour les formes de base du turc et Arramooz pour celles de l’arabe ; FrequencyWords pour les mots de tous les jours. Détails : words/LICENSES.txt.',
+      'about.sources': 'Dictionnaires : ENABLE et english-words (domaine public) ; les dictionnaires LibreOffice d’albanais, de bosnien, d’allemand, d’espagnol, de français, de turc, de polonais, de portugais du Brésil et d’arabe, et des mots en alphabet latin vérifiés pour l’ijékavien (licences libres) ; Zemberek pour les formes de base du turc et Arramooz pour celles de l’arabe ; hunspell-dict-ko, fondé sur le Dictionnaire de base du coréen de l’Institut national de la langue coréenne (CC BY-SA), pour le coréen ; FrequencyWords pour les mots de tous les jours. Détails : words/LICENSES.txt.',
       'about.version': 'MBG Puzzles 1.0 · Devine le mot. © 2026 MBG · Merkur Beqiri Games.',
       'about.privacy': 'Fonctionne hors ligne. Pas besoin de compte : les noms et les scores restent sur ce téléphone. Les abonnements sont payés et gérés via Google Play.',
       'about.privacyFree': 'Fonctionne hors ligne. Gratuit, sans pub et sans achats intégrés. Les noms et les scores restent sur ce téléphone.',
@@ -1122,10 +1135,11 @@
       'lang.listName.pl': 'Lehçe',
       'lang.listName.pt': 'Portekizce',
       'lang.listName.ar': 'Arapça',
+      'lang.listName.ko': 'Korece',
 
       'btn.submit': 'Dene',
       'btn.help': 'Yardım',
-      'btn.quit': 'Çık',
+      'btn.quit': 'Geri',
       'btn.user': 'Oyuncu',
       'btn.login': 'Giriş',
       'btn.logout': 'Çıkış yap',
@@ -1167,6 +1181,7 @@
       'warn.noHint': 'Başka ipucu yok – gerisi sana kalmış.',
       'win.hints': function (p) { return p.n + ' ipucuyla – her biri puanda ' + p.k + ' deneme sayılır.'; },
       'warn.alpha': 'Lütfen yalnızca harf yaz. Bu deneme sayılmadı.',
+      'warn.hangul': 'Lütfen tam Korece heceler yaz (örneğin 사과). Bu deneme sayılmadı.',
       'warn.length': function (p) { return 'Kelimende ' + p.got + ' harf var; bu oyun ' + p.length + ' harf istiyor. Sayılmadı.'; },
       'warn.vocab': function (p) { return '“' + p.word + '” kelime listesinde yok. Sayılmadı.'; },
       'warn.roundOver': 'Oyun bitti. Yeniden oynamak için E, oyunlara dönmek için H yaz.',
@@ -1239,7 +1254,7 @@
 
       'help.html': function (c) {
         return '' +
-          '<h3>Amaç</h3><p>Bilgisayar, seçili dilin kelime listesinden (Türkçe, İngilizce, Arnavutça, Boşnakça, Almanca, İspanyolca, Fransızca, Lehçe, Portekizce ya da Arapça) rastgele gizli bir kelime seçer. Onu olabildiğince az denemede bul.</p>' +
+          '<h3>Amaç</h3><p>Bilgisayar, seçili dilin kelime listesinden (Türkçe, İngilizce, Arnavutça, Boşnakça, Almanca, İspanyolca, Fransızca, Lehçe, Portekizce, Arapça ya da Korece) rastgele gizli bir kelime seçer. Onu olabildiğince az denemede bul.</p>' +
           '<h3>İpuçlarını okumak</h3><p>Her denemeden sonra kelimendeki her harf, aynı sırayla bir ipucu alır:</p>' + c.legend +
           '<p class="example">Örnek: gizli kelime TAVUK, sen KAVUN yazıyorsun → <code>? O O O X</code></p>' +
           '<p class="example">Tekrar eden harfler dikkatle sayılır. Gizli kelime KİTAP, deneme KAPAK → <code>O X ? O X</code>. KİTAP’ta tek bir A var ve o, KAPAK’ın ikinci A’sıyla aynı yerde; bu yüzden ilk A X alır. Son K da X alır, çünkü KİTAP’taki tek K zaten bulundu.</p>' +
@@ -1255,7 +1270,7 @@
           '<h3>Oyuncular</h3><p>Hemen <b>Anonim</b> olarak oynamaya başlarsın. Bu rekoru bu cihazda oynayan herkes paylaşır. Kendi rekorunu saklamak için <b>Giriş</b>’e dokun ve oyuncu adını yaz ya da yeni bir ad oluştur. Daha önce kullandığın adlar orada listelenir, böylece yeniden giriş tek dokunuştur. Aynı pencerede hiçbir şey kaydetmeden oynamayı da seçebilirsin. Skorlar bu cihazda saklanır.</p>' +
           '<h3>Ayarlar</h3><p>⚙ düğmesinde ses (saatin tik takı, her O ve ? için bir ses ve puan yükseldikçe daha görkemli olan zafer melodisi), arka plan renkleri, yazı boyutu (A+ / A−) ve yalnızca kelime listesindeki kelimeleri kabul etme seçeneği bulunur.</p>' +
           '<h3>Yeni oyun</h3><p>Bir oyundan sonra <b>Yeni oyun</b>’a bas ya da <code>E</code> yaz. Oyun sırasında dili ya da kelime uzunluğunu değiştirirsen, onayladıktan sonra yeni bir oyun başlar.</p>' +
-          '<h3>Oyunlara dönmek</h3><p>Oyun listesine dönmek için <b>Çık</b>’a, Geri tuşuna ya da sol üstteki MBG işaretine bas. Bitmemiş bir oyun saklanır ve döndüğünde devam eder. Uygulamayı kapatmak için ana ekrandaki ⏻ düğmesini kullan.</p>';
+          '<h3>Oyunlara dönmek</h3><p>Oyun listesine dönmek için <b>Geri</b>’a, Geri tuşuna ya da sol üstteki MBG işaretine bas. Bitmemiş bir oyun saklanır ve döndüğünde devam eder. Uygulamayı kapatmak için ana ekrandaki ⏻ düğmesini kullan.</p>';
       },
       'help.scoreHead': ['Uzunluk', 'En yüksek puan', 'En düşük puan'],
       'help.scoreRow': function (p) { return [p.length + ' harf', p.hiAttempt + ' denemede ' + p.hiScore, p.loAttempt + ' denemede ' + p.loScore]; },
@@ -1279,7 +1294,7 @@
       'opt.poolEveryday': 'Normal',
       'opt.poolAll': 'Uzman ⭐',
       'toast.poolNext': 'Bir sonraki oyundan itibaren.',
-      'about.sources': 'Sözlükler: ENABLE ve english-words (kamu malı); Arnavutça, Boşnakça, Almanca, İspanyolca, Fransızca, Türkçe, Lehçe, Brezilya Portekizcesi ve Arapça LibreOffice sözlükleri ve ijekavca için denetlenmiş Latin alfabeli kelimeler (açık lisanslar); Türkçe kök biçimleri için Zemberek, Arapça kök biçimleri için Arramooz; gündelik kelimeler için FrequencyWords. Ayrıntılar: words/LICENSES.txt.',
+      'about.sources': 'Sözlükler: ENABLE ve english-words (kamu malı); Arnavutça, Boşnakça, Almanca, İspanyolca, Fransızca, Türkçe, Lehçe, Brezilya Portekizcesi ve Arapça LibreOffice sözlükleri ve ijekavca için denetlenmiş Latin alfabeli kelimeler (açık lisanslar); Türkçe kök biçimleri için Zemberek, Arapça kök biçimleri için Arramooz; Korece için Ulusal Kore Dili Enstitüsü’nün Temel Korece Sözlüğü’ne dayanan hunspell-dict-ko (CC BY-SA); gündelik kelimeler için FrequencyWords. Ayrıntılar: words/LICENSES.txt.',
       'about.version': 'MBG Puzzles 1.0 · Kelimeyi Bul. © 2026 MBG · Merkur Beqiri Games.',
       'about.privacy': 'İnternetsiz de çalışır. Hesap gerekmez: adlar ve skorlar bu telefonda kalır. Abonelikler Google Play üzerinden ödenir ve yönetilir.',
       'about.privacyFree': 'İnternetsiz de çalışır. Ücretsiz, reklamsız ve uygulama içi satın alma yok. Adlar ve skorlar bu telefonda kalır.',
@@ -1298,10 +1313,11 @@
       'lang.listName.pl': 'polskiej',
       'lang.listName.pt': 'portugalskiej',
       'lang.listName.ar': 'arabskiej',
+      'lang.listName.ko': 'koreańskiej',
 
       'btn.submit': 'Sprawdź',
       'btn.help': 'Pomoc',
-      'btn.quit': 'Wyjdź',
+      'btn.quit': 'Wróć',
       'btn.user': 'Gracz',
       'btn.login': 'Zaloguj',
       'btn.logout': 'Wyloguj',
@@ -1343,6 +1359,7 @@
       'warn.noHint': 'Koniec podpowiedzi – reszta należy do ciebie.',
       'win.hints': function (p) { return 'Z ' + p.n + ' ' + plPl(p.n, 'podpowiedzią', 'podpowiedziami', 'podpowiedziami') + ' – każda liczy się w wyniku jak ' + p.k + ' próby.'; },
       'warn.alpha': 'Tylko litery, proszę. Ta próba się nie liczy.',
+      'warn.hangul': 'Wpisz pełne koreańskie sylaby (np. 사과). Ta próba się nie liczy.',
       'warn.length': function (p) { return 'Twoje słowo ma ' + p.got + ' ' + plPl(p.got, 'literę', 'litery', 'liter') + ', a ta gra wymaga ' + p.length + '. Nie liczy się.'; },
       'warn.vocab': function (p) { return 'Słowa „' + p.word + '” nie ma na liście słów. Nie liczy się.'; },
       'warn.roundOver': 'Koniec gry. Wpisz T, aby zagrać jeszcze raz, albo N, aby wrócić do listy gier.',
@@ -1415,7 +1432,7 @@
 
       'help.html': function (c) {
         return '' +
-          '<h3>Cel gry</h3><p>Komputer losuje tajne słowo z listy słów wybranego języka (polski, angielski, albański, bośniacki, niemiecki, hiszpański, francuski, turecki, portugalski lub arabski). Znajdź je w jak najmniejszej liczbie prób.</p>' +
+          '<h3>Cel gry</h3><p>Komputer losuje tajne słowo z listy słów wybranego języka (polski, angielski, albański, bośniacki, niemiecki, hiszpański, francuski, turecki, portugalski, arabski lub koreański). Znajdź je w jak najmniejszej liczbie prób.</p>' +
           '<h3>Jak czytać wskazówki</h3><p>Po każdej próbie każda litera twojego słowa dostaje wskazówkę, w tej samej kolejności:</p>' + c.legend +
           '<p class="example">Przykład: tajne słowo to LAMPA, a ty wpisujesz PALMA → <code>? O ? ? O</code></p>' +
           '<p class="example">Powtarzające się litery są liczone uważnie. Tajne słowo MLEKO, próba MEBLE → <code>O ? X ? X</code>. MLEKO ma tylko jedno E: pierwsze E w MEBLE dostaje ?, a dla drugiego nie zostaje już żadne, więc dostaje X.</p>' +
@@ -1431,7 +1448,7 @@
           '<h3>Gracze</h3><p>Od razu grasz jako <b>Anonim</b>. Jego rekord jest wspólny dla wszystkich, którzy grają na tym urządzeniu. Aby mieć własny rekord, dotknij <b>Zaloguj</b> i wpisz swoją nazwę albo utwórz nową. Nazwy użyte wcześniej są tam wymienione, więc ponowne logowanie to jedno dotknięcie. W tym samym oknie możesz też wybrać grę bez zapisywania. Wyniki są przechowywane na tym urządzeniu.</p>' +
           '<h3>Ustawienia</h3><p>Przycisk ⚙ zawiera włącznik dźwięku (tykanie zegara, ton dla każdego O i ? oraz zwycięska melodia – tym okazalsza, im wyższy wynik), kolory tła, rozmiar tekstu (A+ / A−) i opcję, by przyjmować tylko słowa z listy słów.</p>' +
           '<h3>Nowa gra</h3><p>Po grze naciśnij <b>Nowa gra</b> albo wpisz <code>T</code>. Zmiana języka lub długości słowa w trakcie gry zaczyna nową grę po potwierdzeniu.</p>' +
-          '<h3>Powrót do gier</h3><p>Naciśnij <b>Wyjdź</b>, przycisk Wstecz albo znak MBG w lewym górnym rogu, aby wrócić do listy gier. Niedokończona gra zostaje zachowana i trwa dalej, gdy wrócisz. Aby zamknąć aplikację, użyj przycisku ⏻ na ekranie startowym.</p>';
+          '<h3>Powrót do gier</h3><p>Naciśnij <b>Wróć</b>, przycisk Wstecz albo znak MBG w lewym górnym rogu, aby wrócić do listy gier. Niedokończona gra zostaje zachowana i trwa dalej, gdy wrócisz. Aby zamknąć aplikację, użyj przycisku ⏻ na ekranie startowym.</p>';
       },
       'help.scoreHead': ['Długość', 'Najwyższy wynik', 'Najniższy wynik'],
       'help.scoreRow': function (p) { return [p.length + ' ' + plPl(p.length, 'litera', 'litery', 'liter'), p.hiScore + ' przy ' + p.hiAttempt + ' ' + plPl(p.hiAttempt, 'próbie', 'próbach', 'próbach'), p.loScore + ' przy ' + p.loAttempt + ' ' + plPl(p.loAttempt, 'próbie', 'próbach', 'próbach')]; },
@@ -1455,7 +1472,7 @@
       'opt.poolEveryday': 'Normalny',
       'opt.poolAll': 'Ekspert ⭐',
       'toast.poolNext': 'Od następnej gry.',
-      'about.sources': 'Słowniki: ENABLE i english-words (domena publiczna); słowniki LibreOffice dla języka albańskiego, bośniackiego, niemieckiego, hiszpańskiego, francuskiego, tureckiego, polskiego, portugalskiego (Brazylia) i arabskiego oraz słowa w alfabecie łacińskim sprawdzone pod kątem ijekawicy (otwarte licencje); Zemberek dla form podstawowych tureckich i Arramooz dla arabskich; FrequencyWords dla słów codziennych. Szczegóły: words/LICENSES.txt.',
+      'about.sources': 'Słowniki: ENABLE i english-words (domena publiczna); słowniki LibreOffice dla języka albańskiego, bośniackiego, niemieckiego, hiszpańskiego, francuskiego, tureckiego, polskiego, portugalskiego (Brazylia) i arabskiego oraz słowa w alfabecie łacińskim sprawdzone pod kątem ijekawicy (otwarte licencje); Zemberek dla form podstawowych tureckich i Arramooz dla arabskich; hunspell-dict-ko, oparty na Podstawowym słowniku koreańskim Narodowego Instytutu Języka Koreańskiego (CC BY-SA), dla koreańskiego; FrequencyWords dla słów codziennych. Szczegóły: words/LICENSES.txt.',
       'about.version': 'MBG Puzzles 1.0 · Odgadnij słowo. © 2026 MBG · Merkur Beqiri Games.',
       'about.privacy': 'Działa bez internetu. Nie potrzeba konta: nazwy i wyniki zostają na tym telefonie. Subskrypcje są opłacane i zarządzane przez Google Play.',
       'about.privacyFree': 'Działa bez internetu. Za darmo, bez reklam i bez zakupów w aplikacji. Nazwy i wyniki zostają na tym telefonie.',
@@ -1474,10 +1491,11 @@
       'lang.listName.pl': 'polonesa',
       'lang.listName.pt': 'portuguesa',
       'lang.listName.ar': 'árabe',
+      'lang.listName.ko': 'coreana',
 
       'btn.submit': 'Enviar',
       'btn.help': 'Ajuda',
-      'btn.quit': 'Sair',
+      'btn.quit': 'Voltar',
       'btn.user': 'Jogador',
       'btn.login': 'Entrar',
       'btn.logout': 'Sair da conta',
@@ -1519,6 +1537,7 @@
       'warn.noHint': 'Acabaram as dicas – o resto é com você.',
       'win.hints': function (p) { return 'Com ' + p.n + ' ' + pl(p.n, 'dica', 'dicas') + ' – cada uma conta como ' + p.k + ' tentativas na pontuação.'; },
       'warn.alpha': 'Só letras, por favor. Esta tentativa não contou.',
+      'warn.hangul': 'Digite sílabas coreanas completas (por exemplo, 사과). Esta tentativa não contou.',
       'warn.length': function (p) { return 'Sua palavra tem ' + p.got + ' ' + pl(p.got, 'letra', 'letras') + '; esta partida pede ' + p.length + '. Não contou.'; },
       'warn.vocab': function (p) { return '“' + p.word + '” não está na lista de palavras. Não contou.'; },
       'warn.roundOver': 'Fim de jogo. Digite S para jogar de novo ou N para voltar aos jogos.',
@@ -1591,7 +1610,7 @@
 
       'help.html': function (c) {
         return '' +
-          '<h3>O objetivo</h3><p>O computador sorteia uma palavra secreta da lista de palavras do idioma escolhido (português, inglês, albanês, bósnio, alemão, espanhol, francês, turco, polonês ou árabe). Descubra a palavra com o menor número de tentativas.</p>' +
+          '<h3>O objetivo</h3><p>O computador sorteia uma palavra secreta da lista de palavras do idioma escolhido (português, inglês, albanês, bósnio, alemão, espanhol, francês, turco, polonês, árabe ou coreano). Descubra a palavra com o menor número de tentativas.</p>' +
           '<h3>Como ler as pistas</h3><p>Depois de cada tentativa, cada letra da sua palavra recebe uma pista, na mesma ordem:</p>' + c.legend +
           '<p class="example">Exemplo: a palavra secreta é PRAIA e você digita PAUSA → <code>O ? X X O</code></p>' +
           '<p class="example">As letras repetidas são contadas com cuidado. Palavra secreta PRAIA, tentativa PARAR → <code>O ? ? ? X</code>. PRAIA tem um R só: o primeiro R de PARAR recebe ?, e para o segundo não sobra nenhum, então ele recebe X.</p>' +
@@ -1607,7 +1626,7 @@
           '<h3>Jogadores</h3><p>Você começa a jogar na hora como <b>Anônimo</b>. O recorde dele é compartilhado por todos que jogam neste aparelho. Para ter o seu próprio recorde, toque em <b>Entrar</b> e digite o seu nome de jogador, ou crie um novo. Os nomes que você já usou aparecem ali, então entrar de novo é um toque. Na mesma janela você também pode jogar sem salvar nada. As pontuações ficam neste aparelho.</p>' +
           '<h3>Configurações</h3><p>O botão ⚙ tem o interruptor de som (o tique-taque do relógio, um tom para cada O e ? e a música da vitória, mais grandiosa quanto maior a pontuação), as cores de fundo, o tamanho do texto (A+ / A−) e a opção de aceitar só palavras da lista.</p>' +
           '<h3>Nova partida</h3><p>Depois de uma partida, toque em <b>Nova partida</b> ou digite <code>S</code>. Mudar o idioma ou o tamanho da palavra durante uma partida começa uma nova depois que você confirmar.</p>' +
-          '<h3>Voltar aos jogos</h3><p>Toque em <b>Sair</b>, no botão Voltar ou na marca MBG no canto superior esquerdo para voltar à lista de jogos. Uma partida não terminada fica guardada e continua quando você voltar. Para fechar o app, use o botão ⏻ na tela inicial.</p>';
+          '<h3>Voltar aos jogos</h3><p>Toque em <b>Voltar</b>, no botão Voltar ou na marca MBG no canto superior esquerdo para voltar à lista de jogos. Uma partida não terminada fica guardada e continua quando você voltar. Para fechar o app, use o botão ⏻ na tela inicial.</p>';
       },
       'help.scoreHead': ['Tamanho', 'Maior pontuação', 'Menor pontuação'],
       'help.scoreRow': function (p) { return [p.length + ' letras', p.hiScore + ' com ' + p.hiAttempt + ' tentativas', p.loScore + ' com ' + p.loAttempt + ' tentativas']; },
@@ -1631,7 +1650,7 @@
       'opt.poolEveryday': 'Normal',
       'opt.poolAll': 'Especialista ⭐',
       'toast.poolNext': 'A partir da próxima partida.',
-      'about.sources': 'Dicionários: ENABLE e english-words (domínio público); os dicionários do LibreOffice de albanês, bósnio, alemão, espanhol, francês, turco, polonês, português do Brasil e árabe, e palavras em alfabeto latino verificadas para o ijekaviano (licenças abertas); Zemberek para as formas básicas do turco e Arramooz para as do árabe; FrequencyWords para as palavras do dia a dia. Detalhes: words/LICENSES.txt.',
+      'about.sources': 'Dicionários: ENABLE e english-words (domínio público); os dicionários do LibreOffice de albanês, bósnio, alemão, espanhol, francês, turco, polonês, português do Brasil e árabe, e palavras em alfabeto latino verificadas para o ijekaviano (licenças abertas); Zemberek para as formas básicas do turco e Arramooz para as do árabe; hunspell-dict-ko, baseado no Dicionário Básico de Coreano do Instituto Nacional da Língua Coreana (CC BY-SA), para o coreano; FrequencyWords para as palavras do dia a dia. Detalhes: words/LICENSES.txt.',
       'about.version': 'MBG Puzzles 1.0 · Adivinhe a palavra. © 2026 MBG · Merkur Beqiri Games.',
       'about.privacy': 'Funciona sem internet. Não precisa de conta: nomes e pontuações ficam neste celular. As assinaturas são pagas e gerenciadas pelo Google Play.',
       'about.privacyFree': 'Funciona sem internet. Grátis, sem anúncios e sem compras no app. Nomes e pontuações ficam neste celular.',
@@ -1650,10 +1669,11 @@
       'lang.listName.pl': 'البولندية',
       'lang.listName.pt': 'البرتغالية',
       'lang.listName.ar': 'العربية',
+      'lang.listName.ko': 'الكورية',
 
       'btn.submit': 'تحقّق',
       'btn.help': 'مساعدة',
-      'btn.quit': 'خروج',
+      'btn.quit': 'رجوع',
       'btn.user': 'اللاعب',
       'btn.login': 'دخول',
       'btn.logout': 'خروج من الحساب',
@@ -1695,6 +1715,7 @@
       'warn.noHint': 'لا مزيد من التلميحات – الباقي عليك.',
       'win.hints': function (p) { return 'مع ' + arN(p.n, 'تلميح واحد', 'تلميحين', 'تلميحات', 'تلميحًا') + ' – كل تلميح يُحسب في النتيجة كـ ' + arN(p.k, 'محاولة واحدة', 'محاولتين', 'محاولات', 'محاولة') + '.'; },
       'warn.alpha': 'الحروف فقط من فضلك. لم تُحتسب هذه المحاولة.',
+      'warn.hangul': 'اكتب مقاطع كورية كاملة (مثل 사과). لم تُحتسب هذه المحاولة.',
       'warn.length': function (p) { return 'كلمتك فيها ' + arN(p.got, 'حرف واحد', 'حرفان', 'حروف', 'حرفًا') + '، وهذه اللعبة تحتاج ' + p.length + '. لم تُحتسب.'; },
       'warn.vocab': function (p) { return 'الكلمة «' + p.word + '» ليست في قائمة الكلمات. لم تُحتسب.'; },
       'warn.roundOver': 'انتهت اللعبة. اكتب ن لتلعب مرة أخرى أو ل لتعود إلى الألعاب.',
@@ -1783,7 +1804,7 @@
           '<h3>اللاعبون</h3><p>تبدأ اللعب فورًا باسم <b>مجهول</b>. وأفضل نتيجة له مشتركة بين كل من يلعب على هذا الجهاز. لتحتفظ بأفضل نتيجة خاصة بك، اضغط <b>دخول</b> واكتب اسم لاعبك أو أنشئ اسمًا جديدًا. الأسماء التي استُخدمت من قبل تظهر هناك، فالدخول مرة أخرى بلمسة واحدة. ومن النافذة نفسها يمكنك أيضًا اللعب دون حفظ أي شيء. تُحفظ النتائج على هذا الجهاز.</p>' +
           '<h3>الإعدادات</h3><p>زر ⚙ فيه مفتاح الصوت (تكتكة الساعة، ونغمة لكل O و?، ولحن الفوز الذي يزداد فخامة كلما ارتفعت النتيجة)، وألوان الخلفية، وحجم النص (A+ / A−)، وخيار قبول كلمات القائمة فقط.</p>' +
           '<h3>لعبة جديدة</h3><p>بعد اللعبة اضغط <b>لعبة جديدة</b> أو اكتب <code>ن</code>. تغيير اللغة أو طول الكلمة أثناء اللعبة يبدأ لعبة جديدة بعد التأكيد.</p>' +
-          '<h3>العودة إلى الألعاب</h3><p>اضغط <b>خروج</b> أو زر الرجوع أو شعار MBG في الأعلى للعودة إلى قائمة الألعاب. اللعبة غير المكتملة تبقى محفوظة وتتابع عند عودتك. لإغلاق التطبيق استخدم زر ⏻ في الشاشة الرئيسية.</p>';
+          '<h3>العودة إلى الألعاب</h3><p>اضغط <b>رجوع</b> أو زر الرجوع أو شعار MBG في الأعلى للعودة إلى قائمة الألعاب. اللعبة غير المكتملة تبقى محفوظة وتتابع عند عودتك. لإغلاق التطبيق استخدم زر ⏻ في الشاشة الرئيسية.</p>';
       },
       'help.scoreHead': ['الطول', 'أعلى نتيجة', 'أدنى نتيجة'],
       'help.scoreRow': function (p) { return [p.length + ' حروف', p.hiScore + ' مع ' + arN(p.hiAttempt, 'محاولة واحدة', 'محاولتين', 'محاولات', 'محاولة'), p.loScore + ' مع ' + arN(p.loAttempt, 'محاولة واحدة', 'محاولتين', 'محاولات', 'محاولة')]; },
@@ -1807,11 +1828,200 @@
       'opt.poolEveryday': 'عادي',
       'opt.poolAll': 'خبير ⭐',
       'toast.poolNext': 'ابتداءً من اللعبة القادمة.',
-      'about.sources': 'القواميس: ENABLE وenglish-words (ملكية عامة)؛ قواميس LibreOffice للألبانية والبوسنية والألمانية والإسبانية والفرنسية والتركية والبولندية والبرتغالية البرازيلية والعربية (آية سبل)، وكلمات بالحروف اللاتينية رُوجعت للنطق الإيكافي (رخص مفتوحة)؛ Zemberek للصيغ الأساسية في التركية وعرموز (Arramooz) للعربية؛ FrequencyWords للكلمات اليومية. التفاصيل: words/LICENSES.txt.',
+      'about.sources': 'القواميس: ENABLE وenglish-words (ملكية عامة)؛ قواميس LibreOffice للألبانية والبوسنية والألمانية والإسبانية والفرنسية والتركية والبولندية والبرتغالية البرازيلية والعربية (آية سبل)، وكلمات بالحروف اللاتينية رُوجعت للنطق الإيكافي (رخص مفتوحة)؛ Zemberek للصيغ الأساسية في التركية وعرموز (Arramooz) للعربية؛ hunspell-dict-ko المبني على القاموس الأساسي للغة الكورية من المعهد الوطني للغة الكورية (CC BY-SA) للكورية؛ FrequencyWords للكلمات اليومية. التفاصيل: words/LICENSES.txt.',
       'about.version': 'MBG Puzzles 1.0 · خمّن الكلمة. © 2026 MBG · Merkur Beqiri Games.',
       'about.privacy': 'تعمل دون إنترنت. لا حاجة إلى حساب: الأسماء والنتائج تبقى على هذا الهاتف. تُدفع الاشتراكات وتُدار عبر Google Play.',
       'about.privacyFree': 'تعمل دون إنترنت. مجانية، بلا إعلانات وبلا مشتريات داخل التطبيق. الأسماء والنتائج تبقى على هذا الهاتف.',
       'about.words': function (p) { return 'الكلمات (اليومية / المقبولة): ' + p.list + '.'; },
+    },
+    ko: {
+      'app.title': '단어 퍼즐',
+      'app.by': 'MBG Puzzles · MBG 제작',
+      'lang.listName.en': '영어',
+      'lang.listName.sq': '알바니아어',
+      'lang.listName.bs': '보스니아어',
+      'lang.listName.de': '독일어',
+      'lang.listName.es': '스페인어',
+      'lang.listName.fr': '프랑스어',
+      'lang.listName.tr': '튀르키예어',
+      'lang.listName.pl': '폴란드어',
+      'lang.listName.pt': '포르투갈어',
+      'lang.listName.ar': '아랍어',
+      'lang.listName.ko': '한국어',
+
+      /* control captions (section 7 of the specification) */
+      'btn.submit': '입력',
+      'btn.help': '도움말',
+      'btn.quit': '뒤로',
+      'btn.user': '사용자',
+      'btn.login': '로그인',
+      'btn.logout': '로그아웃',
+      'btn.settings': '설정',
+      'btn.fontUp': 'A+',
+      'btn.fontDown': 'A−',
+      'btn.theme': '배경 바꾸기',
+      'btn.reveal': '정답 보기',
+      'btn.newGame': '새 게임',
+      'btn.length': function (p) { return p.n + '칸으로 바꾸기'; },
+      'btn.close': '닫기',
+      'aria.fontUp': '글자 크게',
+      'aria.fontDown': '글자 작게',
+      'aria.length': function (p) { return '단어 길이: ' + p.n + '칸. 바꾸기'; },
+      'aria.history': '게임판',
+      'aria.user': function (p) { return '사용자: ' + p.name; },
+
+      /* status line */
+      'status.anonymous': '익명',
+      'status.noData': '저장 안 함',
+      'status.time': function (p) { return p.n + '초'; },
+      'len.chip': function (p) { return p.n + '칸'; },
+
+      /* input */
+      'label.play': function (p) { return p.n + '칸 단어 또는 명령어를 입력하세요'; },
+      'label.yesno': '한 판 더 할까요? 네 / 아니요',
+      'ph.play': function (p) { return p.n + '칸 단어를 입력하세요'; },
+      'ph.yesno': '한 판 더? 네 / 아니요',
+
+      /* short messages */
+      'notice.storageUnavailable': '이 브라우저에서는 점수를 저장할 수 없어요.',
+      'notice.loggedIn': function (p) { return p.name + '님, 다시 오신 걸 환영해요! 최고 점수: ' + p.best; },
+      'notice.registered': function (p) { return p.name + '님, 환영해요!'; },
+      'notice.noData': '저장하지 않고 플레이 중',
+      'notice.anonymous': '익명으로 플레이 중',
+      'notice.restored': '게임을 이어서 할 수 있게 복원했어요',
+      'warn.empty': function (p) { return p.length + '칸 단어를 입력하세요.'; },
+      'reveal.what': '단어 전체',
+      'hint.btn': '힌트',
+      'hint.what': '자모 하나 더',
+      'hint.shown': function (p) { return '힌트 ' + p.number + ': ' + p.pos + '번째 칸 = ' + p.ch; },
+      'warn.noHint': '힌트는 여기까지예요 – 나머지는 직접 찾아보세요.',
+      'win.hints': function (p) { return '힌트 ' + p.n + '개 사용 – 힌트 하나는 점수에서 시도 ' + p.k + '번으로 계산돼요.'; },
+      'warn.alpha': '한글만 입력하세요. 이번 시도는 세지 않았어요.',
+      'warn.hangul': '온전한 글자로 입력하세요 (예: 사과). ㅏㅏ, ㅅㅅ처럼 자모만 늘어놓으면 단어가 아니에요. 이번 시도는 세지 않았어요.',
+      'warn.length': function (p) { return '입력한 단어는 ' + p.got + '칸인데 이 게임은 ' + p.length + '칸이에요. 시도로 세지 않았어요.'; },
+      'warn.vocab': function (p) { return '“' + p.word + '”은(는) 단어 목록에 없어요. 시도로 세지 않았어요.'; },
+      'warn.roundOver': '게임이 끝났어요. 한 판 더 하려면 ‘네’, 게임 목록으로 돌아가려면 ‘아니요’를 입력하세요.',
+      'warn.noWords': function (p) { return p.listName + ' 단어 목록에 ' + p.length + '칸 단어가 없어요.'; },
+
+      /* round end */
+      'win.title': '축하해요!',
+      'win.titleName': function (p) { return p.name + '님, 축하해요!'; },
+      'win.found': function (p) { return '“' + p.word + '”을(를) ' + p.attempts + '번 만에 ' + p.seconds + '초 걸려 찾았어요.'; },
+      'win.luck': '대박! 한 번에 맞혔어요!',
+      'score.label': '점수',
+      'score.yourBest': '내 최고 점수',
+      'score.allTime': '역대 최고 점수',
+      'score.newBest': '신기록!',
+      'score.newAllTime': '역대 신기록!',
+      'score.notSaved': '저장 안 됨',
+      'reveal.text': '다음엔 꼭 맞힐 거예요!',
+      'reveal.word': function (p) { return '정답은 ' + p.word + '였어요.'; },
+
+      /* dialogs */
+      'dlg.cancel': '취소',
+      'restart.title': '새 게임을 시작할까요?',
+      'restart.length': function (p) { return p.n + '칸 단어로 바꾸면 지금 게임이 끝나요. 점수는 기록되지 않아요.'; },
+      'restart.language': '언어를 바꾸면 지금 게임이 끝나요. 점수는 기록되지 않아요.',
+      'restart.ok': '새 게임',
+      'login.title': '로그인',
+      'login.lede': '로그인하면 내 최고 점수를 따로 저장할 수 있어요.',
+      'login.label': '사용자 이름',
+      'login.saved': '저장된 이름',
+      'login.other': '또는 이름 입력',
+      'login.pick': function (p) { return p.name + '(으)로 로그인, 최고 점수 ' + p.best; },
+      'login.submit': '로그인',
+      'login.create': function (p) { return '“' + p.name + '” 만들기'; },
+      'login.unknown': function (p) { return '“' + p.name + '” 사용자가 아직 없어요. 새로 만들까요?'; },
+      'login.empty': '사용자 이름을 입력하세요.',
+      'login.invalid': '글자나 숫자 2~20자로 정하세요 (띄어쓰기, 마침표, 하이픈 가능).',
+      'login.reserved': function (p) { return '“' + p.name + '”은(는) 쓸 수 없는 이름이에요. 다른 이름을 고르세요.'; },
+      'login.noData': '저장하지 않고 플레이',
+      'login.anonymous': '익명으로 점수 저장',
+      'account.best': function (p) { return '내 최고 점수: ' + p.best; },
+      'settings.title': '설정',
+      'settings.sound': '소리',
+      'settings.background': '배경',
+      'settings.textSize': '글자 크기',
+      'opt.validate': '실제 단어만 인정',
+      'opt.validateHint': function (p) { return '모든 시도가 사전에 있는 단어여야 해요 (이 언어는 ' + p.n + '개 단어). 사전에 없는 단어는 시도로 세지 않아요.'; },
+      'goodbye.title': '플레이해 주셔서 고마워요!',
+      'goodbye.text': '즐거운 시간이었길 바라요. 또 한 판 하러 와 주세요!',
+      'goodbye.sign': 'MBG · Merkur Beqiri Games 드림',
+      'goodbye.again': '다시 하기',
+      'goodbye.close': '이제 이 창을 닫아도 돼요.',
+      'wheel.title': '단어 길이',
+      'wheel.done': '완료',
+      'wheel.item': function (p) { return p.n + '칸'; },
+      'help.title': '게임 방법',
+
+      /* toasts */
+      'toast.font': function (p) { return '글자 크기: ' + p.px + 'px'; },
+      'toast.fontMax': '가장 큰 글자 크기예요.',
+      'toast.fontMin': '가장 작은 글자 크기예요.',
+      'theme.light': '밝게',
+      'theme.dark': '어둡게',
+      'theme.adriatic': '아드리아해',
+      'theme.meadow': '초원',
+      'theme.rose': '장미',
+      'theme.random': '랜덤 색상',
+
+      'last.try': function (p) { return p.n + '번째 시도'; },
+      'sr.guess': function (p) { return p.attempt + '번째 시도: ' + p.word + '. 단서: ' + p.clues; },
+      'legend.O': '맞는 자모, 맞는 자리',
+      'legend.Q': '단어에 있지만 다른 자리',
+      'legend.X': '단어에 없음',
+
+      'help.html': function (c) {
+        return '' +
+          '<h3>목표</h3><p>컴퓨터가 지금 고른 언어(영어, 알바니아어, 보스니아어, 독일어, 스페인어, 프랑스어, 튀르키예어, 폴란드어, 포르투갈어, 아랍어, 한국어)의 단어 목록에서 비밀 단어를 하나 무작위로 골라요. 되도록 적은 시도로 맞혀 보세요.</p>' +
+          '<h3>한국어는 자모로 풀어서</h3><p>한국어 단어는 꼬들처럼 풀어쓰기로 맞혀요. <b>한 칸에 자모 하나</b>, 즉 두벌식 자판의 키 하나가 한 칸이에요. 평소처럼 휴대폰 한글 자판으로 입력하면 게임이 알아서 자모로 나눠요.</p>' +
+          '<ul><li>ㄲ ㄸ ㅃ ㅆ ㅉ, ㅐ ㅔ ㅒ ㅖ는 키 하나라서 한 칸이에요: 꿀벌 = ㄲㅜㄹㅂㅓㄹ (6칸)</li>' +
+          '<li>ㅘ ㅙ ㅚ ㅝ ㅞ ㅟ ㅢ는 키 두 개라서 두 칸이에요: 사과 = ㅅㅏㄱㅗㅏ (5칸), 의사 = ㅇㅡㅣㅅㅏ (5칸)</li>' +
+          '<li>겹받침도 두 칸이에요: 닭 = ㄷㅏㄹㄱ (4칸)</li></ul>' +
+          '<p>칸 옆에는 입력한 단어가 글자로 다시 모여 보여요 (사과).</p>' +
+          '<h3>단서 읽기</h3><p>시도할 때마다 내 단어의 칸마다 같은 순서로 단서가 붙어요:</p>' + c.legend +
+          '<p class="example">예: 정답이 사과(ㅅㅏㄱㅗㅏ)이고 과자(ㄱㅗㅏㅈㅏ)를 입력하면 → <code>? ? ? X O</code></p>' +
+          '<p class="example">같은 자모가 여러 번 나오면 꼼꼼히 셉니다. 정답 나무(ㄴㅏㅁㅜ), 입력 바다(ㅂㅏㄷㅏ) → <code>X O X X</code>. 나무에는 ㅏ가 하나뿐인데, 그 ㅏ는 이미 두 번째 칸에서 맞았어요.</p>' +
+          '<h3>단어 입력</h3><p>칸 수가 정확히 맞는 단어를 입력하고 <b>입력</b> 버튼이나 Enter를 누르세요. 같은 자모가 여러 번 나와도 돼요. 칸 수가 다르거나, 숫자·기호가 섞이거나, ㅏㅏ처럼 온전한 글자가 아닌 입력은 시도로 세지 않아요.</p>' +
+          '<h3>단어 길이</h3><p>4, 5, 6, 7, 8칸 단어로 플레이할 수 있어요. 시계 옆의 길이 버튼(예: <b>4칸</b>)을 누르고 길이를 고르세요. 휴대폰에서는 휠을 밀어서 고르면 돼요.</p>' +
+          '<h3>정답</h3><p>모든 단서가 O가 되면 단어를 찾은 거예요. O가 하트 ❤️로 바뀌고, 소리가 켜져 있으면 축하 음악이 나와요.</p>' +
+          '<h3>힌트 💡</h3><p>막혔나요? 세 번째 시도부터(전문가 ⭐ 레벨은 네 번째부터) 입력란 옆에 전구 버튼이 나타나요. 힌트를 쓸 때마다 아직 찾지 못한 칸 중 하나에 비밀 단어의 자모가 하나 더 열리고, 힌트 크레딧이 하나 들어요 (⚙ › 힌트 크레딧: 날마다 무료 크레딧, 높은 점수를 내면 더 받아요). 단어 전체를 알려 주지는 않아요: 적어도 한 칸은 늘 직접 찾아야 해요. 힌트 하나는 점수에서 시도 2번으로 계산돼요. 시도가 계속 틀리면 버튼이 더 자주 흔들리며 알려 줘요.</p>' +
+          '<h3>정답 보기</h3><p><b>정답 보기</b>를 누르거나 <code>정답보기</code> 또는 <code>reveal</code>을 입력하면 비밀 단어를 볼 수 있어요. 게임은 0점으로 끝나요.</p>' +
+          '<h3>점수</h3><p>시도가 적을수록 점수가 높아요: 시도가 하나 늘 때마다 점수가 크게 줄어요. 빨리 풀면 작은 속도 보너스(최대 20%)도 있어요.</p>' + c.scoreTable +
+          '<p>내 최고 점수와 역대 최고 점수만 저장되고, 점수를 합산하지는 않아요.</p>' +
+          '<h3>명령어</h3>' + c.commandTable + '<p>영어 명령어(help, reveal, quit)는 모든 언어에서 쓸 수 있어요.</p>' +
+          '<h3>사용자</h3><p>처음에는 바로 <b>익명</b>으로 플레이해요. 익명의 최고 점수는 이 기기에서 플레이하는 모두가 함께 써요. 내 최고 점수를 따로 저장하려면 <b>로그인</b>을 누르고 사용자 이름을 입력하거나 새로 만드세요. 전에 쓴 이름은 목록에 나와서 한 번만 누르면 다시 로그인돼요. 같은 창에서 아무것도 저장하지 않고 플레이할 수도 있어요. 점수는 이 기기에 저장돼요.</p>' +
+          '<h3>설정</h3><p>⚙ 버튼에는 소리 켜기/끄기(째깍거리는 시계, O와 ?마다 나는 소리, 점수가 높을수록 화려해지는 축하 음악), 배경 색, 글자 크기(A+ / A−), 사전에 있는 단어만 인정하는 옵션이 있어요.</p>' +
+          '<h3>새 게임</h3><p>게임이 끝나면 <b>새 게임</b>을 누르거나 <code>네</code>를 입력하세요. 게임 중에 언어나 단어 길이를 바꾸면 확인한 뒤 새 게임이 시작돼요.</p>' +
+          '<h3>게임 목록으로</h3><p><b>뒤로</b> 버튼, 휴대폰의 뒤로 버튼, 또는 왼쪽 위의 MBG 표시를 누르면 게임 목록으로 돌아가요. 끝나지 않은 게임은 저장되어 돌아오면 이어서 할 수 있어요. 앱을 닫으려면 홈 화면의 ⏻ 버튼을 누르세요.</p>';
+      },
+      'help.scoreHead': ['길이', '최고 점수', '최저 점수'],
+      'help.scoreRow': function (p) { return [p.length + '칸', p.hiAttempt + '번 만에 ' + p.hiScore, p.loAttempt + '번 만에 ' + p.loScore]; },
+      'help.cmdHead': ['입력', '하는 일'],
+      'help.cmdRows': [
+        ['도움말 · help', '이 설명 열기'],
+        ['정답보기 · reveal', '비밀 단어 보기 (0점)'],
+        ['나가기 · quit', '게임 목록으로 돌아가기'],
+        ['네 / 아니요', '게임이 끝난 뒤: 한 판 더 하거나 게임 목록으로']
+      ],
+      'help.about': '정보',
+      'opt.pool': '레벨',
+      'level.title': '레벨',
+      'level.normal': '일반',
+      'level.expert': '전문가 ⭐',
+      'level.expertOn': '전문가 레벨: 사전 전체에서 비밀 단어를 골라요.',
+      'level.normalOn': '일반 레벨: 자주 쓰는 단어.',
+      'win.tryExpert': '너무 쉬운가요? 전문가 레벨 ⭐에 도전해 보세요 – 사전 전체에서 비밀 단어를 골라요.',
+      'win.expertBtn': '전문가로 플레이',
+      'opt.poolHint': function (p) { return '일반: 자주 쓰는 단어 ' + p.everyday + '개 · 전문가: 사전 단어 ' + p.all + '개.'; },
+      'opt.poolEveryday': '일반',
+      'opt.poolAll': '전문가 ⭐',
+      'toast.poolNext': '다음 게임부터 적용돼요.',
+      'about.sources': '사전: ENABLE, english-words(퍼블릭 도메인); 알바니아어, 보스니아어, 독일어, 스페인어, 프랑스어, 튀르키예어, 폴란드어, 브라질 포르투갈어, 아랍어의 LibreOffice 사전(오픈 라이선스); 튀르키예어 기본형은 Zemberek, 아랍어 기본형은 Arramooz; 한국어는 국립국어원 한국어기초사전을 바탕으로 한 hunspell-dict-ko(CC BY-SA); 자주 쓰는 단어는 FrequencyWords. 자세한 내용: words/LICENSES.txt.',
+      'about.version': 'MBG Puzzles 1.0 · 단어 퍼즐. © 2026 MBG · Merkur Beqiri Games.',
+      'about.privacy': '오프라인으로 플레이해요. 계정이 없어도 돼요: 이름과 점수는 이 휴대폰에만 저장돼요. 구독은 Google Play에서 결제하고 관리해요.',
+      'about.privacyFree': '오프라인으로 플레이해요. 무료이고 광고도 인앱 결제도 없어요. 이름과 점수는 이 휴대폰에만 저장돼요.',
+      'about.words': function (p) { return '단어 (자주 쓰는 단어 / 인정되는 단어): ' + p.list + '.'; },
     }
   };
 

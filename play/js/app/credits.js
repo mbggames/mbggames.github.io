@@ -13,9 +13,11 @@
  *                   credits; the next game starts again at 1
  *   the answer      free edition free; paid edition 9 credits (free credits first); giving up
  *                   with a new game is always free
- *   rewards         a win of a player logged in with a name earns credits by score: 5,000
- *                   points 1 credit … 100,000 points 12 … 200,000 or more 25 (RULES.rewards);
- *                   a solved puzzle of the day earns credits for everyone (js/shared/daily.js)
+ *   rewards         a win of a player logged in with a name earns credits by score: 10,000
+ *                   points 1 credit, 25,000 2, 50,000 3, 100,000 6, 200,000 10, 500,000 or more
+ *                   15 (RULES.rewards - version 1.7: about half of before, so that credits stay
+ *                   worth something); a solved puzzle of the day earns credits for everyone
+ *                   (js/shared/daily.js)
  *
  * Anonymous play shares one wallet on the phone and earns no rewards. Credits stay on this
  * phone for now (online accounts come later), so uninstalling the app loses them.
@@ -38,8 +40,10 @@
       { id: 'mbg_credits_100', credits: 100, preview: '€10' },
       { id: 'mbg_credits_200', credits: 200, preview: '€20' }
     ],
-    // [score, credits]: in between the credits grow in a straight line; 200,000 or more: 25
-    rewards: [[5000, 1], [10000, 2], [25000, 3], [50000, 6], [100000, 12], [200000, 25]]
+    // [score, credits]: in between the credits grow in a straight line; 500,000 or more: 15.
+    // Version 1.7: about half of 1.6 ([5,000, 1] … [100,000, 12], [200,000, 25]); the highest
+    // step is reached only at the harder levels (scores are weighted by difficulty).
+    rewards: [[10000, 1], [25000, 2], [50000, 3], [100000, 6], [200000, 10], [500000, 15]]
   };
   var PRODUCTS = RULES.packs.map(function (p) { return p.id; });
   var KEY = 'MBG.App.credits';
@@ -268,6 +272,7 @@
       '  <p class="pw-msg" id="crMsg" role="status" aria-live="polite" hidden></p>' +
       '  <h3 id="crHowTitle"></h3><p id="crHow"></p>' +
       '  <h3 id="crRewTitle"></h3><p id="crRew"></p>' +
+      '  <p class="powered" id="crPowered"></p>' +
       '</div>';
     var $ = function (id) { return d.querySelector('#' + id); };
     var added = 0, busy = false, prices = null;
@@ -285,6 +290,7 @@
       $('crHowTitle').textContent = t('credits.howTitle');
       $('crHow').textContent = t(Shell.free ? 'credits.howFree' : 'credits.how', { steps: RULES.steps.slice(0, 6).join(', ') });
       $('crRewTitle').textContent = t('credits.rewardsTitle');
+      $('crPowered').textContent = t('app.powered');
       $('crRew').textContent = t('credits.rewards', {
         list: RULES.rewards.map(function (r) { return fmt(r[0]) + (r === RULES.rewards[RULES.rewards.length - 1] ? '+' : '') + ' → ' + r[1]; }).join(' · ')
       }) + (MBG.Daily ? ' ' + t('credits.dailyRewards', { n: MBG.Daily.REWARD, list: bonusList() }) : '');

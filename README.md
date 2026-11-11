@@ -1,136 +1,84 @@
-# MBG Puzzles – website
+# MBG Games – website (mbggames.com)
 
-The promotional website of **MBG Puzzles** (Codebreaker & Word Puzzle) by MBG – Merkur Beqiri Games.
-One page in each of the app's ten languages, written so that Google, Bing and AI assistants
-(ChatGPT, Claude, Gemini, Perplexity, Copilot …) can read it, understand it and recommend it
-when people ask for a word game, a number game or brain games in their language.
+The public website of MBG – Merkur Beqiri Games, built from this repository by GitHub Actions and
+published on GitHub Pages at **https://mbggames.com**.
 
-| Address | Language |
+| Address | What |
 |---|---|
-| `/` | English (also the default for every other language) |
-| `/sq/` `/bs/` `/de/` `/es/` `/fr/` `/tr/` `/pl/` `/pt/` `/ar/` | Shqip, Bosanski, Deutsch, Español, Français, Türkçe, Polski, Português (Brasil), العربية |
-| `/privacy.html` | the app's privacy policy in all ten languages – the link Google Play asks for |
+| `/` | **MBG Games** home page: MBG Puzzles and Who Am I?; `/sq/` `/bs/` … `/ko/` the same in the other ten languages (texts: `content/home.json`) |
+| `/puzzles/` | **MBG Puzzles** in English; `/puzzles/sq/` `/bs/` `/de/` `/es/` `/fr/` `/tr/` `/pl/` `/pt/` `/ar/` `/ko/` in the other ten languages (texts: `content/<language>.json`) |
+| `/puzzles/play/` | the web preview of the game (folder `play/`, app version 1.11.0) |
+| `/whoami/` | **Who Am I?** – the folder `whoami/` as it is; while that folder does not exist, a "coming soon" page in all eleven languages (`/whoami/sq/` …) |
+| `/privacy.html` | the privacy policy of MBG Puzzles in all eleven languages – the address Google Play knows (`#delete` = deleting an account) |
+| `/play/` | old address of the web preview: sends visitors on to `/puzzles/play/` |
 
----
+## Putting Who Am I? online
 
-## What makes it easy to find
+Make a folder `whoami` at the top of this repository with the game in it (its start page must be
+`whoami/index.html`) and commit. The next build publishes it at `mbggames.com/whoami/`, adds it to
+the sitemap, and the home page card says "Play now" instead of "Coming soon".
 
-- **Plain HTML.** Every word is in the page itself; no JavaScript is needed to read it. Many AI crawlers do not run JavaScript, so this matters.
-- **One page per language**, linked to each other with `hreflang`, so Google shows Albanians the Albanian page and Germans the German one.
-- **Structured data** (schema.org JSON-LD) on every page: the app (MobileApplication, free, Android, ten languages, age 9+), the two games, the developer, and all questions and answers (FAQPage).
-- **Short, factual answers** to the questions people actually ask: "Is there a word game in Albanian?", "Is it like Wordle?", "Is it like Mastermind?", "Is it free?", "Can children play?".
-- **`robots.txt`** welcomes search engines and AI crawlers by name (GPTBot, OAI-SearchBot, ClaudeBot, PerplexityBot, Google-Extended, Applebot …).
-- **`sitemap.xml`** lists all pages with their language versions.
-- **`llms.txt` and `llms-full.txt`**: a short summary and the full text of every language page, in the format AI tools look for.
-- **IndexNow**: after every publish, Bing (the index behind ChatGPT search and Copilot), Yandex and others are told that the pages changed.
-- **Share pictures** for every language (WhatsApp, Facebook, X, LinkedIn show them when the link is posted).
-
-Honest limit: no website can make an AI assistant recommend an app. Assistants repeat what many independent sources say, so the site is the base; reviews on Google Play and mentions on other sites do the rest (see "After publishing").
-
----
-
-## 1. Publish it on GitHub Pages (free, about 15 minutes)
-
-### Choose the address
-
-The address should be the **root** of a github.io address, because only there do `robots.txt`, `sitemap.xml` and `llms.txt` count. Best:
-
-1. On github.com: your picture (top right) › **Your organizations** › **New organization** › plan **Free** › name it `mbggames` (or `mbg-games` if taken). This gives the brand its own address.
-2. In that organization: **New repository**, name it **exactly** `mbggames.github.io` (the organization name + `.github.io`) › **Public** › leave "Add a README" unticked › **Create repository**.
-
-The site will be at **https://mbggames.github.io/**. (Using your personal account works the same way: a repository named `yourname.github.io` gives `https://yourname.github.io/`.)
-
-> A repository with any other name (for example `mbg-puzzles-site`) gives `https://…github.io/mbg-puzzles-site/`. The pages still work and can be found, but robots.txt and llms.txt are not read there.
-
-### Upload the files
-
-1. Unzip `MBG-Puzzles-Website-GitHub.zip`. You get a folder `mbg-puzzles-site`.
-2. On the empty repository page click **uploading an existing file**. Select **everything inside** `mbg-puzzles-site` and drag it into the window. Wait until all files are listed (about 48). **Commit changes**.
-3. Check that the repository shows a folder **`.github`**. On a Mac, Finder hides folders whose names start with a dot: press **Cmd + Shift + .** in Finder before dragging. If it is still missing: **Add file › Create new file**, type the name `.github/workflows/pages.yml`, paste the contents of `tools/pages.yml`, **Commit changes**.
-
-### Switch on GitHub Pages
-
-1. **Settings › Pages** › under *Build and deployment*, set **Source** to **GitHub Actions**.
-2. **Actions** tab › **Publish website** › **Run workflow**. After about a minute the run turns green and shows the address.
-
-From now on, every change you commit is published by itself within a minute or two. The address is filled into the pages automatically, also if you later add your own domain (Settings › Pages › Custom domain).
-
----
-
-## 2. Tell Google and Bing (once, about 10 minutes)
-
-**Google Search Console** – search.google.com/search-console
-1. **Add property** › **URL prefix** › `https://mbggames.github.io/`.
-2. Choose **HTML file** verification and download the file (`google….html`). In the repository open the folder **`extra`**, **Add file › Upload files**, upload it, **Commit changes**. Wait a minute, then click **Verify**.
-3. **Sitemaps** › enter `sitemap.xml` › **Submit**.
-
-**Bing Webmaster Tools** – bing.com/webmasters
-1. Sign in › **Import from Google Search Console** (fastest) – or add the site and verify with `BingSiteAuth.xml` in the `extra` folder, as above.
-2. **Sitemaps** › `https://mbggames.github.io/sitemap.xml`.
-Bing's index is used by ChatGPT search, Microsoft Copilot and DuckDuckGo.
-
----
-
-## 3. Launch day and other changes (no programming)
+## Settings (`site.json`) – no programming
 
 | What | Where |
 |---|---|
-| The app is live on Google Play | `site.json`: change `"playStatus": "soon"` to `"playStatus": "live"`. Every page then shows a download button with the Play link in the page's language, and the structured data gets the download address. |
-| The "Play in your browser" button and the web preview (`/play/`) | `site.json`: `"webPreview": true` or `false`. The game itself is the folder `play/`; its switches ("Join the test" / "Get it on Google Play", the test link) are in `play/js/app/edition.js`, see `play/README-preview.txt`. |
-| The world top 20 is online | `site.json`: `"worldList": true` (the privacy answer then mentions it) |
-| Phone / WhatsApp number, e-mail, Play link | `site.json` |
-| The opening text of WhatsApp messages and e-mails ("Hello, I found you on the MBG Puzzles website …") | `waMessage` in each `content/*.json`; `{url}` becomes the address of that language page |
-| Any text, in any language | `content/en.json`, `content/sq.json` … `content/ar.json` |
+| Now (November 2026): in review by Google | `"playStatus": "review"` – every page says the app passed its closed test and is in review, lists the 11 languages, invites people to play online meanwhile (for a limited time) and says the full app is free for about the first month after launch, then paid (early bird). No tester box for MBG Puzzles. Who Am I? has its own **Become a tester** box (texts `testTitle`, `testText`, `testMsg` in `content/home.json`). Same value in `play/js/app/edition.js`. |
+| The app is public on Google Play | `"playStatus": "live"` – every page shows "Get it on Google Play" with the link in the page's language; the tester box disappears. Also set `playStatus: 'live'` in `play/js/app/edition.js`. |
+| Become a tester of MBG Puzzles (closed test – over) | `"testUrl"` = Google Play's opt-in page of the test (now `""`). If set and the app is not live, every page has a **Become a tester** box: 1. send your Gmail address (WhatsApp / e-mail), 2. once added, register on Google Play. `""` = no box. |
+| Play in your browser | `"webPreview": true / false` |
+| Phone / WhatsApp, e-mail | `"phone"`, `"whatsapp"`, `"email"` |
+| Any text | `content/home.json` (home page and Who Am I? page, all eleven languages), `content/en.json` … `content/ko.json` (MBG Puzzles) |
 | Colours, fonts, layout | `assets/site.css` |
-| Share pictures and icons | `tools/make_images.py` (after changing a headline; needs `pip install pillow fonttools brotli`) |
 
-To edit on GitHub: open the file › pencil icon › change the text between the quotes › **Commit changes**. Keep the quotes and commas as they are.
+To edit on GitHub: open the file › pencil icon › change the text between the quotes › **Commit changes**.
+Every commit to `main` is published by itself within 1–2 minutes (Actions › "Publish website").
 
-**Before switching the app to the paid edition**, change the texts that say "free · no ads · no limits", "no purchases" and "10 free hint credits a day" in all ten `content` files – they describe the free edition.
+## Pictures
 
-The example games on the pages (ANGEL, FJALA, HVALA, VÖGEL …) were checked with the app’s own clue rules, and none of the secret words is a word of the day.
+`assets/img/og-<language>.png` are the share pictures (WhatsApp, Facebook, X …). Files ending in
+`.b64` are the same pictures as text (base64) – they exist because some upload tools only take
+text. The build turns them back into pictures and **prefers them**, so after changing a headline run
+`python3 tools/make_images.py` (it writes both; needs `pip install pillow fonttools brotli` and,
+for Korean, the Noto Sans CJK font). If you replace a picture by hand, delete its `.b64` file.
 
----
+## Updating the web preview to a new app version
 
-## 4. After publishing – what helps AI assistants find it
+See `play/README-preview.txt`: replace `play/` with the app's `www` folder and put back the preview
+files and the three small hooks.
 
-1. **The Google Play listing** with the same facts and words as the site (the store texts already match).
-2. **Reviews and ratings** on Google Play – ask testers, friends and students.
-3. **Mentions on other sites** with a link to the site: AlternativeTo (as an alternative to Wordle and Mastermind), Product Hunt, Reddit (r/WordGames, r/AndroidGaming, r/albania, r/kosovo, r/bih, r/languagelearning), language-learning forums, school and teacher groups, local news in Kosovo, Albania and Bosnia.
-4. **Keep the facts the same everywhere**: name, "free, no ads", "ten languages", the two game names. Assistants trust what several sources repeat.
+## What makes it easy to find
 
----
+Plain HTML (readable without JavaScript), one page per language with `hreflang` links, structured
+data (schema.org: Organization, MobileApplication, FAQPage, ItemList), `robots.txt` welcoming search
+engines and AI crawlers by name, `sitemap.xml`, `llms.txt` and `llms-full.txt`, and IndexNow (Bing,
+the index behind ChatGPT search and Copilot) after every publish. Google Search Console and Bing
+Webmaster Tools: submit `https://mbggames.com/sitemap.xml` again after this move.
 
-## 5. Build it on your own computer (optional)
-
-```
-python3 tools/build.py --site-url https://mbggames.github.io
-```
-
-writes the finished site into `_site/` (Python 3, nothing to install). `--preview` makes links point at `index.html` files, so the pages also open straight from the folder.
-
----
-
-## 6. Files
+## Build it on your own computer (optional)
 
 ```
-mbg-puzzles-site/
-├── .github/workflows/pages.yml   builds and publishes the site (also as tools/pages.yml)
-├── site.json                     settings: Google Play status, contact, IndexNow key
-├── content/                      all texts, one file per language (en, sq, bs, de, es, fr, tr, pl, pt, ar)
-├── assets/site.css               the look (same colours and fonts as the app)
-├── assets/fonts/                 Atkinson Hyperlegible, Unbounded, Noto Kufi Arabic, Noto Sans Arabic (SIL OFL)
-├── assets/img/                   app icon, browser icons, share pictures og-<language>.png
-├── privacy.html                  the app's privacy policy (ten languages)
-├── extra/                        verification files for Google / Bing go here
-└── tools/
-    ├── build.py                  makes the pages, robots.txt, sitemap.xml, llms.txt, llms-full.txt, 404.html
-    ├── examples.json             the example games (checked with the app's clue rules)
-    ├── make_images.py            share pictures and icons
-    └── indexnow.py               tells Bing and others about changes
+python3 tools/build.py --site-url https://mbggames.com
 ```
 
----
+writes the finished site into `_site/` (Python 3 only). `--preview` makes links point at
+`index.html` files, so the pages also open straight from the folder.
 
-© 2026 MBG · Merkur Beqiri Games. Fonts under the SIL Open Font License 1.1 (see `assets/fonts/`).
-Wordle is a trademark of The New York Times Company and Mastermind a trademark of its owner; the site names them only to compare, and MBG Puzzles is not connected with them.
+## Files
+
+```
+.github/workflows/pages.yml   builds and publishes the site (copy in tools/pages.yml)
+site.json                     settings
+content/                      texts: home.json + one file per language of MBG Puzzles
+assets/                       site.css, fonts (SIL OFL), pictures
+play/                         web preview of MBG Puzzles (the app's www + preview files)
+privacy.html                  privacy policy of MBG Puzzles (the app's www/privacy.html)
+extra/                        verification files for Google / Bing, published at the top
+tools/build.py                makes all pages, redirects, robots.txt, sitemap.xml, llms.txt, 404.html
+tools/examples.json           example games (checked with the app's clue rules)
+tools/make_images.py          share pictures and icons
+tools/indexnow.py             tells Bing and others about changes
+mbg-puzzles-site/             OLD copy from October 2026 – not used by the build, can be deleted
+```
+
+© 2026 MBG · Merkur Beqiri Games. Wordle is a trademark of The New York Times Company and
+Mastermind a trademark of its owner; the site names them only to compare.

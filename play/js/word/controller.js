@@ -31,8 +31,8 @@
 
   var STATES = ['boot', 'playing', 'roundEnd', 'locked', 'goodbye'];
   /** Typed as a name, these mean "play as Anonymous" (English, Albanian, Bosnian, German, Spanish, French, Turkish). */
-  var ANON_WORDS = ['a', 'anonymous', 'anonim', 'anonimno', 'anonym', 'anónimo', 'anonimo', 'anonyme'];
-  var LANGS = ['en', 'sq', 'bs', 'de', 'es', 'fr', 'tr', 'pl', 'pt', 'ar'];
+  var ANON_WORDS = ['a', 'anonymous', 'anonim', 'anonimno', 'anonym', 'anónimo', 'anonimo', 'anonyme', '익명'];
+  var LANGS = ['en', 'sq', 'bs', 'de', 'es', 'fr', 'tr', 'pl', 'pt', 'ar', 'ko'];
 
   function GameController(deps) {
     deps = deps || {};
@@ -157,6 +157,7 @@
     }
     if (c.kind === 'invalid') {
       if (c.reason === 'alpha') this._warn('alpha');
+      else if (c.reason === 'hangul') this._warn('hangul');
       else if (c.reason === 'length') this._warn('length', { length: round.length, got: c.got });
       else this._warn('vocab', { word: c.word });
       return;
@@ -166,6 +167,8 @@
       if (!this.access.canStart(this.gameId)) { this.E.abandonRound(round, this.now()); this._lock(); return; }
       this.access.recordFirstGuess(this.gameId);
     }
+    // "Only real words" counts for the score only when it was on for every try of the game.
+    if (!validate && (round.mode & this.E.MODE.REAL)) round.mode &= ~this.E.MODE.REAL;
     var res = this.E.applyGuess(round, c.word, this.now());
     this.emit({ type: 'guess', attempt: res.attempt, word: c.word, feedback: res.feedback, won: res.won, length: round.length });
     if (res.won) this._win();
@@ -182,7 +185,8 @@
   P._newRound = function () {
     if (this.daily) return this._dailyRound();
     if (this.access && !this.access.canStart(this.gameId)) return this._lock();
-    var pool = (this.settings() || {}).wordPool === 'all' ? 'all' : 'everyday';
+    var set = this.settings() || {};
+    var pool = set.wordPool === 'all' ? 'all' : 'everyday';
     var secret = this.vocab.random(this.lang, this.length, this.random, pool);
     if (!secret) {
       this.round = null;
@@ -192,7 +196,9 @@
       this._state();
       return false;
     }
-    this.round = this.E.createRound(secret, this.length, this.lang, this.now());
+    // Difficulty of this game (fixed now; "only real words" is dropped if it is switched off later).
+    var mode = (pool === 'all' ? this.E.MODE.EXPERT : 0) | (set.validateGuesses ? this.E.MODE.REAL : 0);
+    this.round = this.E.createRound(secret, this.length, this.lang, this.now(), mode);
     this.rounds += 1;
     this.state = 'playing';
     this.history = [];
@@ -242,6 +248,7 @@
       attempts: r.guesses.length,
       hints: r.hints ? r.hints.length : 0,
       seconds: this.E.elapsedSeconds(r, r.endedAt),
+      gameMode: r.mode || 0,
       score: r.score,
       firstTry: r.guesses.length === 1,
       stored: stored,

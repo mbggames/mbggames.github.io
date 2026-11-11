@@ -11,6 +11,7 @@ Run it again after changing a headline in content/*.json:
 
 The app icon itself (assets/img/icon-512.png, icon-192.png) is the one from the app.
 """
+import base64
 import io
 import json
 import os
@@ -43,7 +44,17 @@ def font(name, size):
     return ImageFont.truetype(io.BytesIO(_cache[name]), size)
 
 
+# Korean: Noto Sans CJK KR (Linux: fonts-noto-cjk; or set MBG_KO_FONT to a .ttc/.otf with Hangul)
+KO_FONT = os.environ.get('MBG_KO_FONT', '/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc')
+
+
+def ko_font(size):
+    return ImageFont.truetype(KO_FONT, size, index=1 if KO_FONT.endswith('.ttc') else 0)
+
+
 def text_font(lang, size, display=True):
+    if lang == 'ko':
+        return ko_font(size)
     if lang == 'ar':
         return font('NotoKufiArabic-Bold' if display else 'NotoSansArabic-Bold', size)
     return font('Unbounded-Bold' if display else 'AtkinsonHyperlegible-Bold', size)
@@ -52,6 +63,10 @@ def text_font(lang, size, display=True):
 def draw_text(d, xy, text, f, fill, lang, anchor='la'):
     kw = {'direction': 'rtl', 'language': 'ar'} if lang == 'ar' else {}
     d.text(xy, text, font=f, fill=fill, anchor=anchor, **kw)
+
+
+def is_hangul(t):
+    return any('\u1100' <= ch <= '\u11ff' or '\u3130' <= ch <= '\u318f' or '\uac00' <= ch <= '\ud7a3' for ch in t)
 
 
 def is_arabic(t):
@@ -67,7 +82,7 @@ def draw_runs(d, x, y, parts, size, fill, rtl):
     for i, p in enumerate(parts):
         if i:
             pieces.append((sep, lat, {}))
-        pieces.append((p, ara, {'direction': 'rtl', 'language': 'ar'}) if is_arabic(p) else (p, lat, {}))
+        pieces.append((p, ara, {'direction': 'rtl', 'language': 'ar'}) if is_arabic(p) else (p, ko_font(size), {}) if is_hangul(p) else (p, lat, {}))
     for text, f, kw in pieces:
         w = d.textlength(text, font=f, **kw)
         if rtl:
@@ -112,7 +127,7 @@ def og(lang, content, examples):
     bw = n * s + (n - 1) * gap
     bx = (W - 70 - bw) if rtl else 70
     by = (H - (3 * s * 1.06 + 2 * gap)) / 2
-    tf = font('NotoSansArabic-Bold', 44) if rtl else font('AtkinsonHyperlegibleMono-Bold', 44)
+    tf = font('NotoSansArabic-Bold', 44) if rtl else ko_font(46) if lang == 'ko' else font('AtkinsonHyperlegibleMono-Bold', 44)
     for r, row in enumerate(rows):
         letters, clues = row['letters'], row['clue']
         if rtl:
@@ -149,7 +164,11 @@ def og(lang, content, examples):
     # footer line: free · no ads · no limits
     draw_runs(d, x, H - 104, [p.strip() for p in c['hero']['eyebrow'].split('·')], 26, ACCENT, rtl)
     draw_runs(d, x, H - 66, [META[lang]['codeName'], META[lang]['wordName'], 'Android'], 22, MUTED, rtl)
-    im.save(os.path.join(IMG, f'og-{lang}.png'), optimize=True)
+    path = os.path.join(IMG, f'og-{lang}.png')
+    im.save(path, optimize=True)
+    # A text copy (base64) for uploads through tools that only take text; the build prefers it.
+    with open(path, 'rb') as f, open(path + '.b64', 'w') as g:
+        g.write(base64.b64encode(f.read()).decode('ascii'))
 
 
 def icons():

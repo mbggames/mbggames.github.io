@@ -1,0 +1,751 @@
+{
+  "_help": "Texts of the MBG Games home page (mbggames.com, mbggames.com/sq/ ...) and of the Who Am I? page while the game is not online yet, in all eleven languages. {code} and {word} become the names of the two MBG Puzzles games in that language; {name} the name of Who Am I?; {url} the page's address. Labels such as Phone, E-mail, the language menu and the privacy link come from the MBG Puzzles texts (en.json ... ko.json).",
+  "en": {
+    "meta": {
+      "title": "MBG Games – MBG Puzzles and Who Am I? Free brain games without ads",
+      "description": "MBG – Merkur Beqiri Games makes calm brain games without ads. MBG Puzzles: Codebreaker and Word Puzzle in eleven languages. Coming soon: Who Am I? Based in Kosovo, operating worldwide."
+    },
+    "nav": {
+      "contact": "Contact"
+    },
+    "hero": {
+      "h1": "Brain games for curious minds",
+      "lead": "Short, calm games that make you think: find a secret number, a secret word, or who is hiding behind the clues. No ads and no chat, in eleven languages, for players everywhere."
+    },
+    "games": {
+      "title": "Our games",
+      "puzzles": {
+        "text": "Two logic games in one free Android app: find the secret number in {code} and the secret word in {word}, with green, yellow and grey clues after every try.",
+        "facts": [
+          "11 languages, including Albanian, Bosnian and Korean",
+          "Puzzles of the day and world top 20 lists",
+          "Free, no ads, works offline"
+        ],
+        "state": "In review by Google · Coming soon to Google Play · in 11 languages",
+        "open": "Visit MBG Puzzles",
+        "early": "At launch, the full app is free for about the first month – after that, a paid version follows. Be an early bird!"
+      },
+      "whoami": {
+        "name": "Who Am I?",
+        "tag": "A guessing game",
+        "text": "Guess the person, animal or thing from clues, one hint at a time.",
+        "facts": [
+          "People, animals and things",
+          "One hint at a time"
+        ],
+        "soon": "Coming soon",
+        "ready": "Play now",
+        "notify": "Tell me when it is out",
+        "meanwhile": "Play MBG Puzzles meanwhile",
+        "waNotify": "Hello, please tell me when {name} by MBG Games is out: {url}",
+        "testTitle": "Become a tester",
+        "testText": "After the successful test of MBG Puzzles, the alpha test of {name} starts soon. Send us your Gmail address and we will add you.",
+        "testMsg": "Hello, I would like to test {name} by MBG Games. My Gmail address: "
+      }
+    },
+    "about": {
+      "title": "About MBG",
+      "items": [
+        {
+          "h": "Made by Merkur Beqiri",
+          "p": "MBG – Merkur Beqiri Games is the independent studio of Merkur Beqiri. Every game is designed, written and tested by MBG."
+        },
+        {
+          "h": "Based in Kosovo, operating worldwide",
+          "p": "The games are made in Kosovo for players everywhere, in their own languages."
+        },
+        {
+          "h": "Calm by design",
+          "p": "No ads, no chat and no tracking. A quiet, focused kind of screen time for children from 9 and for adults."
+        }
+      ]
+    },
+    "contact": {
+      "waMessage": "Hello, I found you on the MBG Games website:\n{url}\nI have a comment / question for you:\n"
+    },
+    "images": {
+      "wizard": "The MBG wizard with his staff, next to the MBG Games logo and the two games: Crack the Code (3 2 7) and Guess the Word (A B C).",
+      "code": "Crack the Code: a padlock above the tiles 3 ? 5, with glowing digits around it."
+    }
+  },
+  "sq": {
+    "meta": {
+      "title": "MBG Games – MBG Puzzles dhe Kush jam unë? Lojëra falas për trurin, pa reklama",
+      "description": "MBG – Merkur Beqiri Games bën lojëra të qeta për trurin, pa reklama. MBG Puzzles: Zhblloko kodin dhe Gjeje fjalën në njëmbëdhjetë gjuhë. Së shpejti: Kush jam unë? Me bazë në Kosovë, vepron në mbarë botën."
+    },
+    "nav": {
+      "contact": "Kontakti"
+    },
+    "hero": {
+      "h1": "Lojëra për mendjet kureshtare",
+      "lead": "Lojëra të shkurtra e të qeta që të vënë të mendosh: gjej një numër të fshehtë, një fjalë të fshehtë ose kush fshihet pas ndihmave. Pa reklama dhe pa chat, në njëmbëdhjetë gjuhë, për lojtarë kudo."
+    },
+    "games": {
+      "title": "Lojërat tona",
+      "puzzles": {
+        "text": "Dy lojëra logjike në një aplikacion falas për Android: gjej numrin e fshehtë te {code} dhe fjalën e fshehtë te {word}, me ndihma të gjelbra, të verdha dhe gri pas çdo prove.",
+        "facts": [
+          "11 gjuhë, mes tyre shqipja, boshnjakishtja dhe koreanishtja",
+          "Lojërat e ditës dhe listat botërore të 20 më të mirëve",
+          "Falas, pa reklama, punon pa internet"
+        ],
+        "state": "Në shqyrtim nga Google · Së shpejti në Google Play · në 11 gjuhë",
+        "open": "Hap MBG Puzzles",
+        "early": "Në fillim, aplikacioni i plotë është falas për rreth muajin e parë – pastaj vjen versioni me pagesë. Bëhu ndër të parët!"
+      },
+      "whoami": {
+        "name": "Kush jam unë?",
+        "tag": "Lojë me hamendje",
+        "text": "Gjej personin, kafshën ose sendin nga ndihmat, një sugjerim në një kohë.",
+        "facts": [
+          "Njerëz, kafshë dhe sende",
+          "Një sugjerim në një kohë"
+        ],
+        "soon": "Së shpejti",
+        "ready": "Luaj tani",
+        "notify": "Më njofto kur të dalë",
+        "meanwhile": "Ndërkohë luaj MBG Puzzles",
+        "waNotify": "Përshëndetje, më njoftoni kur të dalë {name} nga MBG Games: {url}",
+        "testTitle": "Bëhu testues",
+        "testText": "Pas testit të suksesshëm të MBG Puzzles, së shpejti fillon testi alfa i {name} Na dërgo adresën Gmail dhe do të të shtojmë.",
+        "testMsg": "Përshëndetje, dua të testoj {name} nga MBG Games. Adresa ime Gmail: "
+      }
+    },
+    "about": {
+      "title": "Rreth MBG",
+      "items": [
+        {
+          "h": "Bërë nga Merkur Beqiri",
+          "p": "MBG – Merkur Beqiri Games është studioja e pavarur e Merkur Beqirit. Çdo lojë projektohet, shkruhet dhe testohet nga MBG."
+        },
+        {
+          "h": "Me bazë në Kosovë, vepron në mbarë botën",
+          "p": "Lojërat bëhen në Kosovë për lojtarë kudo, në gjuhët e tyre."
+        },
+        {
+          "h": "E qetë që në krijim",
+          "p": "Pa reklama, pa chat dhe pa gjurmim. Kohë e qetë dhe e përqendruar para ekranit, për fëmijë nga 9 vjeç dhe për të rritur."
+        }
+      ]
+    },
+    "contact": {
+      "waMessage": "Përshëndetje, ju gjeta në faqen e internetit të MBG Games:\n{url}\nKam një koment / pyetje për ju:\n"
+    },
+    "images": {
+      "wizard": "Magjistari i MBG me shkopin e tij, pranë logos MBG Games dhe dy lojërave: Crack the Code (3 2 7) dhe Guess the Word (A B C).",
+      "code": "Crack the Code: një dry mbi pllakat 3 ? 5, me shifra që ndriçojnë rreth tij."
+    }
+  },
+  "bs": {
+    "meta": {
+      "title": "MBG Games – MBG Puzzles i Ko sam ja? Besplatne igre za mozak bez reklama",
+      "description": "MBG – Merkur Beqiri Games pravi mirne igre za mozak bez reklama. MBG Puzzles: Razbij šifru i Pogodi riječ na jedanaest jezika. Uskoro: Ko sam ja? Sa sjedištem na Kosovu, posluje širom svijeta."
+    },
+    "nav": {
+      "contact": "Kontakt"
+    },
+    "hero": {
+      "h1": "Igre za radoznale umove",
+      "lead": "Kratke, mirne igre koje te tjeraju na razmišljanje: pronađi tajni broj, tajnu riječ ili ko se krije iza tragova. Bez reklama i bez četa, na jedanaest jezika, za igrače svugdje."
+    },
+    "games": {
+      "title": "Naše igre",
+      "puzzles": {
+        "text": "Dvije logičke igre u jednoj besplatnoj aplikaciji za Android: pronađi tajni broj u igri {code} i tajnu riječ u igri {word}, sa zelenim, žutim i sivim tragovima nakon svakog pokušaja.",
+        "facts": [
+          "11 jezika, među njima bosanski, albanski i korejski",
+          "Zagonetke dana i svjetske liste top 20",
+          "Besplatno, bez reklama, radi bez interneta"
+        ],
+        "state": "Na pregledu kod Googlea · Uskoro na Google Playu · na 11 jezika",
+        "open": "Otvori MBG Puzzles",
+        "early": "Na početku je puna aplikacija besplatna otprilike prvi mjesec – nakon toga slijedi plaćena verzija. Budi među prvima!"
+      },
+      "whoami": {
+        "name": "Ko sam ja?",
+        "tag": "Igra pogađanja",
+        "text": "Pogodi osobu, životinju ili stvar po tragovima, nagovještaj po nagovještaj.",
+        "facts": [
+          "Ljudi, životinje i stvari",
+          "Jedan nagovještaj odjednom"
+        ],
+        "soon": "Uskoro",
+        "ready": "Igraj sada",
+        "notify": "Javi mi kad izađe",
+        "meanwhile": "U međuvremenu igraj MBG Puzzles",
+        "waNotify": "Zdravo, javite mi kad izađe {name} od MBG Games: {url}",
+        "testTitle": "Postani tester",
+        "testText": "Nakon uspješnog testa MBG Puzzles, uskoro počinje alfa test igre {name} Pošalji nam svoju Gmail adresu i dodat ćemo te.",
+        "testMsg": "Zdravo, želim testirati {name} od MBG Games. Moja Gmail adresa: "
+      }
+    },
+    "about": {
+      "title": "O MBG-u",
+      "items": [
+        {
+          "h": "Autor: Merkur Beqiri",
+          "p": "MBG – Merkur Beqiri Games je nezavisni studio Merkura Beqirija. Svaku igru MBG osmišljava, piše i testira."
+        },
+        {
+          "h": "Sa sjedištem na Kosovu, posluje širom svijeta",
+          "p": "Igre nastaju na Kosovu za igrače svugdje, na njihovim jezicima."
+        },
+        {
+          "h": "Mirne po zamisli",
+          "p": "Bez reklama, bez četa i bez praćenja. Tiho i usredsređeno vrijeme pred ekranom, za djecu od 9 godina i za odrasle."
+        }
+      ]
+    },
+    "contact": {
+      "waMessage": "Pozdrav, javljam se preko web stranice MBG Games:\n{url}\nImam komentar / pitanje za vas:\n"
+    },
+    "images": {
+      "wizard": "MBG čarobnjak sa štapom, pored logotipa MBG Games i dvije igre: Crack the Code (3 2 7) i Guess the Word (A B C).",
+      "code": "Crack the Code: lokot iznad pločica 3 ? 5, okružen svijetlećim ciframa."
+    }
+  },
+  "de": {
+    "meta": {
+      "title": "MBG Games – MBG Puzzles und Wer bin ich? Kostenlose Denkspiele ohne Werbung",
+      "description": "MBG – Merkur Beqiri Games macht ruhige Denkspiele ohne Werbung. MBG Puzzles: Knack den Code und Errate das Wort in elf Sprachen. Bald: Wer bin ich? Mit Sitz im Kosovo, weltweit tätig."
+    },
+    "nav": {
+      "contact": "Kontakt"
+    },
+    "hero": {
+      "h1": "Denkspiele für neugierige Köpfe",
+      "lead": "Kurze, ruhige Spiele, die zum Nachdenken bringen: Finde eine geheime Zahl, ein geheimes Wort oder wer sich hinter den Hinweisen versteckt. Ohne Werbung und ohne Chat, in elf Sprachen, für Spieler überall."
+    },
+    "games": {
+      "title": "Unsere Spiele",
+      "puzzles": {
+        "text": "Zwei Logikspiele in einer kostenlosen Android-App: Finde die geheime Zahl in {code} und das geheime Wort in {word}, mit grünen, gelben und grauen Hinweisen nach jedem Versuch.",
+        "facts": [
+          "11 Sprachen, darunter Deutsch, Albanisch und Koreanisch",
+          "Rätsel des Tages und Welt-Top-20-Listen",
+          "Kostenlos, ohne Werbung, läuft offline"
+        ],
+        "state": "In Prüfung bei Google · Bald bei Google Play · in 11 Sprachen",
+        "open": "Zu MBG Puzzles",
+        "early": "Zum Start ist die volle App etwa den ersten Monat lang kostenlos – danach folgt eine kostenpflichtige Version. Sei früh dabei!"
+      },
+      "whoami": {
+        "name": "Wer bin ich?",
+        "tag": "Ein Ratespiel",
+        "text": "Errate die Person, das Tier oder das Ding anhand von Hinweisen, einen Tipp nach dem anderen.",
+        "facts": [
+          "Menschen, Tiere und Dinge",
+          "Ein Tipp nach dem anderen"
+        ],
+        "soon": "Bald verfügbar",
+        "ready": "Jetzt spielen",
+        "notify": "Sag mir Bescheid, wenn es da ist",
+        "meanwhile": "Solange MBG Puzzles spielen",
+        "waNotify": "Hallo, bitte sagen Sie mir Bescheid, wenn {name} von MBG Games erscheint: {url}",
+        "testTitle": "Tester werden",
+        "testText": "Nach dem erfolgreichen Test von MBG Puzzles beginnt bald der Alphatest von {name} Schick uns deine Gmail-Adresse, und wir nehmen dich auf.",
+        "testMsg": "Hallo, ich möchte {name} von MBG Games testen. Meine Gmail-Adresse: "
+      }
+    },
+    "about": {
+      "title": "Über MBG",
+      "items": [
+        {
+          "h": "Von Merkur Beqiri",
+          "p": "MBG – Merkur Beqiri Games ist das unabhängige Studio von Merkur Beqiri. Jedes Spiel wird von MBG entworfen, geschrieben und getestet."
+        },
+        {
+          "h": "Mit Sitz im Kosovo, weltweit tätig",
+          "p": "Die Spiele entstehen im Kosovo für Spieler überall, in ihrer eigenen Sprache."
+        },
+        {
+          "h": "Ruhig gestaltet",
+          "p": "Keine Werbung, kein Chat und kein Tracking. Stille, konzentrierte Bildschirmzeit für Kinder ab 9 und für Erwachsene."
+        }
+      ]
+    },
+    "contact": {
+      "waMessage": "Hallo, ich habe Sie über die Website von MBG Games gefunden:\n{url}\nIch habe einen Kommentar / eine Frage an Sie:\n"
+    },
+    "images": {
+      "wizard": "Der MBG-Zauberer mit seinem Stab neben dem Logo von MBG Games und den zwei Spielen: Crack the Code (3 2 7) und Guess the Word (A B C).",
+      "code": "Crack the Code: ein Vorhängeschloss über den Kacheln 3 ? 5, umgeben von leuchtenden Ziffern."
+    }
+  },
+  "es": {
+    "meta": {
+      "title": "MBG Games – MBG Puzzles y ¿Quién soy? Juegos de lógica gratis sin anuncios",
+      "description": "MBG – Merkur Beqiri Games crea juegos tranquilos para el cerebro, sin anuncios. MBG Puzzles: Descifra el código y Adivina la palabra en once idiomas. Muy pronto: ¿Quién soy? Con sede en Kosovo, activo en todo el mundo."
+    },
+    "nav": {
+      "contact": "Contacto"
+    },
+    "hero": {
+      "h1": "Juegos para mentes curiosas",
+      "lead": "Juegos cortos y tranquilos que te hacen pensar: encuentra un número secreto, una palabra secreta o quién se esconde tras las pistas. Sin anuncios y sin chat, en once idiomas, para jugadores de todas partes."
+    },
+    "games": {
+      "title": "Nuestros juegos",
+      "puzzles": {
+        "text": "Dos juegos de lógica en una app gratis para Android: encuentra el número secreto en {code} y la palabra secreta en {word}, con pistas verdes, amarillas y grises después de cada intento.",
+        "facts": [
+          "11 idiomas, entre ellos español, albanés y coreano",
+          "Retos del día y top 20 mundiales",
+          "Gratis, sin anuncios, funciona sin conexión"
+        ],
+        "state": "En revisión por Google · Muy pronto en Google Play · en 11 idiomas",
+        "open": "Ir a MBG Puzzles",
+        "early": "Al lanzarse, la app completa es gratis durante aproximadamente el primer mes; después llegará una versión de pago. ¡Sé de los primeros!"
+      },
+      "whoami": {
+        "name": "¿Quién soy?",
+        "tag": "Un juego de adivinar",
+        "text": "Adivina la persona, el animal o la cosa a partir de pistas, una a una.",
+        "facts": [
+          "Personas, animales y cosas",
+          "Una pista cada vez"
+        ],
+        "soon": "Muy pronto",
+        "ready": "Jugar ahora",
+        "notify": "Avísame cuando salga",
+        "meanwhile": "Mientras tanto, juega a MBG Puzzles",
+        "waNotify": "Hola, avísenme cuando salga {name} de MBG Games: {url}",
+        "testTitle": "Hazte tester",
+        "testText": "Tras la prueba exitosa de MBG Puzzles, pronto empieza la prueba alfa de {name} Envíanos tu dirección de Gmail y te añadimos.",
+        "testMsg": "Hola, quiero probar {name} de MBG Games. Mi dirección de Gmail: "
+      }
+    },
+    "about": {
+      "title": "Sobre MBG",
+      "items": [
+        {
+          "h": "Hecho por Merkur Beqiri",
+          "p": "MBG – Merkur Beqiri Games es el estudio independiente de Merkur Beqiri. MBG diseña, escribe y prueba cada juego."
+        },
+        {
+          "h": "Con sede en Kosovo, activo en todo el mundo",
+          "p": "Los juegos se hacen en Kosovo para jugadores de todas partes, en su propio idioma."
+        },
+        {
+          "h": "Tranquilos por diseño",
+          "p": "Sin anuncios, sin chat y sin rastreo. Un tiempo de pantalla calmado y concentrado, para niños desde 9 años y para adultos."
+        }
+      ]
+    },
+    "contact": {
+      "waMessage": "Hola, encontré la web de MBG Games:\n{url}\nTengo un comentario / una pregunta:\n"
+    },
+    "images": {
+      "wizard": "El mago de MBG con su bastón, junto al logo de MBG Games y los dos juegos: Crack the Code (3 2 7) y Guess the Word (A B C).",
+      "code": "Crack the Code: un candado sobre las fichas 3 ? 5, rodeado de cifras brillantes."
+    }
+  },
+  "fr": {
+    "meta": {
+      "title": "MBG Games – MBG Puzzles et Qui suis-je ? Jeux de logique gratuits sans pub",
+      "description": "MBG – Merkur Beqiri Games crée des jeux calmes pour le cerveau, sans pub. MBG Puzzles : Casse le code et Devine le mot en onze langues. Bientôt : Qui suis-je ? Basé au Kosovo, actif dans le monde entier."
+    },
+    "nav": {
+      "contact": "Contact"
+    },
+    "hero": {
+      "h1": "Des jeux pour les esprits curieux",
+      "lead": "Des jeux courts et calmes qui font réfléchir : trouve un nombre secret, un mot secret ou qui se cache derrière les indices. Sans pub et sans chat, en onze langues, pour les joueurs du monde entier."
+    },
+    "games": {
+      "title": "Nos jeux",
+      "puzzles": {
+        "text": "Deux jeux de logique dans une appli Android gratuite : trouve le nombre secret dans {code} et le mot secret dans {word}, avec des indices verts, jaunes et gris après chaque essai.",
+        "facts": [
+          "11 langues, dont le français, l’albanais et le coréen",
+          "Défis du jour et top 20 mondiaux",
+          "Gratuit, sans pub, marche hors ligne"
+        ],
+        "state": "En cours d’examen par Google · Bientôt sur Google Play · en 11 langues",
+        "open": "Voir MBG Puzzles",
+        "early": "Au lancement, l’appli complète est gratuite pendant environ le premier mois – ensuite, une version payante suivra. Sois parmi les premiers !"
+      },
+      "whoami": {
+        "name": "Qui suis-je ?",
+        "tag": "Un jeu de devinettes",
+        "text": "Devine la personne, l’animal ou l’objet grâce aux indices, un indice à la fois.",
+        "facts": [
+          "Personnes, animaux et objets",
+          "Un indice à la fois"
+        ],
+        "soon": "Bientôt",
+        "ready": "Jouer",
+        "notify": "Préviens-moi à la sortie",
+        "meanwhile": "En attendant, joue à MBG Puzzles",
+        "waNotify": "Bonjour, prévenez-moi quand {name} de MBG Games sortira : {url}",
+        "testTitle": "Devenir testeur",
+        "testText": "Après le test réussi de MBG Puzzles, le test alpha de {name} commence bientôt. Envoie-nous ton adresse Gmail et nous t’ajouterons.",
+        "testMsg": "Bonjour, je voudrais tester {name} de MBG Games. Mon adresse Gmail : "
+      }
+    },
+    "about": {
+      "title": "À propos de MBG",
+      "items": [
+        {
+          "h": "Créé par Merkur Beqiri",
+          "p": "MBG – Merkur Beqiri Games est le studio indépendant de Merkur Beqiri. Chaque jeu est conçu, écrit et testé par MBG."
+        },
+        {
+          "h": "Basé au Kosovo, actif dans le monde entier",
+          "p": "Les jeux sont faits au Kosovo pour les joueurs du monde entier, dans leur langue."
+        },
+        {
+          "h": "Calme par nature",
+          "p": "Pas de pub, pas de chat, pas de pistage. Un temps d’écran paisible et concentré, pour les enfants dès 9 ans et pour les adultes."
+        }
+      ]
+    },
+    "contact": {
+      "waMessage": "Bonjour, je vous ai trouvé grâce au site de MBG Games :\n{url}\nJ’ai un commentaire / une question pour vous :\n"
+    },
+    "images": {
+      "wizard": "Le magicien de MBG avec son bâton, à côté du logo MBG Games et des deux jeux : Crack the Code (3 2 7) et Guess the Word (A B C).",
+      "code": "Crack the Code : un cadenas au-dessus des tuiles 3 ? 5, entouré de chiffres lumineux."
+    }
+  },
+  "tr": {
+    "meta": {
+      "title": "MBG Games – MBG Puzzles ve Ben kimim? Reklamsız ücretsiz zekâ oyunları",
+      "description": "MBG – Merkur Beqiri Games reklamsız, sakin zekâ oyunları yapar. MBG Puzzles: on bir dilde Şifreyi Kır ve Kelimeyi Bul. Çok yakında: Ben kimim? Kosova merkezli, dünya çapında faaliyet gösteriyor."
+    },
+    "nav": {
+      "contact": "İletişim"
+    },
+    "hero": {
+      "h1": "Meraklı zihinler için oyunlar",
+      "lead": "Düşündüren kısa ve sakin oyunlar: gizli bir sayıyı, gizli bir kelimeyi ya da ipuçlarının arkasında kimin saklandığını bul. Reklamsız ve sohbetsiz, on bir dilde, her yerdeki oyuncular için."
+    },
+    "games": {
+      "title": "Oyunlarımız",
+      "puzzles": {
+        "text": "Ücretsiz bir Android uygulamasında iki mantık oyunu: {code} oyununda gizli sayıyı, {word} oyununda gizli kelimeyi bul; her denemeden sonra yeşil, sarı ve gri ipuçları.",
+        "facts": [
+          "Türkçe, Arnavutça ve Korece dahil 11 dil",
+          "Günün bulmacaları ve dünya ilk 20 listeleri",
+          "Ücretsiz, reklamsız, internetsiz çalışır"
+        ],
+        "state": "Google incelemesinde · Çok yakında Google Play’de · 11 dilde",
+        "open": "MBG Puzzles’a git",
+        "early": "Çıkışta tam uygulama yaklaşık ilk ay ücretsiz – sonrasında ücretli sürüm gelecek. İlklerden ol!"
+      },
+      "whoami": {
+        "name": "Ben kimim?",
+        "tag": "Bir tahmin oyunu",
+        "text": "Kişiyi, hayvanı ya da eşyayı ipuçlarından tahmin et, her seferinde bir ipucu.",
+        "facts": [
+          "İnsanlar, hayvanlar ve eşyalar",
+          "Her seferinde bir ipucu"
+        ],
+        "soon": "Çok yakında",
+        "ready": "Şimdi oyna",
+        "notify": "Çıkınca bana haber ver",
+        "meanwhile": "Bu arada MBG Puzzles oyna",
+        "waNotify": "Merhaba, MBG Games’in {name} oyunu çıkınca bana haber verin: {url}",
+        "testTitle": "Test kullanıcısı ol",
+        "testText": "MBG Puzzles’ın başarılı testinin ardından {name} alfa testi yakında başlıyor. Gmail adresini gönder, seni ekleyelim.",
+        "testMsg": "Merhaba, MBG Games’in {name} oyununu test etmek istiyorum. Gmail adresim: "
+      }
+    },
+    "about": {
+      "title": "MBG hakkında",
+      "items": [
+        {
+          "h": "Merkur Beqiri’den",
+          "p": "MBG – Merkur Beqiri Games, Merkur Beqiri’nin bağımsız stüdyosudur. Her oyunu MBG tasarlar, yazar ve test eder."
+        },
+        {
+          "h": "Kosova merkezli, dünya çapında faaliyet gösteriyor",
+          "p": "Oyunlar Kosova’da, her yerdeki oyuncular için, kendi dillerinde yapılır."
+        },
+        {
+          "h": "Sakin bir tasarım",
+          "p": "Reklam yok, sohbet yok, takip yok. 9 yaşından itibaren çocuklar ve yetişkinler için sessiz ve odaklı bir ekran süresi."
+        }
+      ]
+    },
+    "contact": {
+      "waMessage": "Merhaba, sizi MBG Games web sitesinde buldum:\n{url}\nSize bir yorumum / sorum var:\n"
+    },
+    "images": {
+      "wizard": "Asasıyla MBG büyücüsü, MBG Games logosunun ve iki oyunun yanında: Crack the Code (3 2 7) ve Guess the Word (A B C).",
+      "code": "Crack the Code: 3 ? 5 karelerinin üstünde bir asma kilit, çevresinde parlayan rakamlar."
+    }
+  },
+  "pl": {
+    "meta": {
+      "title": "MBG Games – MBG Puzzles i Kim jestem? Darmowe gry na myślenie bez reklam",
+      "description": "MBG – Merkur Beqiri Games tworzy spokojne gry na myślenie, bez reklam. MBG Puzzles: Złam szyfr i Odgadnij słowo w jedenastu językach. Wkrótce: Kim jestem? Z siedzibą w Kosowie, działa na całym świecie."
+    },
+    "nav": {
+      "contact": "Kontakt"
+    },
+    "hero": {
+      "h1": "Gry dla ciekawych umysłów",
+      "lead": "Krótkie, spokojne gry, które zmuszają do myślenia: znajdź tajną liczbę, tajne słowo albo to, kto kryje się za wskazówkami. Bez reklam i bez czatu, w jedenastu językach, dla graczy z całego świata."
+    },
+    "games": {
+      "title": "Nasze gry",
+      "puzzles": {
+        "text": "Dwie gry logiczne w jednej darmowej aplikacji na Androida: znajdź tajną liczbę w grze {code} i tajne słowo w grze {word}, z zielonymi, żółtymi i szarymi wskazówkami po każdej próbie.",
+        "facts": [
+          "11 języków, w tym polski, albański i koreański",
+          "Zagadki dnia i światowe listy top 20",
+          "Za darmo, bez reklam, działa offline"
+        ],
+        "state": "Sprawdzane przez Google · Wkrótce w Google Play · w 11 językach",
+        "open": "Przejdź do MBG Puzzles",
+        "early": "Na start pełna aplikacja jest darmowa przez mniej więcej pierwszy miesiąc – potem pojawi się wersja płatna. Bądź wśród pierwszych!"
+      },
+      "whoami": {
+        "name": "Kim jestem?",
+        "tag": "Gra w zgadywanie",
+        "text": "Odgadnij osobę, zwierzę lub rzecz na podstawie wskazówek, po jednej naraz.",
+        "facts": [
+          "Ludzie, zwierzęta i rzeczy",
+          "Jedna wskazówka naraz"
+        ],
+        "soon": "Wkrótce",
+        "ready": "Graj teraz",
+        "notify": "Daj mi znać, gdy wyjdzie",
+        "meanwhile": "Tymczasem zagraj w MBG Puzzles",
+        "waNotify": "Dzień dobry, proszę dać mi znać, gdy wyjdzie {name} od MBG Games: {url}",
+        "testTitle": "Zostań testerem",
+        "testText": "Po udanym teście MBG Puzzles wkrótce rusza test alfa gry {name} Wyślij nam swój adres Gmail, a dodamy cię.",
+        "testMsg": "Dzień dobry, chcę testować {name} od MBG Games. Mój adres Gmail: "
+      }
+    },
+    "about": {
+      "title": "O MBG",
+      "items": [
+        {
+          "h": "Twórca: Merkur Beqiri",
+          "p": "MBG – Merkur Beqiri Games to niezależne studio Merkura Beqiriego. Każdą grę MBG projektuje, pisze i testuje samo."
+        },
+        {
+          "h": "Z siedzibą w Kosowie, działa na całym świecie",
+          "p": "Gry powstają w Kosowie dla graczy z każdego miejsca, w ich własnych językach."
+        },
+        {
+          "h": "Spokojne z założenia",
+          "p": "Bez reklam, bez czatu i bez śledzenia. Cichy, skupiony czas przed ekranem dla dzieci od 9 lat i dla dorosłych."
+        }
+      ]
+    },
+    "contact": {
+      "waMessage": "Dzień dobry, piszę ze strony internetowej MBG Games:\n{url}\nMam komentarz / pytanie:\n"
+    },
+    "images": {
+      "wizard": "Czarodziej MBG z laską, obok logo MBG Games i dwóch gier: Crack the Code (3 2 7) i Guess the Word (A B C).",
+      "code": "Crack the Code: kłódka nad kafelkami 3 ? 5, otoczona świecącymi cyframi."
+    }
+  },
+  "pt": {
+    "meta": {
+      "title": "MBG Games – MBG Puzzles e Quem sou eu? Jogos de lógica grátis sem anúncios",
+      "description": "A MBG – Merkur Beqiri Games faz jogos tranquilos para o cérebro, sem anúncios. MBG Puzzles: Quebre o código e Adivinhe a palavra em onze idiomas. Em breve: Quem sou eu? Com sede no Kosovo, atuando no mundo todo."
+    },
+    "nav": {
+      "contact": "Contato"
+    },
+    "hero": {
+      "h1": "Jogos para mentes curiosas",
+      "lead": "Jogos curtos e tranquilos que fazem pensar: descubra um número secreto, uma palavra secreta ou quem se esconde por trás das pistas. Sem anúncios e sem chat, em onze idiomas, para jogadores de todo lugar."
+    },
+    "games": {
+      "title": "Nossos jogos",
+      "puzzles": {
+        "text": "Dois jogos de lógica num app grátis para Android: descubra o número secreto em {code} e a palavra secreta em {word}, com pistas verdes, amarelas e cinza depois de cada tentativa.",
+        "facts": [
+          "11 idiomas, entre eles português, albanês e coreano",
+          "Desafios do dia e top 20 mundiais",
+          "Grátis, sem anúncios, funciona offline"
+        ],
+        "state": "Em análise pelo Google · Em breve no Google Play · em 11 idiomas",
+        "open": "Ir para o MBG Puzzles",
+        "early": "No lançamento, o app completo é grátis por cerca do primeiro mês – depois vem uma versão paga. Seja um dos primeiros!"
+      },
+      "whoami": {
+        "name": "Quem sou eu?",
+        "tag": "Um jogo de adivinhação",
+        "text": "Adivinhe a pessoa, o animal ou a coisa pelas pistas, uma dica de cada vez.",
+        "facts": [
+          "Pessoas, animais e coisas",
+          "Uma dica de cada vez"
+        ],
+        "soon": "Em breve",
+        "ready": "Jogar agora",
+        "notify": "Me avise quando sair",
+        "meanwhile": "Enquanto isso, jogue MBG Puzzles",
+        "waNotify": "Olá, me avisem quando sair {name} da MBG Games: {url}",
+        "testTitle": "Seja testador",
+        "testText": "Depois do teste bem-sucedido do MBG Puzzles, o teste alfa de {name} começa em breve. Envie seu endereço do Gmail e nós adicionamos você.",
+        "testMsg": "Olá, quero testar {name} da MBG Games. Meu endereço do Gmail: "
+      }
+    },
+    "about": {
+      "title": "Sobre a MBG",
+      "items": [
+        {
+          "h": "Feito por Merkur Beqiri",
+          "p": "A MBG – Merkur Beqiri Games é o estúdio independente de Merkur Beqiri. Cada jogo é criado, escrito e testado pela MBG."
+        },
+        {
+          "h": "Com sede no Kosovo, atuando no mundo todo",
+          "p": "Os jogos são feitos no Kosovo para jogadores de todo lugar, no próprio idioma."
+        },
+        {
+          "h": "Tranquilo por natureza",
+          "p": "Sem anúncios, sem chat e sem rastreamento. Um tempo de tela calmo e concentrado, para crianças a partir de 9 anos e para adultos."
+        }
+      ]
+    },
+    "contact": {
+      "waMessage": "Olá, encontrei você no site da MBG Games:\n{url}\nTenho um comentário / uma pergunta para você:\n"
+    },
+    "images": {
+      "wizard": "O mago da MBG com seu cajado, ao lado do logo da MBG Games e dos dois jogos: Crack the Code (3 2 7) e Guess the Word (A B C).",
+      "code": "Crack the Code: um cadeado acima das peças 3 ? 5, cercado de dígitos brilhantes."
+    }
+  },
+  "ar": {
+    "meta": {
+      "title": "MBG Games – MBG Puzzles و«من أنا؟» ألعاب ذكاء مجانية بلا إعلانات",
+      "description": "تصنع MBG – Merkur Beqiri Games ألعاب ذكاء هادئة بلا إعلانات. MBG Puzzles: «اكسر الرمز» و«خمّن الكلمة» بإحدى عشرة لغة. قريبًا: «من أنا؟». مقرّها في كوسوفو، وتعمل في جميع أنحاء العالم."
+    },
+    "nav": {
+      "contact": "تواصل"
+    },
+    "hero": {
+      "h1": "ألعاب للعقول الفضولية",
+      "lead": "ألعاب قصيرة وهادئة تدفعك إلى التفكير: اعثر على رقم سري أو كلمة سرية أو على من يختبئ وراء الدلائل. بلا إعلانات وبلا دردشة، بإحدى عشرة لغة، للاعبين في كل مكان."
+    },
+    "games": {
+      "title": "ألعابنا",
+      "puzzles": {
+        "text": "لعبتا منطق في تطبيق أندرويد مجاني: اعثر على الرقم السري في «{code}» وعلى الكلمة السرية في «{word}»، مع دلائل خضراء وصفراء ورمادية بعد كل محاولة.",
+        "facts": [
+          "11 لغة، منها العربية والألبانية والكورية",
+          "ألغاز اليوم وقوائم أفضل 20 في العالم",
+          "مجانية، بلا إعلانات، تعمل دون إنترنت"
+        ],
+        "state": "قيد المراجعة لدى Google · قريبًا على Google Play · بإحدى عشرة لغة",
+        "open": "افتح MBG Puzzles",
+        "early": "عند الإطلاق يكون التطبيق الكامل مجانيًا لنحو الشهر الأول، ثم تأتي نسخة مدفوعة. كن من الأوائل!"
+      },
+      "whoami": {
+        "name": "من أنا؟",
+        "tag": "لعبة تخمين",
+        "text": "خمّن الشخص أو الحيوان أو الشيء من الدلائل، تلميحًا بعد تلميح.",
+        "facts": [
+          "أشخاص وحيوانات وأشياء",
+          "تلميح واحد في كل مرة"
+        ],
+        "soon": "قريبًا",
+        "ready": "العب الآن",
+        "notify": "أخبرني عند صدورها",
+        "meanwhile": "العب MBG Puzzles في الأثناء",
+        "waNotify": "مرحبًا، أخبروني عند صدور «{name}» من MBG Games: {url}",
+        "testTitle": "كن مختبِرًا",
+        "testText": "بعد الاختبار الناجح لـ MBG Puzzles، يبدأ قريبًا اختبار ألفا للعبة «{name}». أرسل لنا عنوان Gmail وسنضيفك.",
+        "testMsg": "مرحبًا، أود اختبار «{name}» من MBG Games. عنوان Gmail الخاص بي: "
+      }
+    },
+    "about": {
+      "title": "عن MBG",
+      "items": [
+        {
+          "h": "من صنع ميركور بكيري",
+          "p": "MBG – Merkur Beqiri Games هي الاستوديو المستقل لميركور بكيري. تصمّم MBG كل لعبة وتكتبها وتختبرها."
+        },
+        {
+          "h": "مقرّها في كوسوفو، وتعمل في جميع أنحاء العالم",
+          "p": "تُصنع الألعاب في كوسوفو للاعبين في كل مكان، بلغاتهم."
+        },
+        {
+          "h": "هادئة بطبيعتها",
+          "p": "بلا إعلانات ولا دردشة ولا تتبّع. وقت شاشة هادئ ومركّز للأطفال من 9 سنوات وللكبار."
+        }
+      ]
+    },
+    "contact": {
+      "waMessage": "مرحبًا، وجدتك عبر موقع MBG Games:\n{url}\nلديّ تعليق / سؤال لك:\n"
+    },
+    "images": {
+      "wizard": "ساحر MBG بعصاه، بجانب شعار MBG Games واللعبتين: Crack the Code (3 2 7) وGuess the Word (A B C).",
+      "code": "Crack the Code: قفل فوق المربعات 3 ? 5، تحيط به أرقام مضيئة."
+    }
+  },
+  "ko": {
+    "meta": {
+      "title": "MBG Games – MBG Puzzles와 나는 누구일까요? 광고 없는 무료 두뇌 게임",
+      "description": "MBG – Merkur Beqiri Games는 광고 없는 차분한 두뇌 게임을 만들어요. MBG Puzzles: 11개 언어로 즐기는 암호 풀기와 단어 퍼즐. 곧 출시: 나는 누구일까요? 코소보에 기반을 두고 전 세계에서 활동해요."
+    },
+    "nav": {
+      "contact": "연락처"
+    },
+    "hero": {
+      "h1": "호기심 많은 사람을 위한 두뇌 게임",
+      "lead": "생각하게 만드는 짧고 차분한 게임: 비밀 숫자, 비밀 단어, 또는 힌트 뒤에 숨은 정체를 찾아보세요. 광고도 채팅도 없이, 11개 언어로, 어디에 있는 플레이어든 즐길 수 있어요."
+    },
+    "games": {
+      "title": "우리 게임",
+      "puzzles": {
+        "text": "무료 안드로이드 앱 하나에 논리 게임 두 개: {code}에서는 비밀 숫자를, {word}에서는 비밀 단어를 찾아요. 시도할 때마다 초록, 노랑, 회색 힌트가 나와요.",
+        "facts": [
+          "한국어, 알바니아어, 보스니아어를 포함한 11개 언어",
+          "오늘의 퍼즐과 세계 Top 20",
+          "무료, 광고 없음, 오프라인 플레이"
+        ],
+        "state": "Google 검토 중 · 곧 Google Play 출시 · 11개 언어",
+        "open": "MBG Puzzles 보기",
+        "early": "출시 직후 약 한 달 동안은 전체 앱이 무료이고, 그 뒤에는 유료 버전이 나와요. 얼리버드가 되어 보세요!"
+      },
+      "whoami": {
+        "name": "나는 누구일까요?",
+        "tag": "추측 게임",
+        "text": "힌트를 하나씩 보며 사람, 동물, 물건을 맞혀 보세요.",
+        "facts": [
+          "사람, 동물, 물건",
+          "한 번에 힌트 하나"
+        ],
+        "soon": "출시 예정",
+        "ready": "지금 플레이",
+        "notify": "출시되면 알려 주세요",
+        "meanwhile": "그동안 MBG Puzzles 플레이하기",
+        "waNotify": "안녕하세요, MBG Games의 {name}가 출시되면 알려 주세요: {url}",
+        "testTitle": "테스터 되기",
+        "testText": "MBG Puzzles 테스트를 성공적으로 마치고, 곧 {name} 알파 테스트를 시작해요. Gmail 주소를 보내 주시면 추가해 드릴게요.",
+        "testMsg": "안녕하세요, MBG Games의 {name}를 테스트하고 싶어요. 제 Gmail 주소: "
+      }
+    },
+    "about": {
+      "title": "MBG 소개",
+      "items": [
+        {
+          "h": "만든 사람: 메르쿠르 베치리",
+          "p": "MBG – Merkur Beqiri Games는 메르쿠르 베치리의 독립 스튜디오예요. 모든 게임을 MBG가 직접 기획하고 쓰고 테스트해요."
+        },
+        {
+          "h": "코소보에 기반을 두고 전 세계에서 활동해요",
+          "p": "게임은 코소보에서 만들어지고, 어디에 사는 플레이어든 자기 언어로 즐길 수 있어요."
+        },
+        {
+          "h": "차분하게 만들었어요",
+          "p": "광고도 채팅도 추적도 없어요. 9세 이상 어린이와 어른을 위한 조용하고 집중하는 화면 시간."
+        }
+      ]
+    },
+    "contact": {
+      "waMessage": "안녕하세요, MBG Games 웹사이트를 보고 연락드려요:\n{url}\n의견 / 질문이 있어요:\n"
+    },
+    "images": {
+      "wizard": "지팡이를 든 MBG 마법사가 MBG Games 로고와 두 게임 Crack the Code(3 2 7), Guess the Word(A B C) 옆에 서 있어요.",
+      "code": "Crack the Code: 빛나는 숫자들 사이, 3 ? 5 칸 위에 자물쇠가 있어요."
+    }
+  }
+}

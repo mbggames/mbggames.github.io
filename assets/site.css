@@ -336,3 +336,82 @@ a.store.web:hover { background: var(--ink); color: var(--surface); }
 .cta-stores { display: flex; flex-direction: column; gap: 12px; align-items: stretch; }
 .cta a.store.web { background: var(--surface); color: var(--ink); }
 .cta a.store.web:hover { background: var(--ink); color: var(--surface); }
+
+/* ------------------------------------------- Korean (system fonts carry Hangul) */
+:lang(ko) {
+  --font-body: 'Atkinson Hyperlegible', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', 'Noto Sans CJK KR', system-ui, sans-serif;
+  --font-display: 'Unbounded', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', 'Noto Sans CJK KR', system-ui, sans-serif;
+  --font-mono: 'Atkinson Hyperlegible Mono', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', 'Noto Sans CJK KR', monospace;
+  word-break: keep-all;
+}
+:lang(ko) .hero h1 { letter-spacing: 0; line-height: 1.2; }
+
+/* ------------------------------------------- link to the MBG Games home page */
+.sections .home-link { color: var(--accent); }
+
+/* ------------------------------------------- become a tester (inside the CTA band) */
+.tester { margin: 26px 0 6px; padding: 18px 20px 20px; border-radius: 18px;
+  background: color-mix(in srgb, var(--on-accent) 12%, transparent); border: 1px solid color-mix(in srgb, var(--on-accent) 35%, transparent); }
+.tester h3 { display: flex; align-items: center; gap: 10px; margin: 0 0 10px; font-size: 1.2rem; }
+.tester ol { margin: 0; padding-inline-start: 1.3em; display: grid; gap: 14px; }
+.tester li p { margin: 0 0 8px; }
+.tester-actions { display: flex; flex-wrap: wrap; gap: 8px 10px; }
+.tbtn { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 8px 14px; border-radius: 12px;
+  background: var(--on-accent); color: var(--accent); font-weight: 700; text-decoration: none; }
+.tbtn.ghosty { background: transparent; color: var(--on-accent); border: 2px solid var(--on-accent); }
+.tbtn:hover { text-decoration: underline; }
+
+/* ------------------------------------------- MBG Games home page */
+.hub-hero { padding-block: clamp(36px, 6vw, 72px) clamp(20px, 3vw, 36px); }
+.hub-hero .wrap { grid-template-columns: minmax(0, 1fr); }
+.hub-games { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr)); gap: 24px; align-items: start; }
+.hub-card { background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 26px; display: grid; gap: 6px; min-width: 0; }
+.hub-card h3 { font-family: var(--font-display); font-size: 1.6rem; letter-spacing: -.01em; margin: 6px 0 0; }
+.hub-card h3 a { color: var(--ink); text-decoration: none; }
+.hub-card h3 a:hover { text-decoration: underline; }
+.hub-card .tag { color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+.hub-card p { margin: 0 0 8px; }
+.hub-tiles { display: flex; gap: 5px; --tile: 38px; }
+.hub-state { font-weight: 700; color: var(--muted); }
+.hub-card .cta-row { margin-top: 8px; }
+.hub-langs { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
+.hub-langs p { color: var(--muted); font-size: .95rem; }
+.who-mark { width: 84px; height: 84px; border-radius: 22px; display: grid; place-items: center;
+  background: var(--near); color: var(--on-near); font-family: var(--font-display); font-size: 3rem; line-height: 1;
+  box-shadow: inset 0 -4px 0 rgba(0, 0, 0, .14); }
+.who-mark.big { width: 120px; height: 120px; font-size: 4.4rem; margin-bottom: 22px; }
+.soon-page h1 { font-family: var(--font-display); font-size: clamp(2.2rem, 1.4rem + 3vw, 3.6rem); margin: 0 0 16px; }
+.soon-page .lead { max-width: 34em; }
+
+/* ------------------------------------------- animations on the MBG Games home page */
+.hub-hero .wrap { grid-template-columns: minmax(0, 1.3fr) minmax(0, .7fr); align-items: center; }
+.hub-wizard { justify-self: center; }
+.hub-wizard img { display: block; width: min(300px, 100%); height: auto; border-radius: 26px; box-shadow: var(--shadow); }
+.hub-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.hub-code img { display: block; width: 132px; height: auto; border-radius: 18px; box-shadow: var(--shadow); }
+@media (max-width: 860px) {
+  .hub-hero .wrap { grid-template-columns: minmax(0, 1fr); }
+  .hub-wizard img { width: min(240px, 70vw); }
+}
+
+/* ------------------------------------------- in review by Google (Nov 2026) */
+.tester.launch p { margin: 0 0 10px; }
+.tester.launch .early { margin: 12px 0 0; }
+.hub-early { margin: -4px 0 12px; font-size: .95rem; color: var(--muted); }
+.who-test { margin: 32px 0 0; max-width: 560px; text-align: start; background: var(--card); border: 1px solid var(--line); }
+.who-test .tbtn { background: var(--accent); color: var(--on-accent); }
+.who-test .tbtn.ghosty { background: transparent; color: var(--accent); border: 2px solid var(--accent); }
+
+/* ------------------------------------------- main menu on every page: Home · Puzzles · Who Am I? · Contact */
+.site-nav { display: flex; gap: 4px; order: 3; width: 100%; overflow-x: auto; scrollbar-width: none; padding-block: 0 8px; }
+.site-nav::-webkit-scrollbar { display: none; }
+.site-nav a { display: inline-flex; align-items: center; gap: 6px; padding: 7px 13px; border-radius: 999px; white-space: nowrap;
+  color: var(--ink); font-weight: 700; font-size: .95rem; text-decoration: none; }
+.site-nav a .icon { width: 18px; height: 18px; }
+.site-nav a:hover { background: var(--accent-soft); }
+.site-nav a[aria-current="page"] { background: var(--accent); color: var(--on-accent); }
+.top .sections.sub { order: 4; width: 100%; margin-inline-start: 0; padding-block: 2px 10px; border-top: 1px solid var(--line); padding-top: 8px; }
+.top .sections.sub a { font-size: .88rem; }
+@media (min-width: 900px) {
+  .site-nav { order: 0; width: auto; margin-inline-start: auto; padding-block: 0; }
+}

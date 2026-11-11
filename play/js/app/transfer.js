@@ -37,12 +37,23 @@
     world: 'MBG.App.world'
   };
   var PREF_KEYS = ['theme', 'hue', 'fontSize', 'sound', 'keySound', 'lengths', 'wordPool', 'validateGuesses', 'intro'];
-  var LANGS = ['en', 'sq', 'bs', 'de', 'es', 'fr', 'tr', 'pl', 'pt', 'ar'];
+  var LANGS = ['en', 'sq', 'bs', 'de', 'es', 'fr', 'tr', 'pl', 'pt', 'ar', 'ko'];
 
   function lib(name) { return root.MBG && root.MBG[name]; }
   function get(storage, key) { try { return storage.getItem(key); } catch (e) { return null; } }
   function set(storage, key, v) { try { storage.setItem(key, v); } catch (e) { /* ignore */ } }
   function json(storage, key) { try { return JSON.parse(get(storage, key) || 'null'); } catch (e) { return null; } }
+  /** The puzzles of the day of every name on the phone: { 'name in lower case': store data }. */
+  function dailyOfNames(storage) {
+    var Daily = lib('Daily'), out = {}, n = 0;
+    if (!Daily || !Daily.allKeys) return undefined;
+    Daily.allKeys(storage).forEach(function (k) {
+      if (k === KEYS.daily) return;
+      var d = json(storage, k);
+      if (d) { out[k.slice(KEYS.daily.length + 3)] = d; n++; }
+    });
+    return n ? out : undefined;
+  }
 
   /* ----------------------------------------------------------- encoding --- */
   function fnv(s) {
@@ -82,6 +93,7 @@
       wu: get(storage, KEYS.wordUsers) || '',
       st: json(storage, KEYS.stats),
       dy: json(storage, KEYS.daily),
+      du: dailyOfNames(storage),
       pr: p,
       lg: get(storage, KEYS.lang),
       us: json(storage, KEYS.user),
@@ -139,6 +151,9 @@
       });
     }
     if (d.dy && Daily) new Daily.DailyStore(storage).mergeData(d.dy);
+    if (d.du && typeof d.du === 'object' && Daily && Daily.keyFor) Object.keys(d.du).forEach(function (name) {
+      if (name && d.du[name] && typeof d.du[name] === 'object') new Daily.DailyStore(storage, Daily.keyFor(name)).mergeData(d.du[name]);
+    });
     if (d.pr && typeof d.pr === 'object') {
       var prefs = json(storage, KEYS.prefs) || {};
       PREF_KEYS.forEach(function (k) { if (d.pr[k] !== undefined) prefs[k] = d.pr[k]; });

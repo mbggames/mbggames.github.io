@@ -24,7 +24,9 @@
     'révéler', 'reveler', 'quitter', 'yardım', 'yardim', 'kurallar', 'göster', 'goster', 'çık', 'cik', 'çıkış', 'cikis',
     // Polish, Portuguese and Arabic: the same
     'tak', 'nie', 'zasady', 'pokaż', 'pokaz', 'wyjdź', 'wyjdz', 'koniec', 'sim', 'não', 'nao', 'anônimo', 'ajuda',
-    'regras', 'sair', 'نعم', 'لا', 'مجهول', 'مساعدة', 'قواعد', 'اكشف', 'كشف', 'خروج'];
+    'regras', 'sair', 'نعم', 'لا', 'مجهول', 'مساعدة', 'قواعد', 'اكشف', 'كشف', 'خروج',
+    // Korean (1.11)
+    '네', '예', '응', '아니', '아니요', '아니오', '익명', '도움말', '정답보기', '나가기'];
 
   /** In-memory stand-in used when the browser blocks storage (private mode etc.). */
   function MemoryStorage() { this._d = {}; }
@@ -139,6 +141,15 @@
     var out = [];
     this.users.forEach(function (u) { out.push({ name: u.name, best: u.best }); });
     return out;
+  };
+
+  /** Removes a name and its high score from this store (a deleted account). True when it was there. */
+  UserStore.prototype.remove = function (name) {
+    var k = key(name);
+    if (!this.users.has(k)) return false;
+    this.users.delete(k);
+    this.save();
+    return true;
   };
 
   UserStore.prototype.exportText = function () { return serializeUsers(this.users); };

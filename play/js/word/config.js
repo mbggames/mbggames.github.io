@@ -14,7 +14,7 @@
     defaultLength: 4,
     vocabFiles: { en: 'WordsEng.txt', sq: 'WordsAlb.txt', bs: 'WordsBos.txt', de: 'WordsDeu.txt',
       es: 'WordsSpa.txt', fr: 'WordsFra.txt', tr: 'WordsTur.txt', pl: 'WordsPol.txt', pt: 'WordsPor.txt',
-      ar: 'WordsAra.txt' },
+      ar: 'WordsAra.txt', ko: 'WordsKor.txt' },
     // The dictionaries (tools/build_vocab.py): [words that can be secret in "All words", more accepted guesses]
     dictFiles: {
       en: ['words/en-dict.txt', 'words/en-extra.txt'],
@@ -26,7 +26,8 @@
       tr: ['words/tr-dict.txt', 'words/tr-extra.txt'],
       pl: ['words/pl-dict.txt', 'words/pl-extra.txt'],
       pt: ['words/pt-dict.txt', 'words/pt-extra.txt'],
-      ar: ['words/ar-dict.txt', 'words/ar-extra.txt']
+      ar: ['words/ar-dict.txt', 'words/ar-extra.txt'],
+      ko: ['words/ko-dict.txt', 'words/ko-extra.txt']   // 1.11: written in letters (ㅅㅏㄱㅗㅏ), see js/shared/hangul.js
     },
     countsFile: 'words/counts.json',       // sizes of the dictionaries, shown before they load
     wordPoolDefault: 'everyday',           // secret words: 'everyday' (common words) or 'all' (whole dictionary)

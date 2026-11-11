@@ -19,6 +19,11 @@
  *
  * The free edition (MBG.EDITION = 'free') sells nothing: Google Play Billing is never
  * called, and the build leaves the purchases plugin (and its BILLING permission) out.
+ *
+ * Kosovo: the paid edition asks Google Play for the country of the player's Google account
+ * (getStorefront) when a screen opens and every 6 hours. In Kosovo (XK) it works like the free
+ * edition from the next screen on (MBG.Shell.free, see app.js) - the open game already counts as
+ * unlimited when the answer arrives; a player who moves away gets the paid edition again.
  */
 (function (root) {
   'use strict';
@@ -31,12 +36,33 @@
   // euros written the way the language in use writes them (€0.99, 0,99 €, €0,99).
   var PREVIEW_EUROS = { weekly: 0.99, monthly: 2.99, yearly: 19.99 };
   var LOCALES = { en: 'en-IE', sq: 'sq-AL', bs: 'bs-BA', de: 'de-DE', es: 'es-ES', fr: 'fr-FR', tr: 'tr-TR', pl: 'pl-PL',
-    pt: 'pt-BR', ar: 'ar-u-nu-latn' };   // Arabic with Western digits, as everywhere in the app
+    pt: 'pt-BR', ar: 'ar-u-nu-latn', ko: 'ko-KR' };   // Arabic with Western digits, as everywhere in the app
   function previewPrice(id) {
     var v = PREVIEW_EUROS[id];
     try {
       return new Intl.NumberFormat(LOCALES[Shell.getLang()] || 'en-IE', { style: 'currency', currency: 'EUR' }).format(v);
     } catch (e) { return '€' + v.toFixed(2); }
+  }
+
+  /* ---------------------------------------------------- Kosovo (paid edition) --- */
+  var PLAY = MBG.EDITION === 'paid' && Shell.native && root.capacitorNativePurchases ? root.capacitorNativePurchases.NativePurchases : null;
+  var regionAsking = false;
+  function checkRegion() {
+    if (!PLAY || regionAsking || !MBG.Access.regionDue(Shell.getRegion(), Date.now())) return;
+    regionAsking = true;
+    PLAY.getStorefront().then(function (r) { return r && r.countryCode; }, function () { return ''; }).then(function (code) {
+      regionAsking = false;
+      var next = MBG.Access.nextRegion(Shell.getRegion(), code, Date.now());
+      Shell.setRegion(next);
+      if (MBG.Access.regionFree('paid', next) && !Shell.access.unlimited) {
+        Shell.access.unlimited = true;            // this screen already plays without limits
+        if (MBG.Billing && MBG.Billing._notify) MBG.Billing._notify();
+      }
+    });
+  }
+  if (PLAY) {
+    setTimeout(checkRegion, 0);
+    document.addEventListener('visibilitychange', function () { if (!document.hidden) checkRegion(); });
   }
 
   if (Shell.free) {
@@ -236,6 +262,7 @@
     manage: manage,
     onChange: function (fn) { listeners.push(fn); },
     previewSubscribe: previewSubscribe,
+    _notify: notify,
     packPrices: packPrices,
     buyCredits: buyCredits,
     recoverCredits: recoverCredits

@@ -1,21 +1,15 @@
-MBG Puzzles website - update: "Play in your browser" (web preview)
+MBG Games website - how updates work (November 2026)
 
-On github.com, open the repository mbggames.github.io and click into the folder
-mbg-puzzles-site (that is where site.json and the folders content, tools, assets are).
+The website is built from the files at the TOP of this repository (site.json, content/, tools/,
+assets/, play/, privacy.html). The folder mbg-puzzles-site/ is an old copy and is NOT used -
+do not upload anything into it.
 
-Upload 1 - the game (88 files):
-  Add file > Upload files > drag the folder "play" from this package > Commit changes.
+Addresses:
+  https://mbggames.com/                MBG Games home page (MBG Puzzles + Who Am I?), /sq/ ... /ko/
+  https://mbggames.com/puzzles/        MBG Puzzles (11 languages: /puzzles/sq/ ... /puzzles/ko/)
+  https://mbggames.com/puzzles/play/   web preview of the game
+  https://mbggames.com/whoami/         Who Am I? (upload the game into a folder "whoami")
+  https://mbggames.com/privacy.html    privacy policy (the link in Play Console stays the same)
 
-Upload 2 - the website changes (5 files):
-  Still inside mbg-puzzles-site: Add file > Upload files > drag
-  "tools", "assets", "site.json" and "README.md" from this package > Commit changes.
-  Files with the same name are replaced; nothing else is touched.
-
-Wait 1-2 minutes (Actions tab: "Publish website" turns green). Then open
-  https://mbggames.github.io/       - new button "Play in your browser"
-  https://mbggames.github.io/play/  - the web preview
-
-Later:
-  - Google Play test link ready: edit play/js/app/edition.js, put it in testUrl.
-  - App published: in the same file set playStatus: 'live', and in site.json "playStatus": "live".
-  - Turn the preview off: site.json "webPreview": false.
+Change something: open the file on github.com > pencil > Commit changes. 1-2 minutes later it
+is online (Actions tab: "Publish website" turns green). Details: README.md.

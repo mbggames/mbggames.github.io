@@ -23,12 +23,18 @@
       </div>
     </div>
     <div class="tools">
+      <!-- Version 1.10: one menu button (like GitHub on phones). The language, account and close
+           buttons live on in the menu; these three stay hidden so older code paths still find them. -->
       <button type="button" class="ib" id="btnLang"></button>
-      <button type="button" class="ib" id="btnExit">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5v8"/><path d="M7.1 6.6a7.5 7.5 0 1 0 9.8 0"/></svg>
+      <button type="button" class="ib ib-acc" id="btnAccTop" hidden></button>
+      <button type="button" class="ib" id="btnExit" hidden></button>
+      <button type="button" class="ib ib-menu" id="btnMenu" aria-haspopup="dialog" aria-controls="dlgMenu">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
       </button>
     </div>
   </header>
+
+  <section class="welcomecard" id="welcomeCard" aria-labelledby="wlcTitle" hidden></section>
 
   <section class="plancard" id="planCard" aria-live="polite">
     <div class="pc-text">
@@ -45,7 +51,12 @@
   </section>
 
   <section class="dailycard" id="dailyCard" aria-labelledby="dailyTitle">
-    <div class="dc-head"><strong id="dailyTitle"></strong><span class="dc-no" id="dailyNo"></span></div>
+    <button type="button" class="dc-head" id="dailyToggle" aria-expanded="false" aria-controls="dailyBody">
+      <span class="dc-tt"><strong id="dailyTitle"></strong><span class="dc-sum" id="dailySum"></span></span>
+      <span class="dc-no" id="dailyNo"></span>
+      <svg class="dc-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+    <div class="dc-body" id="dailyBody" hidden>
     <a class="dc-row" href="codebreaker.html?daily=1" id="dailyCode" data-game="codebreaker">
       <span class="dc-ic mt o" aria-hidden="true">7</span>
       <span class="dc-text"><strong id="dailyCodeName"></strong><span id="dailyCodeState"></span></span>
@@ -58,6 +69,20 @@
     </a>
     <p class="dc-reward" id="dailyReward"></p>
     <p class="dc-foot" id="dailyFoot"></p>
+    </div>
+  </section>
+
+  <!-- Version 1.10: the world lists stay on the home screen - competing with everyone is the point -->
+  <section class="toprow" id="topRow" aria-label="World top 20">
+    <button type="button" class="topbtn" id="btnTopWorld">
+      <span class="tb-ic" aria-hidden="true">🏆</span>
+      <span class="tb-text"><strong id="topWorldTitle">World top 20</strong><span id="topWorldText"></span></span>
+    </button>
+    <button type="button" class="topbtn" id="btnTopToday">
+      <span class="tb-ic" aria-hidden="true">📅</span>
+      <span class="tb-text"><strong id="topTodayTitle">Today's top 20</strong><span id="topTodayText"></span></span>
+    </button>
+    <button type="button" class="linkbtn toprow-best" id="btnTopBest">🏅 <span id="topBestTitle"></span></button>
   </section>
 
   <nav class="games" aria-label="Games">
@@ -65,6 +90,7 @@
       <div class="gc-tiles" aria-hidden="true"><span class="mt o">4</span><span class="mt q">2</span><span class="mt x">7</span><span class="mt o">1</span></div>
       <div class="gc-body">
         <h2 id="nameCodebreaker">Codebreaker</h2>
+        <span class="lvl" id="lvlCodebreaker" hidden></span>
         <p id="textCodebreaker"></p>
         <span class="chip" id="chipCodebreaker"></span>
       </div>
@@ -82,30 +108,56 @@
     </a>
   </nav>
 
-  <button type="button" class="worldcard" id="cardWorld" hidden>
-    <span class="wc-icon" aria-hidden="true">🏆</span>
-    <span class="wc-text"><strong id="worldTitle"></strong><span id="worldText"></span></span>
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
-  </button>
-
-  <section class="contactcard" id="contactCard" aria-labelledby="contactTitle">
-    <div class="cc-text"><strong id="contactTitle">Questions or ideas?</strong><span id="contactText"></span></div>
-    <div class="cc-links">
-      <a class="cc-link cc-wa" id="lnkWhatsApp" href="#" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 19.5l1.2-3.6A8 8 0 1 1 8.4 18.6z"/><path d="M9.2 8.4c.2-.4.6-.4.9-.4.3 0 .5.4.7 1 .1.4-.1.6-.4 1-.2.2 0 .6.5 1.2.6.6 1 .8 1.3.6.4-.3.6-.5 1-.4.6.2 1 .4 1 .7 0 .5-.3 1.2-1 1.4-.8.2-2.3-.2-3.6-1.5S8.6 9.9 9.2 8.4z"/></svg>
-        <span id="lblWhatsApp">WhatsApp</span></a>
-      <a class="cc-link" id="lnkEmail" href="#" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5"/><path d="M4.5 7l7.5 6 7.5-6"/></svg>
-        <span id="lblEmail">E-mail</span></a>
-    </div>
-  </section>
-
-  <footer class="homefoot">
-    <a href="privacy.html" id="lnkPrivacy">Privacy policy</a>
-    <span id="version"></span>
-    <span>© 2026 MBG · Merkur Beqiri Games</span>
-  </footer>
 </div>
+<dialog class="dlg sheet menusheet" id="dlgMenu" aria-labelledby="menuTitle">
+  <div class="sheet-head">
+    <h2 id="menuTitle">Menu</h2>
+    <button type="button" class="btn ghost small" id="menuClose">Close</button>
+  </div>
+  <div class="sheet-scroll menu-list">
+    <button type="button" class="worldcard accountcard" id="cardAccount" hidden>
+      <span class="wc-icon ac-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.4-3.6 4.4-5.5 8-5.5s6.6 1.9 8 5.5"/></svg></span>
+      <span class="wc-text"><strong id="accountTitle"></strong><span id="accountText"></span></span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+    </button>
+    <button type="button" class="worldcard" id="cardWorld" hidden>
+      <span class="wc-icon" aria-hidden="true">🏆</span>
+      <span class="wc-text"><strong id="worldTitle"></strong><span id="worldText"></span></span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+    </button>
+    <button type="button" class="worldcard menurow" id="menuLang" hidden>
+      <span class="wc-icon mr-flag" id="menuLangFlag" aria-hidden="true"></span>
+      <span class="wc-text"><strong id="menuLangTitle">Language</strong><span id="menuLangText"></span></span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+    </button>
+    <section class="contactcard" id="contactCard" aria-labelledby="contactTitle">
+      <div class="cc-text"><strong id="contactTitle">Questions or ideas?</strong><span id="contactText"></span></div>
+      <div class="cc-links">
+        <a class="cc-link cc-wa" id="lnkWhatsApp" href="#" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 19.5l1.2-3.6A8 8 0 1 1 8.4 18.6z"/><path d="M9.2 8.4c.2-.4.6-.4.9-.4.3 0 .5.4.7 1 .1.4-.1.6-.4 1-.2.2 0 .6.5 1.2.6.6 1 .8 1.3.6.4-.3.6-.5 1-.4.6.2 1 .4 1 .7 0 .5-.3 1.2-1 1.4-.8.2-2.3-.2-3.6-1.5S8.6 9.9 9.2 8.4z"/></svg>
+          <span id="lblWhatsApp">WhatsApp</span></a>
+        <a class="cc-link" id="lnkEmail" href="#" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5"/><path d="M4.5 7l7.5 6 7.5-6"/></svg>
+          <span id="lblEmail">E-mail</span></a>
+      </div>
+    </section>
+    <a class="worldcard menurow" id="menuPrivacy" href="privacy.html">
+      <span class="wc-icon mr-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.6-3 8.4-7 10-4-1.6-7-5.4-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg></span>
+      <span class="wc-text"><strong id="menuPrivacyTitle">Privacy policy</strong></span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+    </a>
+    <button type="button" class="worldcard menurow mr-exit" id="menuExit">
+      <span class="wc-icon mr-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5v8"/><path d="M7.1 6.6a7.5 7.5 0 1 0 9.8 0"/></svg></span>
+      <span class="wc-text"><strong id="menuExitTitle">Close app</strong></span>
+    </button>
+    <footer class="homefoot">
+      <a href="privacy.html" id="lnkPrivacy" hidden>Privacy policy</a>
+      <span id="version"></span>
+      <span>© 2026 MBG · Merkur Beqiri Games</span>
+      <span class="powered" id="powered">Powered by MBG Games</span>
+    </footer>
+  </div>
+</dialog>
 <dialog class="dlg" id="dlgConfirm" aria-labelledby="cfTitle">
   <form method="dialog" class="dlg-body">
     <h2 id="cfTitle"></h2>
@@ -134,6 +186,7 @@
 <script src="js/vendor/capacitor-app.js"></script>
 <script src="js/vendor/native-purchases.js"></script>
 <script src="js/app/i18n-app.js"></script>
+<script src="js/shared/hangul.js"></script>
 <script src="js/app/access.js"></script>
 <script src="js/app/app.js"></script>
 <script src="js/app/flags.js"></script>
@@ -143,8 +196,13 @@
 <script src="js/app/preview.js"></script>
 <script src="js/app/credits.js"></script>
 <script src="js/app/countries.js"></script>
-<script src="js/app/world.js"></script>
+<script src="js/shared/storage.js"></script>
+<script src="js/shared/stats.js"></script>
 <script src="js/shared/daily.js"></script>
+<script src="js/app/transfer.js"></script>
+<script src="js/app/sheets.js"></script>
+<script src="js/app/account.js"></script>
+<script src="js/app/world.js"></script>
 <script src="js/app/home.js"></script>
 </body>
 </html>

@@ -12,12 +12,11 @@
   'use strict';
   var MBG = root.MBG = root.MBG || {};
 
-  var VERSION = '1.0.0';
+  var VERSION = '1.11.0';
   // Contact shown on the home screen (and in the privacy policy). WhatsApp: number in
   // international form without + or spaces.
   var CONTACT = { email: 'merkur@gmail.com', whatsapp: '38349311911', phone: '+383 49 311 911' };
-  var FREE = MBG.EDITION !== 'paid';      // the free edition has no limits and no purchases
-  var KEYS = { lang: 'MBG.App.lang', user: 'MBG.App.user', prefs: 'MBG.App.prefs', access: 'MBG.App.access' };
+  var KEYS = { lang: 'MBG.App.lang', user: 'MBG.App.user', prefs: 'MBG.App.prefs', access: 'MBG.App.access', region: 'MBG.App.region' };
 
   var cap = root.capacitorExports && root.capacitorExports.Capacitor;
   var native = !!(cap && typeof cap.isNativePlatform === 'function' && cap.isNativePlatform());
@@ -42,6 +41,13 @@
   function readJson(key) { try { return JSON.parse(store.getItem(key) || 'null'); } catch (e) { return null; } }
   function writeJson(key, v) { try { store.setItem(key, JSON.stringify(v)); } catch (e) { /* ignore */ } }
 
+  // The free edition has no limits and no purchases; the paid edition works the same way for a
+  // Google Play account in Kosovo (Google Play does not sell there - see MBG.Access.regionFree;
+  // the country is checked by js/app/billing.js and takes effect from the next screen on).
+  var region = readJson(KEYS.region);
+  var KOSOVO = MBG.EDITION === 'paid' && MBG.Access.regionFree('paid', region);
+  var FREE = MBG.EDITION !== 'paid' || KOSOVO;
+
   /* ------------------------------------------- language and user --- */
   var LANGS = MBG.AppText.LANGS;           // ['en', 'sq', 'bs', 'de', 'es', 'fr', 'tr', 'pl', 'pt', 'ar']
   /**
@@ -63,6 +69,7 @@
       if (code === 'pl') return 'pl';
       if (code === 'pt') return 'pt';
       if (code === 'ar') return 'ar';
+      if (code === 'ko') return 'ko';
       if (code === 'en') return 'en';
     }
     return 'en';
@@ -73,6 +80,12 @@
     return LANGS.indexOf(l) !== -1 ? l : deviceLang();
   }
   function setLang(l) { if (LANGS.indexOf(l) === -1) return; try { store.setItem(KEYS.lang, l); } catch (e) { /* ignore */ } }
+  /** True when no language was ever chosen on this phone (version 1.7.2: the first start asks). */
+  function langChosen() {
+    var l = null;
+    try { l = store.getItem(KEYS.lang); } catch (e) { l = null; }
+    return LANGS.indexOf(l) !== -1;
+  }
 
   /** The user chosen in either game: { mode: 'anonymous'|'registered'|'nodata', name }. */
   function getUser() {
@@ -211,6 +224,9 @@
     native: native,
     free: FREE,
     preview: !!MBG.PREVIEW,
+    kosovo: KOSOVO,
+    getRegion: function () { return readJson(KEYS.region); },
+    setRegion: function (r) { writeJson(KEYS.region, r); },
     LANGS: LANGS,
     store: store,
     access: access,
@@ -233,6 +249,7 @@
     setBackHandler: setBackHandler,
     t: t,
     tIn: function (lang, key, params) { return MBG.AppText.t(lang, key, params); },
+    langChosen: langChosen,
     langName: function (l) { return MBG.AppText.NAMES[l] || l; },
     duration: duration,
     gameName: function (id) { return t(id === 'word' ? 'game.word' : 'game.codebreaker'); }

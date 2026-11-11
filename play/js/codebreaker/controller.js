@@ -34,8 +34,8 @@
 
   var STATES = ['boot', 'playing', 'roundEnd', 'locked', 'goodbye'];
   /** Typed as a name, these mean "play as Anonymous" (English, Albanian, Bosnian, German, Spanish, French, Turkish). */
-  var ANON_WORDS = ['a', 'anonymous', 'anonim', 'anonimno', 'anonym', 'anónimo', 'anonimo', 'anonyme'];
-  var LANGS = ['en', 'sq', 'bs', 'de', 'es', 'fr', 'tr', 'pl', 'pt', 'ar'];
+  var ANON_WORDS = ['a', 'anonymous', 'anonim', 'anonimno', 'anonym', 'anónimo', 'anonimo', 'anonyme', '익명'];
+  var LANGS = ['en', 'sq', 'bs', 'de', 'es', 'fr', 'tr', 'pl', 'pt', 'ar', 'ko'];
 
   function GameController(deps) {
     deps = deps || {};
@@ -58,6 +58,7 @@
     this.gameId = deps.gameId || 'game';
     this.initialUser = deps.initialUser || null; // function returning the user shared by both games
     this.askBeforeReveal = deps.askBeforeReveal || null;   // true: the screen asks first (paid reveal)
+    this.settings = deps.settings || function () { return { expert: false }; };   // version 1.7: { expert }
     this.daily = null;                           // { n, secret, length } while playing the daily puzzle
   }
 
@@ -161,7 +162,7 @@
       this.access.recordFirstGuess(this.gameId);
     }
     var res = this.E.applyGuess(round, c.word, this.now());
-    this.emit({ type: 'guess', attempt: res.attempt, word: c.word, feedback: res.feedback, won: res.won, length: round.length });
+    this.emit({ type: 'guess', attempt: res.attempt, word: c.word, feedback: res.feedback, won: res.won, length: round.length, mode: round.mode || 0 });
     if (res.won) this._win();
   };
 
@@ -177,7 +178,9 @@
     if (this.daily) return this._dailyRound();
     if (this.access && !this.access.canStart(this.gameId)) return this._lock();
     var secret = this.E.randomSecret(this.length, this.random);
-    this.round = this.E.createRound(secret, this.length, this.lang, this.now());
+    // Expert (hidden positions) is fixed when the game starts; switching it applies to the next game.
+    var mode = (this.settings() || {}).expert ? this.E.MODE.EXPERT : 0;
+    this.round = this.E.createRound(secret, this.length, this.lang, this.now(), mode);
     this.rounds += 1;
     this.state = 'playing';
     this.history = [];
@@ -227,6 +230,7 @@
       attempts: r.guesses.length,
       hints: r.hints ? r.hints.length : 0,
       seconds: this.E.elapsedSeconds(r, r.endedAt),
+      gameMode: r.mode || 0,
       score: r.score,
       firstTry: r.guesses.length === 1,
       stored: stored,

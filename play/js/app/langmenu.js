@@ -12,6 +12,7 @@
  *   Español  - Spain
  *   Français - France
  *   Türkçe   - Türkiye
+ *   한국어   - South Korea (version 1.11)
  * Flags: flag-icons by Panayiotis Lipiridis (MIT licence), drawn inline so no file is loaded.
  */
 (function (root) {
@@ -25,7 +26,7 @@
   var FLAGS = MBG.FLAGS || {};
   var GREETING = { en: 'Welcome!', sq: 'Mirë se erdhe!', bs: 'Dobro došli!', de: 'Willkommen!',
     es: '¡Bienvenidos!', fr: 'Bienvenue\u00a0!', tr: 'Hoş geldin!', pl: 'Witaj!', pt: 'Bem-vindo!',
-    ar: 'أهلًا وسهلًا!' };
+    ar: 'أهلًا وسهلًا!', ko: '환영합니다!' };
   var RTL = (MBG.AppText && MBG.AppText.RTL) || ['ar'];
   var CHECK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
 
@@ -84,7 +85,10 @@
     dlg.innerHTML =
       '<div class="sheet-head"><h2 id="lmTitle"></h2>' +
       '<button type="button" class="btn ghost small" id="lmClose"></button></div>' +
-      '<div class="sheet-scroll"><div class="lm-list" role="radiogroup" aria-labelledby="lmTitle">' + rows + '</div></div>';
+      '<div class="sheet-scroll"><div class="lm-hello" id="lmHello" hidden><span class="lm-wave" aria-hidden="true">👋</span>' +
+      '<p class="lm-hello-sub" id="lmSub"></p></div>' +
+      '<div class="lm-list" role="radiogroup" aria-labelledby="lmTitle">' + rows + '</div>' +
+      '<p class="lm-later muted" id="lmLater" hidden></p></div>';
     document.body.appendChild(dlg);
     dlg.querySelector('#lmClose').addEventListener('click', function () { dlg.close(); });
     Array.prototype.forEach.call(dlg.querySelectorAll('.lm-opt'), function (b) {
@@ -93,8 +97,8 @@
         dlg.close();
       });
     });
-    // A tap on the dimmed background closes the sheet.
-    dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
+    // A tap on the dimmed background closes the sheet (not the welcome at the first start).
+    dlg.addEventListener('click', function (e) { if (e.target === dlg && !state.welcome) dlg.close(); });
     dlg.addEventListener('close', function () {
       var r = state.resolve, pick = state.pick;
       state.resolve = null;
@@ -107,13 +111,30 @@
   /**
    * Opens the picker. Resolves with the chosen language, or null when it was closed
    * without a change. The caller applies the language (a game may first ask to confirm).
+   * opts.welcome (version 1.7.2, first start of the app): a greeting, "Choose your language" and
+   * no Close button; one tap on a language chooses it. Resolves the language tapped, or
+   * `current` (the phone's language) when the screen was left another way (Android's Back).
    */
-  function open(current) {
+  function open(current, opts) {
     var d = build();
     if (d.open) return Promise.resolve(null);
-    // The title names "Language" in three languages, the current one first.
-    var order = [current].concat(others(current));
-    d.querySelector('#lmTitle').textContent = order.map(function (l) { return Shell.tIn(l, 'lang.label'); }).join('\u00a0· ');   // a line break never starts with the dot
+    var welcome = !!(opts && opts.welcome);
+    state.welcome = welcome;
+    d.classList.toggle('lm-welcome', welcome);
+    d.querySelector('#lmClose').hidden = welcome;
+    d.querySelector('#lmHello').hidden = !welcome;
+    d.querySelector('#lmLater').hidden = !welcome;
+    if (welcome) {
+      // The greeting and the question in the phone's language - and in English too, if that is another.
+      var both = function (key) { return Shell.tIn(current, key) + (current === 'en' ? '' : ' · ' + Shell.tIn('en', key)); };
+      d.querySelector('#lmTitle').textContent = Shell.tIn(current, 'lang.welcomeTitle');
+      d.querySelector('#lmSub').textContent = both('lang.choose');
+      d.querySelector('#lmLater').textContent = Shell.tIn(current, 'lang.later');
+    } else {
+      // The title names "Language" in three languages, the current one first.
+      var order = [current].concat(others(current));
+      d.querySelector('#lmTitle').textContent = order.map(function (l) { return Shell.tIn(l, 'lang.label'); }).join('\u00a0· ');   // a line break never starts with the dot
+    }
     d.querySelector('#lmClose').textContent = Shell.tIn(current, 'btn.close');
     Array.prototype.forEach.call(d.querySelectorAll('.lm-opt'), function (b) {
       var on = b.getAttribute('data-lang') === current;
@@ -121,7 +142,8 @@
       b.classList.toggle('on', on);
     });
     return new Promise(function (resolve) {
-      state.resolve = function (pick) { resolve(pick && pick !== current ? pick : null); };
+      state.resolve = welcome ? function (pick) { state.welcome = false; resolve(pick || current); }
+        : function (pick) { resolve(pick && pick !== current ? pick : null); };
       state.pick = null;
       try { d.showModal(); } catch (e) { d.setAttribute('open', ''); }
       var cur = d.querySelector('.lm-opt.on');

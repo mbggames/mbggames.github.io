@@ -7,12 +7,19 @@
  * Runs in the browser (window.MBG.Engine) and in Node.js (require) for unit tests.
  */
 (function (root, factory) {
-  var api = factory();
+  var api = factory(root);
   if (typeof module === 'object' && module.exports) module.exports = api;
   root.MBG = root.MBG || {};
   root.MBG.Engine = api;
-})(typeof self !== 'undefined' ? self : globalThis, function () {
+})(typeof self !== 'undefined' ? self : globalThis, function (root) {
   'use strict';
+
+  /** Korean letters (js/shared/hangul.js, version 1.11): loaded before this file in the page. */
+  var hangulLib = null;
+  function hangul() {
+    if (!hangulLib) hangulLib = (root.MBG && root.MBG.Hangul) || (typeof require === 'function' ? require('../shared/hangul.js') : null);
+    return hangulLib;
+  }
 
   var LENGTHS = [4, 5, 6, 7, 8];
   var MIN_LEN = 4;
@@ -32,7 +39,9 @@
     tr: { help: ['yardım', 'yardim', 'kurallar'], reveal: ['göster', 'goster'], quit: ['çık', 'cik', 'çıkış', 'cikis'] },
     pl: { help: ['zasady'], reveal: ['pokaż', 'pokaz'], quit: ['wyjdź', 'wyjdz', 'koniec'] },
     pt: { help: ['ajuda', 'regras'], reveal: ['revelar'], quit: ['sair'] },
-    ar: { help: ['مساعدة', 'قواعد'], reveal: ['اكشف', 'كشف'], quit: ['خروج'] }
+    ar: { help: ['مساعدة', 'قواعد'], reveal: ['اكشف', 'كشف'], quit: ['خروج'] },
+    // Korean (1.11): words that are not 4-8-letter everyday nouns, so a real guess is never taken for a command
+    ko: { help: ['도움말'], reveal: ['정답보기'], quit: ['나가기'] }
   };
   var COMMAND_WORDS = [];
   Object.keys(COMMANDS).forEach(function (k) { COMMAND_WORDS = COMMAND_WORDS.concat(COMMANDS[k]); });
@@ -75,9 +84,25 @@
     timeBonusMax: 0.2,
     timeBonusSecondsPerLetter: 30,
     capAtHighAnchor: false, // true = attempts before the high anchor score the anchor value
+    fasterTryBonus: 0.05,   // version 1.7: each try fewer than the high anchor adds 5 % (no longer doubling)
     minimumWinScore: 1,
     hintTries: 2            // a hint counts like this many extra tries in the score
   };
+
+  /**
+   * Difficulty (version 1.7): the mode of a game is a number of bits - MODE.EXPERT (secret
+   * words from the whole dictionary, "expert" word pool) and MODE.REAL (only real words are
+   * accepted as guesses, for the whole game). The score is multiplied by MODE_FACTORS:
+   * normal 1 < real words only 1.25 < expert 1.6 < expert + real words only 2. A puzzle of
+   * the day is always played in mode 0 (the same word for everyone).
+   */
+  var MODE = { EXPERT: 1, REAL: 2 };
+  var MODE_FACTORS = { 0: 1, 1: 1.6, 2: 1.25, 3: 2 };
+  /** The difficulty factor of a mode (unknown bits count as 0, an unknown mode as normal). */
+  function modeFactor(mode) {
+    var f = MODE_FACTORS[Number(mode) || 0];
+    return typeof f === 'number' ? f : 1;
+  }
 
   /** Lower case; Turkish keeps its dotted and dotless i apart (I -> ı, İ -> i). */
   function lower(s, lang) {
@@ -99,9 +124,11 @@
   /**
    * NFC-normalise, trim and lower-case (FR-GAME-004/005, FR-LANG-007). With a language, the
    * letters that are not letters of their own in it are folded (Spanish árbol -> arbol).
+   * Korean (1.11) is written out in the keys of the Korean keyboard: 사과 -> ㅅㅏㄱㅗㅏ (5 letters).
    */
   function normalize(s, lang) {
     var t = lower(String(s == null ? '' : s).normalize('NFC').trim(), lang);
+    if (lang === 'ko') return hangul().decompose(t);
     var f = lang && FOLD[lang];
     return f ? t.replace(/[^\u0000-\u007f]/g, function (c) { return Object.prototype.hasOwnProperty.call(f, c) ? f[c] : c; }) : t;
   }
@@ -131,8 +158,10 @@
    * Y/N answers for confirmation prompts (FR-CMD-005), in every language: Albanian po/jo,
    * Bosnian da/ne, German ja/nein, Spanish sí/no, French oui/non, Turkish evet/hayır.
    */
-  var YES = ['y', 'yes', 'po', 'd', 'da', 'j', 'ja', 's', 'si', 'sí', 'o', 'oui', 'e', 'evet', 't', 'tak', 'sim', 'نعم', 'ن'];
-  var NO = ['n', 'no', 'jo', 'ne', 'nein', 'non', 'h', 'hayır', 'hayir', 'nie', 'não', 'nao', 'لا', 'ل'];
+  var YES = ['y', 'yes', 'po', 'd', 'da', 'j', 'ja', 's', 'si', 'sí', 'o', 'oui', 'e', 'evet', 't', 'tak', 'sim', 'نعم', 'ن',
+    '네', '예', '응', 'ㅇ', 'ㅇㅇ'];
+  var NO = ['n', 'no', 'jo', 'ne', 'nein', 'non', 'h', 'hayır', 'hayir', 'nie', 'não', 'nao', 'لا', 'ل',
+    '아니', '아니요', '아니오', 'ㄴ', 'ㄴㄴ'];
   function parseYesNo(raw) {
     var s = normalize(raw);
     if (YES.indexOf(s) !== -1) return 'yes';
@@ -153,6 +182,8 @@
     var cmd = parseCommand(word, opts.lang);
     if (cmd) return { kind: 'command', command: cmd };
     if (!isAlphabetic(word)) return { kind: 'invalid', reason: 'alpha', word: word, got: letterCount(word) };
+    // Korean: the letters must make whole syllables, as a word is written (ㅏㅏ or ㅅㅅ is not a try)
+    if (opts.lang === 'ko' && !hangul().wellFormed(word)) return { kind: 'invalid', reason: 'hangul', word: word, got: letterCount(word) };
     var n = letterCount(word);
     if (n !== opts.length) return { kind: 'invalid', reason: 'length', word: word, got: n };
     if (opts.isKnownWord && !opts.isKnownWord(word)) return { kind: 'invalid', reason: 'vocab', word: word, got: n };
@@ -199,6 +230,9 @@
     var r = Math.pow(a.low.score / a.high.score, 1 / (a.low.attempt - a.high.attempt));
     var n = attempts;
     if (SCORING.capAtHighAnchor && n < a.high.attempt) n = a.high.attempt;
+    // Fewer tries than the high anchor (often luck): +5 % per try instead of doubling, so the very
+    // best game stays near 1,000,000 points even at the hardest mode.
+    if (n < a.high.attempt) return Math.round(a.high.score * (1 + SCORING.fasterTryBonus * (a.high.attempt - n)));
     var value = Math.round(a.high.score * Math.pow(r, n - a.high.attempt));
     return Math.max(SCORING.minimumWinScore, value);
   }
@@ -209,10 +243,25 @@
     return Math.round(base * factor);
   }
 
-  function computeScore(length, attempts, seconds) {
+  /**
+   * The score of a win: { base, bonus (speed), mode, extra (difficulty points), total }.
+   * total = (base + bonus) x the mode's factor. server/worker.js computes exactly the same.
+   */
+  function computeScore(length, attempts, seconds, mode) {
     var base = baseScore(length, attempts);
     var bonus = timeBonus(length, base, seconds);
-    return { base: base, bonus: bonus, total: base + bonus };
+    var m = Number(mode) || 0;
+    var total = Math.round((base + bonus) * modeFactor(m));
+    return { base: base, bonus: bonus, mode: m, extra: total - base - bonus, total: total };
+  }
+
+  /**
+   * A word as players read it (1.11): Korean letters put back together into syllables
+   * (ㅅㅏㄱㅗㅏ -> 사과); every other language unchanged (the screens add capitals).
+   */
+  function display(word, lang) {
+    var w = String(word == null ? '' : word);
+    return lang === 'ko' || (!lang && hangul() && /[\u3131-\u318E]/.test(w)) ? hangul().compose(w) : w;
   }
 
   /** Thousands separators, e.g. 40,000 (FR-SCORE-001). */
@@ -225,8 +274,9 @@
   }
 
   /* ----------------------------------------------------------- rounds --- */
-  function createRound(secret, length, lang, now) {
+  function createRound(secret, length, lang, now, mode) {
     return {
+      mode: Number(mode) || 0,   // difficulty bits (MODE), fixed when the game starts
       secret: normalize(secret, lang),
       length: length,
       lang: lang,
@@ -253,7 +303,7 @@
     if (won) {
       round.status = 'won';
       round.endedAt = now;
-      round.score = computeScore(round.length, scoreTries(round), elapsedSeconds(round, now));
+      round.score = computeScore(round.length, scoreTries(round), elapsedSeconds(round, now), round.mode);
     }
     return { attempt: round.guesses.length, feedback: feedback, won: won };
   }
@@ -333,7 +383,11 @@
     commandLists: commandLists,
     SCORE_ANCHORS: SCORE_ANCHORS,
     SCORING: SCORING,
+    MODE: MODE,
+    MODE_FACTORS: MODE_FACTORS,
+    modeFactor: modeFactor,
     normalize: normalize,
+    display: display,
     letters: letters,
     letterCount: letterCount,
     isAlphabetic: isAlphabetic,

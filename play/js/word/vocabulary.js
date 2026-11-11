@@ -48,8 +48,8 @@
 
   /**
    * A large sorted word list: for each length one string of all its words back to back.
-   * Every letter used (a-z, ë, ç, č, ć, đ, š, ž, ä, ö, ü, ß, ñ, ğ, ı, ş) is a single UTF-16 unit, so word i of
-   * length n starts at i * n.
+   * Every letter used (a-z, ë, ç, č, ć, đ, š, ž, ä, ö, ü, ß, ñ, ğ, ı, ş, Arabic, and the Korean letters
+   * ㄱ … ㅣ of www/words/ko-*.txt) is a single UTF-16 unit, so word i of length n starts at i * n.
    */
   function PackedList(text) {
     var groups = {};
@@ -97,7 +97,8 @@
     this.countsFile = options.countsFile || null;   // words/counts.json: sizes before loading
     this.counts = null;
     this.files = options.files || { en: 'WordsEng.txt', sq: 'WordsAlb.txt', bs: 'WordsBos.txt', de: 'WordsDeu.txt',
-      es: 'WordsSpa.txt', fr: 'WordsFra.txt', tr: 'WordsTur.txt', pl: 'WordsPol.txt', pt: 'WordsPor.txt', ar: 'WordsAra.txt' };
+      es: 'WordsSpa.txt', fr: 'WordsFra.txt', tr: 'WordsTur.txt', pl: 'WordsPol.txt', pt: 'WordsPor.txt', ar: 'WordsAra.txt',
+      ko: 'WordsKor.txt' };
     this.embedded = options.embedded || (root.MBG && root.MBG.EMBEDDED_WORDS) || null;
     this.fetchFn = options.fetchFn || (typeof fetch === 'function' ? fetch.bind(root) : null);
     this.allowFetch = options.allowFetch !== false;

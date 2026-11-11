@@ -1,19 +1,29 @@
 /*!
  * MBG Puzzles - the daily puzzles (no screen code in this file).
  *
- * Every day there is one number of the day (Codebreaker, 4 digits) and one word of the day per
- * language (Word Puzzle, 5 letters; Arabic 4). Everybody gets the same puzzle on the same day:
- * the phone works it out from the date, without asking a server.
+ * Every day there is one number of the day (Codebreaker) and one word of the day per language
+ * (Word Puzzle). Everybody gets the same puzzle on the same day: the phone works it out from the
+ * date, without asking a server.
+ *  - Lengths (version 1.8): up to day VAR_FROM - 1 the number had 4 digits and the word 5 letters
+ *    (Arabic 4). From day VAR_FROM (9 November 2026) every day has its own lengths, the same for
+ *    everyone: the number 4 to 8 digits, the word 4 to 8 letters (the same length in every
+ *    language that day; Arabic 4 to 6, because Arabic has few longer everyday words). The two
+ *    lengths are drawn separately, so a day can have 6 digits and 4 letters.
  *  - A new day starts at midnight on the player's phone (local time). Puzzle no. 1 was
  *    1 October 2026; the number of today's puzzle is shown with it (#12 ...).
- *  - The number of a day comes from a fixed formula, the word of a day from the fixed list in
- *    js/app/daily-words.js. Neither may ever change for a past day.
+ *  - The number of a day comes from a fixed formula, the word of a day from the fixed lists in
+ *    js/app/daily-words.js (the 5-letter words, Arabic 4) and js/app/daily-words-more.js (the other
+ *    lengths, version 1.8). Neither may ever change for a past day - nor VAR_FROM, once a version
+ *    with it is published. The server (server/worker.js) uses this same file and the same lists.
  *  - Each daily puzzle can be played once. It is free for everyone, also in the paid edition,
  *    and does not use the free game of the day.
- *  - What a player did with today's puzzles (the board, solved or not) is kept on the phone, so
- *    closing the app does not give a second try.
- *  - Reward: a solved puzzle of the day gives REWARD hint credits, once per game and day (also
- *    playing as Anonymous); days in a row give a bonus at 3, 7, 14 and 30 days, then every 30.
+ *  - Each player has their own puzzles of the day: Anonymous, every name on the phone and every
+ *    MBG account (its username). What a player did with today's puzzles (the board, solved or
+ *    not) is kept on the phone under that player, so closing the app does not give a second try,
+ *    but another player on the same phone can still play today's puzzles.
+ *  - Reward: a solved puzzle of the day gives REWARD hint credit(s), once per game, day and player;
+ *    days in a row give a bonus at 3, 7, 14 and 30 days, then every 30 (version 1.7: about half
+ *    of before - 1 credit a puzzle instead of 2; bonuses 1, 3, 7, 15, then 15 every 30 days).
  *
  * Runs in the browser (window.MBG.Daily) and in Node.js (require) for the tests.
  */
@@ -28,21 +38,23 @@
   var DAY = 24 * 60 * 60 * 1000;
   var START = '2026-10-01';
   var EPOCH = Date.UTC(2026, 9, 1);          // puzzle no. 1
-  var CODE_LENGTH = 4;
+  var CODE_LENGTH = 4;                       // the number of the day before VAR_FROM
+  var VAR_FROM = 40;                         // 2026-11-09: from this day on the lengths change every day
   var KEY = 'MBG.App.daily';
   var KEEP_DAYS = 800;                       // results kept for the daily streaks
-  var REWARD = 2;                            // hint credits for a solved puzzle of the day
-  var BONUS = [[3, 3], [7, 7], [14, 14], [30, 30]];   // [days in a row, bonus credits]; then +30 every 30 days
+  var REWARD = 1;                            // hint credits for a solved puzzle of the day (1.6: 2)
+  var BONUS = [[3, 1], [7, 3], [14, 7], [30, 15]];    // [days in a row, bonus credits] (1.6: 3, 7, 14, 30)
+  var REPEAT = { every: 30, credits: 15 };           // after 30 days: +15 every 30 days (1.6: +30)
 
   /** Bonus credits for reaching a streak of `days` (0 when that day is no milestone). */
   function streakBonus(days) {
     for (var i = 0; i < BONUS.length; i++) if (BONUS[i][0] === days) return BONUS[i][1];
-    return days > 30 && days % 30 === 0 ? 30 : 0;
+    return days > REPEAT.every && days % REPEAT.every === 0 ? REPEAT.credits : 0;
   }
   /** The next milestone after a streak of `days`: { days, credits }. */
   function nextBonus(days) {
     for (var i = 0; i < BONUS.length; i++) if (BONUS[i][0] > days) return { days: BONUS[i][0], credits: BONUS[i][1] };
-    return { days: (Math.floor(days / 30) + 1) * 30, credits: 30 };
+    return { days: (Math.floor(days / REPEAT.every) + 1) * REPEAT.every, credits: REPEAT.credits };
   }
 
   /** The number of the day's puzzle on the phone's own calendar (local midnight to midnight). */
@@ -57,8 +69,14 @@
   }
   /** The server's idea of the puzzle number (UTC); a phone may be a day ahead or behind. */
   function utcDayNumber(ms) { return Math.floor(((ms == null ? Date.now() : ms) - EPOCH) / DAY) + 1; }
+  /** The calendar date of puzzle n: 'YYYY-MM-DD'. */
+  function dateOf(n) { return new Date(EPOCH + (n - 1) * DAY).toISOString().slice(0, 10); }
+  /** True once day n is over everywhere on Earth (the last time zone, UTC-12, has passed its
+   *  midnight): only then may the answer of that day be shown to everyone (version 1.8). */
+  function ended(n, ms) { return (ms == null ? Date.now() : ms) >= EPOCH + n * DAY + 12 * 3600000; }
 
-  function wordLength(lang) { return lang === 'ar' ? 4 : 5; }
+  /** The word length of the lists in daily-words.js (and of every day before VAR_FROM). */
+  function baseWordLength(lang) { return lang === 'ar' ? 4 : 5; }
 
   /** Small seeded generator (mulberry32). */
   function rng(seed) {
@@ -69,12 +87,37 @@
       return ((t ^ t >>> 14) >>> 0) / 4294967296;
     };
   }
-  /** The number of the day n: 4 digits (they may repeat), the same on every phone, forever. */
+  /** True when day n has the changing lengths of version 1.8. */
+  function variable(n) { return Number(n) >= VAR_FROM; }
+  /** The lengths of day n (from VAR_FROM): { code: 4-8, word: 4-8, ar: 4-6 }, the same on every phone. */
+  var lengthCache = {};
+  function lengthsOf(n) {
+    n = Number(n) | 0;
+    if (!lengthCache[n]) {
+      var r = rng(Math.imul(n, 0x9E3779B1) ^ 0x4C454E47);
+      r(); r();
+      lengthCache[n] = { code: 4 + Math.floor(r() * 5), word: 4 + Math.floor(r() * 5), ar: 4 + Math.floor(r() * 3) };
+    }
+    return lengthCache[n];
+  }
+  /** Digits of the number of day n (4 before VAR_FROM, then 4 to 8). n missing: today. */
+  function codeLength(n) {
+    if (n == null) n = dayNumber();
+    return variable(n) ? lengthsOf(n).code : CODE_LENGTH;
+  }
+  /** Letters of the word of day n in a language (5, Arabic 4, before VAR_FROM; then 4 to 8, Arabic
+   *  4 to 6). Without n: the length of the old lists in daily-words.js (used by its builder). */
+  function wordLength(lang, n) {
+    if (n == null || !variable(n)) return baseWordLength(lang);
+    var l = lengthsOf(n);
+    return lang === 'ar' ? l.ar : l.word;
+  }
+  /** The number of the day n: its digits may repeat; the same on every phone, forever. */
   function codeFor(n) {
     var r = rng(Math.imul(n | 0, 2654435761) ^ 0x4D424750);
     r(); r();                                  // the first values of a fresh seed are less mixed
-    var s = '';
-    for (var i = 0; i < CODE_LENGTH; i++) s += String(Math.floor(r() * 10));
+    var s = '', len = codeLength(n);
+    for (var i = 0; i < len; i++) s += String(Math.floor(r() * 10));
     return s;
   }
 
@@ -86,19 +129,71 @@
     }
     return lists[lang].words;
   }
-  /** The word of the day n in a language (null when the list is missing). After the list's last
-   *  day it starts again from the top. */
-  function wordFor(lang, n, table) {
-    var w = wordList(lang, table);
+  var moreLists = {};
+  function moreList(lang, len, more) {
+    more = more || (root.MBG && root.MBG.DailyWordsMore) || {};
+    var src = more[lang] && more[lang][len];
+    var k = lang + len;
+    if (!moreLists[k] || moreLists[k].src !== src) moreLists[k] = { src: src, words: String(src || '').split(/\s+/).filter(Boolean) };
+    return moreLists[k].words;
+  }
+  /** How many days from VAR_FROM up to (not including) day n have a word of the same length in lang. */
+  function sameBefore(lang, n) {
+    var len = wordLength(lang, n), k = 0;
+    for (var d = VAR_FROM; d < n; d++) if (wordLength(lang, d) === len) k++;
+    return k;
+  }
+  /**
+   * The word of the day n in a language (null when the list is missing).
+   *  - Before VAR_FROM: word n of daily-words.js (after the list's last day it starts again).
+   *  - From VAR_FROM: the k-th day with a word of that length takes the next word of that length:
+   *    5 letters (Arabic 4) go on in daily-words.js after the words of the days before VAR_FROM;
+   *    the other lengths come from daily-words-more.js. A list that is used up starts again.
+   * table / more: the lists (default: MBG.DailyWords / MBG.DailyWordsMore).
+   */
+  function wordFor(lang, n, table, more) {
+    var w, i;
+    if (!variable(n)) {
+      w = wordList(lang, table);
+      if (!w.length) return null;
+      i = ((n - 1) % w.length + w.length) % w.length;
+      return w[i];
+    }
+    var len = wordLength(lang, n), k = sameBefore(lang, n);
+    if (len === baseWordLength(lang)) { w = wordList(lang, table); i = VAR_FROM - 1 + k; }
+    else { w = moreList(lang, len, more); i = k; }
     if (!w.length) return null;
-    var i = ((n - 1) % w.length + w.length) % w.length;
-    return w[i];
+    return w[i % w.length];
+  }
+
+  /**
+   * The storage key of a player's puzzles of the day. Anonymous (and "play without saving") keep
+   * the original key MBG.App.daily; a name or account: MBG.App.daily.u:<name in lower case>.
+   * user: { mode: 'anonymous'|'registered'|'nodata', name } or a plain name.
+   */
+  function keyFor(user) {
+    var name = typeof user === 'string' ? user : (user && user.mode === 'registered' ? user.name : '');
+    name = String(name || '').normalize('NFC').trim().toLowerCase();
+    return name && name !== 'anonymous' ? KEY + '.u:' + name : KEY;
+  }
+  /** All players' keys of puzzles of the day saved in a storage (for "Move to a new phone"). */
+  function allKeys(storage) {
+    var out = [];
+    try {
+      if (typeof storage.length === 'number' && typeof storage.key === 'function') {
+        for (var i = 0; i < storage.length; i++) { var k = storage.key(i); if (k === KEY || (k && k.indexOf(KEY + '.u:') === 0)) out.push(k); }
+      } else if (storage._d) {
+        Object.keys(storage._d).forEach(function (k) { if (k === KEY || k.indexOf(KEY + '.u:') === 0) out.push(k); });
+      }
+    } catch (e) { /* ignore */ }
+    return out;
   }
 
   /** "game:lang" key of a daily puzzle: 'codebreaker' or 'word:en'. */
   function slot(game, lang) { return game === 'word' ? 'word:' + lang : game; }
 
   /* ------------------------------------------------------------ the store --- */
+  // One store per player (keyFor):
   // { v: 1, cur: { slot: { n, lang, length, round, history, done, won } },
   //   hist: { codebreaker: { n: 1 (solved) | 0 (not solved) }, word: { n: 1 | 0 } } }
   function DailyStore(storage, key, now) {
@@ -219,10 +314,11 @@
   }
 
   return {
-    DAY: DAY, START: START, EPOCH: EPOCH, CODE_LENGTH: CODE_LENGTH, KEY: KEY,
-    dayNumber: dayNumber, msUntilNext: msUntilNext, utcDayNumber: utcDayNumber,
-    wordLength: wordLength, codeFor: codeFor, wordFor: wordFor, wordList: wordList, slot: slot,
+    DAY: DAY, START: START, EPOCH: EPOCH, CODE_LENGTH: CODE_LENGTH, VAR_FROM: VAR_FROM, KEY: KEY,
+    dayNumber: dayNumber, msUntilNext: msUntilNext, utcDayNumber: utcDayNumber, keyFor: keyFor, allKeys: allKeys,
+    wordLength: wordLength, baseWordLength: baseWordLength, codeLength: codeLength, variable: variable,
+    codeFor: codeFor, wordFor: wordFor, wordList: wordList, slot: slot, dateOf: dateOf, ended: ended,
     DailyStore: DailyStore, grid: grid, clock: clock,
-    REWARD: REWARD, BONUS: BONUS, streakBonus: streakBonus, nextBonus: nextBonus
+    REWARD: REWARD, BONUS: BONUS, REPEAT: REPEAT, streakBonus: streakBonus, nextBonus: nextBonus
   };
 });
