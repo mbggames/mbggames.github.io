@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Who Am I? · MBG Games</title>
+<meta name="theme-color" content="#E6EBEF">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="icons/favicon.png" type="image/png">
+<link rel="stylesheet" href="css/game.css">
+<link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="css/whoami.css">
+<link rel="stylesheet" href="css/daily.css">
+</head>
+<body class="game-page">
+<div class="app who-app" id="app">
+  <header class="topbar">
+    <button type="button" class="brand homebtn" id="btnHome">
+      <svg class="back" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+      <span class="mark" aria-hidden="true"><span class="mt o">M</span><span class="mt q">B</span><span class="mt x">G</span></span>
+    </button>
+    <div class="roundchip" id="roundChip"></div>
+    <div class="tools">
+      <button type="button" class="ib bell" id="btnBell"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16.5V11a6 6 0 1 1 12 0v5.5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg><span class="badge-n" id="bellN" hidden></span></button>
+      <button type="button" class="ib ib-sound" id="btnSound"></button>
+      <button type="button" class="ib" id="btnHelp"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 1 1 3.6 2.3c-.8.4-1.2.9-1.2 1.8v.4"/><circle class="fill" cx="12" cy="16.9" r="1.1"/></svg></button>
+      <button type="button" class="ib" id="btnSettings"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 13.5l1.6 1.2-1.8 3.1-1.9-.7a7.6 7.6 0 0 1-2 1.2l-.3 2h-3.6l-.3-2a7.6 7.6 0 0 1-2-1.2l-1.9.7L3 14.7l1.6-1.2a7.7 7.7 0 0 1 0-3L3 9.3l1.8-3.1 1.9.7a7.6 7.6 0 0 1 2-1.2l.3-2h3.6l.3 2a7.6 7.6 0 0 1 2 1.2l1.9-.7L21 9.3l-1.6 1.2a7.7 7.7 0 0 1 0 3z"/></svg></button>
+    </div>
+  </header>
+
+  <section class="scorebar" id="scorebar" aria-live="off">
+    <div class="pl" id="plA"></div>
+    <div class="clock" id="clockBox">
+      <svg viewBox="0 0 44 44" aria-hidden="true"><circle class="ring-bg" cx="22" cy="22" r="19"/><circle class="ring" id="ring" cx="22" cy="22" r="19"/></svg>
+      <span class="clock-t num" id="clock">3:00</span>
+    </div>
+    <div class="pl right" id="plB"></div>
+  </section>
+  <div class="extras" id="extras">
+    <button type="button" class="dailypill" id="dailyPill" hidden></button>
+    <div class="plmore" id="plMore" hidden></div>
+    <div class="searchbanner" id="searchBanner" hidden></div>
+    <div class="reqbar" id="reqBar" hidden></div>
+  </div>
+
+  <section class="stage" id="stage">
+    <div class="fcard big" id="card">
+      <div class="fc-inner">
+        <div class="fc-face fc-hidden">
+          <span class="fc-mode" id="cardIcon">👤</span>
+          <span class="fc-q">?</span>
+          <span class="fc-cat" id="cardCat"></span>
+        </div>
+        <div class="fc-face fc-open">
+          <span class="fc-cat" id="cardCat2"></span>
+          <strong class="fc-name" id="cardName"></strong>
+          <span class="fc-facts" id="cardFacts"></span>
+        </div>
+      </div>
+    </div>
+    <div class="meters">
+      <div class="pips" id="pips" aria-hidden="true"></div>
+      <div class="meter-text" id="meterText"></div>
+      <div class="hintline" id="hintLine" hidden></div>
+    </div>
+  </section>
+
+  <section class="qlog" id="qlog">
+    <div class="history" id="history" tabindex="-1"><ol class="log" id="log"></ol>
+      <div class="qempty" id="qempty"></div>
+    </div>
+  </section>
+
+  <div class="chips-row" id="chips"></div>
+
+  <form class="entryrow" id="askForm" autocomplete="off">
+    <div class="field"><input id="q" type="text" maxlength="200" enterkeyhint="send" spellcheck="true"><button type="button" class="micbtn" id="btnMic" hidden aria-pressed="false">🎤</button></div>
+    <button type="submit" class="btn submit" id="btnAsk"></button>
+  </form>
+
+  <div class="respond" id="respondPad" hidden>
+    <p class="rp-q" id="rpQ"></p>
+    <p class="rp-hint" id="rpHint" hidden></p>
+    <div class="rp-btns">
+      <button type="button" class="rbtn r-yes" data-code="YES"></button>
+      <button type="button" class="rbtn r-no" data-code="NO"></button>
+      <button type="button" class="rbtn r-both" data-code="BOTH"></button>
+      <button type="button" class="rbtn r-unknown" data-code="UNKNOWN"></button>
+    </div>
+    <button type="button" class="linkbtn" id="btnInvalid"></button>
+  </div>
+  <p class="waitline" id="waitLine" hidden></p>
+  <div class="watchbar" id="watchBar" hidden></div>
+
+  <div class="actions" id="actions">
+    <button type="button" class="btn reveal" id="btnHint"></button>
+    <button type="button" class="btn quit" id="btnChat"><span id="lblChat"></span><span class="badge-n" id="chatN" hidden></span></button>
+    <button type="button" class="btn reveal boost" id="btnBoost" hidden>⚡</button>
+    <span class="grow"></span>
+    <button type="button" class="btn submit guess" id="btnGuess"></button>
+  </div>
+  <p class="sigline">Who Am I? · MBG · Merkur Beqiri Games</p>
+  <div class="reactlayer" id="reactLayer" aria-hidden="true"></div>
+</div>
+
+<div class="loading" id="loading">
+  <div class="ld-inner">
+    <div class="fcard spin"><span>?</span></div>
+    <h2 id="ldTitle"></h2>
+    <p id="ldText"></p>
+    <div class="ld-wait" id="ldWait" hidden>
+      <span class="ld-pill" role="status" aria-live="polite"><span class="ld-hour">⏳</span> <b id="ldWord"></b><span class="ld-dots"><i>.</i><i>.</i><i>.</i></span></span>
+      <div class="ld-bar"><i id="ldBar"></i></div>
+      <p class="ld-tip" id="ldTip"></p>
+      <p class="ld-secs" id="ldSecs"></p>
+    </div>
+    <div class="ld-extra" id="ldExtra"></div>
+    <button type="button" class="btn ghost" id="ldBack"></button>
+  </div>
+</div>
+<canvas class="confetti" id="confetti" aria-hidden="true"></canvas>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+<script src="js/vendor/capacitor.js"></script>
+<script src="js/vendor/capacitor-app.js"></script>
+<script src="js/vendor/native-purchases.js"></script>
+<script src="js/platform/config.js"></script>
+<script src="js/app/i18n.js"></script>
+<script src="js/app/shell.js"></script>
+<script src="js/app/intro.js"></script>
+<script src="js/app/plans.js"></script>
+<script src="js/app/billing.js"></script>
+<script src="js/app/shop.js"></script>
+<script src="js/app/flags.js"></script>
+<script src="js/app/langmenu.js"></script>
+<script src="js/app/audio.js"></script>
+<script src="js/app/voice.js"></script>
+<script src="js/whoami/text.js"></script>
+<script src="js/whoami/lexicon.js"></script>
+<script src="js/whoami/questions.js"></script>
+<script src="js/whoami/categories.js"></script>
+<script src="js/whoami/deck.js"></script>
+<script src="js/whoami/discovery.js"></script>
+<script src="js/whoami/daily.js"></script>
+<script src="js/whoami/engine.js"></script>
+<script src="js/whoami/picture.js"></script>
+<script src="js/whoami/bot.js"></script>
+<script src="js/whoami/facts.js"></script>
+<script src="js/whoami/glicko2.js"></script>
+<script src="js/whoami/stats.js"></script>
+<script src="js/platform/net.js"></script>
+<script src="js/platform/account.js"></script>
+<script src="js/platform/notify.js"></script>
+<script src="js/platform/ratings.js"></script>
+<script src="js/platform/judge.js"></script>
+<script src="js/whoami/setup.js"></script>
+<script src="js/app/daily-ui.js"></script>
+<script src="js/whoami/transport.js"></script>
+<script src="js/whoami/play.js"></script>
+</body>
+</html>

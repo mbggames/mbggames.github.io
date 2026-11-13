@@ -1,0 +1,94 @@
+/*!
+ * MBG Who Am I? - the puzzles of the day (0.9.9): the card on the front page, the leaderboard of
+ * the day, the corner of the setup, the corner of the game screen and the line in the result.
+ * The colour is the colour of the question word (--mode, whoami.css); every theme works.
+ */
+
+/* ------------------------------------------------------------ the card --- */
+.dailycard {
+  position: relative; display: grid; gap: 12px; padding: 16px; border-radius: 22px; overflow: hidden;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--mode) 22%, var(--card)) 0%, var(--card) 62%);
+  border: 1.5px solid color-mix(in srgb, var(--mode) 45%, var(--line));
+  box-shadow: 0 10px 26px -18px color-mix(in srgb, var(--mode) 80%, transparent);
+}
+.dailycard[hidden] { display: none; }
+.dailycard::after {
+  /* a calendar page in the corner */
+  content: ''; position: absolute; top: -18px; inset-inline-end: -18px; width: 74px; height: 74px; border-radius: 18px;
+  background: color-mix(in srgb, var(--mode) 18%, transparent); transform: rotate(14deg); pointer-events: none;
+}
+.dc-top { position: relative; z-index: 1; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 10px; }
+.dc-kicker { font-size: .74em; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: color-mix(in srgb, var(--mode) 75%, var(--ink)); }
+.dc-left { font-size: .78em; font-weight: 700; color: var(--muted); white-space: nowrap; }
+.dc-main { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.dc-tiles .mt { width: 26px; height: 30px; font-size: 14px; }
+.dc-tiles .mt:last-child { background: var(--mode); color: var(--on-mode); }
+.dc-t { display: grid; gap: 3px; min-width: 0; }
+.dc-t h2 { margin: 0; font: 700 1.35em/1.15 var(--font-display); }
+.dc-rules { margin: 0; color: var(--muted); font-size: .84em; line-height: 1.4; }
+.dc-done { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-weight: 700; }
+.dc-tick { display: inline-grid; place-items: center; width: 1.5em; height: 1.5em; border-radius: 50%; background: var(--yes, #2e9e5b); color: #fff; font-size: .8em; }
+.dc-place { color: var(--muted); font-weight: 600; }
+.dc-play { width: 100%; border-radius: 14px; min-height: 52px; font-size: 1.02em; }
+.dailycard .btn.submit.dc-play { background: var(--mode); border-color: var(--mode); color: var(--on-mode); }
+.dc-more { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.dc-also { color: var(--muted); font-size: .82em; font-weight: 700; margin-inline-end: 2px; }
+.dc-chip {
+  display: inline-flex; align-items: center; gap: 5px; min-height: 36px; padding: 4px 12px; border-radius: 999px;
+  border: 1.5px solid color-mix(in srgb, var(--mode) 55%, var(--line)); background: var(--card); color: var(--ink); font: 700 .86em/1 var(--font-body); cursor: pointer;
+}
+.dc-chip.done { background: color-mix(in srgb, var(--mode) 14%, var(--card)); }
+.dc-chip .dc-tick { width: 1.35em; height: 1.35em; }
+.dc-chip:focus-visible, .dc-play:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.dc-board { justify-self: start; border-radius: 12px; }
+.dailycard.in-sheet { margin: 4px 0 12px; }
+.dailycard.in-sheet::after { display: none; }
+
+/* -------------------------------------------- the leaderboard of the day --- */
+.dl-seg .seg-btn { display: grid; justify-items: center; gap: 1px; padding: 6px 2px; min-width: 0; font-size: .78em; line-height: 1.15; }
+.dl-seg .dl-ic { font-size: 1.25em; }
+.dl-seg .dl-w { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dl-list { margin-top: 4px; }
+.dl-empty { list-style: none; padding: 14px; border-radius: 14px; border: 1px dashed var(--line); color: var(--muted); text-align: center; }
+.dl-note { margin: 10px 2px 0; }
+
+/* ------------------------------------------------ "Explore more" corner --- */
+.modecard { position: relative; }
+.modecard > strong { padding-inline-end: 46px; }
+.mc-daily {
+  position: absolute; top: 8px; inset-inline-end: 8px; padding: 2px 7px; border-radius: 999px; font-size: .78em; font-weight: 800;
+  background: color-mix(in srgb, var(--mode) 16%, var(--card)); color: var(--ink); line-height: 1.5;
+}
+.mc-daily.done { background: var(--mode); color: var(--on-mode); }
+
+/* -------------------------------------------------- the corner of the setup --- */
+.dailybanner {
+  display: flex; align-items: center; gap: 10px; margin-top: 10px; padding: 8px 8px 8px 12px; border-radius: 14px;
+  background: color-mix(in srgb, var(--mode) 13%, var(--card)); border: 1.5px dashed color-mix(in srgb, var(--mode) 60%, var(--line));
+}
+.db-t { display: grid; gap: 1px; flex: 1; min-width: 0; padding: 0; border: 0; background: none; color: var(--ink); font: inherit; text-align: start; cursor: pointer; }
+.db-t strong { font-size: .9em; }
+.db-t span { color: var(--muted); font-size: .78em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dailybanner .btn.submit { background: var(--mode); border-color: var(--mode); color: var(--on-mode); }
+.dailybanner .btn { flex: none; border-radius: 12px; }
+
+/* --------------------------------------------- the corner of the game screen --- */
+.dailypill {
+  justify-self: end; display: inline-flex; align-items: center; gap: 4px; padding: 4px 11px; border-radius: 999px;
+  border: 1.5px solid color-mix(in srgb, var(--mode) 55%, var(--line)); background: var(--card); color: var(--ink);
+  font: 700 .76em/1.3 var(--font-body); white-space: nowrap; cursor: pointer;
+}
+.dailypill[hidden] { display: none; }
+.dailypill.on { background: var(--mode); border-color: var(--mode); color: var(--on-mode); cursor: default; opacity: 1; }
+.dailypill:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+/* ----------------------------------------------------- the result sheet --- */
+.dailyres {
+  display: grid; gap: 4px; justify-items: start; margin: 0 0 12px; padding: 12px 14px; border-radius: 14px;
+  background: color-mix(in srgb, var(--mode) 13%, var(--card)); border-inline-start: 5px solid var(--mode);
+}
+.dailyres p { margin: 0; }
+.dailyres .dr-place { font-weight: 700; }
+.dailyres .dr-place:empty { display: none; }
+.dailyres .btn { margin-top: 4px; }
