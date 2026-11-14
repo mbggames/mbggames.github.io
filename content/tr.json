@@ -221,12 +221,12 @@
       },
       {
         "q": "Gerçekten ücretsiz mi?",
-        "a": "Evet. Bu sitedeki web sürümü ücretsiz. Google Play’de çıkışta tam uygulama yaklaşık ilk ay ücretsiz ve reklamsız olacak; sonrasında ücretli sürüm gelecek."
+        "a": "Evet! MBG Puzzles artık Google Play’de. Android uygulamasının tam sürümü yaklaşık bir aylık lansman fırsatımız boyunca reklamsız ve sınırsız ücretsiz. Web önizlemesi de ücretsiz."
       },
       {
         "q": "Nereden indirebilirim?",
         "a_soon": "MBG Puzzles kapalı testi geçti ve Google tarafından inceleniyor; çok yakında Android telefon ve tabletler için Google Play’de olacak. O zamana kadar bu sitede tarayıcında oynayabilirsin. Henüz iPhone sürümü yok.",
-        "a_live": "[Google Play](play)’den, Android telefon ve tabletler için. Henüz iPhone sürümü yok."
+        "a_live": "Android telefon ve tabletler için şimdi [Google Play](play)’den indir. iOS sürümünü hazırlıyoruz."
       },
       {
         "q": "Kelimeyi Bul, Wordle gibi mi?",
@@ -293,9 +293,9 @@
     "email": "E-posta gönder"
   },
   "launch": {
-    "title": "Çok yakında Google Play’de",
-    "p1": "Başarılı bir kapalı testin ardından MBG Puzzles şimdi Google tarafından inceleniyor. Ardından Google Play’de tüm dünyada, 11 dilde yayında olacak: {langs}.",
-    "p2": "O zamana kadar burada, tarayıcında oyna. Bu web sürümü yalnızca sınırlı bir süre için var.",
-    "p3": "Çıkışta tam uygulama yaklaşık ilk ay ücretsiz – sonrasında ücretli sürüm gelecek. İlklerden ol!"
+    "title": "MBG Puzzles artık Google Play’de!",
+    "p1": "Başarılı alfa testlerinin ardından Google, MBG Puzzles’ın yayımlanmasını onayladı. Uygulama artık Google Play’de 11 dilde mevcut: {langs}.",
+    "p2": "Android uygulamasının tam sürümünü bugün indir ve yaklaşık bir ay sürecek lansman fırsatımız boyunca reklamsız ve sınırsız ücretsiz oyna.",
+    "p3": "Bu arada iOS sürümünü hazırlıyoruz. Sen de ilk oyunculardan ol ve zekânı konuştur!"
   }
 }

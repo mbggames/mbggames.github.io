@@ -221,12 +221,12 @@
       },
       {
         "q": "C’est vraiment gratuit ?",
-        "a": "Oui. La version web de ce site est gratuite. Au lancement sur Google Play, l’appli complète sera gratuite pendant environ le premier mois, sans pub ; ensuite, une version payante suivra."
+        "a": "Oui ! MBG Puzzles est maintenant sur Google Play. L’application Android complète est gratuite pendant notre offre de lancement d’environ un mois, sans publicité ni limites. La version web est aussi gratuite."
       },
       {
         "q": "Où la télécharger ?",
         "a_soon": "MBG Puzzles a réussi son test fermé et est en cours d’examen par Google ; l’appli arrive très bientôt sur Google Play, pour téléphones et tablettes Android. D’ici là, tu peux jouer dans ton navigateur sur ce site. Il n’y a pas encore de version iPhone.",
-        "a_live": "Sur [Google Play](play), pour téléphones et tablettes Android. Il n’y a pas encore de version iPhone."
+        "a_live": "Télécharge-la maintenant sur [Google Play](play) pour téléphones et tablettes Android. Nous préparons la version iOS."
       },
       {
         "q": "Devine le mot ressemble-t-il à Wordle ?",
@@ -293,9 +293,9 @@
     "email": "Écrire par e-mail"
   },
   "launch": {
-    "title": "Bientôt sur Google Play",
-    "p1": "Après un test fermé réussi, MBG Puzzles est maintenant en cours d’examen par Google. Ensuite, l’appli sera disponible dans le monde entier sur Google Play, en 11 langues : {langs}.",
-    "p2": "D’ici là, joue ici dans ton navigateur. Cette version web n’est disponible que pour une durée limitée.",
-    "p3": "Au lancement, l’appli complète est gratuite pendant environ le premier mois – ensuite, une version payante suivra. Sois parmi les premiers !"
+    "title": "MBG Puzzles est maintenant sur Google Play !",
+    "p1": "Après une phase de test alpha réussie, Google a approuvé la publication de MBG Puzzles. L’application est désormais disponible sur Google Play en 11 langues : {langs}.",
+    "p2": "Télécharge dès aujourd’hui l’application Android complète et joue gratuitement pendant notre offre de lancement d’environ un mois, sans publicité ni limites.",
+    "p3": "Pendant ce temps, nous préparons la version iOS. Rejoins-nous dès le lancement et fais travailler tes méninges !"
   }
 }

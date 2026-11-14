@@ -17,7 +17,7 @@
   // Web preview on mbggames.com/puzzles/play/ (see README-preview.txt): puzzles of the day + one
   // free game of each game per day; world top 20 and MBG account as in the app; nothing sold.
   root.MBG.PREVIEW = {
-    playStatus: 'review', // 'review' = in review by Google (no test sign-up) · 'soon' = "Join the test" · 'live' = "Get it on Google Play"
+    playStatus: 'live', // 'review' = in review by Google (no test sign-up) · 'soon' = "Join the test" · 'live' = "Get it on Google Play"
     playUrl: 'https://play.google.com/store/apps/details?id=com.mbggames.puzzles',
     testUrl: '',          // '' = testers send their Gmail address first (WhatsApp / e-mail)
     optInUrl: ''   // where added testers register

@@ -365,16 +365,15 @@ class Site:
 </div>'''
 
     def launch_box(self, code, c):
-        """While the app is not public yet: in review by Google, 11 languages, play here meanwhile, free first month."""
-        if self.live or 'launch' not in c:
+        """Public launch announcement in each supported language."""
+        if not self.live or 'launch' not in c:
             return ''
         k = c['launch']
         langs = c['glance']['items'][3][1]
         return f'''<div class="tester launch" id="launch">
-<h3>{ICONS['clock']}{esc(k['title'])}</h3>
+<h3>{ICONS['down']}{esc(k['title'])}</h3>
 <p>{esc(k['p1'].replace('{langs}', langs))}</p>
 <p>{esc(k['p2'])}</p>
-{self.launch_play(code)}
 <p class="early"><b>{esc(k['p3'])}</b></p>
 </div>'''
 
@@ -736,7 +735,7 @@ class Site:
             status = f'<a class="ghost" href="{L(self.puzzles_path(code))}#testers">{ICONS["user"]}{esc(c["test"]["title"])}</a>'
         else:
             status = ''
-        state = c['hero']['live'] if self.live else p['state']
+        state = p['state']
         who_state = w['ready'] if self.whoami_ready() else w['soon']
         facts = lambda xs: ''.join(f'<li>{esc(x)}</li>' for x in xs)
         url = self.hub_url(code)
@@ -787,7 +786,7 @@ class Site:
 <p>{esc(fill(p['text']))}</p>
 <ul class="ticks">{facts(p['facts'])}</ul>
 <p class="hub-state">{esc(state)}</p>
-{'' if self.live or not p.get('early') else '<p class="hub-early">' + esc(p['early']) + '</p>'}
+{'' if not self.live or not p.get('early') else '<p class="hub-early">' + esc(p['early']) + '</p>'}
 <div class="cta-row"><a class="store" href="{L(self.puzzles_path(code))}">{forward}<span><b>{esc(p['open'])}</b></span></a>{play}{status}</div>
 </article>
 <article class="hub-card who">
@@ -900,7 +899,7 @@ class Site:
     def llms(self):
         en = self.content['en']
         H = self.home['en']
-        status = 'free on Google Play' if self.live else ('closed test passed, in review by Google, coming to Google Play worldwide in 11 languages very soon; '
+        status = 'now on Google Play, with a free launch offer for about one month while the iOS version is in development' if self.live else ('closed test passed, in review by Google, coming to Google Play worldwide in 11 languages very soon; '
             'at launch the full app is free for about the first month, then a paid version follows; meanwhile a web preview can be played on the site for a limited time')
         lines = [
             '# MBG Games', '',
@@ -967,7 +966,7 @@ class Site:
             out += [f'- {i["h"]}: {i["p"]}' for i in c['features']['items']]
             out += ['', f'### {c["audience"]["title"]}', '']
             out += [f'- {i["h"]}: {i["p"]}' for i in c['audience']['items']]
-            if not self.live and 'launch' in c:
+            if self.live and 'launch' in c:
                 k = c['launch']
                 out += ['', f'### {k["title"]}', '', k['p1'].replace('{langs}', c['glance']['items'][3][1]), '', k['p2'], '', k['p3']]
             if not self.live and self.cfg.get('testUrl'):

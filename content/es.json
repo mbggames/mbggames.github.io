@@ -221,12 +221,12 @@
       },
       {
         "q": "¿De verdad es gratis?",
-        "a": "Sí. La versión web de este sitio es gratis. Al lanzarse en Google Play, la app completa será gratis durante aproximadamente el primer mes, sin anuncios; después llegará una versión de pago."
+        "a": "¡Sí! MBG Puzzles ya está en Google Play. La app completa para Android es gratis durante nuestra oferta de lanzamiento de aproximadamente un mes, sin anuncios ni límites. La versión web también es gratuita."
       },
       {
         "q": "¿Dónde la descargo?",
         "a_soon": "MBG Puzzles ha superado su prueba cerrada y está en revisión por Google; muy pronto estará en Google Play, para teléfonos y tabletas Android. Mientras tanto, puedes jugar en tu navegador en este sitio. Todavía no hay versión para iPhone.",
-        "a_live": "En [Google Play](play), para teléfonos y tabletas Android. Todavía no hay versión para iPhone."
+        "a_live": "Descárgala ahora en [Google Play](play) para teléfonos y tabletas Android. Estamos preparando la versión para iOS."
       },
       {
         "q": "¿Adivina la palabra es como Wordle?",
@@ -293,9 +293,9 @@
     "email": "Escríbenos por correo"
   },
   "launch": {
-    "title": "Muy pronto en Google Play",
-    "p1": "Tras una prueba cerrada con éxito, MBG Puzzles está ahora en revisión por Google. Después estará disponible en todo el mundo en Google Play, en 11 idiomas: {langs}.",
-    "p2": "Mientras tanto, juega aquí en tu navegador. Esta versión web está disponible solo por tiempo limitado.",
-    "p3": "Al lanzarse, la app completa es gratis durante aproximadamente el primer mes; después llegará una versión de pago. ¡Sé de los primeros!"
+    "title": "¡MBG Puzzles ya está en Google Play!",
+    "p1": "Tras superar con éxito las pruebas alfa, Google ha aprobado el lanzamiento de MBG Puzzles. Ya está disponible en Google Play en 11 idiomas: {langs}.",
+    "p2": "Descarga hoy la aplicación completa para Android y juega gratis durante nuestra oferta de lanzamiento de aproximadamente un mes, sin anuncios ni límites.",
+    "p3": "Mientras tanto, estamos preparando la versión para iOS. ¡Únete al lanzamiento y pon a prueba tu ingenio!"
   }
 }

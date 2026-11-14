@@ -22,8 +22,8 @@ the sitemap, and the home page card says "Play now" instead of "Coming soon".
 
 | What | Where |
 |---|---|
-| Now (November 2026): in review by Google | `"playStatus": "review"` – every page says the app passed its closed test and is in review, lists the 11 languages, invites people to play online meanwhile (for a limited time) and says the full app is free for about the first month after launch, then paid (early bird). No tester box for MBG Puzzles. Who Am I? has its own **Become a tester** box (texts `testTitle`, `testText`, `testMsg` in `content/home.json`). Same value in `play/js/app/edition.js`. |
-| The app is public on Google Play | `"playStatus": "live"` – every page shows "Get it on Google Play" with the link in the page's language; the tester box disappears. Also set `playStatus: 'live'` in `play/js/app/edition.js`. |
+| Now (November 2026): approved and live on Google Play | `"playStatus": "live"` – every page has a Google Play download button; the Google-approved launch message and the roughly one-month free-access offer appear in all 11 languages, while the iOS version is being prepared. Who Am I? still has its separate **Become a tester** box. The web preview also uses `playStatus: 'live'` in `play/js/app/edition.js`. |
+| Google Play direct link | `"playUrl": "https://play.google.com/store/apps/details?id=com.mbggames.puzzles"` – used by the live download buttons across all 11 languages. |
 | Become a tester of MBG Puzzles (closed test – over) | `"testUrl"` = Google Play's opt-in page of the test (now `""`). If set and the app is not live, every page has a **Become a tester** box: 1. send your Gmail address (WhatsApp / e-mail), 2. once added, register on Google Play. `""` = no box. |
 | Play in your browser | `"webPreview": true / false` |
 | Phone / WhatsApp, e-mail | `"phone"`, `"whatsapp"`, `"email"` |

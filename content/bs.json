@@ -221,12 +221,12 @@
       },
       {
         "q": "Je li zaista besplatna?",
-        "a": "Da. Web verzija na ovoj stranici je besplatna. Kad izađe na Google Play, puna aplikacija će biti besplatna otprilike prvi mjesec, bez reklama; nakon toga slijedi plaćena verzija."
+        "a": "Da! MBG Puzzles je sada na Google Playu. Puna Android aplikacija besplatna je tokom naše promotivne ponude od otprilike mjesec dana, bez reklama i ograničenja. Besplatna je i web verzija."
       },
       {
         "q": "Gdje je mogu preuzeti?",
         "a_soon": "MBG Puzzles je prošao zatvoreni test i na pregledu je kod Googlea; vrlo brzo će biti na Google Playu, za Android telefone i tablete. Do tada ga možeš igrati u pregledniku na ovoj stranici. Verzija za iPhone još ne postoji.",
-        "a_live": "Na [Google Playu](play), za Android telefone i tablete. Verzija za iPhone još ne postoji."
+        "a_live": "Preuzmi je sada s [Google Playa](play) za Android telefone i tablete. Pripremamo verziju za iOS."
       },
       {
         "q": "Je li Pogodi riječ kao Wordle?",
@@ -293,9 +293,9 @@
     "email": "Piši nam e-mailom"
   },
   "launch": {
-    "title": "Uskoro na Google Playu",
-    "p1": "Nakon uspješnog zatvorenog testa, MBG Puzzles je sada na pregledu kod Googlea. Zatim će biti dostupan širom svijeta na Google Playu, na 11 jezika: {langs}.",
-    "p2": "Do tada ga igraj ovdje u pregledniku. Ova web verzija je dostupna samo ograničeno vrijeme.",
-    "p3": "Na početku je puna aplikacija besplatna otprilike prvi mjesec – nakon toga slijedi plaćena verzija. Budi među prvima!"
+    "title": "MBG Puzzles je sada na Google Playu!",
+    "p1": "Nakon uspješnog alfa testiranja, Google je odobrio objavljivanje igre MBG Puzzles. Sada je dostupna na Google Playu na 11 jezika: {langs}.",
+    "p2": "Preuzmi punu Android aplikaciju već danas i igraj besplatno tokom naše promotivne ponude od otprilike mjesec dana — bez reklama i ograničenja.",
+    "p3": "U međuvremenu pripremamo verziju za iOS. Pridruži nam se i zabavi se uz nove izazove!"
   }
 }

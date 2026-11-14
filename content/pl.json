@@ -221,12 +221,12 @@
       },
       {
         "q": "Czy naprawdę jest za darmo?",
-        "a": "Tak. Wersja internetowa na tej stronie jest darmowa. Na start w Google Play pełna aplikacja będzie darmowa przez mniej więcej pierwszy miesiąc, bez reklam; potem pojawi się wersja płatna."
+        "a": "Tak! MBG Puzzles jest już w Google Play. Pełna aplikacja na Androida jest darmowa w ramach około miesięcznej oferty premierowej, bez reklam i limitów. Wersja przeglądarkowa też jest darmowa."
       },
       {
         "q": "Gdzie mogę ją pobrać?",
         "a_soon": "MBG Puzzles zaliczyło test zamknięty i jest sprawdzane przez Google; już wkrótce będzie w Google Play, na telefony i tablety z Androidem. Do tego czasu możesz grać w przeglądarce na tej stronie. Wersji na iPhone’a jeszcze nie ma.",
-        "a_live": "W [Google Play](play), na telefony i tablety z Androidem. Wersji na iPhone’a jeszcze nie ma."
+        "a_live": "Pobierz ją teraz z [Google Play](play) na telefony i tablety z Androidem. Przygotowujemy wersję na iOS."
       },
       {
         "q": "Czy Odgadnij słowo jest jak Wordle?",
@@ -293,9 +293,9 @@
     "email": "Napisz e-mail"
   },
   "launch": {
-    "title": "Wkrótce w Google Play",
-    "p1": "Po udanym teście zamkniętym MBG Puzzles jest teraz sprawdzane przez Google. Potem będzie dostępne na całym świecie w Google Play, w 11 językach: {langs}.",
-    "p2": "Do tego czasu graj tutaj w przeglądarce. Ta wersja internetowa jest dostępna tylko przez ograniczony czas.",
-    "p3": "Na start pełna aplikacja jest darmowa przez mniej więcej pierwszy miesiąc – potem pojawi się wersja płatna. Bądź wśród pierwszych!"
+    "title": "MBG Puzzles jest już w Google Play!",
+    "p1": "Po udanych testach alfa Google zatwierdziło wydanie MBG Puzzles. Aplikacja jest już dostępna w Google Play w 11 językach: {langs}.",
+    "p2": "Pobierz teraz pełną aplikację na Androida i graj za darmo w ramach naszej około miesięcznej oferty premierowej — bez reklam i limitów.",
+    "p3": "W tym czasie przygotowujemy wersję na iOS. Dołącz do zabawy już dziś i sprawdź swój spryt!"
   }
 }

@@ -221,12 +221,12 @@
       },
       {
         "q": "É grátis mesmo?",
-        "a": "Sim. A versão web deste site é grátis. No lançamento no Google Play, o app completo será grátis por cerca do primeiro mês, sem anúncios; depois vem uma versão paga."
+        "a": "Sim! O MBG Puzzles já está no Google Play. O app completo para Android é grátis durante nossa oferta de lançamento de aproximadamente um mês, sem anúncios nem limites. A versão web também é gratuita."
       },
       {
         "q": "Onde eu baixo?",
         "a_soon": "O MBG Puzzles passou no teste fechado e está em análise pelo Google; muito em breve estará no Google Play, para celulares e tablets Android. Até lá, você pode jogar no navegador neste site. Ainda não há versão para iPhone.",
-        "a_live": "No [Google Play](play), para celulares e tablets Android. Ainda não há versão para iPhone."
+        "a_live": "Baixe agora no [Google Play](play) para celulares e tablets Android. Estamos preparando a versão para iOS."
       },
       {
         "q": "Adivinhe a palavra é como o Wordle?",
@@ -293,9 +293,9 @@
     "email": "Enviar e-mail"
   },
   "launch": {
-    "title": "Em breve no Google Play",
-    "p1": "Depois de um teste fechado bem-sucedido, o MBG Puzzles está em análise pelo Google. Em seguida estará disponível no mundo todo no Google Play, em 11 idiomas: {langs}.",
-    "p2": "Até lá, jogue aqui no navegador. Esta versão web fica disponível só por tempo limitado.",
-    "p3": "No lançamento, o app completo é grátis por cerca do primeiro mês – depois vem uma versão paga. Seja um dos primeiros!"
+    "title": "MBG Puzzles já está no Google Play!",
+    "p1": "Após testes alfa bem-sucedidos, o Google aprovou o lançamento do MBG Puzzles. O aplicativo já está disponível no Google Play em 11 idiomas: {langs}.",
+    "p2": "Baixe agora o aplicativo completo para Android e jogue de graça durante nossa oferta de lançamento de aproximadamente um mês — sem anúncios nem limites.",
+    "p3": "Enquanto isso, estamos preparando a versão para iOS. Aproveite o lançamento e divirta-se!"
   }
 }

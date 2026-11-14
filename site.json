@@ -1,27 +1,20 @@
 {
   "_help": "Settings of the MBG Games website (mbggames.com). Change a value, save, and the site is built again on GitHub. See README.md.",
-
-  "playStatus": "review",
-  "_playStatus": "review = in review by Google: Coming soon in 11 languages, play online meanwhile, free first month (no tester box) · live = a download button and the Google Play link everywhere",
-
+  "playStatus": "live",
+  "_playStatus": "live = MBG Puzzles available on Google Play: live download buttons and launch announcement in all 11 languages; review = hidden download button while pending Google approval",
   "playUrl": "https://play.google.com/store/apps/details?id=com.mbggames.puzzles",
   "testUrl": "",
-  "_testUrl": "The closed test of MBG Puzzles is over (app in review by Google), so no tester box. Put the opt-in link back here to show the Become a tester box again.",
+  "_testUrl": "The closed test of MBG Puzzles is complete. Public Google Play download is active; do not add a tester opt-in URL here.",
   "edition": "free",
   "_edition": "free = 'Free · no ads · no limits'. Do not switch to paid here before the texts in content/*.json are updated for the paid edition.",
-
   "webPreview": true,
   "_webPreview": "true = a 'Play in your browser' button on every page, leading to the web preview in the folder play/ (puzzles of the day + one free game of each game a day). false = no button, and play/ is not published.",
-
   "worldList": true,
   "_worldList": "true once the world top 20 server is online (then the privacy answer mentions it)",
-
   "email": "merkur@gmail.com",
   "whatsapp": "38349311911",
   "phone": "+383 49 311 911",
-
   "siteUrl": "https://mbggames.com",
   "_siteUrl": "Only used when you build by hand. On GitHub the address is filled in automatically.",
-
   "indexNowKey": "77c4ab46394cfadf721d64a6e6a070e4"
 }

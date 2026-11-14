@@ -221,12 +221,12 @@
       },
       {
         "q": "Ist es wirklich kostenlos?",
-        "a": "Ja. Die Web-Vorschau auf dieser Seite ist kostenlos. Zum Start bei Google Play ist die volle App etwa den ersten Monat lang kostenlos und ohne Werbung; danach folgt eine kostenpflichtige Version."
+        "a": "Ja! MBG Puzzles ist jetzt bei Google Play. Die vollständige Android-App ist während unseres etwa einmonatigen Startangebots kostenlos, ohne Werbung oder Limits. Auch die Web-Vorschau ist kostenlos."
       },
       {
         "q": "Wo kann ich es herunterladen?",
         "a_soon": "MBG Puzzles hat den geschlossenen Test bestanden und wird gerade von Google geprüft; bald gibt es die App bei Google Play, für Android-Handys und -Tablets. Bis dahin kannst du sie auf dieser Seite im Browser spielen. Eine iPhone-Version gibt es noch nicht.",
-        "a_live": "Bei [Google Play](play), für Android-Handys und -Tablets. Eine iPhone-Version gibt es noch nicht."
+        "a_live": "Jetzt bei [Google Play](play) für Android-Smartphones und -Tablets herunterladen. An der iOS-Version arbeiten wir bereits."
       },
       {
         "q": "Ist Errate das Wort wie Wordle?",
@@ -293,9 +293,9 @@
     "email": "Per E-Mail schreiben"
   },
   "launch": {
-    "title": "Bald bei Google Play",
-    "p1": "Nach einem erfolgreichen geschlossenen Test wird MBG Puzzles jetzt von Google geprüft. Danach gibt es die App weltweit bei Google Play, in 11 Sprachen: {langs}.",
-    "p2": "Bis dahin spielst du hier im Browser. Diese Web-Vorschau gibt es nur für begrenzte Zeit.",
-    "p3": "Zum Start ist die volle App etwa den ersten Monat lang kostenlos – danach folgt eine kostenpflichtige Version. Sei früh dabei!"
+    "title": "MBG Puzzles ist jetzt bei Google Play!",
+    "p1": "Nach erfolgreichen Alpha-Tests hat Google die Veröffentlichung von MBG Puzzles genehmigt. Die App ist jetzt bei Google Play in 11 Sprachen erhältlich: {langs}.",
+    "p2": "Lade die vollständige Android-App jetzt herunter und spiele während unseres etwa einmonatigen Startangebots kostenlos — ohne Werbung und ohne Limits.",
+    "p3": "Inzwischen arbeiten wir an der iOS-Version. Sei von Anfang an dabei und knobel mit!"
   }
 }

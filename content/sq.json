@@ -221,12 +221,12 @@
       },
       {
         "q": "A është vërtet falas?",
-        "a": "Po. Versioni në web në këtë faqe është falas. Kur të dalë në Google Play, aplikacioni i plotë do të jetë falas për rreth muajin e parë, pa reklama; pastaj vjen versioni me pagesë."
+        "a": "Po! MBG Puzzles tashmë është në Google Play. Aplikacioni i plotë për Android mund të luhet falas gjatë ofertës së lansimit, për rreth një muaj, pa reklama e pa kufizime. Edhe versioni në shfletues është falas."
       },
       {
         "q": "Ku mund ta shkarkoj?",
         "a_soon": "MBG Puzzles e kaloi testin e mbyllur dhe është në shqyrtim nga Google; shumë shpejt do të jetë në Google Play, për telefona dhe tableta Android. Deri atëherë mund ta luash në shfletues në këtë faqe. Version për iPhone nuk ka ende.",
-        "a_live": "Në [Google Play](play), për telefona dhe tableta Android. Version për iPhone nuk ka ende."
+        "a_live": "Shkarkoje tani nga [Google Play](play) për telefona dhe tableta Android. Versioni për iOS është duke u përgatitur."
       },
       {
         "q": "A është Gjeje fjalën si Wordle?",
@@ -293,9 +293,9 @@
     "email": "Na shkruaj me e-mail"
   },
   "launch": {
-    "title": "Së shpejti në Google Play",
-    "p1": "Pas një testi të mbyllur të suksesshëm, MBG Puzzles tani është në shqyrtim nga Google. Pastaj do të jetë në Google Play në mbarë botën, në 11 gjuhë: {langs}.",
-    "p2": "Deri atëherë, luaje këtu në shfletues. Ky version në web është i disponueshëm vetëm për një kohë të kufizuar.",
-    "p3": "Në fillim, aplikacioni i plotë është falas për rreth muajin e parë – pastaj vjen versioni me pagesë. Bëhu ndër të parët!"
+    "title": "MBG Puzzles tani në Google Play!",
+    "p1": "Pas testimit të suksesshëm alfa, Google e miratoi publikimin e MBG Puzzles. Aplikacioni tani gjendet në Google Play në 11 gjuhë: {langs}.",
+    "p2": "Shkarkoje sot lojën e plotë për Android dhe luaj falas gjatë ofertës sonë të lansimit, për rreth një muaj — pa reklama dhe pa kufizime.",
+    "p3": "Ndërkohë, po e përgatisim edhe versionin për iOS. Bashkohu me ne dhe sfidoje mendjen!"
   }
 }

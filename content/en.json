@@ -222,12 +222,12 @@
       },
       {
         "q": "Is it really free?",
-        "a": "Yes. The web preview on this site is free. At launch on Google Play, the full app is free for about the first month, with no ads; after that, a paid version follows."
+        "a": "Yes! MBG Puzzles is now on Google Play. The full Android app is free during our launch offer of about one month, with no ads or limits. The browser preview is free too."
       },
       {
         "q": "Where can I download it?",
         "a_soon": "MBG Puzzles has passed its closed test and is in review by Google; it will be on Google Play very soon, for Android phones and tablets. Until then, you can play it in your browser on this site. There is no iPhone version yet.",
-        "a_live": "On [Google Play](play), for Android phones and tablets. There is no iPhone version yet."
+        "a_live": "Download it now from [Google Play](play) for Android phones and tablets. We are preparing the iOS version."
       },
       {
         "q": "Is Word Puzzle like Wordle?",
@@ -294,9 +294,9 @@
     "email": "Email us"
   },
   "launch": {
-    "title": "Coming to Google Play",
-    "p1": "After a successful closed test, MBG Puzzles is now in review by Google. Then it will be available worldwide on Google Play, in 11 languages: {langs}.",
-    "p2": "Until then, play it here in your browser. This web preview is available for a limited time only.",
-    "p3": "At launch, the full app is free for about the first month – after that, a paid version follows. Be an early bird!"
+    "title": "MBG Puzzles is now on Google Play!",
+    "p1": "After successful alpha testing, Google has approved MBG Puzzles for release. It is now available on Google Play in 11 languages: {langs}.",
+    "p2": "Download the full Android game today and enjoy free access during our launch offer of about one month — no ads, no limits.",
+    "p3": "Meanwhile, we are preparing the iOS version. Join the launch, challenge your brain and have fun!"
   }
 }
