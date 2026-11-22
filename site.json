@@ -9,6 +9,8 @@
   "_edition": "free = 'Free · no ads · no limits'. Do not switch to paid here before the texts in content/*.json are updated for the paid edition.",
   "webPreview": true,
   "_webPreview": "true = a 'Play in your browser' button on every page, leading to the web preview in the folder play/ (puzzles of the day + one free game of each game a day). false = no button, and play/ is not published.",
+  "whoamiAlpha": true,
+  "_whoamiAlpha": "true = the Who Am I? card on the home page shows 'Become an alpha tester' (send your Gmail address by WhatsApp / e-mail) next to 'Play now in your browser'. false = only the web version button (e.g. when the game is public on Google Play).",
   "worldList": true,
   "_worldList": "true once the world top 20 server is online (then the privacy answer mentions it)",
   "email": "merkur@gmail.com",

@@ -16,8 +16,9 @@
  *                        Top players (Master and above, rating 2,200+) earn more: up to 100 a
  *                        week, and the old, higher rewards for judging.
  *         Watching games, the board, the Hall of Fame and judging are always free.
- *         Kosovo: Google Play does not sell to buyers in Kosovo, so there the paid edition plays
- *         like the free one (the country of the Google Play account, as in MBG Puzzles).
+ *         Kosovo, Montenegro and every other place where Google Play cannot sell (its list "Paid app
+ *         availability"): there the paid edition plays like the free one (the country of the Google
+ *         Play account, as in MBG Puzzles). Albania, Bosnia, North Macedonia, Serbia, Croatia: paid.
  *         FREE ACCESS (1.0.0): the administrator can give the game for free to chosen people by
  *         e-mail address (server: /api/p/admin/free). Signed in with an MBG account of that
  *         address, the player plays like in the free edition - no limits, power-ups free - until
@@ -60,9 +61,22 @@
     earnTop: { welcome: 20, firstWin: 5, best: 10, streak: 25, judge: 10, judgePerDay: 3, perWeek: 100 },
     topRating: 2200,
     offlineGraceMs: 7 * DAY,         // a known subscription counts this long without Google Play
-    freeRegions: ['XK']              // Google Play's code for Kosovo
+    // Where Google Play can sell (its list "Paid app availability", November 2026): everywhere else -
+    // Kosovo, Montenegro and the other places where purchases fail - the paid edition plays like the
+    // free one, so nobody is stuck with 1 game a day and no way to pay. Codes as Google Play gives them.
+    freeRegions: ['XK', 'ME'],       // always free: Kosovo, Montenegro
+    paidRegions: ('AL DZ AO AG AR AM AW AU AT AZ BS BH BD BY BE BZ BJ BO BA BW BR BG BF KH CM CA CV CL CO CR CI HR CY CZ DK DO ' +
+      'EC EG SV EE FJ FI FR GA GE DE GH GI GR GT GW HT HN HK HU IS IN ID IQ IE IL IT JM JP JO KZ KE KW KG LA LV LB LI LT LU ' +
+      'MO MK MY ML MT MU MX MD MC MA MZ MM NA NP NL CW SX BQ NZ NI NE NG NO OM PK PA PG PY PE PH PL PT QA RO RU RW SM SA SN ' +
+      'RS SG SK SI ZA KR ES LK SE CH TW TJ TZ TH TG TT TN TR TM UG UA AE GB US PR AS GU MH MP PW VI UY UZ VE VN YE ZM ZW').split(' ')
   };
 
+  /** True where the paid edition plays free: Kosovo, Montenegro, and every place Google Play cannot sell in. Unknown: false. */
+  function freeRegion(code) {
+    var c = String(code || '').toUpperCase();
+    if (!/^[A-Z]{2}$/.test(c)) return false;
+    return RULES.freeRegions.indexOf(c) !== -1 || RULES.paidRegions.indexOf(c) === -1;
+  }
   /** Days and Monday-to-Sunday weeks in the phone's own time zone. */
   function calendar(ms) {
     var d = new Date(ms);
@@ -103,8 +117,8 @@
   };
   P.save = function () { try { this.storage.setItem(this.key, JSON.stringify(this.data)); } catch (e) { /* full */ } };
 
-  /** True when there are no limits at all: the free edition, or the paid one in Kosovo. */
-  P.unlimitedEdition = function () { return this.edition !== 'paid' || !!(this.data.region && RULES.freeRegions.indexOf(this.data.region.code) !== -1); };
+  /** True when there are no limits at all: the free edition, or the paid one where Google Play cannot sell. */
+  P.unlimitedEdition = function () { return this.edition !== 'paid' || freeRegion(this.data.region && this.data.region.code); };
   P.setRegion = function (code) {
     var c = String(code || '').toUpperCase();
     if (/^[A-Z]{2}$/.test(c)) { this.data.region = { code: c, at: this.now() }; this.save(); }
@@ -185,8 +199,19 @@
       if (g.week !== c.week) { g.week = c.week; g.weekCount = 0; }
       g.today += 1; g.weekCount += 1;
     } else { g.extra -= 1; }
+    this.lastUse = { used: s.free > 0 ? 'free' : 'extra', day: c.day, week: c.week };
     this.save();
     return { ok: true, mode: 'free', used: s.free > 0 ? 'free' : 'extra' };
+  };
+  /** 1.1.6 - the game just counted did not happen after all (a cancelled match): it is given back, once. */
+  P.giveBack = function () {
+    var u = this.lastUse, g = this.data.games;
+    if (!u) return false;
+    this.lastUse = null;
+    if (u.used === 'extra') g.extra += 1;
+    else { if (g.day === u.day && g.today > 0) g.today -= 1; if (g.week === u.week && g.weekCount > 0) g.weekCount -= 1; }
+    this.save();
+    return true;
   };
 
   /* ------------------------------------------------------------ credits --- */
@@ -305,5 +330,5 @@
     return Math.round(100 * (1 - p.preview / (RULES.pass.preview * p.days)));
   }
 
-  return { RULES: RULES, PlanStore: PlanStore, calendar: calendar, nextDay: nextDay, nextMonday: nextMonday, saving: saving, DAY: DAY };
+  return { RULES: RULES, PlanStore: PlanStore, freeRegion: freeRegion, calendar: calendar, nextDay: nextDay, nextMonday: nextMonday, saving: saving, DAY: DAY };
 });

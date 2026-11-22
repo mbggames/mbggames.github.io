@@ -11,7 +11,7 @@
   'use strict';
   var MBG = root.MBG = root.MBG || {};
 
-  var VERSION = '1.0.0';
+  var VERSION = '1.2.0';
   var CONTACT = { email: 'merkur@gmail.com', whatsapp: '38349311911', phone: '+383 49 311 911' };
   var KEYS = { lang: 'MBG.App.lang', user: 'MBG.Who.user', prefs: 'MBG.Who.prefs' };
 
@@ -47,8 +47,20 @@
   var store = (function () {
     try { var s = root.localStorage; s.setItem('__mbg_probe__', '1'); s.removeItem('__mbg_probe__'); return s; } catch (e) { return new MemoryStorage(); }
   })();
-  function readJson(key, def) { try { var v = JSON.parse(store.getItem(key) || 'null'); return v == null ? def : v; } catch (e) { return def; } }
-  function writeJson(key, v) { try { store.setItem(key, JSON.stringify(v)); } catch (e) { /* full or blocked */ } }
+  // 1.1.3: pinned keys - the game screen keeps the player it started with (who is signed in, the name), so
+  // two tabs of one browser can be two players: the tabs share this storage, and signing in to another
+  // account in the second tab must not change the player of the first one.
+  var pinned = {};
+  function readJson(key, def) {
+    if (Object.prototype.hasOwnProperty.call(pinned, key)) { try { var p = JSON.parse(pinned[key] || 'null'); return p == null ? def : p; } catch (e) { return def; } }
+    try { var v = JSON.parse(store.getItem(key) || 'null'); return v == null ? def : v; } catch (e) { return def; }
+  }
+  function writeJson(key, v) {
+    if (Object.prototype.hasOwnProperty.call(pinned, key)) pinned[key] = JSON.stringify(v);
+    try { store.setItem(key, JSON.stringify(v)); } catch (e) { /* full or blocked */ }
+  }
+  /** Keeps these keys as they are now for this page (writes from this page still go through). */
+  function pin(keys) { keys.forEach(function (k) { try { pinned[k] = store.getItem(k); } catch (e) { pinned[k] = null; } }); }
 
   /* ------------------------------------------------------ language --- */
   var LANGS = MBG.Text.LANGS;          // ['en', 'sq', 'de', 'bs']
@@ -182,6 +194,22 @@
   /* ------------------------------------------------------- helpers --- */
   function t(key, params) { return MBG.Text.t(getLang(), key, params); }
   function tIn(lang, key, params) { return MBG.Text.t(lang, key, params); }
+  /** 1.1.0 - a number with thousands separators: 500,000 in English, 500.000 in the other languages; − for minus. */
+  function num(n) {
+    n = Math.round(Number(n) || 0);
+    var s = String(Math.abs(n)).replace(/\B(?=(\d{3})+(?!\d))/g, getLang() === 'en' ? ',' : '.');
+    return (n < 0 ? '−' : '') + s;
+  }
+  /** A score shown as its prize: gold from 100,000, banknotes from 10,000, coins below, red under zero. */
+  function prize(n, cls) {
+    n = Math.round(Number(n) || 0);
+    var tier = n >= 100000 ? 'gold' : n >= 10000 ? 'notes' : n > 0 ? 'coins' : n < 0 ? 'red' : 'zero';
+    var box = el('span', 'prize pz-' + tier + (cls ? ' ' + cls : ''));
+    var ic = { gold: n >= 500000 ? '👑' : '💰', notes: '💵', coins: '🪙', red: '🔻', zero: '' }[tier];
+    if (ic) { var i = el('span', 'pz-ic', ic); i.setAttribute('aria-hidden', 'true'); box.appendChild(i); }
+    box.appendChild(el('b', 'num', num(n)));
+    return box;
+  }
   function el(tag, cls, text) {
     var n = document.createElement(tag);
     if (cls) n.className = cls;
@@ -302,13 +330,85 @@
     return paint;
   }
 
+  /* ------------------------------------------ the on-screen keyboard (1.1.6) --- */
+  // The rule for every screen and every sheet, now and later: what is being typed is never under the keyboard.
+  //  1. The page knows when the keyboard is open (the visible height got smaller while a text field has the
+  //     focus) and says so to the styles: <html class="kb-open">, --vvh (the visible height), --vvt (its top)
+  //     and --kb (how much of the page the keyboard covers when the page itself was not made smaller).
+  //     Screens with a fixed layout use these to keep only what typing needs (css: "kb-open").
+  //  2. The field with the focus is brought into view: scrolled to the middle of what is visible - and where
+  //     nothing can scroll, its sheet (or the page) is moved up by what is missing.
+  //  3. In the Android app, should the phone not tell the page about its keyboard at all, the lower part of
+  //     the screen is taken to be covered while typing, and the field is moved above it.
+  var keyboard = (function () {
+    if (typeof document === 'undefined') return { open: function () { return false; } };
+    var doc = document, html = doc.documentElement, vv = root.visualViewport || null;
+    var base = 0, baseW = 0, field = null, lifted = null, liftedOld = '', isOpen = false, since = 0, timers = [];
+    function editable(e) {
+      if (!e || e.disabled || e.readOnly) return false;
+      if (e.isContentEditable || e.tagName === 'TEXTAREA') return true;
+      return e.tagName === 'INPUT' && !/^(button|submit|reset|checkbox|radio|range|file|color|image|hidden)$/i.test(e.type || 'text');
+    }
+    function seen() { return vv ? { h: vv.height, top: vv.offsetTop } : { h: root.innerHeight, top: 0 }; }
+    function unlift() { if (lifted) { lifted.style.transform = liftedOld; lifted = null; } }
+    /** The field in view: scroll what can scroll; move the sheet or the page for the rest. */
+    function reveal(covered) {
+      var e = field;
+      if (!e || !doc.contains(e)) return;
+      unlift();
+      var v = seen(), top = v.top + 6, bottom = v.top + v.h - 10 - (covered || 0);
+      var r = e.getBoundingClientRect();
+      if (r.top < top || r.bottom > bottom) { try { e.scrollIntoView({ block: 'center', inline: 'nearest' }); } catch (x) { /* an old browser */ } r = e.getBoundingClientRect(); }
+      if (r.bottom > bottom && r.top > top) {
+        // (never the whole page when the screen is a fixed frame: moving <body> would unpin everything fixed)
+        var by = Math.min(r.bottom - bottom, r.top - top), box = (e.closest && (e.closest('dialog[open]') || e.closest('.app, .party'))) || doc.body;
+        lifted = box; liftedOld = box.style.transform || '';
+        box.style.transform = 'translateY(' + (-Math.round(by)) + 'px)';
+      }
+    }
+    function update() {
+      var v = seen(), w = root.innerWidth;
+      if (w !== baseW) { baseW = w; base = 0; }                    // the phone was turned
+      if (!field || v.h > base) base = Math.max(field ? base : 0, v.h);
+      var gone = Math.max(0, base - v.h), open = !!field && gone > 100;
+      // (3) the Android app, and the phone says nothing about its keyboard: taken as open, 42 % of the screen
+      var guess = !!field && !open && native && Date.now() - since > 800 && root.matchMedia && root.matchMedia('(pointer: coarse)').matches ? Math.round(base * 0.42) : 0;
+      if (open !== isOpen) {
+        isOpen = open;
+        html.classList.toggle('kb-open', open);
+        if (!open) {
+          ['--vvh', '--vvt', '--kb'].forEach(function (k) { html.style.removeProperty(k); });
+          // a page that never scrolls (the game) goes back where it was
+          if (doc.body && doc.body.classList.contains('game-page')) { try { root.scrollTo(0, 0); html.scrollTop = 0; doc.body.scrollTop = 0; } catch (x) { /* ignore */ } }
+        }
+        try { doc.dispatchEvent(new CustomEvent('mbg-keyboard', { detail: { open: open } })); } catch (x) { /* an old browser */ }
+      }
+      if (open) {
+        html.style.setProperty('--vvh', Math.round(v.h) + 'px');
+        html.style.setProperty('--vvt', Math.round(v.top) + 'px');
+        html.style.setProperty('--kb', Math.max(0, Math.round(root.innerHeight - v.h - v.top)) + 'px');
+      }
+      if (field) { if (root.requestAnimationFrame) root.requestAnimationFrame(function () { reveal(guess); }); else reveal(guess); }
+      else unlift();
+    }
+    function soon() { timers.forEach(clearTimeout); timers = [0, 120, 320, 650, 950].map(function (ms) { return setTimeout(update, ms); }); }
+    doc.addEventListener('focusin', function (ev) { if (editable(ev.target)) { if (!field) since = Date.now(); field = ev.target; soon(); } });
+    doc.addEventListener('focusout', function () { setTimeout(function () { if (!editable(doc.activeElement)) { field = null; update(); } }, 150); });
+    doc.addEventListener('input', function (ev) { if (field && ev.target === field && lifted === null) reveal(0); });
+    if (vv) { vv.addEventListener('resize', update); vv.addEventListener('scroll', update); }
+    root.addEventListener('resize', update);
+    update();
+    return { open: function () { return isOpen; }, update: update };
+  })();
+
   MBG.Shell = {
-    VERSION: VERSION, CONTACT: CONTACT, KEYS: KEYS, native: native, langAt: langAt, store: store, readJson: readJson, writeJson: writeJson, phoneSilent: phoneSilent, soundButton: soundButton,
+    keyboard: keyboard,
+    VERSION: VERSION, CONTACT: CONTACT, KEYS: KEYS, native: native, langAt: langAt, store: store, readJson: readJson, writeJson: writeJson, pin: pin, phoneSilent: phoneSilent, soundButton: soundButton,
     LANGS: LANGS, dateText: dateText, getLang: getLang, setLang: setLang, langChosen: langChosen, deviceLang: deviceLang,
     langName: function (l) { return MBG.Text.NAMES[l] || l; },
     getUser: getUser, setUser: setUser, playerName: playerName, checkName: checkName,
     getPrefs: getPrefs, setPrefs: setPrefs, THEMES: THEMES, themeOf: themeOf, applyLook: applyLook, newHue: newHue,
     go: go, goHome: function () { go('index.html'); }, exitApp: exitApp, setBackHandler: setBackHandler,
-    t: t, tIn: tIn, el: el, toast: toast, show: show, closed: closed, sheet: sheet, confirm: confirmBox, fmtNum: fmtNum, ago: ago
+    t: t, tIn: tIn, el: el, num: num, prize: prize, toast: toast, show: show, closed: closed, sheet: sheet, confirm: confirmBox, fmtNum: fmtNum, ago: ago
   };
 })(typeof self !== 'undefined' ? self : globalThis);

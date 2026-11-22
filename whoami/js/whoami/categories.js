@@ -45,6 +45,7 @@
       historical: S(['Historical figures', 'Figura historike', 'Historische Personen', 'Historijske ličnosti'], { prof: P, occ: ['Q82955', 'Q116', 'Q11900058'], extra: '?item wdt:P569 ?born0 . FILTER(YEAR(?born0) < 1930)' }),
       writers: S(['Writers', 'Shkrimtarë', 'Schriftsteller', 'Pisci'], { prof: P, occ: ['Q36180', 'Q6625963', 'Q49757', 'Q214917'] }),
       artists: S(['Artists', 'Artistë', 'Künstler', 'Umjetnici'], { prof: P, occ: ['Q1028181', 'Q1281618'] }),
+      painters: S(['Painters', 'Piktorë', 'Maler', 'Slikari'], { prof: P, occ: ['Q1028181'] }),      // 1.1.9
       philosophers: S(['Philosophers', 'Filozofë', 'Philosophen', 'Filozofi'], { prof: P, occ: ['Q4964182'] }),
       athletes: S(['Athletes', 'Sportistë', 'Sportler', 'Sportisti'], { prof: P, occ: ['Q937857', 'Q3665646', 'Q10833314', 'Q11513337'] })
     } },
@@ -120,6 +121,7 @@
     geography: { mode: 'where', icon: '🗺️', names: ['Geography', 'Gjeografi', 'Geografie', 'Geografija'], subs: {
       countries: S(['Countries', 'Shtete', 'Länder', 'Države'], { prof: PL, cls: ['Q6256', 'Q3624078'] }),
       cities: S(['Cities', 'Qytete', 'Städte', 'Gradovi'], { prof: PL, cls: ['Q515', 'Q1549591', 'Q5119'] }),
+      capitals: S(['Capitals', 'Kryeqytete', 'Hauptstädte', 'Glavni gradovi'], { prof: PL, cls: ['Q5119'] }),      // 1.1.9
       rivers: S(['Rivers', 'Lumenj', 'Flüsse', 'Rijeke'], { prof: PL, cls: ['Q4022'] }),
       lakes: S(['Lakes', 'Liqene', 'Seen', 'Jezera'], { prof: PL, cls: ['Q23397'] }),
       islands: S(['Islands', 'Ishuj', 'Inseln', 'Ostrva'], { prof: PL, cls: ['Q23442'] }),

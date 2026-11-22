@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <title>Who Am I? · MBG Games</title>
 <meta name="description" content="Who Am I? What am I? Where am I? When am I? A guessing game with yes/no questions in English, Albanian, German and Bosnian by MBG – Merkur Beqiri Games.">
 <meta name="theme-color" content="#E6EBEF">
@@ -48,37 +48,22 @@
       <button type="button" class="btn ghost choosebtn" id="btnSetup"></button>
     </section>
 
-    <section class="dailycard" id="dailyCard" aria-label="Puzzle of the day" hidden></section>
+    <button type="button" class="homerow dailyrow" id="dailyRow" hidden></button>
+    <button type="button" class="homerow tc-me" id="meRow"></button>
 
     <section class="plancard" id="planCard" hidden></section>
-
-    <details class="explore" id="explore">
-      <summary><span class="ex-t"><strong id="exploreTitle"></strong><span id="exploreText"></span></span></summary>
-      <nav class="modes" id="modes" aria-label="What · Where · When"></nav>
-    </details>
-
-    <section class="topcard" id="topCard" aria-labelledby="topTitle">
-      <div class="tc-head">
-        <div class="tc-ht"><h2 id="topTitle"></h2><p class="tc-sub" id="topSub"></p></div>
-      </div>
-      <ol class="tc-list" id="topList"></ol>
-      <button type="button" class="tc-me" id="meRow"></button>
-      <button type="button" class="btn ghost hofbtn" id="btnHof"></button>
-    </section>
-
-    <section class="aboutcard" id="aboutCard"></section>
 
     <footer class="homefoot">
       <a href="privacy.html" id="lnkPrivacy">Privacy policy</a>
       <span id="version"></span>
-      <span>© 2026 MBG · Merkur Beqiri Games</span>
-      <span class="powered" id="powered">Powered by MBG Games</span>
+      <span>© 2026 MBG</span>
     </footer>
   </main>
 
   <nav class="tabbar" id="tabBar" aria-label="Menu">
     <button type="button" class="tab on" id="tabHome" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5V19a1 1 0 0 1-1 1h-4.5v-5.5h-5V20H5a1 1 0 0 1-1-1z"/></svg><span id="lblTabHome">Home</span></button>
     <button type="button" class="tab" id="tabTop"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 4.5h9v4a4.5 4.5 0 0 1-9 0z"/><path d="M7.5 6H4.5a3 3 0 0 0 3 4M16.5 6h3a3 3 0 0 1-3 4"/><path d="M12 13v3.5M8.5 20h7l-1-3.5h-5z"/></svg><span id="lblTabTop">Top 20</span></button>
+    <button type="button" class="tab" id="tabGroups"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="9" r="3.2"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><circle cx="17" cy="10" r="2.5"/><path d="M16.5 14.6a4.5 4.5 0 0 1 4 4.4"/></svg><span id="lblTabGroups">Groups</span></button>
     <button type="button" class="tab bell" id="btnBell"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16.5V11a6 6 0 1 1 12 0v5.5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg><span class="badge-n" id="bellN" hidden></span><span id="lblTabInbox">Inbox</span></button>
     <button type="button" class="tab" id="tabMenu" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 7h15M4.5 12h15M4.5 17h15"/></svg><span id="lblTabMenu">Menu</span></button>
   </nav>
@@ -127,6 +112,12 @@
 <script src="js/whoami/setup.js"></script>
 <script src="js/app/daily-ui.js"></script>
 <script src="js/platform/access.js"></script>
+<script src="js/platform/groups.js"></script>
+<script src="js/platform/friends.js"></script>
+<script src="js/platform/profile.js"></script>
+<script src="js/platform/push.js"></script>
+<script src="js/whoami/transport.js"></script>
+<script src="js/platform/available.js"></script>
 <script src="js/app/home.js"></script>
 </body>
 </html>

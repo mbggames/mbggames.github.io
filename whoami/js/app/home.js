@@ -29,13 +29,11 @@
     $('appName').textContent = t('app.name');
     $('appBy').textContent = t('app.by');
     if ($('btnLang').getAttribute('data-lang') !== lang) MBG.LangMenu.paint($('btnLang'), lang);
-    // "About the game" with the intro film (built again only when the language changes)
-    var ab = $('aboutCard');
-    if (ab && MBG.Intro && ab.getAttribute('data-lang') !== lang) { MBG.Intro.aboutCard(ab); ab.setAttribute('data-lang', lang); }
     MBG.Account.paintButton($('btnAcc'));
     // the tab bar: Home · Top 20 · Inbox · Menu
     $('lblTabHome').textContent = t('home.tabHome');
     $('lblTabTop').textContent = t('home.tabTop');
+    $('lblTabGroups').textContent = t('grp.tab');
     $('lblTabInbox').textContent = t('home.tabInbox');
     $('lblTabMenu').textContent = t('home.tabMenu');
     $('tabBar').setAttribute('aria-label', t('home.tabMenu'));
@@ -60,43 +58,30 @@
     $('heroTitle').textContent = t('hero.title');
     $('heroText').textContent = t('hero.text');
     $('lblQuick').textContent = t('hero.quickWho');
-    $('btnSetup').textContent = '⚙ ' + t('hero.setup');
-    var last = MBG.WhoSetup.last();
-    if (last.mode !== 'who') { last.mode = 'who'; last.cat = null; last.subs = []; }
-    $('heroLast').textContent = MBG.WhoSetup.describe(last);
+    $('btnSetup').textContent = t('hero.other');
+    var WS0 = MBG.WhoSetup;
+    // 1.1.3: Play is always a person (the computer and the rest are under "Other ways to play")
+    $('heroLast').textContent = t(!WS0.onlineReady() ? 'hero.subPerson' : WS0.signedIn() ? 'hero.subRanked' : 'hero.subGuest');
 
-    // "Who am I?" is the game; What, Where and When wait under "Explore more" for those who want more
-    var modes = $('modes');
-    modes.textContent = '';
-    var ex = $('explore');
-    ex.open = !!Shell.getPrefs().exploreOpen;
-    $('exploreTitle').textContent = '🔭 ' + t('explore.title');
-    $('exploreText').textContent = t('explore.text');
-    C.MODE_ORDER.filter(function (k) { return k !== 'who'; }).forEach(function (k) {
-      var md = C.MODES[k];
-      var b = el('button', 'modecard mode-' + k);
-      b.type = 'button';
-      b.appendChild(tiles(md.word[i] + '?'));
-      b.appendChild(el('strong', null, md.title[i]));
-      b.appendChild(el('span', null, md.text[i]));
-      // the puzzle of the day of this question word (a corner tag; ✓ when played today)
-      if (MBG.WhoDaily) {
-        var dp = MBG.WhoDaily.puzzle(k, lang), dm = MBG.WhoDaily.mine(dp.id, Shell.playerName());
-        b.insertBefore(el('span', 'mc-daily' + (dm ? ' done' : ''), '🗓️' + (dm ? ' ✓' : '')), b.firstChild);
-        b.setAttribute('aria-label', md.title[i] + ' · ' + t('daily.kicker') + (dm ? ' ✓' : ''));
-      }
-      b.addEventListener('click', function () { MBG.WhoSetup.open({ mode: k }); });
-      modes.appendChild(b);
-    });
-
-    if (MBG.DailyUI) MBG.DailyUI.homeCard($('dailyCard'));
+    // 1.1.0 - one screen: under Play only the puzzle of the day (one row) and the player's own line
+    var dr = $('dailyRow');
+    dr.hidden = !MBG.DailyUI;
+    if (MBG.DailyUI) {
+      var feat = MBG.WhoDaily.featured(lang), dp = MBG.WhoDaily.puzzle(feat, lang), dm = MBG.WhoDaily.mine(dp.id, Shell.playerName());
+      dr.textContent = '';
+      dr.appendChild(el('span', 'hr-ic', '🗓️'));
+      var dt = el('span', 'hr-t');
+      dt.appendChild(el('strong', null, t('daily.kicker')));
+      dt.appendChild(el('span', null, C.MODES[feat].title[i] + ' · ' + (dm ? '✓ ' + t('daily.rowDone') : t('daily.rowNew'))));
+      dr.appendChild(dt);
+      dr.appendChild(chevron());
+    }
     if (MBG.Access) MBG.Access.check();   // free access given by e-mail (paid edition)
     if (MBG.Shop) MBG.Shop.card($('planCard'));
     renderTop();
 
     $('lnkPrivacy').textContent = t('home.privacy');
-    $('version').textContent = t('home.version', { v: Shell.VERSION });
-    $('powered').textContent = t('app.powered');
+    $('version').textContent = t('home.version', { v: Shell.VERSION }) + serverNote;
     renderWelcome();
     if (menu && menu.open) fillMenu();
   }
@@ -108,61 +93,38 @@
   var topSeq = 0;
   function renderTop() {
     var seq = ++topSeq, me = (MBG.Account.name && MBG.Account.name()) || Shell.playerName();
-    $('topTitle').textContent = '🏆 ' + t('home.topTitle');
-    $('btnHof').textContent = '🏛️ ' + t('home.seeAll');
-    var s = MBG.WhoStats.mine(), row = $('meRow');
+    var s = MBG.WhoStats.mine(), row = $('meRow'), signed = MBG.WhoSetup.signedIn();
     row.textContent = '';
     row.setAttribute('aria-label', t('stats.titleFull'));
-    var who = el('span', 'me-who');
-    who.appendChild(MBG.Account.picture(MBG.Account.avatar(), 'av-sm'));
-    who.appendChild(el('strong', null, t('you')));
-    row.appendChild(who);
-    [[s.played, t('stats.played')], [s.played ? Math.round(100 * s.won / s.played) + '%' : '–', t('stats.won')],
-      [s.best || '–', t('stats.best')], [s.practice ? Math.round(s.practice.rating) : '–', t('home.practice')]].forEach(function (x) {
-      var c = el('span', 'me-n');
-      c.appendChild(el('b', 'num', String(x[0])));
-      c.appendChild(el('span', null, x[1]));
-      row.appendChild(c);
-    });
+    row.appendChild(MBG.Account.picture(MBG.Account.avatar(), 'av-sm'));
+    var tx = el('span', 'hr-t');
+    tx.appendChild(el('strong', null, me));
+    var sub = el('span', null, signed ? '…' : s.played ? t('home.meLocal', { n: s.played, w: s.won }) : t('home.meNew'));
+    tx.appendChild(sub);
+    row.appendChild(tx);
     row.appendChild(chevron());
-
-    function paint(rows, sub, badge) {
+    if (!signed) return;
+    // signed in: the rating, the title and the place in the world
+    // 1.1.4: from the player's own profile - the rating from the first match on (not only in the Top 20)
+    Net.player({ name: me }).then(function (j) {
       if (seq !== topSeq) return;
-      var ts = $('topSub');
-      ts.textContent = '';
-      ts.appendChild(el('span', 'tc-badge', badge));
-      ts.appendChild(document.createTextNode(' ' + sub));
-      var ol = $('topList');
-      ol.textContent = '';
-      if (!rows.length) {
-        var li = el('li', 'tc-empty');
-        li.appendChild(el('span', null, t('hof.emptyDevice')));
-        ol.appendChild(li);
-        return;
-      }
-      rows.slice(0, 5).forEach(function (r, k) {
-        var li = el('li', 'tc-row' + (k < 3 ? ' top' + (k + 1) : '') + (r.name === me ? ' me' : ''));
-        li.appendChild(el('span', 'tc-place', k < 3 ? ['🥇', '🥈', '🥉'][k] : String(k + 1)));
-        var mid = el('span', 'tc-mid');
-        mid.appendChild(el('strong', null, r.name));
-        if (r.sub) mid.appendChild(el('span', null, r.sub));
-        li.appendChild(mid);
-        li.appendChild(el('b', 'num tc-val', String(r.value)));
-        ol.appendChild(li);
-      });
-    }
-    function device() {
-      paint(MBG.WhoStats.hallOfFame().map(function (e) {
-        var md = C.MODES[e.mode] || C.MODES.who;
-        return { name: e.name, value: e.score, sub: md.icon + ' ' + e.answer };
-      }), t('home.topSubDevice'), '📱 ' + t('hof.device'));
-    }
-    if (Net.demo) { device(); return; }
-    Net.top('rating').then(function (res) {
-      var rt = (res && res.rows) || [];
-      if (!rt.length) { device(); return; }
-      paint(rt.map(function (r) { return { name: r.name, value: r.rating, sub: t('title.' + r.title) }; }), t('home.topSub'), '🌍 ' + t('hof.world'));
-    }, device);
+      var p = j.player;
+      sub.textContent = '🏆 ' + Shell.num(p.rating) + ' · ' + t('title.' + p.title) + (p.place ? ' · ' + t('pf.placeOf', { n: Shell.num(p.place), all: Shell.num(p.players) }) : '');
+    }, function () { sub.textContent = s.played ? t('home.meLocal', { n: s.played, w: s.won }) : t('home.meFirst'); });
+  }
+  // 1.1.5 - the version of the MBG server next to the app's: an older server under a newer app (a forgotten
+  // "Deploy platform") makes online play fail in ways nobody can see - now it is written on the home screen.
+  var serverNote = '';
+  function older(a, b) { var x = String(a).split('.'), y = String(b).split('.'); for (var i = 0; i < 3; i++) { var d = (Number(x[i]) || 0) - (Number(y[i]) || 0); if (d) return d < 0; } return false; }
+  if (Net.base) {
+    fetch(Net.base + '/api/p/health').then(function (r) { return r.json(); }).then(function (j) {
+      var v = j && j.version;
+      serverNote = !v || older(v, Shell.VERSION) ? ' · ⚠ ' + t('home.serverOld', { v: v || '?' }) : ' · ' + t('home.server', { v: v });
+      $('version').textContent = t('home.version', { v: Shell.VERSION }) + serverNote;
+    }, function () {
+      serverNote = ' · ⚠ ' + t('home.serverOff');
+      $('version').textContent = t('home.version', { v: Shell.VERSION }) + serverNote;
+    });
   }
   function chevron() {
     var n = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -174,7 +136,7 @@
   /* ------------------------------------------------------------ the menu --- */
   // Everything that is not on the front, in one list as in the phone apps (GitHub, banking ...):
   // who is playing; ways to play; the community; settings; MBG Games; help; Close.
-  var menu = null;
+  var menu = null, menuOpen = null;
   function openMenu() {
     if (menu && menu.open) return;
     menu = el('dialog', 'dlg drawer');
@@ -235,10 +197,23 @@
     prof.appendChild(pbt);
     sc.appendChild(prof);
 
-    function group(title) {
-      sc.appendChild(el('h3', 'drw-sec', title));
+    // 1.1.0 - the sections fold: the menu opens with six lines instead of twenty-four
+    function group(title, icon, key) {
       var g = el('div', 'drw-group');
-      sc.appendChild(g);
+      if (!key) { sc.appendChild(el('h3', 'drw-sec', title)); sc.appendChild(g); return g; }
+      var det = el('details', 'drw-fold');
+      det.open = menuOpen === key;
+      var sm = el('summary', 'drw-row');
+      sm.appendChild(el('span', 'drw-ic', icon));
+      var st = el('span', 'drw-t'); st.appendChild(el('strong', null, title)); sm.appendChild(st);
+      sm.appendChild(chevron());
+      det.appendChild(sm);
+      det.appendChild(g);
+      det.addEventListener('toggle', function () {
+        if (det.open) { menuOpen = key; Array.prototype.forEach.call(sc.querySelectorAll('details.drw-fold'), function (o) { if (o !== det) o.open = false; }); }
+        else if (menuOpen === key) menuOpen = null;
+      });
+      sc.appendChild(det);
       return g;
     }
     function row(g, icon, title, sub, onClick, o) {
@@ -262,11 +237,12 @@
     }
 
     // ways to play (the same entries as before: the setup with the opponent chosen, party, watch)
-    var g = group(t('ways.title'));
+    var g = group(t('ways.title'), '🎮', 'ways');
     if (MBG.DailyUI) row(g, '🗓️', t('daily.menu'), t('daily.menuText'), then(function () { MBG.DailyUI.openBoard().then(render); }), { tone: 'when' });
-    row(g, '⚙', t('hero.setup'), MBG.WhoSetup.describe(MBG.WhoSetup.last()), then(function () { MBG.WhoSetup.open({}); }), { tone: 'who' });
-    [['computer', '🤖', 'who'], ['online', '🌍', 'where'], ['tabs', '👥', 'what'], ['watch', '👀', 'when'], ['party', '🎉', 'what']].forEach(function (w) {
-      row(g, w[1], t('ways.' + w[0]), t('ways.' + w[0] + 'Text'), then(function () {
+    // 1.1.3: a person first, the computer second
+    [['online', '🌍', 'where'], ['friend', '👫', 'where'], ['computer', '🤖', 'who'], ['tabs', '👥', 'what'], ['watch', '👀', 'when'], ['party', '🎉', 'what']].forEach(function (w) {
+      row(g, w[1], w[0] === 'friend' ? t('fr.playFriend') : t('ways.' + w[0]), w[0] === 'friend' ? t('fr.menuText') : t('ways.' + w[0] + 'Text'), then(function () {
+        if (w[0] === 'friend') { MBG.Friends.open().then(render); return; }
         if (w[0] === 'party') { Shell.go('party.html'); return; }
         if (w[0] === 'watch') { Shell.writeJson('MBG.Who.next', { setup: MBG.WhoSetup.last(), at: Date.now() }); Shell.go('play.html?games=1'); return; }
         MBG.WhoSetup.open({ opponent: w[0] === 'tabs' ? 'tabs' : w[0] === 'online' ? 'online' : 'computer' });
@@ -274,7 +250,9 @@
     });
 
     // the community
-    g = group(t('home.secCommunity'));
+    g = group(t('home.secCommunity'), '🌍', 'community');
+    row(g, '👫', t('fr.title'), t('fr.menuText'), then(function () { MBG.Friends.open().then(render); }), { tone: 'where' });
+    row(g, '👥', t('grp.title'), t('grp.menuText'), then(function () { MBG.Groups.open().then(render); }), { tone: 'who' });
     row(g, '🏛️', t('hof.title'), t('hof.top20'), then(openHof), { tone: 'when' });
     var s = MBG.WhoStats.mine(), pr = s.practice;
     row(g, '📊', t('stats.titleFull'), t('stats.title', { name: Shell.playerName() }) + ' · ' + s.played + ' ' + t('stats.played').toLowerCase() +
@@ -289,7 +267,7 @@
     row(g, '🔔', t('note.title'), '', then(function () { MBG.Notify.open().then(MBG.Notify.paint); }), { tone: 'when' });
 
     // settings: language, sound, the paid-edition preview (browser only)
-    g = group(t('set.title'));
+    g = group(t('set.title'), '⚙', 'settings');
     row(g, '🌐', t('lang.label'), Shell.langName(Shell.getLang()), function () {
       MBG.LangMenu.open(Shell.getLang()).then(function (l) { if (l) { Shell.setLang(l); render(); MBG.Notify.paint(); } });
     }, { tone: 'where' });
@@ -307,7 +285,7 @@
     }
 
     // MBG Games and the ratings
-    g = group(t('games.title'));
+    g = group(t('games.title'), '🧩', 'games');
     MBG.GAMES.forEach(function (gm) {
       var here = gm.id === MBG.GAME_ID;
       var stars = el('span', 'gl-stars');
@@ -323,9 +301,7 @@
 
     // help and contact
     var Cn = Shell.CONTACT;
-    g = group(t('home.secHelp'));
-    var hint = el('p', 'drw-hint', t('contact.title') + ' ' + t('contact.text'));
-    g.parentNode.insertBefore(hint, g);
+    g = group(t('home.secHelp'), '❓', 'help');
     row(g, '🎬', t('about.title'), t('about.replay'), then(function () { MBG.Intro.splash(true); }), { tone: 'when' });
     row(g, '💬', 'WhatsApp', Cn.phone, null,
       { href: 'https://wa.me/' + Cn.whatsapp + '?text=' + encodeURIComponent(t('contact.waMessage')), blank: true, tone: 'who' });
@@ -371,7 +347,8 @@
         mid.appendChild(el('strong', null, row.name));
         if (row.sub) mid.appendChild(el('span', 'muted small', row.sub));
         li.appendChild(mid);
-        li.appendChild(el('b', 'num hof-val', String(row.value)));
+        li.appendChild(row.money ? Shell.prize(row.value, 'hof-val') : el('b', 'num hof-val', String(row.value)));
+        if (row.profile && MBG.Profile) MBG.Profile.link(li, { name: row.name });   // 1.1.4: tap - the player's profile
         ol.appendChild(li);
       });
       return ol;
@@ -382,7 +359,7 @@
       if (!best.length) b.appendChild(el('p', 'muted', t('hof.emptyDevice')));
       else b.appendChild(table(best.map(function (e) {
         var m = C.MODES[e.mode] || C.MODES.who;
-        return { name: e.name, value: e.score, me: e.name === me, sub: m.icon + ' ' + e.answer + ' · ' + C.LEVELS[e.level].names[LI()] + ' · ' + t('hof.questions', { n: e.used }) + ' · ' + Shell.dateText(e.at, { year: true }) };
+        return { name: e.name, money: true, value: e.score, me: e.name === me, sub: m.icon + ' ' + e.answer + ' · ' + C.LEVELS[e.level].names[LI()] + ' · ' + t('hof.questions', { n: e.used }) + ' · ' + Shell.dateText(e.at, { year: true }) };
       })));
       var pr = MBG.WhoStats.practiceAll();
       if (pr.length) {
@@ -399,10 +376,10 @@
       var rt = res[0].rows || [], rd = res[1].rows || [], my = (MBG.Account.name && MBG.Account.name()) || Shell.playerName();
       b.appendChild(el('h3', null, '🏆 ' + t('hof.top20')));
       if (!rt.length) b.appendChild(el('p', 'muted', t('hof.emptyWorld')));
-      else b.appendChild(table(rt.map(function (r) { return { name: r.name, value: r.rating, me: r.name === my, sub: t('title.' + r.title) + ' · ' + t('hof.games', { n: r.games }) }; })));
+      else b.appendChild(table(rt.map(function (r) { return { name: r.name, value: r.rating, me: r.name === my, profile: true, sub: t('title.' + r.title) + ' · ' + t('hof.games', { n: r.games }) }; })));
       b.appendChild(el('h3', null, '🏅 ' + t('hof.bestRounds')));
       if (!rd.length) b.appendChild(el('p', 'muted', t('hof.emptyWorld')));
-      else b.appendChild(table(rd.map(function (r) { return { name: r.name, value: r.score, me: r.name === my, sub: r.answer + ' · ' + Shell.dateText(r.at, { year: true }) }; })));
+      else b.appendChild(table(rd.map(function (r) { return { name: r.name, money: true, value: r.score, me: r.name === my, profile: true, sub: r.answer + ' · ' + Shell.dateText(r.at, { year: true }) }; })));
       b.appendChild(el('p', 'muted small', t('hof.worldNote')));
     }, function () { load.textContent = t('online.error'); });
     return Shell.closed(sh.dlg);
@@ -494,20 +471,61 @@
   }
 
   /* ------------------------------------------------------------ actions --- */
+  /**
+   * 1.1.3 - "Other ways to play": the big Play is always a person; here the rest - the computer, a friend,
+   * two players on one computer, watching, the party - and choosing the game yourself.
+   */
+  function openWays() {
+    var sh = Shell.sheet({ id: 'dlgWays', title: '🎮 ' + t('hero.other'), cls: 'wayssheet' });
+    var b = sh.body, WS = MBG.WhoSetup;
+    var list = [
+      ['🤖', t('ways.computer'), t('ways.computerText'), function () { WS.open({ opponent: 'computer' }); }],
+      ['👫', t('fr.playFriend'), t('fr.menuText'), function () { MBG.Friends.open().then(render); }],
+      ['👥', t('ways.tabs'), t('ways.tabsText'), function () { WS.open({ opponent: 'tabs' }); }],
+      ['👀', t('ways.watch'), t('ways.watchText'), function () { Shell.writeJson('MBG.Who.next', { setup: WS.last(), at: Date.now() }); Shell.go('play.html?games=1'); }],
+      ['🎉', t('ways.party'), t('ways.partyText'), function () { Shell.go('party.html'); }],
+      ['⚙', t('ways.setup'), t('ways.setupText'), function () { WS.open({}); }]
+    ];
+    list.forEach(function (x) {
+      var r = el('button', 'homerow ways-row'); r.type = 'button';
+      r.appendChild(el('span', 'hr-ic', x[0]));
+      var tx = el('span', 'hr-t');
+      tx.appendChild(el('strong', null, x[1]));
+      tx.appendChild(el('span', null, x[2]));
+      r.appendChild(tx);
+      r.addEventListener('click', function () { sh.close(); x[3](); });
+      b.appendChild(r);
+    });
+    return Shell.closed(sh.dlg);
+  }
   $('btnLang').addEventListener('click', function () {
     MBG.LangMenu.open(Shell.getLang()).then(function (l) { if (l) { Shell.setLang(l); render(); MBG.Notify.paint(); } $('btnLang').focus(); });
   });
-  // "Play": always "Who am I?" (the other question words start from "Explore more")
+  // "Play": always "Who am I?" (the other question words start from "Explore more"). The game is
+  // played against people: signed in with the server on = a ranked match online first (the computer
+  // is offered after 15 seconds without an opponent). Not signed in = sign in, or the computer.
   $('btnQuick').addEventListener('click', function () {
-    var s = MBG.WhoSetup.last();
-    if (s.mode !== 'who') { s.mode = 'who'; s.cat = null; s.subs = []; }
-    MBG.WhoSetup.start(s);
+    var WS = MBG.WhoSetup;
+    if (!WS.onlineReady() || WS.signedIn() || Shell.getPrefs().guestOk) { WS.start(WS.quick(null, true)); return; }
+    // not signed in, the first time: a guest online (no rating), an MBG account (ranked), or the computer
+    var sh = Shell.sheet({ id: 'dlgPlayOnline', title: '🌍 ' + t('online.quickTitle'), modal: true });
+    sh.body.appendChild(el('p', null, t('online.quickText')));
+    var col = el('div', 'btncol');
+    [['👤 ' + t('online.quickSignin'), 'submit', function () {
+      MBG.Account.open().then(function () { render(); if (WS.signedIn()) WS.start(WS.quick(null, true)); });
+    }], ['🎮 ' + t('online.quickGuest'), 'ghost', function () { Shell.setPrefs({ guestOk: true }); WS.start(WS.quick(null, true)); }],
+    ['🎮 ' + t('hero.other'), 'ghost', function () { openWays(); }]].forEach(function (x) {
+      var b = el('button', 'btn ' + x[1], x[0]); b.type = 'button';
+      b.addEventListener('click', function () { sh.close(); x[2](); });
+      col.appendChild(b);
+    });
+    sh.body.appendChild(col);
   });
   if (MBG.Billing) MBG.Billing.onChange(render);
   if (MBG.Access) MBG.Access.onChange(function () { render(); });
-  $('explore').addEventListener('toggle', function () { Shell.setPrefs({ exploreOpen: $('explore').open }); });
-  $('btnSetup').addEventListener('click', function () { MBG.WhoSetup.open({}); });
-  $('btnHof').addEventListener('click', function () { openHof(); });
+  $('btnSetup').addEventListener('click', function () { openWays(); });
+  $('dailyRow').addEventListener('click', function () { MBG.DailyUI.openBoard().then(render); });
+  $('tabGroups').addEventListener('click', function () { MBG.Groups.open().then(render); });
   $('meRow').addEventListener('click', openStats);
   $('btnAcc').addEventListener('click', function () { MBG.Account.open().then(render); });
   // the tab bar
@@ -541,15 +559,14 @@
   Shell.setBackHandler(function () { if (goodbyeShown()) { clearTimeout(closeTimer); Shell.exitApp(); return; } confirmExit(); });
 
   document.addEventListener('visibilitychange', function () { if (!document.hidden) { Shell.applyLook(); render(); } });
-  // the hero card shows "Who am I?" - the main game; it flips now and then to catch the eye
-  setInterval(function () {
-    var card = document.querySelector('.hero-card');
-    if (card && !matchMedia('(prefers-reduced-motion: reduce)').matches) { card.classList.remove('flip'); void card.offsetWidth; card.classList.add('flip'); }
-  }, 6000);
+  // the hero card shows "Who am I?" - the main game. 1.1.8: it stays still (its 3D flip every 6 seconds made
+  // the screen flicker on weak Android phones).
 
   Shell.applyLook();
   render();
   MBG.Notify.paint();
+  if (MBG.Push) MBG.Push.init();   // phone notifications: Android asks once, after signing in
+  if (MBG.Available) MBG.Available.start();   // with the app open you are available for a game (an invitation can be declined)
   // When the app opens: the intro film (once per start, not when coming back from a game, not when
   // a notification link opened this page); then, the very first time, the greeting and the four
   // languages (MBG Puzzles 1.7.3).
@@ -561,9 +578,12 @@
   });
   // links from notifications on other screens: index.html#board, #judge, #case=..., #daily=where
   var hash = root.location.hash;
-  if (hash === '#board') MBG.Board.open().then(render);
+  if (hash === '#inbox') MBG.Notify.open().then(MBG.Notify.paint);
+  else if (hash === '#board') MBG.Board.open().then(render);
   else if (/^#daily/.test(hash) && MBG.DailyUI) MBG.DailyUI.openBoard(hash.split('=')[1]).then(render);
   else if (hash === '#judge') MBG.Judge.open().then(render);
+  else if (hash === '#friends') MBG.Friends.open().then(render);
+  else if (/^#friend=/.test(hash)) { var fp = hash.slice(8).split('&'); MBG.Friends.answer({ id: decodeURIComponent(fp[0]), name: decodeURIComponent(fp[1] || ''), play: fp[2] === 'play' }); }
   else if (/^#case=/.test(hash)) MBG.Judge.openCase(decodeURIComponent(hash.slice(6))).then(render);
   MBG.home = { render: render, menu: openMenu };
 })(typeof self !== 'undefined' ? self : globalThis);

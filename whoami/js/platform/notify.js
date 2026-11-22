@@ -41,6 +41,9 @@
       var dm = MBG.WhoDaily && MBG.WhoDaily.parseId(link.id);
       if (home && MBG.DailyUI) MBG.DailyUI.openBoard(dm ? dm.mode : null); else Shell.go('index.html#daily=' + (dm ? dm.mode : ''));
     }
+    // 1.1.3 - friends: the list (a request, a yes) - or one friend (an invitation, a message): play or answer
+    else if (link.kind === 'friends') { if (MBG.Friends) MBG.Friends.open(); else Shell.go('index.html#friends'); }
+    else if (link.kind === 'friend') { if (MBG.Friends) MBG.Friends.answer(link); else Shell.go('index.html#friend=' + encodeURIComponent(link.id) + '&' + encodeURIComponent(link.name || '') + (link.play ? '&play' : '')); }
     else if (link.kind === 'hof') { if (home) { var b = root.document.querySelector('.hofbtn'); if (b) b.click(); } else Shell.go('index.html'); }
   }
 
@@ -116,11 +119,33 @@
         b.appendChild(r);
       }
       b.appendChild(el('h3', null, '✉️ ' + t('note.email')));
-      ['message', 'judge', 'decision', 'match', 'achievement'].forEach(function (k) { row(t('note.email.' + k), p.email[k] === true || (p.email[k] !== false && k !== 'achievement'), function (v) { p.email[k] = v; }); });
+      ['message', 'judge', 'decision', 'match', 'achievement'].forEach(function (k) { row(t('note.email.' + k), p.email[k] !== false, function (v) { p.email[k] = v; }); });
       b.appendChild(el('h3', null, '⏰ ' + t('note.reminders')));
       row(t('note.remindersText'), p.reminders, function (v) { p.reminders = v; });
       b.appendChild(el('h3', null, '📱 ' + t('note.push')));
-      b.appendChild(el('p', 'muted small', t('note.pushLater')));
+      if (MBG.Push && MBG.Push.supported()) {
+        row(t('note.pushText'), p.push !== false, function (v) { p.push = v; if (v) MBG.Push.enable(true); else MBG.Push.disable(); });
+      } else b.appendChild(el('p', 'muted small', t('note.pushLater')));
+      // pause: no e-mail and no phone notification for a while (the bell stays)
+      b.appendChild(el('h3', null, '⏸ ' + t('mute.title')));
+      var mt = el('p', 'muted small'), seg = el('div', 'seg wide mute-seg');
+      var MK = { 0: 'mute.off', 8: 'mute.h8', 24: 'mute.h24', 168: 'mute.h168', 720: 'mute.h720' };
+      function paintMute() {
+        var on = Number(p.muteUntil) > Date.now();
+        mt.textContent = on ? t('mute.until', { time: Shell.dateText(p.muteUntil, {}) + ' ' + new Date(p.muteUntil).toTimeString().slice(0, 5) }) : t('mute.text');
+        seg.textContent = '';
+        [0, 8, 24, 168, 720].forEach(function (h) {
+          var sb = el('button', 'seg-btn' + (h === 0 && !on ? ' on' : ''), t(MK[h])); sb.type = 'button';
+          sb.addEventListener('click', function () {
+            var q = JSON.parse(JSON.stringify(p)); q.muteHours = h;
+            Net.notes.setPrefs(q).then(function (r) { p.muteUntil = (r && r.muteUntil) || 0; paintMute(); if (h) Shell.toast('⏸ ' + t(MK[h])); });
+          });
+          seg.appendChild(sb);
+        });
+      }
+      paintMute();
+      b.appendChild(seg); b.appendChild(mt);
+      b.appendChild(el('p', 'muted small', t('mute.never')));
       b.appendChild(el('p', 'muted small', t('note.security')));
     });
   }

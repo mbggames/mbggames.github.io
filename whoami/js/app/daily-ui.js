@@ -166,7 +166,7 @@
         mid.appendChild(el('strong', null, r.name));
         mid.appendChild(el('span', 'muted small', r.won ? t('hof.questions', { n: r.used }) + ' · ⏱ ' + Math.floor(r.secs / 60) + ':' + String(r.secs % 60).padStart(2, '0') : t('daily.notSolved')));
         li.appendChild(mid);
-        li.appendChild(el('b', 'num hof-val', String(r.score)));
+        li.appendChild(Shell.prize(r.score, 'hof-val'));
         list.appendChild(li);
       });
       if (world === false) return;

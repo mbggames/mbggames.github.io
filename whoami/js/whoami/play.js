@@ -13,6 +13,8 @@
   var $ = function (id) { return document.getElementById(id); };
   var el = Shell.el, t = Shell.t;
   var params = new URLSearchParams(root.location.search);
+  // 1.1.3: this tab keeps the player it started with (two tabs of one browser = two players)
+  Shell.pin(['MBG.Platform.account', Shell.KEYS.user]);
   var next = Shell.readJson('MBG.Who.next', null);
   var setup = (next && next.setup) || MBG.WhoSetup.last();
   var L = function (key, p) { return Shell.tIn(setup.lang, key, p); };      // texts of the match: the playing language (FR-008)
@@ -59,7 +61,22 @@
     return (view.players || []).filter(function (p) { return p.id !== me(); })[0] || {};
   }
   function many() { return (view.players || []).length > 2; }
+  /** 1.1.9 - "📍 Where am I? · Geography: Capitals, Rivers" */
+  function topicLabel(mode, cat, subs, short, own) {
+    var md = C.MODES[mode] || C.MODES.who, ct = cat ? C.CATS[cat] : null;
+    var out = md.icon + ' ' + md.title[LIx];
+    if (own) return out + ' · ✍️ ' + own;
+    if (!ct) return out + (short ? '' : ' · ' + L('cat.anyOf'));
+    var ss = (subs || []).filter(function (x) { return ct.subs[x]; }).map(function (x) { return C.name(ct.subs[x], setup.lang); });
+    return out + ' · ' + C.name(ct, setup.lang) + (ss.length ? ': ' + ss.slice(0, 3).join(', ') + (ss.length > 3 ? ' …' : '') : '');
+  }
   function catLabel() {
+    var rr = round();
+    // 1.1.9: between people both always see the category of the round (chosen by one of them)
+    if (view && view.pickCat && rr && rr.status === 'category') return '🎯 ' + L('cat.pending');
+    if (view && view.pickCat && rr) return topicLabel(view.mode, view.cat, view.subs, true, view.own);
+    if (rr && (rr.status === 'choosing' || rr.status === 'category')) return C.MODES[setup.mode].title[LIx];
+    if (rr && rr.chosen) return '✍️ ' + L('card.chosenBy', { name: player(rr.answerer).id === me() ? L('you') : player(rr.answerer).name });
     var cat = view && view.cat ? C.CATS[view.cat] : null;
     if (!cat) return C.MODES[setup.mode].title[LIx];
     var s = (view.subs || []).filter(function (x) { return cat.subs[x]; }).map(function (x) { return C.name(cat.subs[x], setup.lang); });
@@ -69,33 +86,43 @@
   function respBadge(code) { return el('span', 'resp r-' + String(code).toLowerCase(), L('resp.' + code)); }
 
   /* --------------------------------------------------------------- render --- */
+  /** 1.1.8: writes a text only when it changed (rewriting the same emoji twice a second flickered on weak phones). */
+  function txt(id, v) { var n = $(id); v = String(v); if (n && n.textContent !== v) n.textContent = v; }
   function render(v, ev) {
     view = v;
     var r = round();
     if (!r) return;
     var rl = role();
     app.setAttribute('data-role', rl);
-    $('roundChip').textContent = L('round.chip', { n: r.index + 1, of: view.totalRounds || view.cfg.rounds }) + ' · ' +
-      L({ guesser: 'round.youGuess', answerer: 'round.youAnswer', watching: 'round.watching', observer: 'round.observer', outside: 'round.observer' }[rl]);
+    txt('roundChip', L('round.chip', { n: r.index + 1, of: view.totalRounds || view.cfg.rounds }) + ' · ' +
+      L({ guesser: 'round.youGuess', answerer: 'round.youAnswer', watching: 'round.watching', observer: 'round.observer', outside: 'round.observer' }[rl]));
     // the players and their scores: with two, always the same sides; with more, the Guesser and the Answerer
     var pa = many() ? player(r.guesser) : view.players[0], pb = many() ? player(r.answerer) : view.players[1];
+    // 1.1.8: rebuilt only when something in it changed - the clock renders every half second, and redrawing the
+    // pictures and the 🪙/💵 prize icons that often made weak Android phones flicker
     [['plA', pa], ['plB', pb]].forEach(function (x) {
       var box = $(x[0]), p = x[1];
-      box.textContent = '';
       box.classList.toggle('turn', r.guesser === p.id && r.status === 'playing');
       box.classList.toggle('mine', p.id === me());
+      var pk = [p.id, p.name, p.kind, view.totals[p.id] || 0, p.id === me() ? MBG.Account.avatar() : '', !!(tr && tr.room)].join('|');
+      if (box.getAttribute('data-k') === pk) return;
+      box.setAttribute('data-k', pk);
+      box.textContent = '';
       var av = p.kind === 'bot' ? el('span', 'av av-sm av-emoji bot', '🤖') : MBG.Account.picture(p.id === me() ? MBG.Account.avatar() : '', 'av-sm');
       box.appendChild(av);
       var tx = el('span', 'pl-t');
-      tx.appendChild(el('span', 'pl-name', p.id === me() ? L('you') : p.name));
-      tx.appendChild(el('b', 'num pl-score', String(view.totals[p.id] || 0)));
+      var nm = el('span', 'pl-name', p.id === me() ? L('you') : p.name);
+      // 1.1.4: online, a tap on a person's name shows the profile (rating and all)
+      if (p.kind !== 'bot' && tr && tr.room && MBG.Profile) MBG.Profile.link(nm, { id: p.id, name: p.name });
+      tx.appendChild(nm);
+      tx.appendChild(Shell.prize(view.totals[p.id] || 0, 'pl-score'));
       box.appendChild(tx);
     });
     renderMore(r);
     renderRequests();
     // the clock: the Guesser's time
     var rem = r.remaining, frac = rem / (view.cfg.roundSeconds + (r.bonusSec || 0));
-    $('clock').textContent = mmss(rem);
+    txt('clock', mmss(rem));
     var ring = $('ring'), len = 2 * Math.PI * 19;
     ring.style.strokeDasharray = len.toFixed(1);
     ring.style.strokeDashoffset = (len * (1 - frac)).toFixed(1);
@@ -114,32 +141,140 @@
     }
     // the card
     var card = $('card');
-    card.className = 'fcard big mode-' + view.mode;
-    // everyone but the Guesser sees the card (the Answerer, the other players, the observers)
-    var open = !!r.answer && (rl !== 'guesser' || r.status !== 'playing');
-    card.classList.toggle('open', open);
-    $('cardIcon').textContent = C.MODES[view.mode].icon;
-    $('cardCat').textContent = catLabel();
-    $('cardCat2').textContent = rl === 'answerer' && r.status === 'playing' ? L('card.yours') : catLabel();
+    // everyone but the Guesser sees the card (the Answerer, the other players, the observers).
+    // The classes change only when something changed: the clock repaints this every half second.
+    var open = !!r.answer && r.status !== 'choosing' && r.status !== 'category' && (rl !== 'guesser' || r.status !== 'playing');
+    var cls = 'fcard big mode-' + view.mode + (open ? ' open' : '');
+    if (card.getAttribute('data-cls') !== cls) {
+      var opening = open && / open$/.test(cls) && card.getAttribute('data-cls') !== null && !/ open$/.test(card.getAttribute('data-cls'));
+      card.className = cls + (opening ? ' opening' : '');
+      card.setAttribute('data-cls', cls);
+    }
+    txt('cardIcon', C.MODES[view.mode].icon);
+    txt('cardCat', catLabel());
+    txt('cardCat2', rl === 'answerer' && r.status === 'playing' ? L('card.yours') : catLabel());
     if (r.answer) {
-      $('cardName').textContent = X.labelIn(r.answer, setup.lang);
-      $('cardFacts').textContent = MBG.WhoFacts.line(r.answer, setup.lang);
+      txt('cardName', X.labelIn(r.answer, setup.lang));
+      txt('cardFacts', MBG.WhoFacts.line(r.answer, setup.lang));
     }
     // questions left and guesses
-    var pips = $('pips');
-    pips.textContent = '';
-    for (var i = 0; i < view.cfg.maxQuestions + (r.bonusQ || 0); i++) pips.appendChild(el('span', 'pip' + (i < r.used ? ' used' : '') + (i >= view.cfg.maxQuestions ? ' bonus' : '')));
-    $('meterText').textContent = L('meter', { q: r.questionsLeft, g: view.cfg.maxWrong - r.wrong }) + ' · ' + C.LEVELS[view.level].names[LIx] + ' ×' + C.LEVELS[view.level].mult.toFixed(2);
+    var pips = $('pips'), pipKey = [view.cfg.maxQuestions, r.bonusQ || 0, r.used].join('|');
+    if (pips.getAttribute('data-k') !== pipKey) { pips.setAttribute('data-k', pipKey); pips.textContent = ''; }
+    if (!pips.childNodes.length) for (var i = 0; i < view.cfg.maxQuestions + (r.bonusQ || 0); i++) pips.appendChild(el('span', 'pip' + (i < r.used ? ' used' : '') + (i >= view.cfg.maxQuestions ? ' bonus' : '')));
+    txt('meterText', L('meter', { q: r.questionsLeft, g: view.cfg.maxWrong - r.wrong }) + ' · ' + C.LEVELS[view.level].names[LIx] + ' ×' + C.LEVELS[view.level].mult.toFixed(2));
     var hl = $('hintLine');
     hl.hidden = !r.hints.length && !r.spell;
-    hl.textContent = (r.hints.length ? '💡 ' + r.hints.map(clueText).join(' · ') : '') + (r.spell ? (r.hints.length ? '   ' : '') + '✏️ ' + r.spell : '');
+    txt('hintLine', (r.hints.length ? '💡 ' + r.hints.map(clueText).join(' · ') : '') + (r.spell ? (r.hints.length ? '   ' : '') + '✏️ ' + r.spell : ''));
     countGame(r, rl);
     renderLog(r);
     renderControls(r, rl);
     renderChatBadge();
     if (ev) react(ev, r, rl);
     if (r.status === 'playing' && shownStart !== r.index) { shownStart = r.index; forehead(r, rl); }
-    if (r.status !== 'playing' && shownEnd !== r.index) { shownEnd = r.index; setTimeout(function () { roundEnd(r); }, 700); }
+    var over = r.status !== 'playing' && r.status !== 'choosing' && r.status !== 'category';      // 1.1.0 / 1.1.9: choosing the category and the card is not the end of a round
+    // 1.1.6: a cancelled match has no round card - it goes straight to "this match does not count"
+    if (view.voided) { if (shownEnd !== 'void') { shownEnd = 'void'; setTimeout(cancelled, 300); } }
+    // 1.1.8: the other player left (the leave button, closed the game screen, searched a new game) - also between
+    // rounds: the match is over at once, with what next (a rematch, a new opponent, home); nobody waits for them
+    else if (view.state === 'done' && view.result && view.result.left && view.result.left !== me() && !view.watching && !view.outside) {
+      if (shownEnd !== 'left') { shownEnd = 'left'; setTimeout(function () { closeSheets(['dlgRound', 'dlgGuess', 'dlgAgree', 'dlgQuit', 'dlgHelp']); result(); }, 300); }
+    }
+    else if (over && shownEnd !== r.index) { shownEnd = r.index; setTimeout(function () { roundEnd(r); }, 700); }
+    renderAway();
+  }
+
+  /* ------------------------------ the connection, and a player who is away (1.1.6) --- */
+  // The connection to a match looks after itself (transport.js). While it is being made again the screen
+  // says so; after a minute it offers to leave - which then costs nothing. And when the OTHER player cannot
+  // be reached, this player sees it, with the time - and after 45 seconds may end the match: it does not count.
+  var linkDown = 0, linkTimer = null, linkAsked = false;
+  function onLink(st) {
+    var bar = $('linkBar');
+    if (st === 'gone') { neverStarted(); return; }
+    if (st === 'up') {
+      // (a blink of a second is nobody's business: said only when the banner was up)
+      if (view && !bar.hidden) Shell.toast('✅ ' + L('link.back'), 2200);
+      linkDown = 0; linkAsked = false; clearInterval(linkTimer); linkTimer = null; bar.hidden = true;
+      return;
+    }
+    if (!linkDown) linkDown = Date.now();
+    var paint = function () {
+      if (!linkDown) return;
+      var sec = Math.round((Date.now() - linkDown) / 1000);
+      if (sec < 2) return;
+      bar.hidden = false;
+      bar.textContent = '📡 ' + L('link.down', { s: mmss(sec) });
+      if (sec >= 60 && !linkAsked && view && view.state !== 'done') { linkAsked = true; linkGiveUp(); }
+    };
+    paint();
+    if (!linkTimer) linkTimer = setInterval(paint, 1000);
+  }
+  /** No connection for a minute: keep trying, or leave - and leaving now costs nothing. */
+  function linkGiveUp() {
+    Shell.confirm({ title: '📡 ' + L('link.longTitle'), text: L('link.longText'), ok: L('link.leave'), cancel: L('link.keep') }).then(function (ok) {
+      if (ok) leaveFree(); else setTimeout(function () { linkAsked = false; }, 45000);
+    });
+  }
+  /** Out of a match that failed: nothing is sent as "leaving", nothing counts; the game given back (paid edition). */
+  function leaveFree() {
+    if (counted && MBG.Plan && MBG.Plan.giveBack) { MBG.Plan.giveBack(); counted = null; }
+    if (tr && tr.stop) tr.stop();
+    Shell.goHome();
+  }
+  /** The match room was never reached (the match was not made after all): say so - nothing counts. */
+  function neverStarted() {
+    waiting(false);
+    loading('⚠ ' + L('link.neverTitle'), L('link.neverText'));
+    var ex = $('ldExtra'); ex.textContent = '';
+    var again = el('button', 'btn submit', '🔎 ' + L('link.searchAgain')); again.type = 'button';
+    again.addEventListener('click', function () { if (tr && tr.stop) tr.stop(); Shell.go('play.html?online=1'); });
+    ex.appendChild(again);
+  }
+  var awayTimer = null;
+  function renderAway() {
+    var box = $('awayBox');
+    var live = view && view.state !== 'done' && tr && tr.awaySecs && !view.watching && !view.outside && !view.vsComputer;
+    var o = live ? (view.players || []).filter(function (p) { return p.id !== me() && !p.left && tr.awaySecs(p.id) != null; })[0] : null;
+    var secs = o ? tr.awaySecs(o.id) : 0;
+    // (a moment of reconnecting is nobody's business: shown from 3 seconds on - 1.1.8, was 8)
+    if (!o || secs < 3) { box.hidden = true; if (!o) { clearInterval(awayTimer); awayTimer = null; } else if (!awayTimer) awayTimer = setInterval(function () { if (view) renderAway(); }, 1000); return; }
+    box.hidden = false;
+    var free = secs >= (view.awayFree || 20) + 2;      // (2 seconds more than the room counts: it must agree)
+    // 1.1.8: the other player closed the game screen (not a lost connection): back in a few seconds, or the match is over
+    var screen = view.awayWhy && view.awayWhy[o.id] === 'screen';
+    if (screen) txt('awayText', '🚪 ' + L('away.screen', { name: o.name, s: Math.max(0, (view.screenGrace || 12) - secs) }));
+    else txt('awayText', '📡 ' + L(free ? 'away.long' : 'away.short', { name: o.name, s: mmss(secs) }));
+    $('awayEnd').hidden = !free || screen;
+    txt('awayEnd', L('away.end'));
+    if (!awayTimer) awayTimer = setInterval(function () { if (view) renderAway(); }, 1000);
+  }
+  $('awayEnd').addEventListener('click', function () {
+    Shell.confirm({ title: L('away.endTitle'), text: L('away.endText'), ok: L('away.end'), cancel: L('dlg.cancel') }).then(function (ok) { if (ok && tr) tr.act('leave'); });
+  });
+  /** "This match does not count" - why, and what next. Nothing is recorded: no statistics, no rating, no points. */
+  function cancelled() {
+    if (shownResult) return;
+    shownResult = true;
+    clearTimeout(agreeWait);
+    ['dlgRound', 'dlgGuess', 'dlgResult', 'dlgAgree', 'dlgQuit'].forEach(function (id) { var d = document.getElementById(id); if (d && d.open) { try { d.close(); } catch (e) { /* closed */ } } });
+    clearInterval(awayTimer); awayTimer = null; $('awayBox').hidden = true; $('linkBar').hidden = true;
+    if (counted && MBG.Plan && MBG.Plan.giveBack) { MBG.Plan.giveBack(); counted = null; }
+    var res = view.result || {}, why = view.voided, mineBy = res.voidBy === me(), nm = (player(res.voidBy) || {}).name || other().name || '';
+    var key = why === 'agreed' ? 'void.agreed' : why === 'early' ? (mineBy ? 'void.earlyMe' : 'void.earlyThem') : why === 'away' ? (mineBy ? 'void.awayMe' : 'void.awayThem') : 'void.tech';
+    var sh = Shell.sheet({ id: 'dlgResult', title: '↩️ ' + L('void.title'), cls: 'resultsheet', modal: true });
+    var b = sh.body;
+    // 1.1.8: this player was not there when it ended - why (said already when the other one ended it for that reason)
+    var en = view.endNote;
+    if (en && MBG.WhoEndNote && key !== 'void.awayThem') b.appendChild(el('p', null, (en.why === 'screen' ? '🚪 ' : '📡 ') + MBG.WhoEndNote.why(en)));
+    b.appendChild(el('p', null, L(key, { name: nm })));
+    b.appendChild(el('p', 'statline good', '✅ ' + L(view.ranked ? 'void.nothingRanked' : 'void.nothing')));
+    var row2 = el('div', 'dlg-actions');
+    var home = el('button', 'btn ghost', L('res.home')); home.type = 'button';
+    home.addEventListener('click', function () { sh.close(); Shell.goHome(); });
+    var again = el('button', 'btn submit', '🔎 ' + L('void.again')); again.type = 'button';
+    again.addEventListener('click', function () { sh.close(); if (tr && tr.stop) tr.stop(); if (setup.friend) MBG.Friends.play({ id: setup.friend, name: params.get('fname') || '' }, setup); else MBG.WhoSetup.start(setup); });
+    row2.appendChild(home); row2.appendChild(again);
+    b.appendChild(row2);
   }
   function clueText(c) {
     if (c.k === 'letter') return L('clue.letter', { v: c.v });
@@ -178,6 +313,7 @@
         var flagged = (view.flags || []).some(function (f) { return f.turn === tu.id && f.round === r.index; });
         if (flagged) fl.classList.add('on');
         fl.addEventListener('click', function () {
+          if (MBG.WhoTransport.Online.guest() && tr instanceof MBG.WhoTransport.Online) { Shell.toast(L('disp.guest')); return; }
           if (r.status === 'playing') { tr.act('flag', { round: r.index, turn: tu.id, reason: '' }); Shell.toast(L('disp.marked')); }
           else MBG.Judge.dispute({ view: view, round: r, turn: tu, me: me() });
         });
@@ -194,7 +330,7 @@
       log.appendChild(li);
     });
     var empty = $('qempty');
-    empty.hidden = r.turns.length > 0 || r.guesses.length > 0;
+    empty.hidden = r.turns.length > 0 || r.guesses.length > 0 || r.status === 'choosing' || r.status === 'category';
     empty.textContent = L(rl === 'guesser' ? 'log.emptyGuesser' : rl === 'answerer' ? 'log.emptyAnswerer' : 'log.emptyWatching', { name: player(r.guesser).name });
     var h = $('history');
     h.scrollTop = h.scrollHeight;
@@ -221,7 +357,7 @@
     var canAnswer = !guesser && playing && pendTurn && r.answerer === me();
     pad.hidden = !canAnswer;
     if (canAnswer) {
-      $('rpQ').textContent = '“' + pendTurn.q + '”';
+      txt('rpQ', '“' + pendTurn.q + '”');
       var hint = $('rpHint');
       if (prefs.dataHint && r.answer) {
         var a = Q.answer(pendTurn.q, r.answer, setup.lang);
@@ -233,12 +369,24 @@
     var wait = $('waitLine');
     wait.hidden = true;
     var looker = rl === 'watching' || rl === 'observer' || rl === 'outside';
-    if (playing && guesser && pend) { wait.hidden = false; wait.textContent = L('wait.answer', { name: other().kind === 'bot' ? L('cpu.short') : other().name }); }
-    else if (playing && looker) { wait.hidden = false; wait.textContent = L(rl === 'outside' ? 'wait.outside' : 'wait.watching', { g: player(r.guesser).name, a: player(r.answerer).name }); }
-    else if (playing && !guesser && !pend) { wait.hidden = false; wait.textContent = L(other().kind === 'bot' ? 'wait.cpuThinks' : 'wait.question', { name: other().name }); }
+    // 1.1.0: the Answerer chooses the card; everyone else waits (the Guesser's clock has not started)
+    var choosing = r.status === 'choosing';
+    renderChoose(r, rl, choosing);
+    // 1.1.9: before that, one player chooses the category of the round; the others wait and are told
+    var picking = r.status === 'category';
+    renderCategory(r, picking && r.catBy === me());
+    if (picking && r.catBy !== me()) { wait.hidden = false; txt('waitLine', '🎯 ' + L('cat.waiting', { name: (player(r.catBy) || {}).name || '?', s: mmss(r.catLeft) }) + ' ' + whyPicker(r)); }
+    if (choosing && rl !== 'answerer') { wait.hidden = false; txt('waitLine', L(rl === 'guesser' ? 'choose.waitYou' : 'choose.waitOthers', { name: player(r.answerer).name, g: player(r.guesser).name, s: mmss(r.chooseLeft) })); }
+    if (playing && guesser && pend) { wait.hidden = false; txt('waitLine', L('wait.answer', { name: other().kind === 'bot' ? L('cpu.short') : other().name })); }
+    else if (playing && looker) { wait.hidden = false; txt('waitLine', L(rl === 'outside' ? 'wait.outside' : 'wait.watching', { g: player(r.guesser).name, a: player(r.answerer).name })); }
+    else if (playing && !guesser && !pend) { wait.hidden = false; txt('waitLine', L(other().kind === 'bot' ? 'wait.cpuThinks' : 'wait.question', { name: other().name })); }
     $('watchBar').hidden = rl !== 'observer';
     if (rl === 'observer') renderWatchBar();
     $('btnChat').hidden = rl === 'outside';
+    // 1.1.9: a clear "End the match" the whole time (between people it asks the other to end it together first)
+    var endB = $('btnEnd'), canEnd = view.state !== 'done' && (rl === 'guesser' || rl === 'answerer' || (!!player(me()) && !player(me()).left)) && !view.watching && !view.outside;
+    endB.hidden = !canEnd;
+    if (canEnd) txt('btnEnd', '🏳️ ' + L(view.vsComputer ? 'endm.btnCpu' : 'endm.btn'));
     renderChips(r);
   }
   /* ----------------------------------------- more players, observers, invites --- */
@@ -246,12 +394,16 @@
     var box = $('plMore'), shown = many() || (view.watchers || []).length || canInvite();
     box.hidden = !shown;
     if (!shown) return;
+    // 1.1.8: rebuilt only when it changed
+    var mk = JSON.stringify([(view.players || []).map(function (p) { return [p.id, p.name, p.left, view.totals[p.id] || 0]; }), r.guesser, r.answerer, (view.watchers || []).length, !!canInvite()]);
+    if (box.getAttribute('data-k') === mk) return;
+    box.setAttribute('data-k', mk);
     box.textContent = '';
     if (many()) view.players.forEach(function (p) {
       if (p.id === r.guesser || p.id === r.answerer) return;
       var c = el('span', 'pmchip' + (p.left ? ' left' : '') + (p.id === me() ? ' mine' : ''));
       c.appendChild(el('span', null, (p.id === me() ? L('you') : p.name)));
-      c.appendChild(el('b', 'num', String(view.totals[p.id] || 0)));
+      c.appendChild(Shell.prize(view.totals[p.id] || 0));
       box.appendChild(c);
     });
     if ((view.watchers || []).length) box.appendChild(el('span', 'pmchip watch', '👀 ' + L('obs.count', { n: view.watchers.length })));
@@ -268,6 +420,9 @@
   function renderRequests() {
     var bar = $('reqBar'), list = (view.requests || []).filter(function (q) { return !decided[q.id] && q.ok.indexOf(me()) === -1; });
     bar.hidden = !list.length;
+    var rk = list.slice(0, 2).map(function (q) { return q.id; }).join(',');   // 1.1.8: rebuilt only when it changed
+    if (bar.getAttribute('data-k') === rk) return;
+    bar.setAttribute('data-k', rk);
     bar.textContent = '';
     list.slice(0, 2).forEach(function (q) {
       var row = el('div', 'reqrow');
@@ -410,6 +565,18 @@
     }
     if (ev.type === 'hint') Shell.toast('💡 ' + clueText(ev.clue), 3000);
     if (ev.type === 'error' && ev.error === 'short') Shell.toast(L('ask.short'));
+    if (ev.type === 'error' && ev.error === 'card' && (!ev.to || ev.to === me())) cpFailed(ev.net ? 'net' : 'card');
+    // 1.1.7 - ending by agreement: the other one asks / says no
+    if (ev.type === 'endOffer' && ev.by !== me() && !view.watching && !view.outside) agreeAsked(ev.by);
+    if (ev.type === 'endDeclined' && ev.to === me()) { clearTimeout(agreeWait); Shell.toast('🤝 ' + L('agree.declined', { name: (player(ev.by) || {}).name || '' }), 3500); }
+    if (ev.type === 'error' && ev.error === 'end' && ev.why === 'limit' && (!ev.to || ev.to === me())) { clearTimeout(agreeWait); Shell.toast(L('agree.limit'), 3500); }
+    if (ev.type === 'error' && ev.error === 'category') { Shell.toast('⚠️ ' + L(ev.why === 'rude' ? 'cat.errRude' : 'cat.err'), 3500); if (round() && catSel) drawCategory(round()); }
+    // 1.1.9: the category of the round - everyone is told which one, and by whom
+    if (ev.type === 'category' && round()) {
+      var cr = round(), by = ev.by || cr.catBy, who = by === me() ? L('you') : (player(by) || {}).name || '?';
+      Shell.toast('🎯 ' + topicLabel(cr.mode, cr.cat, cr.subs, true, cr.own) + ' – ' + L(ev.kept ? (by ? 'cat.keptBy' : 'cat.keptTime') : 'cat.chosenBy', { name: who }), 4200);
+    }
+    if (ev.type === 'chosen' && round() && round().guesser === me()) Shell.toast('✍️ ' + L(ev.own ? 'choose.doneOwn' : 'choose.doneCpu', { name: other().name }), 2600);
     if (ev.type === 'chat' && ev.by !== me() && !chatOpen) play('hit1');
     if (ev.type === 'left' && ev.by !== me()) Shell.toast(L('left'), 3000);
   }
@@ -457,6 +624,308 @@
     b.addEventListener('click', function () { var r = round(); if (r && r.pending) tr.act('respond', { turn: r.pending, code: b.getAttribute('data-code') }); });
   });
   $('btnInvalid').textContent = L('rp.invalid');
+  /* ---------------------------------------- the Answerer chooses the card (1.1.0) --- */
+  // 1.1.2: she types a name - or asks the computer for an idea: one at a time, only on her screen, with
+  // ✅ Use this · Next ➡️ · ⬅️ Previous · ✍️ I'll choose myself. After a while (chooseSeconds) the idea comes
+  // by itself; it never starts the round alone. When the whole time to choose is over, the idea on the
+  // screen is used. An idea she takes counts as her own choice: the Guesser never learns it was the computer's.
+  var cpRound = -1, cpSeq = 0, cpTimer = null, cpBusy = false;
+  var idea = { list: [], i: 0, open: false, auto: false, ended: false, pending: null, loading: false };
+  /** m:ss */
+  function mmss(sec) { sec = Math.max(0, Math.round(sec || 0)); var m = Math.floor(sec / 60), x = sec % 60; return m + ':' + (x < 10 ? '0' : '') + x; }
+  var cpWatch = null, cpTry = 0;
+  /**
+   * 1.1.6 - sends the Answerer's choice so that it cannot hang: a built-in card at once; a name from Wikidata is
+   * read by this phone first (it found the name there a moment ago) and goes to the referee with its facts -
+   * so the match does not depend on the server reaching Wikidata as well. "The computer cannot use this card"
+   * is said at once; and if no answer comes within 25 seconds she simply chooses again.
+   */
+  function chooseSend(x) {
+    var mine = ++cpTry;
+    clearTimeout(cpWatch);
+    cpWatch = setTimeout(function () { if (cpBusy && mine === cpTry) cpFailed('net'); }, 25000);
+    if (x.mine) { tr.act('choose', { mine: true }); return; }
+    if (x.deck) { tr.act('choose', { deck: x.deck }); return; }
+    if (x.card) { tr.act('choose', { qid: x.qid, card: x.card }); return; }
+    MBG.WhoDiscovery.lookup({ qid: x.qid, mode: view.mode, timeout: 9000 }).then(function (card) {
+      if (mine === cpTry && cpBusy) tr.act('choose', { qid: x.qid, card: card });
+    }, function (e) {
+      if (mine !== cpTry || !cpBusy) return;
+      if (String(e && e.message) === 'card') cpFailed('card');      // read, and not usable for this game
+      else tr.act('choose', { qid: x.qid });                          // this phone could not read it: the referee tries
+    });
+  }
+  function renderChoose(r, rl, choosing) {
+    var pad = $('choosePad'), mine = choosing && rl === 'answerer';
+    pad.hidden = !mine;
+    app.classList.toggle('choosing-mine', mine);      // (the keyboard layout: the field at the top, its suggestions under it)
+    if (!mine) { clearTimeout(cpWatch); return; }
+    if (cpRound !== r.index) {
+      // a new round: an empty field; the computer's ideas are ready (its own card among them)
+      cpRound = r.index; cpBusy = false;
+      $('cpTitle').textContent = L('choose.title', { name: player(r.guesser).name });
+      // 1.1.9: the agreed category - the card should be one of it (the ideas come from it)
+      if (view.pickCat) { $('cpTitle').appendChild(document.createElement('br')); $('cpTitle').appendChild(el('span', 'cp-topic', '🎯 ' + topicLabel(view.mode, view.cat, view.subs, false, view.own))); }
+      $('cpInput').value = ''; $('cpInput').placeholder = L('choose.ph.' + view.mode);
+      $('cpList').textContent = ''; $('cpNote').hidden = true;
+      $('cpComputer').textContent = '🎲 ' + L('choose.suggest'); $('cpComputer').disabled = false;
+      ideaReset(r);
+      ideaClose(true);
+      setTimeout(function () { try { $('cpInput').focus(); } catch (e) { /* no focus */ } }, 50);
+    }
+    txt('cpLeft', '⏳ ' + mmss(r.chooseLeft));
+    // after a while the computer's idea comes by itself (once) - it does not start the round
+    if (!idea.open && !idea.auto && !cpBusy && r.ideaIn <= 0) { idea.auto = true; ideaOpen(true); }
+    // the whole time is over: the idea on the screen is the card (else the computer's own card)
+    // (a few seconds early, so its check is done in time: at once for a built-in card or the computer's own, longer for Wikidata)
+    var cur = idea.open ? idea.list[idea.i] : null, early = cur && cur.source !== 'deck' && !(idea.own && cur.id === idea.own.id) ? 8 : 3;
+    if (!idea.ended && !cpBusy && cur && r.chooseLeft <= early) { idea.ended = true; ideaUse(); }
+  }
+  /* ------------------------------------------ the category of the round (1.1.9) --- */
+  // One player chooses the question word and the category (and, if they like, subcategories) of the round: in the
+  // first round the one who asked for the game, then the winner of the round before. The other player is told.
+  var catSel = null;
+  function whyPicker(r) {
+    var prev = r.index > 0 ? view.rounds[r.index - 1] : null, nm = r.catBy === me() ? L('you') : (player(r.catBy) || {}).name || '?';
+    return prev ? L(r.catBy === me() ? 'cat.whyWonMe' : 'cat.whyWon', { name: nm }) : L(r.catBy === me() ? 'cat.whyAskedMe' : 'cat.whyAsked', { name: nm });
+  }
+  function renderCategory(r, mine) {
+    var pad = $('catPad');
+    pad.hidden = !mine;
+    app.classList.toggle('picking-mine', mine);      // (the whole space for the choice: the card waits)
+    if (!mine) { catSel = null; return; }
+    if (!catSel || catSel.round !== r.index) {
+      catSel = { round: r.index, mode: r.mode || view.mode, cat: r.cat || null, subs: (r.subs || []).slice(), own: r.own || null, first: r.index === 0 };
+      drawCategory(r);
+    }
+    txt('catLeft', '⏳ ' + mmss(r.catLeft));
+  }
+  function drawCategory(r) {
+    var pad = $('catPad'), sel = catSel;
+    pad.textContent = '';
+    var head = el('p', 'cat-title');
+    head.appendChild(el('strong', null, '🎯 ' + L('cat.title', { n: r.index + 1 })));
+    head.appendChild(el('span', 'cp-left', '')).id = 'catLeft';
+    pad.appendChild(head);
+    pad.appendChild(el('p', 'muted small', whyPicker(r) + ' ' + L('cat.told', { name: other().name })));
+    // 1. the question word
+    var modes = el('div', 'cat-modes');
+    C.MODE_ORDER.forEach(function (m) {
+      var b = el('button', 'cat-mode mode-' + m + (sel.mode === m ? ' on' : ''), C.MODES[m].icon + ' ' + C.MODES[m].title[LIx]);
+      b.type = 'button';
+      b.addEventListener('click', function () { if (sel.mode !== m) { sel.mode = m; sel.cat = null; sel.subs = []; sel.own = null; } drawCategory(r); });
+      modes.appendChild(b);
+    });
+    pad.appendChild(modes);
+    // 2. the category (or all of this question word)
+    var cats = el('div', 'cat-chips');
+    var all = el('button', 'cat-chip' + (!sel.cat && !sel.own ? ' on' : ''), '✨ ' + L('cat.all'));
+    all.type = 'button';
+    all.addEventListener('click', function () { sel.cat = null; sel.subs = []; sel.own = null; drawCategory(r); });
+    cats.appendChild(all);
+    C.catsOf(sel.mode).forEach(function (k) {
+      var ct = C.CATS[k], b = el('button', 'cat-chip' + (sel.cat === k ? ' on' : ''), ct.icon + ' ' + C.name(ct, setup.lang));
+      b.type = 'button';
+      b.addEventListener('click', function () { if (sel.cat !== k) { sel.cat = k; sel.subs = []; } sel.own = null; drawCategory(r); });
+      cats.appendChild(b);
+    });
+    // or their own category, in their words (the computer cannot check it - the two players agree on it)
+    var ownB = el('button', 'cat-chip' + (sel.own != null ? ' on' : ''), '✍️ ' + L('cat.own'));
+    ownB.type = 'button';
+    ownB.addEventListener('click', function () { sel.cat = null; sel.subs = []; sel.own = sel.own || ''; drawCategory(r); setTimeout(function () { try { $('catOwn').focus(); } catch (e) { /* no focus */ } }, 30); });
+    cats.appendChild(ownB);
+    pad.appendChild(cats);
+    if (sel.own != null) {
+      var f = el('div', 'field cat-ownfield'), inp = el('input');
+      inp.id = 'catOwn'; inp.type = 'text'; inp.maxLength = 40; inp.value = sel.own; inp.placeholder = L('cat.ownPh.' + sel.mode); inp.autocomplete = 'off';
+      inp.addEventListener('input', function () { sel.own = inp.value; txt('catNow', topicLabel(sel.mode, null, [], false, sel.own.trim() || '…')); goB(); });
+      f.appendChild(inp);
+      pad.appendChild(f);
+    }
+    // 3. narrower, if they like (several may be chosen; none = all of the category)
+    if (sel.cat) {
+      var subs = C.CATS[sel.cat].subs, keys = Object.keys(subs);
+      if (keys.length > 1) {
+        pad.appendChild(el('p', 'muted small cat-narrow', L('cat.narrow')));
+        var sc = el('div', 'cat-chips subs');
+        keys.forEach(function (k) {
+          var on = sel.subs.indexOf(k) !== -1, b = el('button', 'cat-chip small' + (on ? ' on' : ''), (on ? '✓ ' : '') + C.name(subs[k], setup.lang));
+          b.type = 'button';
+          b.addEventListener('click', function () { var i = sel.subs.indexOf(k); if (i === -1) sel.subs.push(k); else sel.subs.splice(i, 1); drawCategory(r); });
+          sc.appendChild(b);
+        });
+        pad.appendChild(sc);
+      }
+    }
+    // what it will be, and the buttons
+    pad.appendChild(el('p', 'cat-now', topicLabel(sel.mode, sel.cat, sel.subs, false, sel.own != null ? (sel.own.trim() || '…') : null))).id = 'catNow';
+    var row = el('div', 'cat-btns');
+    var go = el('button', 'btn submit', '✅ ' + L('cat.use'));
+    go.type = 'button';
+    function goB() { go.disabled = sel.own != null && sel.own.trim().length < 3; }
+    goB();
+    go.addEventListener('click', function () { go.disabled = true; tr.act('category', { mode: sel.mode, cat: sel.cat, subs: sel.subs, own: sel.own != null ? sel.own.trim() : null }); });
+    row.appendChild(go);
+    if (r.index > 0) {
+      var keep = el('button', 'btn ghost', '↩️ ' + L('cat.keep'));
+      keep.type = 'button';
+      keep.addEventListener('click', function () { keep.disabled = true; tr.act('category', { keep: true }); });
+      row.appendChild(keep);
+    }
+    pad.appendChild(row);
+    txt('catLeft', '⏳ ' + mmss(r.catLeft));
+  }
+  /** The computer's ideas for this round: its own card (already checked) and the others, leaning to the playing language. */
+  function ideaReset(r) {
+    var D = MBG.WhoDiscovery, lang = view.lang || setup.lang;
+    var ex = (view.rounds || []).map(function (x) { return x.answer && x.answer.id; }).filter(Boolean);
+    try { ex = ex.concat(MBG.WhoStats.recent() || []); } catch (e) { /* no stats */ }
+    var own = r.answer && r.answer.facts ? r.answer : null;
+    if (own) ex = ex.filter(function (id) { return id !== own.id; });
+    var got = D.ideas({ lang: lang, mode: view.mode, cat: view.cat, subs: view.subs, level: view.level, exclude: ex.concat(own ? [own.id] : []),
+      online: navigator.onLine !== false, store: Shell.store });
+    idea = { list: withOwn(got.now, own), i: 0, open: false, auto: false, ended: false, pending: null, loading: true, own: own, round: r.index };
+    var at = r.index;
+    got.later.then(function (list) {
+      if (cpRound !== at || idea.round !== at) return;
+      // keep what was shown (for ⬅️ Previous), then the new order without those
+      var shown = idea.list.slice(0, idea.i + 1), ids = {};
+      shown.forEach(function (e) { ids[e.id] = 1; });
+      var rest = list.filter(function (e) { return !ids[e.id] && (!own || e.id !== own.id); });
+      if (own && !ids[own.id]) rest.unshift(own);          // the computer's own card stays the next one
+      idea.list = shown.concat(rest);
+      idea.loading = false;
+      if (idea.open) ideaShow();
+    }, function () { idea.loading = false; if (idea.open) ideaShow(); });
+  }
+  /** The computer's own card near the front: first - or second, after an idea from home (Albanian, Bosnian, German). */
+  function withOwn(list, own) {
+    var out = list.slice();
+    if (!own) return out;
+    out = out.filter(function (e) { return e.id !== own.id; });
+    var D = MBG.WhoDiscovery, lang = view.lang || setup.lang;
+    var homeFirst = out.length && D.homeOf(out[0], lang) > 0 && D.homeOf(own, lang) === 0;
+    out.splice(homeFirst ? 1 : 0, 0, own);
+    return out;
+  }
+  /** One line about an idea, so she knows who or what it is: the description, or the kind, the country and the years. */
+  function ideaDesc(e) {
+    var lang = view.lang || setup.lang, f = e.facts || {}, parts = [];
+    var d = e.desc && e.desc[lang];
+    if (d) parts.push(d);
+    else {
+      var sp = C.sub(e.cat, (e.subs || [])[0]);
+      parts.push(sp && sp.names ? C.name(sp, lang) : C.CATS[e.cat] ? C.name(C.CATS[e.cat], lang) : '');
+      if ((f.countries || []).length) parts.push(f.countries.slice(0, 2).map(function (c) { return MBG.WhoLex.countryName(c, lang); }).join(', '));
+    }
+    var y = '';
+    if (e.kind === 'person' && f.born != null) y = Q.yearText(f.born, lang) + (f.died != null ? '–' + Q.yearText(f.died, lang) : '');
+    else if (e.kind !== 'person' && e.kind !== 'place' && f.start != null) y = Q.yearText(f.start, lang) + (f.end != null && f.end !== f.start && f.end < new Date().getFullYear() ? '–' + Q.yearText(f.end, lang) : '');
+    if (y && (!d || d.indexOf(String(f.born != null ? f.born : f.start)) === -1)) parts.push(y);
+    return parts.filter(Boolean).join(' · ');
+  }
+  function ideaShow() {
+    var e = idea.list[idea.i];
+    $('cpIdeaHead').textContent = '💡 ' + L(idea.autoShown ? 'choose.ideaAuto' : 'choose.ideaHead');
+    if (!e) {
+      $('cpIdeaName').textContent = idea.loading ? '⏳' : '–';
+      $('cpIdeaDesc').textContent = idea.loading ? L('choose.ideaLoading') : L('choose.ideaNone');
+    } else {
+      $('cpIdeaName').textContent = X.labelIn(e, view.lang || setup.lang);
+      $('cpIdeaDesc').textContent = ideaDesc(e);
+    }
+    $('cpPrev').disabled = cpBusy || idea.i <= 0;
+    $('cpNext').disabled = cpBusy || idea.i >= idea.list.length - 1;
+    $('cpNext').textContent = (idea.loading && idea.i >= idea.list.length - 1 ? '⏳ ' : '') + L('choose.next') + ' ➡️';
+    $('cpUse').disabled = cpBusy || !e;
+  }
+  function ideaOpen(auto) {
+    idea.open = true; idea.autoShown = !!auto;
+    $('cpOwn').hidden = true; $('cpIdea').hidden = false; $('cpComputer').hidden = true;
+    if (!cpBusy) $('cpNote').hidden = true;
+    ideaShow();
+  }
+  function ideaClose(quiet) {
+    idea.open = false;
+    $('cpOwn').hidden = false; $('cpIdea').hidden = true; $('cpComputer').hidden = false;
+    if (!quiet) setTimeout(function () { try { $('cpInput').focus(); } catch (e) { /* no focus */ } }, 30);
+  }
+  /** Takes the idea on the screen: the computer's own card at once; another one is checked like a typed name. */
+  function ideaUse() {
+    var e = idea.list[idea.i];
+    if (!e || cpBusy) return;
+    cpBusy = true; idea.pending = e.id;
+    ideaShow();
+    $('cpNote').setAttribute('data-name', X.labelIn(e, view.lang || setup.lang));
+    if (idea.own && e.id === idea.own.id) { chooseSend({ mine: true }); return; }
+    $('cpNote').hidden = false; $('cpNote').textContent = '⏳ ' + L('choose.checking', { name: X.labelIn(e, view.lang || setup.lang) });
+    // (an idea from Wikidata comes with its facts already: they go along)
+    chooseSend(e.source === 'deck' || !e.qid ? { deck: e.id } : { qid: e.qid, card: e.facts && e.label ? e : null });
+  }
+  $('cpPrev').textContent = '⬅️ ' + L('choose.prev');
+  $('cpNext').textContent = L('choose.next') + ' ➡️';
+  $('cpUse').textContent = '✅ ' + L('choose.use');
+  $('cpSelf').textContent = '✍️ ' + L('choose.self');
+  $('cpPrev').addEventListener('click', function () { if (idea.i > 0) { idea.i--; ideaShow(); } });
+  $('cpNext').addEventListener('click', function () { if (idea.i < idea.list.length - 1) { idea.i++; $('cpNote').hidden = true; ideaShow(); } });
+  $('cpUse').addEventListener('click', ideaUse);
+  $('cpSelf').addEventListener('click', function () { if (!cpBusy) ideaClose(); });
+  function cpSuggest() {
+    var text = $('cpInput').value, seq = ++cpSeq, list = $('cpList');
+    if (text.trim().length < 2) { list.textContent = ''; return; }
+    MBG.WhoDiscovery.suggest({ text: text, lang: setup.lang, mode: view.mode, online: navigator.onLine !== false }).then(function (items) {
+      if (seq !== cpSeq) return;
+      list.textContent = '';
+      if (!items.length) { list.appendChild(el('li', 'muted small', L('choose.none'))); return; }
+      items.forEach(function (x) {
+        var li = el('li'), b = el('button'); b.type = 'button';
+        b.appendChild(el('strong', null, x.label));
+        if (x.desc) b.appendChild(el('span', null, x.desc));
+        b.addEventListener('click', function () {
+          if (cpBusy) return;
+          cpBusy = true; idea.pending = null;
+          Array.prototype.forEach.call(list.querySelectorAll('button'), function (y) { y.disabled = true; });
+          $('cpNote').hidden = false; $('cpNote').textContent = '⏳ ' + L('choose.checking', { name: x.label });
+          $('cpNote').setAttribute('data-name', x.label);
+          chooseSend(x.qid ? { qid: x.qid } : { deck: x.deck });
+        });
+        li.appendChild(b); list.appendChild(li);
+      });
+    });
+  }
+  $('cpInput').addEventListener('input', function () { clearTimeout(cpTimer); cpTimer = setTimeout(cpSuggest, 300); });
+  $('cpInput').addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); var b = $('cpList').querySelector('button'); if (b) b.click(); } });
+  // 🎲 the computer's idea - only shown to her; nothing starts before she says "Use this"
+  $('cpComputer').addEventListener('click', function () { if (!cpBusy) ideaOpen(false); });
+  function cpFailed(kind) {
+    cpBusy = false; cpTry++;
+    clearTimeout(cpWatch);
+    var name = $('cpNote').getAttribute('data-name') || '';
+    if (kind === 'net') {
+      // no answer, or Wikidata not reached: not the card's fault - the same choice may work in a moment
+      idea.pending = null; if (idea.ended) idea.ended = false;
+      $('cpNote').hidden = false;
+      $('cpNote').textContent = '📡 ' + L('choose.net', { name: name });
+      Array.prototype.forEach.call($('cpList').querySelectorAll('button'), function (y) { y.disabled = false; });
+      if (idea.open) ideaShow();
+      return;
+    }
+    if (idea.pending) {
+      // an idea the computer cannot check after all: drop it and show the next one
+      var gone = idea.pending;
+      idea.pending = null;
+      idea.list = idea.list.filter(function (e) { return e.id !== gone; });
+      if (idea.i > idea.list.length - 1) idea.i = Math.max(0, idea.list.length - 1);
+      $('cpNote').hidden = false;
+      $('cpNote').textContent = '⚠ ' + L('choose.ideaCannot', { name: name });
+      if (idea.ended) { idea.ended = false; }
+      ideaShow();
+      return;
+    }
+    $('cpNote').hidden = false;
+    $('cpNote').textContent = '⚠ ' + L('choose.cannot', { name: name });
+    Array.prototype.forEach.call($('cpList').querySelectorAll('button'), function (y) { y.disabled = false; });
+  }
   $('btnInvalid').addEventListener('click', function () { var r = round(); if (r && r.pending) tr.act('respond', { turn: r.pending, code: 'INVALID' }); });
   $('btnAsk').textContent = L('ask.btn');
   $('btnGuess').textContent = '🎯 ' + L('guess.btn');
@@ -491,7 +960,7 @@
   /** A game counts (paid edition: today's free game) when it really starts - once per match, for players. */
   var counted = null;
   function countGame(r, rl) {
-    if (!MBG.Plan || setup.daily || counted === view.id || rl === 'observer' || rl === 'outside' || r.status !== 'playing') return;   // the puzzles of the day are free
+    if (!MBG.Plan || setup.daily || counted === view.id || rl === 'observer' || rl === 'outside' || (r.status !== 'playing' && r.status !== 'choosing' && r.status !== 'category')) return;   // the puzzles of the day are free
     counted = view.id;
     MBG.Plan.useGame();
   }
@@ -566,8 +1035,8 @@
       quick.appendChild(c);
     });
     f.addEventListener('submit', function (e) { e.preventDefault(); if (inp.value.trim()) { tr.act('say', { text: inp.value.trim() }); inp.value = ''; } });
-    if (!view.watching) sh.body.appendChild(quick);
-    sh.body.appendChild(f);
+    if (MBG.WhoTransport.Online.guest() && tr instanceof MBG.WhoTransport.Online) sh.body.appendChild(el('p', 'muted', '🔒 ' + L('chat.guest')));
+    else { if (!view.watching) sh.body.appendChild(quick); sh.body.appendChild(f); }
     chatDraw = draw;
   }
   var chatDraw = null;
@@ -625,7 +1094,10 @@
   }
 
   /* ------------------------------------------------------- end of a round --- */
+  /** Closes the open sheets (by id). */
+  function closeSheets(ids) { ids.forEach(function (id) { var d = document.getElementById(id); if (d && d.open) { try { d.close(); } catch (e) { /* closed */ } } }); }
   function roundEnd(r) {
+    if (shownResult) return;      // (1.1.8: the match ended meanwhile - the other player left)
     var guesser = r.guesser === me(), s = r.score || {};
     var A = r.answer;
     if (s.won && guesser) { confetti(); setTimeout(function () { play('win' + winKey(s.total)); }, 900); }
@@ -649,16 +1121,20 @@
     photo(A, cardBox);
     // the score (section 13.1), line by line as on the win cards of MBG Puzzles
     var sc = el('div', 'kv scorekv');
-    function row(k, v, cls) { var x = el('div', 'kv-row ' + (cls || '')); x.appendChild(el('span', null, k)); x.appendChild(el('b', 'num', v)); sc.appendChild(x); }
+    function row(k, v, cls) { var x = el('div', 'kv-row ' + (cls || '')); x.appendChild(el('span', null, k)); x.appendChild(typeof v === 'string' ? el('b', 'num', v) : v); sc.appendChild(x); }
+    var N = Shell.num, tier = MBG.WhoEngine.prize(s.total);
     if (s.won) {
-      row(L('sc.base'), '100');
-      row(L('sc.unused', { n: s.unused }), '+' + s.unusedPts);
-      row(L('sc.time', { s: s.secs }), '+' + s.timePts);
-      if (s.wrong) row(L('sc.wrong', { n: s.wrong }), String(s.wrongPts));
+      row(L('sc.base'), N(s.base));
+      row(L('sc.speed', { n: s.unused, s: s.secs }), '+' + N(s.speedPts));
+      if (s.wrong) row(L('sc.wrong', { n: s.wrong }), N(s.wrongPts));
       row(L('sc.level', { level: C.LEVELS[view.level].names[LIx] }), '× ' + s.mult.toFixed(2));
-      row(L('sc.total'), String(s.total), 'total');
+      row(L('sc.total'), Shell.prize(s.total, 'big'), 'total');
+      if (guesser) sc.appendChild(el('p', 'prize-line pz-' + tier, L('prize.' + (s.total >= 500000 ? 'perfect' : tier))));
     } else {
-      row(L(r.reason === 'time' ? 'end.time' : r.reason === 'wrong' ? 'end.wrong2' : r.reason === 'gave_up' ? 'end.gaveUp' : 'end.left'), '0', 'total');
+      row(L(r.reason === 'time' ? 'end.time' : r.reason === 'wrong' ? 'end.wrong2' : r.reason === 'gave_up' ? 'end.gaveUp' : 'end.left'), N(0));
+      if (s.giveUpPts) row(L('sc.early', { s: s.secs }), N(s.giveUpPts));
+      if (s.hintPts) row(L('sc.hints', { n: s.hints }), N(s.hintPts));
+      row(L('sc.total'), Shell.prize(s.total || 0, 'big'), 'total');
     }
     b.appendChild(sc);
     // the Answerer's answers checked against the data (a fair-play aid, FR-006)
@@ -687,7 +1163,7 @@
     }
     if (!last) b.appendChild(el('p', 'next-role', '🔄 ' + L(guesser ? 'end.nowAnswer' : 'end.nowGuess')));
   }
-  function winKey(s) { return s < 110 ? 1 : s < 130 ? 2 : s < 150 ? 3 : s < 170 ? 4 : s < 190 ? 5 : s < 220 ? 6 : 7; }
+  function winKey(s) { return s < 10000 ? 1 : s < 25000 ? 2 : s < 50000 ? 3 : s < 100000 ? 4 : s < 200000 ? 5 : s < 400000 ? 6 : 7; }
 
   /* ------------------------------------------------------- end of a match --- */
   /** Records go to the bell (and, if the player wants it, by e-mail - off by default). */
@@ -697,7 +1173,7 @@
     if (st.hof === 1) items.push(['note.hofTitle', 'note.hofText', { n: st.hof }]);
     if (st.practiceRecord) items.push(['note.prTitle', 'note.prText', { n: st.practice.after }]);
     items.forEach(function (x) { if (MBG.Net.notes.local) MBG.Net.notes.local('achievement', t(x[0], x[2]), t(x[1], x[2])); });
-    if (!MBG.Net.demo && MBG.Net.signedIn() && view.vsComputer) MBG.Net.submitResult({ kind: 'practice', best: st.newBest ? st.best : null, practice: st.practice ? st.practice.after : null }).catch(function () {});
+    if (!MBG.Net.demo && MBG.Net.signedIn() && view.vsComputer) MBG.Net.submitResult({ kind: 'practice', lang: (view && view.lang) || Shell.getLang(), best: st.newBest ? st.best : null, practice: st.practice ? st.practice.after : null }).catch(function () {});
   }
   /**
    * The puzzle of the day: the score of my guessing round. The first try counts - on this device and,
@@ -735,20 +1211,38 @@
     // the best rating known (practice now; the official one with the server): top players earn more credits
     var known = (stats.practice && stats.practice.after) || ((MBG.WhoStats.practiceOf && MBG.WhoStats.practiceOf()) || {}).rating || 0;
     var earned = !looker && MBG.Plan ? MBG.Plan.reward({ won: res.winner === me(), newBest: !!stats.newBest, rating: known }) : [];
-    if (mine) { confetti(); play('win7'); }
-    var sh = Shell.sheet({ id: 'dlgResult', title: res.draw ? '🤝 ' + L('res.draw') : mine ? '🏆 ' + L('res.won') : looker ? '🏆 ' + L('res.winnerIs', { name: player(res.winner).name }) : '👏 ' + L('res.lost', { name: player(res.winner).name }), cls: 'resultsheet', modal: true,
-      actions: [{ label: '🔁 ' + L(setup.daily ? 'daily.again' : 'res.again'), onClick: function () { sh.close('again'); MBG.WhoSetup.start(setup); } }] });
+    // 1.1.8 - between people online (like chess.com): a rematch with the same player, or a new opponent
+    var people = !!(tr && tr.room) && !view.vsComputer && !looker, opp = people ? other() : null;
+    var oppLeft = people && res.left && res.left !== me();
+    function newOpp() { var s2 = {}; for (var k in setup) s2[k] = setup[k]; s2.rematch = null; s2.friend = null; s2.room = null; s2.opponent = 'online'; MBG.WhoSetup.start(s2); }
+    function rematch() { MBG.Friends.rematch({ id: opp.id, name: opp.name }, { lang: view.lang || setup.lang, mode: view.mode, cat: view.cat, subs: view.subs, level: view.level, limits: view.cfg }, !!view.ranked); }
+    function again() { if (setup.friend) MBG.Friends.play({ id: setup.friend, name: params.get('fname') || '' }, setup); else if (people && opp && opp.id) rematch(); else MBG.WhoSetup.start(setup); }
+    if (mine && !oppLeft) { confetti(); play('win7'); }
+    var sh = Shell.sheet({ id: 'dlgResult', title: oppLeft ? '🚪 ' + L('res.oppLeftTitle', { name: opp.name }) : res.draw ? '🤝 ' + L('res.draw') : mine ? '🏆 ' + L('res.won') : looker ? '🏆 ' + L('res.winnerIs', { name: player(res.winner).name }) : '👏 ' + L('res.lost', { name: player(res.winner).name }), cls: 'resultsheet', modal: true,
+      actions: [{ label: '🔁 ' + (people && opp && !setup.friend ? L('rm.btn', { name: opp.name }) : L(setup.daily ? 'daily.again' : 'res.again')), onClick: function () { sh.close('again'); again(); } }] });
     var b = sh.body;
+    // 1.1.8: this player was not there when the match ended - why (closed the match screen / lost the connection)
+    var en = view.endNote;
+    if (en && MBG.WhoEndNote) b.appendChild(el('p', 'statline', (en.why === 'screen' ? '🚪 ' : '📡 ') + MBG.WhoEndNote.why(en)));
+    if (oppLeft) b.appendChild(el('p', 'statline good', '🚪 ' + L(view.ranked ? 'res.oppLeftRanked' : 'res.oppLeft', { name: opp.name })));
     if (setup.daily && !looker) dailyResult(b);
     var tbl = el('div', 'restable');
     (res.ranking || view.players.map(function (p) { return p.id; })).map(player).forEach(function (p) {
       var row = el('div', 'res-row' + (res.winner === p.id ? ' win' : ''));
       row.appendChild(p.kind === 'bot' ? el('span', 'av av-md av-emoji bot', '🤖') : MBG.Account.picture(p.id === me() ? MBG.Account.avatar() : '', 'av-md'));
-      row.appendChild(el('strong', null, p.id === me() ? L('you') : p.name));
+      var rn = el('strong', null, p.id === me() ? L('you') : p.name);
+      if (p.kind !== 'bot' && tr && tr.room && MBG.Profile) MBG.Profile.link(rn, { id: p.id, name: p.name });   // 1.1.4: the profile
+      row.appendChild(rn);
       var rs = view.rounds.filter(function (r) { return r.guesser === p.id; });
       var solved = rs.filter(function (r) { return r.score && r.score.won; });
       row.appendChild(el('span', 'muted', rs.length > 1 ? L('res.solvedOf', { n: solved.length, of: rs.length }) : solved.length ? L('res.solved', { n: solved[0].used }) : L('res.notSolved')));
-      row.appendChild(el('b', 'num big', String(res.totals[p.id] || 0)));
+      row.appendChild(Shell.prize(res.totals[p.id] || 0, 'big'));
+      // 1.1.3: a person with an MBG account (online) - "👫 Add as a friend"
+      if (p.kind !== 'bot' && p.id !== me() && String(p.id).indexOf('g_') !== 0 && MBG.Friends && MBG.Friends.ready() && tr && tr.room && !view.watching) {
+        var af = el('button', 'linkbtn res-friend', '👫 ' + L('fr.addThis')); af.type = 'button';
+        af.addEventListener('click', function () { af.disabled = true; MBG.Friends.request(p); });
+        row.appendChild(af);
+      }
       tbl.appendChild(row);
     });
     b.appendChild(tbl);
@@ -772,10 +1266,21 @@
     home.addEventListener('click', function () { sh.close(); Shell.goHome(); });
     var ns = el('button', 'btn ghost', '⚙ ' + L('res.setup')); ns.type = 'button';
     ns.addEventListener('click', function () { sh.close(); MBG.WhoSetup.open({}); });
-    var again = el('button', 'btn submit', '🔁 ' + L('res.again')); again.type = 'button';
-    again.addEventListener('click', function () { sh.close(); MBG.WhoSetup.start(setup); });
-    row2.appendChild(home); row2.appendChild(ns); row2.appendChild(again);
-    b.appendChild(row2);
+    var againB = el('button', 'btn submit', '🔁 ' + (people && opp && !setup.friend ? L('rm.btn', { name: opp.name }) : L('res.again'))); againB.type = 'button';
+    againB.addEventListener('click', function () { sh.close(); again(); });
+    if (people && !setup.friend) {
+      // 1.1.8: Home · 🔎 New opponent · 🔁 Rematch with Arta
+      var no = el('button', 'btn ghost', '🔎 ' + L('rm.newOpp')); no.type = 'button';
+      no.addEventListener('click', function () { sh.close(); newOpp(); });
+      row2.appendChild(home); row2.appendChild(no); row2.appendChild(againB);
+      b.appendChild(row2);
+      b.appendChild(el('p', 'muted small', L('rm.hint', { name: opp.name })));
+      // available meanwhile (like the home screen): the other player's "rematch?" reaches this screen too
+      if (MBG.Available) MBG.Available.start();
+    } else {
+      row2.appendChild(home); row2.appendChild(ns); row2.appendChild(againB);
+      b.appendChild(row2);
+    }
     var rate = el('button', 'linkbtn', '★ ' + L('rate.game'));
     rate.type = 'button';
     rate.addEventListener('click', function () { MBG.Ratings.open(MBG.GAME_ID); });
@@ -935,14 +1440,69 @@
   }
 
   /* -------------------------------------------------------------- leaving --- */
+  /* ------------------------------------------- ending by agreement (1.1.7) --- */
+  // Like a draw offer in chess: "I have to go" / "my internet is bad" - one asks, the other agrees, and the
+  // match ends for both without a winner: nothing counts. No, or no answer in 30 seconds: the match goes on.
+  var agreeWait = null;
+  function agreeOffer() {
+    var nm = other().name || '';
+    tr.act('offerEnd');
+    Shell.toast('🤝 ' + L('agree.sent', { name: nm }), 4000);
+    clearTimeout(agreeWait);
+    agreeWait = setTimeout(function () { if (view && view.state !== 'done') Shell.toast('🤝 ' + L('agree.none', { name: nm }), 3500); }, 32000);
+  }
+  function agreeAsked(by) {
+    var nm = (player(by) || {}).name || '';
+    var sh = Shell.sheet({ id: 'dlgAgree', title: '🤝 ' + L('agree.title'), modal: true }), done = false;
+    sh.body.appendChild(el('p', null, L('agree.text', { name: nm })));
+    var row2 = el('div', 'dlg-actions');
+    var no = el('button', 'btn ghost', L('agree.stay')); no.type = 'button';
+    var yes = el('button', 'btn submit', L('agree.yes')); yes.type = 'button';
+    function answer(v) { if (done) return; done = true; clearTimeout(t0); sh.close(); if (v != null) tr.act('answerEnd', { yes: v }); }
+    no.addEventListener('click', function () { answer(false); });
+    yes.addEventListener('click', function () { answer(true); });
+    row2.appendChild(no); row2.appendChild(yes); sh.body.appendChild(row2);
+    var t0 = setTimeout(function () { answer(null); }, 30000);      // no answer: the offer simply ends
+  }
+  /** Leaving a running match between people: ask to end it by agreement, leave anyway, or stay. */
+  function quitChoice(text) {
+    var nm = other().name || '';
+    var sh = Shell.sheet({ id: 'dlgQuit', title: L('quit.title'), modal: true });
+    sh.body.appendChild(el('p', null, text));
+    var box = el('div', 'quitchoice');
+    var ask = el('button', 'btn submit', '🤝 ' + L('agree.ask', { name: nm })); ask.type = 'button';
+    var stay = el('button', 'btn ghost', L('agree.stay')); stay.type = 'button';
+    var leave = el('button', 'btn ghost quit-leave', L('agree.leave')); leave.type = 'button';
+    ask.addEventListener('click', function () { sh.close(); agreeOffer(); });
+    stay.addEventListener('click', function () { sh.close(); });
+    leave.addEventListener('click', function () { sh.close(); if (tr) tr.act('leave'); setTimeout(Shell.goHome, 150); });
+    box.appendChild(ask); box.appendChild(el('p', 'quit-note', L('agree.askHint', { name: nm }))); box.appendChild(stay); box.appendChild(leave);
+    sh.body.appendChild(box);
+  }
+
   function requestQuit() {
     if (view && view.state !== 'done') {
-      Shell.confirm({ title: L('quit.title'), text: L('quit.text'), ok: L('quit.ok'), cancel: L('dlg.cancel') }).then(function (ok) {
-        if (ok) { if (tr) tr.act('leave'); setTimeout(Shell.goHome, 150); }
+      // 1.1.6 - what leaving costs: nothing while the connection is down, before the first question, or when
+      // the other player cannot be reached; else (between people) the match is lost
+      var people = !view.vsComputer && !view.watching && !view.outside;
+      var down = people && tr && tr.room && tr.linked && !tr.linked();
+      var opp = people && tr && tr.awaySecs ? (view.players || []).filter(function (p) { return p.id !== me() && !p.left; }) : [];
+      var away = opp.length > 0 && opp.every(function (p) { var a = tr.awaySecs(p.id); return a != null && a >= (view.awayFree || 40) + 5; });
+      var free = people && (down || away || view.untouched);
+      var text = !people ? L('quit.text') : down ? L('quit.textDown') : away ? L('quit.textAway') : view.untouched ? L('quit.textEarly') : L(view.ranked ? 'quit.textRanked' : 'quit.textCounts');
+      // 1.1.7 - a running match between two people: first the offer to end it together (nothing counts)
+      if (people && !free && view.canAgree && tr && tr.act) { quitChoice(text); return; }
+      Shell.confirm({ title: L('quit.title'), text: text, ok: L('quit.ok'), cancel: L('dlg.cancel'), danger: people && !free }).then(function (ok) {
+        if (!ok) return;
+        if (down) { leaveFree(); return; }
+        if (free && counted && MBG.Plan && MBG.Plan.giveBack) { MBG.Plan.giveBack(); counted = null; }
+        if (tr) tr.act('leave');
+        setTimeout(Shell.goHome, 150);
       });
     } else Shell.goHome();
   }
   $('btnHome').addEventListener('click', requestQuit);
+  $('btnEnd').addEventListener('click', requestQuit);      // 1.1.9
   $('btnHome').setAttribute('aria-label', t('nav.home'));
   Shell.setBackHandler(requestQuit);
   MBG.Notify.attach($('btnBell'), $('bellN'));
@@ -951,6 +1511,7 @@
   /* -------------------------------------------------------------- starting --- */
   function loading(title, text) {
     $('loading').hidden = false;
+    $('ldBack').hidden = false;
     $('ldTitle').textContent = title;
     $('ldText').textContent = text || '';
     $('ldBack').textContent = L('res.home');
@@ -974,6 +1535,9 @@
       return;
     }
     if (params.get('room')) return joinGame({ server: true, id: params.get('room'), lang: setup.lang, mode: setup.mode }, params.get('as') === 'play' ? 'play' : 'watch');
+    if (params.get('matched')) { setup.room = params.get('matched'); return joinMatched(); }
+    if (params.get('friend')) return friendSearch(params.get('friend'), params.get('fname') || '');
+    if (params.get('rematch')) return friendSearch(params.get('rematch'), params.get('rname') || '', true);
     if (params.get('online')) return onlineSearch();
     if (params.get('games')) { loading(L('join.title'), L('join.pick')); var hb = $('ldExtra'); hb.textContent = ''; if (MBG.WhoTransport.Online.supported()) gamesSheet(); else joinTabs(); return; }
     tr = new MBG.WhoTransport.Local(setup);
@@ -997,8 +1561,8 @@
       // fills quickly, then slower: about 90 % after 14 s (the longest the search may take)
       $('ldBar').style.width = Math.min(96, 100 * (1 - Math.exp(-sec / 6))) + '%';
       var stepI = sec < 3 ? 0 : sec < 8 ? 1 : 2;
-      $('ldTip').textContent = L(kind === 'lobby' ? ['online.tip1', 'online.tip2', 'online.tip3'][stepI] : ['ld.step1', 'ld.step2', 'ld.step3'][stepI]);
-      $('ldSecs').textContent = L('ld.secs', { s: Math.floor(sec) });
+      txt('ldTip', kind === 'friend' ? '' : L(kind === 'lobby' ? ['online.tip1', 'online.tip2', 'online.tip3'][stepI] : ['ld.step1', 'ld.step2', 'ld.step3'][stepI]));
+      txt('ldSecs', L('ld.secs', { s: Math.floor(sec) }));
       if (skip && !skipShown && sec >= 5) {
         skipShown = true;
         var b = el('button', 'btn ghost', '⚡ ' + L('ld.skip'));
@@ -1026,11 +1590,11 @@
     var row = el('div', 'gamerow');
     var md = C.MODES[o.mode] || C.MODES.who;
     var tx = el('div', 'gr-t');
-    tx.appendChild(el('strong', null, md.icon + ' ' + (o.players || []).join(' · ')));
+    tx.appendChild(el('strong', null, md.icon + ' ' + (o.players || []).map(function (p, i) { return o.cpu && i === 1 ? '🤖 ' + p : p; }).join(' · ')));
     tx.appendChild(el('span', 'muted small', Shell.langName(o.lang) + (o.waiting ? ' · ' + L('join.waitingFor') : ' · ' + L('join.round', { n: o.round || 1 })) + (o.watchers ? ' · 👀 ' + o.watchers : '') + (o.ranked ? ' · ♟️' : '')));
     row.appendChild(tx);
     var btns = el('div', 'gr-b');
-    if (!o.ranked && (o.waiting || o.access !== 'closed')) {
+    if (!o.ranked && !o.cpu && (o.waiting || o.access !== 'closed')) {
       var p1 = el('button', 'btn submit small', '🎮 ' + L('join.play')); p1.type = 'button';
       p1.addEventListener('click', function () { onPick(o, 'play'); });
       btns.appendChild(p1);
@@ -1047,7 +1611,7 @@
     return Object.keys(offers).map(function (code) {
       var o = offers[code];
       return { tabs: true, code: code, setup: o.setup, lang: o.setup.lang, mode: o.setup.mode, players: o.players || [o.name], watchers: o.watchers || 0,
-        access: o.access, waiting: o.state === 'waiting', round: 1 };
+        access: o.access, waiting: o.state === 'waiting', round: 1, cpu: !!o.cpu };
     });
   }
   /** Join a game: a tab of this browser (o.tabs) or a match room on the server (o.server). */
@@ -1066,7 +1630,8 @@
       tr.join(o.code, as);
     } else {
       tr = new MBG.WhoTransport.Online(setup);
-      tr.onView(function (v, ev) { if (v && v.lang && v.lang !== setup.lang) adopt({ lang: v.lang, mode: v.mode, level: v.level }); onView(v, ev); });
+      tr.onView(function (v, ev, quiet) { if (v && v.lang && v.lang !== setup.lang) adopt({ lang: v.lang, mode: v.mode, level: v.level }); onView(v, ev, quiet); });
+      tr.onLink = onLink;
       tr.joinRoom(o.id, null, as);
     }
   }
@@ -1094,7 +1659,7 @@
     if (MBG.WhoTransport.Online.supported()) {
       var o = search || new MBG.WhoTransport.Online(setup);
       o.rooms(function (rooms) { paint(rooms.filter(function (x) { return x.id !== (tr && tr.room); }).map(function (x) {
-        return { server: true, id: x.id, lang: x.lang, mode: x.mode, players: x.players, watchers: x.watchers, access: x.access, ranked: x.ranked, round: x.round };
+        return { server: true, id: x.id, lang: x.lang, mode: x.mode, players: x.players, watchers: x.watchers, access: x.access, ranked: x.ranked, round: x.round, cpu: !!x.cpu };
       })); });
     } else {
       var t2 = peek || new MBG.WhoTransport.Tabs(setup, 'guest');
@@ -1120,11 +1685,25 @@
     ex.appendChild(bj); ex.appendChild(bc);
     if (!demo) {
       search = tr = new MBG.WhoTransport.Online(setup);
-      tr.onView(onView);
+      tr.onView(onView); tr.onLink = onLink;
       search.find(function (st, info) {
+        if (st === 'online') { onlineNow(info.online); return true; }
+        if (st === 'reconnect') { if (!practicing && !proposing) $('ldText').textContent = L('online.reconnect'); return true; }
+        if (st === 'again') { if (!practicing && !proposing) $('ldText').textContent = L('online.lookingText'); return true; }
         if (st === 'proposal') {
+          // 1.1.5: the "No opponent so far" card must never cover the opponent who was just found
+          // 1.1.8: nor the rules card that lies over the search
+          ['dlgNoMatch', 'dlgHelp'].forEach(function (id) { var d = document.getElementById(id); if (d && d.open) { try { d.close(); } catch (e) { /* closed */ } } });
           if (practicing) { foundWhilePracticing(info); return false; }
-          $('ldTitle').textContent = L('online.found'); $('ldText').textContent = L('online.foundText', { name: info.with, rating: info.rating });
+          proposalCard(info);
+          return false;      // 1.1.0: both decide - nothing starts (and nothing is lost) before both say yes
+        }
+        if (st === 'accepted' && proposing) { $('ldText').textContent = L('online.theyAccepted', { name: info.by }); return; }
+        if (st === 'declined' || st === 'expired') {
+          if (proposing) { proposing = false; clearInterval(propTimer); $('ldBack').hidden = false; ex.textContent = ''; ex.appendChild(bj); ex.appendChild(bc); onlineNow(onlineN); }
+          if (!practicing) { loading(L('online.looking'), L('online.lookingText')); waiting(true, null, 'lobby'); }
+          if (st === 'declined') Shell.toast(L('online.declined', { name: info.with }), 3200);
+          t0 = Date.now();
         }
         return true;
       }).then(function (res) { done = true; if (practicing) { practicing = false; $('searchBanner').hidden = true; } started(res); },
@@ -1138,9 +1717,113 @@
       });
     }
     var timer = setInterval(function () {
-      if (done || practicing || !$('ldWait') || $('loading').hidden) { if (done || practicing) clearInterval(timer); return; }
+      if (done || practicing || proposing || !$('ldWait') || $('loading').hidden) { if (done || practicing) clearInterval(timer); return; }
       if (Date.now() - t0 >= 15000) { clearInterval(timer); noMatch(demo); }
     }, 500);
+  }
+  /* ------------------------------------------------------ a game with a friend (1.1.3) --- */
+  // The friend is invited (at once when their app is open; always by the 🔔 bell and the phone) and this
+  // player waits - with how it goes: asked · busy in a game · not in the app · not now. Never rated.
+  // 1.1.8 - re: a rematch with the opponent of the match just played (no friendship needed, guests too)
+  function friendSearch(fid, fname, re) {
+    var P = re ? 'rm.' : 'fr.';
+    if (!MBG.WhoTransport.Online.supported()) { loading('👫 ' + L('fr.title'), L('fr.needServer')); return; }
+    if (re) { setup.rematch = fid; setup.friend = null; } else { setup.friend = fid; setup.ranked = false; }
+    loading((re ? '🔁 ' : '👫 ') + L(P + 'waitTitle', { name: fname }), L(P + 'asked', { name: fname }));
+    waiting(true, null, 'friend');
+    var ex = $('ldExtra'); ex.textContent = '';
+    var msg = el('button', 'btn ghost', '💬 ' + L('fr.message')); msg.type = 'button';
+    msg.addEventListener('click', function () { MBG.Friends.message({ id: fid, name: fname }); });
+    // a rematch: instead of a message, another opponent (the search for anyone)
+    var other = el('button', 'btn ghost', '🔎 ' + L('rm.newOpp')); other.type = 'button';
+    other.addEventListener('click', function () { if (search) search.stop(); var s2 = {}; for (var k in setup) s2[k] = setup[k]; s2.rematch = null; s2.friend = null; MBG.WhoSetup.start(s2); });
+    var back = el('button', 'btn ghost', L('res.home')); back.type = 'button';
+    back.addEventListener('click', function () { if (search) search.stop(); Shell.goHome(); });
+    ex.appendChild(re ? other : msg); ex.appendChild(back);
+    search = tr = new MBG.WhoTransport.Online(setup);
+    tr.onView(onView); tr.onLink = onLink;
+    search.onFriend = function (state) {
+      var k = { asked: P + 'asked', busy: P + 'busy', away: P + 'away', declined: P + 'declined', notFriends: 'fr.notFriends' }[state];
+      if (k) $('ldText').textContent = L(k, { name: fname });
+      if (state === 'notFriends') waiting(false);
+      if (re && state === 'declined') { waiting(false); Shell.toast(L('rm.declined', { name: fname }), 3500); }
+    };
+    search.find(function () { return true; }).then(function (res) { started(res); }, function () { waiting(false); loading(L('opp.online'), L('online.error')); });
+  }
+  /** 1.1.5 - while searching: how many people are online now (so "nobody there" and "not matched" look different). */
+  var onlineN = null;
+  function onlineNow(n) {
+    onlineN = n;
+    if (n == null || proposing || practicing || $('loading').hidden) return;
+    var ex = $('ldExtra'), p = ex.querySelector('.ld-online');
+    if (!p) { p = el('p', 'muted small ld-online'); ex.insertBefore(p, ex.firstChild); }
+    p.textContent = n <= 1 ? '👤 ' + L('online.countOne') : '👥 ' + L('online.count', { n: n });
+  }
+  /** An opponent is found: who it is, Play or "Not this one" (25 seconds; nothing is lost before the start). */
+  var proposing = false, propTimer = null;
+  function proposalCard(info) {
+    proposing = true;
+    waiting(false);
+    $('ldBack').hidden = true;
+    var ex = $('ldExtra'), guest = info.guest || MBG.WhoTransport.Online.guest(), left = info.secs || 25;
+    $('ldTitle').textContent = '🎉 ' + L('online.found');
+    $('ldText').textContent = guest ? L('online.foundGuest2', { name: info.with }) : L('online.foundRated', { name: info.with, rating: Shell.num(info.rating) });
+    ex.textContent = '';
+    // 1.1.9: who it is, clearly - the picture, the name, the rating (or "guest")
+    var who = el('div', 'inv-who vs-found');
+    who.appendChild(MBG.Account.picture(info.avatar || '', 'av-lg'));
+    who.appendChild(el('strong', null, info.with));
+    who.appendChild(el('span', 'vs-rt', info.guest ? '👤 ' + L('vs.guest') : '⭐ ' + Shell.num(info.rating)));
+    ex.appendChild(who);
+    // 1.1.3: after a longer search the match may differ from the setup - say how, before Play
+    // 1.1.5: a player of another language (only while few are online) - say it plainly and ask
+    var w = info.want || {}, otherLang = (info.differs || []).indexOf('lang') !== -1;
+    if (otherLang && w.lang) ex.appendChild(el('p', 'warn', '🌐 ' + L('online.langAsk', { name: info.with, lang: Shell.langName(w.lang) })));
+    else if (info.oppLang && w.lang && info.oppLang !== w.lang) ex.appendChild(el('p', 'warn small', '🌐 ' + L('online.langTheirs', { name: info.with, theirs: Shell.langName(info.oppLang), lang: Shell.langName(w.lang) })));
+    info.differs = (info.differs || []).filter(function (k) { return k !== 'lang'; });
+    var dif = differsText(info);
+    if (dif) ex.appendChild(el('p', 'warn small', '⚠ ' + L('online.differs', { list: dif })));
+    var go = el('button', 'btn submit', '▶ ' + L('online.play')), no = el('button', 'btn ghost', L('online.notThis'));
+    go.type = no.type = 'button';
+    var cd = el('p', 'muted small');
+    function tick() { cd.textContent = L('online.decide', { s: left }); if (left-- <= 0) clearInterval(propTimer); }
+    tick(); clearInterval(propTimer); propTimer = setInterval(tick, 1000);
+    go.addEventListener('click', function () {
+      go.disabled = no.disabled = true;
+      search.acceptProposal();
+      $('ldText').textContent = L('online.waitOther', { name: info.with });
+    });
+    no.addEventListener('click', function () {
+      proposing = false; clearInterval(propTimer); $('ldBack').hidden = false;
+      search.declineProposal();
+      loading(L('online.looking'), L('online.lookingText'));
+      waiting(true, null, 'lobby');
+      ex.textContent = '';
+      onlineNow(onlineN);
+    });
+    ex.appendChild(go); ex.appendChild(no); ex.appendChild(cd);
+    try { if (navigator.vibrate) navigator.vibrate(120); } catch (e) { /* no vibration */ }
+  }
+  /** "What am I? · not rated · ⏱ 5 min" - what is different from what this player chose. */
+  function differsText(info) {
+    var w = info.want || {}, i = LIx, out = [];
+    (info.differs || []).forEach(function (k) {
+      if (k === 'lang' && w.lang) out.push('🌐 ' + Shell.langName(w.lang));     // 1.1.4: few online - another language
+      else if (k === 'mode' && C.MODES[w.mode]) out.push(C.MODES[w.mode].title[i]);
+      else if (k === 'casual') out.push(L('online.difCasual'));
+      else if (k === 'level' && C.LEVELS[w.level]) out.push(C.LEVELS[w.level].names[i]);
+      else if (k === 'cat') out.push(w.cat && C.CATS[w.cat] ? C.name(C.CATS[w.cat], setup.lang) : L('online.difCat'));
+      else if (k === 'rules' && w.limits) out.push('⏱ ' + Math.round(w.limits.roundSeconds / 60) + ' min · ' + w.limits.maxQuestions + ' ? · ' + w.limits.maxWrong + ' 🎯 · ' + w.limits.rounds + ' ⟳');
+    });
+    return out.join(' · ');
+  }
+  /** Matched from the home screen (the app was open, an invitation accepted): straight into the room. */
+  function joinMatched() {
+    loading(L('online.found'), L('online.starting'));
+    waiting(true, null, 'lobby');
+    tr = new MBG.WhoTransport.Online(setup);
+    tr.onView(onView); tr.onLink = onLink;
+    tr.joinRoom(setup.room, function (res) { started(res); });
   }
   function noMatch(demo) {
     var sh = Shell.sheet({ id: 'dlgNoMatch', title: '🔎 ' + L('online.noneTitle'), modal: true });
@@ -1192,11 +1875,13 @@
         loading(L('online.found'), L('online.foundText', { name: info.with, rating: info.rating }));
         waiting(true);
         search.acceptProposal();
-      } else { search.cancelFind(); $('searchBanner').hidden = true; }
+      } else { search.declineProposal(); }
     });
   }
   function started(res) {
     waiting(false);
+    // 1.1.8: the rules card that lay over a search for a person does not cover the match that begins
+    if (searching) { var hd = document.getElementById('dlgHelp'); if (hd && hd.open) { try { hd.close(); } catch (e) { /* closed */ } } }
     $('ldExtra').textContent = '';
     $('loading').hidden = true;
     if (res && res.source === 'deck' && res.failed) Shell.toast(L('ld.offline'), 3800);
@@ -1212,12 +1897,58 @@
       view = v;
       return;
     }
+    // 1.1.3: the match may have another question word than the setup (a longer search, a watched game)
+    if (v && v.mode && C.MODES[v.mode] && v.mode !== setup.mode) { setup.mode = v.mode; app.setAttribute('data-mode', v.mode); }
     if ($('loading').hidden === false && v && v.round) started();
     render(v, ev);
     if (chatDraw && chatOpen) chatDraw();
+    versus();
+  }
+  /**
+   * 1.1.9 - at the start of a match against a person: who plays whom, clearly - both pictures, names and ratings
+   * (a guest: "guest"), and who chooses the category first. A tap (or 4 seconds) closes it.
+   */
+  var vsShown = false;
+  function versus() {
+    if (vsShown || !view || view.vsComputer || view.watching || view.outside || view.state === 'done' || (view.players || []).length !== 2) return;
+    var r = round();
+    if (!r || r.index !== 0 || (r.status !== 'category' && r.status !== 'choosing')) { vsShown = true; return; }
+    vsShown = true;
+    var mine = player(me()), opp = other();
+    var box = el('div', 'versus');
+    box.setAttribute('role', 'dialog');
+    var row = el('div', 'vs-row');
+    [mine, opp].forEach(function (p, i) {
+      var c = el('div', 'vs-p' + (i ? ' them' : ' me'));
+      c.appendChild(MBG.Account.picture(p.avatar || (i ? '' : MBG.Account.avatar()), 'av-lg'));
+      c.appendChild(el('strong', null, i ? p.name : L('you')));
+      var guest = /^g_/.test(String(p.id || ''));
+      c.appendChild(el('span', 'vs-rt', guest ? '👤 ' + L('vs.guest') : p.rating ? '⭐ ' + Math.round(p.rating) : ''));
+      row.appendChild(c);
+      if (!i) row.appendChild(el('span', 'vs-x', '🆚'));
+    });
+    box.appendChild(el('p', 'vs-title', L('vs.title', { name: opp.name })));
+    box.appendChild(row);
+    box.appendChild(el('p', 'vs-sub', (view.ranked ? '🏆 ' + L('vs.ranked') : '🤝 ' + L('vs.casual')) + (r.catBy ? ' · 🎯 ' + L(r.catBy === me() ? 'vs.youPick' : 'vs.theyPick', { name: opp.name }) : '')));
+    document.body.appendChild(box);
+    var gone = false, close = function () { if (gone) return; gone = true; box.classList.add('out'); setTimeout(function () { if (box.parentNode) box.parentNode.removeChild(box); }, 250); };
+    box.addEventListener('click', close);
+    setTimeout(close, 4000);
   }
 
-  root.addEventListener('beforeunload', function () { if (tr && tr.stop) tr.stop(); });
-  if (!Shell.getPrefs().introOff) rules(true).then(begin); else begin();
+  // 1.1.8: the game screen closes - the room learns it is not a lost connection (unless the player is back in a
+  // few seconds, they have left the match, and the other player is told at once)
+  var pageGone = function () { if (tr && tr.stop) tr.stop(true); };
+  root.addEventListener('beforeunload', pageGone);
+  root.addEventListener('pagehide', function (e) { if (!e.persisted) pageGone(); });
+  // (1.1.6: a match that is already made, or a search for a person, starts at once - the other player is
+  // waiting; the rules stay one tap away in ⚙)
+  // 1.1.8: a search for a person (?online, a friend): before, the rules card kept the search from starting
+  // until it was closed, and the other player waited for nothing. Now the search starts at once and the rules
+  // card lies over it; it closes by itself when an opponent is found.
+  var atOnce = params.get('matched') || params.get('room'), searching = params.get('online') || params.get('friend');
+  if (Shell.getPrefs().introOff || atOnce) begin();
+  else if (searching) { begin(); rules(true); }
+  else rules(true).then(begin);
   MBG.play = { get view() { return view; }, get transport() { return tr; } };
 })(typeof self !== 'undefined' ? self : globalThis);

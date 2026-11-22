@@ -23,6 +23,8 @@
   var SILHOUETTE = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.4-3.6 4.4-5.5 8-5.5s6.6 1.9 8 5.5"/></svg>';
 
   function state() { return Shell.readJson(KEY, {}) || {}; }
+  /** The MBG user name of the account signed in (1.1.4). */
+  function name() { return state().username || null; }
   function setState(s) { Shell.writeJson(KEY, s); }
   function avatar() { var p = Shell.getPrefs().avatar; return typeof p === 'string' ? p : ''; }
   function picture(code, cls) {
@@ -109,6 +111,16 @@
       return r;
     });
   }
+  /** 1.1.9 - a tick under a password field: "Show password" (to check what was typed). */
+  function showPw(parent, input) {
+    var lab = el('label', 'showpw'), box = el('input');
+    box.type = 'checkbox';
+    box.addEventListener('change', function () { input.type = box.checked ? 'text' : 'password'; try { input.focus(); } catch (e) { /* no focus */ } });
+    lab.appendChild(box);
+    lab.appendChild(document.createTextNode(' ' + t('acc.showPw')));
+    parent.appendChild(lab);
+    return lab;
+  }
   function errText(e) { return t('acc.err.' + (['email', 'password', 'name', 'invalid', 'taken', 'exists', 'google', 'code', 'rate', 'mail', 'login', 'banned'].indexOf(e) !== -1 ? e : 'other')); }
 
   /* --------------------------------------------- Google on the phone and on the web --- */
@@ -162,6 +174,18 @@
       wt.appendChild(el('span', 'muted', u.mode === 'account' ? '✓ ' + t('acc.isAccount') : u.mode === 'local' ? t('acc.isLocal') : t('acc.isAnon')));
       who.appendChild(wt);
       b.appendChild(who);
+      // 1.1.4: my rating, and my profile as the other players see it
+      if (u.mode === 'account' && MBG.Profile && MBG.Net && !MBG.Net.demo) {
+        var rl = el('span', 'pf-rating', '🏆 …');
+        wt.appendChild(rl);
+        MBG.Net.player({ name: name() || u.name }).then(function (j) {
+          var p = j.player;
+          rl.textContent = '🏆 ' + Shell.num(p.rating) + ' · ' + t('title.' + p.title) + (p.place ? ' · ' + t('pf.placeOf', { n: Shell.num(p.place), all: Shell.num(p.players) }) : '');
+        }, function () { rl.remove(); });
+        var mp = el('button', 'linkbtn', '👤 ' + t('pf.mine')); mp.type = 'button';
+        mp.addEventListener('click', function () { MBG.Profile.open({ name: name() || u.name }); });
+        wt.appendChild(mp);
+      }
       if (note) b.appendChild(el('p', 'pw-msg ok', note));
       // log out (then choose again how to play) and "keep me signed in"
       if (u.mode !== 'anonymous') {
@@ -323,7 +347,7 @@
       var em = el('input', 'textfield'); em.type = 'email'; em.placeholder = t('acc.email'); em.autocomplete = 'email';
       f.appendChild(em);
       var pw = null, un = null;
-      if (mode !== 'reset') { pw = el('input', 'textfield'); pw.type = 'password'; pw.placeholder = t('acc.password'); pw.autocomplete = mode === 'login' ? 'current-password' : 'new-password'; f.appendChild(pw); }
+      if (mode !== 'reset') { pw = el('input', 'textfield'); pw.type = 'password'; pw.placeholder = t('acc.password'); pw.autocomplete = mode === 'login' ? 'current-password' : 'new-password'; f.appendChild(pw); showPw(f, pw); }
       if (mode === 'signup') { un = el('input', 'textfield'); un.placeholder = t('acc.username'); un.maxLength = 20; f.appendChild(un); }
       var go = el('button', 'btn submit', mode === 'login' ? t('acc.login') : t('acc.sendCode'));
       go.type = 'submit';
@@ -353,7 +377,7 @@
       var c = el('input', 'textfield tf-code'); c.inputMode = 'numeric'; c.maxLength = 6; c.autocomplete = 'one-time-code'; c.placeholder = '000000';
       f.appendChild(c);
       var pw = null;
-      if (kind === 'reset') { pw = el('input', 'textfield'); pw.type = 'password'; pw.placeholder = t('acc.newPassword'); pw.autocomplete = 'new-password'; f.appendChild(pw); }
+      if (kind === 'reset') { pw = el('input', 'textfield'); pw.type = 'password'; pw.placeholder = t('acc.newPassword'); pw.autocomplete = 'new-password'; f.appendChild(pw); showPw(f, pw); }
       var ok = el('button', 'btn submit', t('acc.confirm')); ok.type = 'submit';
       f.appendChild(ok);
       var msg = el('p', 'pw-msg'); msg.hidden = true;
@@ -392,5 +416,5 @@
     draw();
   }
 
-  MBG.Account = { open: open, picture: picture, paintButton: paintButton, avatar: avatar, signOut: signOut, switchTo: switchTo, remember: remember, session: function () { return state().session || null; }, AVATARS: AVATARS };
+  MBG.Account = { open: open, name: name, picture: picture, paintButton: paintButton, avatar: avatar, signOut: signOut, switchTo: switchTo, remember: remember, session: function () { return state().session || null; }, AVATARS: AVATARS };
 })(typeof self !== 'undefined' ? self : globalThis);

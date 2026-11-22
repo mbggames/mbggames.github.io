@@ -401,6 +401,13 @@ a.store.web:hover { background: var(--ink); color: var(--surface); }
 .who-test { margin: 32px 0 0; max-width: 560px; text-align: start; background: var(--card); border: 1px solid var(--line); }
 .who-test .tbtn { background: var(--accent); color: var(--on-accent); }
 .who-test .tbtn.ghosty { background: transparent; color: var(--accent); border: 2px solid var(--accent); }
+/* Who Am I? online: the alpha-tester box inside the home page card */
+.hub-test { margin: 18px 0 0; padding: 16px 18px 18px; font-size: .97rem; scroll-margin-top: 90px;
+  background: color-mix(in srgb, var(--accent) 7%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); }
+.hub-test .tbtn { background: var(--accent); color: var(--on-accent); }
+.hub-test .tbtn.ghosty { background: transparent; color: var(--accent); border: 2px solid var(--accent); }
+.hub-test h3 { font-size: 1.08rem; }
+.hub-test p { margin: 0 0 12px; }
 
 /* ------------------------------------------- main menu on every page: Home · Puzzles · Who Am I? · Contact */
 .site-nav { display: flex; gap: 4px; order: 3; width: 100%; overflow-x: auto; scrollbar-width: none; padding-block: 0 8px; }

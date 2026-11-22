@@ -37,9 +37,12 @@
     <div class="pl right" id="plB"></div>
   </section>
   <div class="extras" id="extras">
+    <button type="button" class="endbtn" id="btnEnd" hidden></button>
     <button type="button" class="dailypill" id="dailyPill" hidden></button>
     <div class="plmore" id="plMore" hidden></div>
     <div class="searchbanner" id="searchBanner" hidden></div>
+    <p class="linkbar" id="linkBar" role="status" aria-live="polite" hidden></p>
+    <div class="awaybox" id="awayBox" hidden><span id="awayText"></span><button type="button" class="btn ghost small" id="awayEnd" hidden></button></div>
     <div class="reqbar" id="reqBar" hidden></div>
   </div>
 
@@ -88,6 +91,23 @@
       <button type="button" class="rbtn r-unknown" data-code="UNKNOWN"></button>
     </div>
     <button type="button" class="linkbtn" id="btnInvalid"></button>
+  </div>
+  <div class="catpad" id="catPad" hidden></div>
+  <div class="choosepad" id="choosePad" hidden>
+    <p class="cp-title" id="cpTitle"></p>
+    <div class="cp-own" id="cpOwn">
+      <div class="field"><input id="cpInput" type="text" maxlength="80" autocomplete="off" spellcheck="false" enterkeyhint="search"></div>
+      <ul class="cp-list" id="cpList"></ul>
+    </div>
+    <div class="cp-idea" id="cpIdea" hidden>
+      <p class="cp-idea-head" id="cpIdeaHead"></p>
+      <div class="cp-idea-card"><strong id="cpIdeaName"></strong><span id="cpIdeaDesc"></span></div>
+      <div class="cp-idea-nav"><button type="button" class="btn ghost" id="cpPrev"></button><button type="button" class="btn ghost" id="cpNext"></button></div>
+      <button type="button" class="btn submit" id="cpUse"></button>
+      <button type="button" class="linkbtn" id="cpSelf"></button>
+    </div>
+    <p class="cp-note" id="cpNote" hidden></p>
+    <div class="cp-row"><button type="button" class="btn ghost" id="cpComputer"></button><span class="cp-left" id="cpLeft"></span></div>
   </div>
   <p class="waitline" id="waitLine" hidden></p>
   <div class="watchbar" id="watchBar" hidden></div>
@@ -150,6 +170,9 @@
 <script src="js/platform/net.js"></script>
 <script src="js/platform/account.js"></script>
 <script src="js/platform/notify.js"></script>
+<script src="js/platform/friends.js"></script>
+<script src="js/platform/profile.js"></script>
+<script src="js/platform/available.js"></script>
 <script src="js/platform/ratings.js"></script>
 <script src="js/platform/judge.js"></script>
 <script src="js/whoami/setup.js"></script>

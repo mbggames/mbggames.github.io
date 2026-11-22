@@ -10,14 +10,16 @@
  */
 (function (root) {
   var MBG = root.MBG = root.MBG || {};
-  MBG.PLATFORM_URL = MBG.PLATFORM_URL || "https://mbg-platform.merkur-bc4.workers.dev.";
+  MBG.PLATFORM_URL = MBG.PLATFORM_URL || "https://mbg-platform.merkur-bc4.workers.dev";
   MBG.WORLD_URL = MBG.WORLD_URL || "https://api.mbggames.com";
-  MBG.GOOGLE_CLIENT_ID = MBG.GOOGLE_CLIENT_ID || '';
+  MBG.GOOGLE_CLIENT_ID = MBG.GOOGLE_CLIENT_ID || "538582628565-fc1qtkda9ph410ijvs904gtpdgd5nss9.apps.googleusercontent.com";
   MBG.EMAIL_LOGIN = MBG.EMAIL_LOGIN || true;
   // the web version of the game (mbggames.com/whoami), for invitation links; empty = only the code
   MBG.WEB_URL = MBG.WEB_URL || 'https://mbggames.com/whoami';
   // the edition: 'free' (no limits, nothing for sale) or 'paid' (the Google Play version) - js/app/plans.js
   MBG.EDITION = MBG.EDITION || 'free';
+  // phone notifications (Firebase): on when the app is built with google-services.json (GitHub secret GOOGLE_SERVICES_JSON)
+  MBG.PUSH = MBG.PUSH || false;
   MBG.GAME_ID = 'whoami';
   // The other MBG games, for the links on the home screen. MBG Puzzles: the Play Store page once
   // it is published; its web version until then.

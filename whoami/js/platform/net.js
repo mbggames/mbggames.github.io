@@ -15,7 +15,8 @@
   'use strict';
   var MBG = root.MBG = root.MBG || {};
   var Shell = MBG.Shell;
-  var BASE = String(MBG.PLATFORM_URL || '').replace(/\/+$/, '');
+  // 1.1.5: also a dot left at the end of the address ("...workers.dev.") - some networks refuse such a host
+  var BASE = String(MBG.PLATFORM_URL || '').trim().replace(/[\/.\s]+$/, '');
   var KEY = 'MBG.Platform.demo';
   var listeners = [];
   function emit(type) { listeners.forEach(function (f) { try { f(type); } catch (e) { /* ignore */ } }); }
@@ -92,8 +93,12 @@
       remove: function (id) { var d = load(); d.notes = d.notes.filter(function (n) { return n.id !== id; }); save(d); return Promise.resolve(true); },
       /** A notice made on this device (records of practice matches). */
       local: function (type, title, text) { var d = load(); note(d, type, title, text); save(d); emit('change'); return Promise.resolve(true); },
-      prefs: function () { return Promise.resolve(Shell.readJson('MBG.Platform.notePrefs', { email: { message: true, judge: true, decision: true, match: true, achievement: false }, reminders: true, push: false })); },
-      setPrefs: function (p) { Shell.writeJson('MBG.Platform.notePrefs', p); return Promise.resolve(p); }
+      prefs: function () { return Promise.resolve(Shell.readJson('MBG.Platform.notePrefs', { email: { message: true, judge: true, decision: true, match: true, achievement: true }, reminders: true, push: true, muteUntil: 0 })); },
+      setPrefs: function (p) {
+        var q = JSON.parse(JSON.stringify(p));
+        if (q.muteHours != null) { q.muteUntil = q.muteHours ? Date.now() + q.muteHours * 3600e3 : 0; delete q.muteHours; }
+        Shell.writeJson('MBG.Platform.notePrefs', q); return Promise.resolve(q);
+      }
     },
     ratings: {
       get: function (target) {
@@ -196,6 +201,15 @@
     top: function () { return Promise.resolve({ demo: true, rows: [] }); },   // the world list needs the server
     // free access by e-mail needs the server (MBG accounts have the e-mail addresses)
     access: function () { return Promise.resolve({ demo: true, free: false, admin: false }); },
+    push: { register: function () { return Promise.resolve({ demo: true }); }, off: function () { return Promise.resolve({ demo: true }); } },
+    // groups need the server and MBG accounts
+    groups: (function () { var no = function () { var e = new Error('demo'); e.status = 0; return Promise.reject(e); };
+      return { list: no, create: no, join: no, view: no, leave: no, remove: no, chat: no, say: no, report: no, hide: no }; })(),
+    // 1.1.4 - player profiles need the server
+    player: function () { var e = new Error('demo'); e.status = 0; return Promise.reject(e); },
+    // 1.1.3 - friends need the server and MBG accounts
+    friends: (function () { var no = function () { var e = new Error('demo'); e.status = 0; return Promise.reject(e); };
+      return { list: no, request: no, answer: no, remove: no, note: no }; })(),
     freeAccess: {
       list: function () { return Promise.reject(new Error('demo')); },
       add: function () { return Promise.reject(new Error('demo')); },
@@ -321,6 +335,31 @@
     invite: function (name, room) { return call('/api/p/invite', { name: name, room: room }); },
     // free access given by the administrator (paid edition): mine, and the administrator's list
     access: function () { return call('/api/p/access'); },
+    // this phone gets notifications (Firebase token), or no longer
+    push: { register: function (token) { return call('/api/p/push/register', { token: token }); }, off: function () { return call('/api/p/push/register', { off: true }); } },
+    // 1.1.0 - groups: members, one chat (closed while you play a match), the ranking of the members
+    groups: {
+      list: function () { return call('/api/p/groups').then(function (j) { return j.groups; }); },
+      create: function (name) { return call('/api/p/groups', { name: name }); },
+      join: function (code) { return call('/api/p/groups/join', { code: code }); },
+      view: function (id) { return call('/api/p/groups/' + id); },
+      leave: function (id) { return call('/api/p/groups/' + id + '/leave', {}); },
+      remove: function (id, name) { return call('/api/p/groups/' + id + '/remove', { name: name }); },
+      chat: function (id) { return call('/api/p/groups/' + id + '/chat'); },
+      say: function (id, text) { return call('/api/p/groups/' + id + '/chat', { text: text }); },
+      report: function (id, msg) { return call('/api/p/groups/' + id + '/report', { msg: msg }); },
+      hide: function (id, msg) { return call('/api/p/groups/' + id + '/hide', { msg: msg }); }
+    },
+    // 1.1.4 - a player's profile (open to everyone): the rating, the place, the matches
+    player: function (o) { return call('/api/p/player?' + (o.id ? 'id=' + encodeURIComponent(o.id) : 'name=' + encodeURIComponent(o.name || ''))); },
+    // 1.1.3 - friends: a request the other accepts; their status; a short message (the answer to an invitation)
+    friends: {
+      list: function () { return call('/api/p/friends'); },
+      request: function (o) { return call('/api/p/friends/request', o); },
+      answer: function (id, yes) { return call('/api/p/friends/answer', { id: id, yes: !!yes }); },
+      remove: function (id) { return call('/api/p/friends/remove', { id: id }); },
+      note: function (id, text) { return call('/api/p/friends/note', { id: id, text: text }); }
+    },
     freeAccess: {
       list: function () { return call('/api/p/admin/free').then(function (j) { return j.list; }); },
       add: function (o) { return call('/api/p/admin/free', o); },

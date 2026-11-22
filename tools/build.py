@@ -383,18 +383,27 @@ class Site:
             return ''
         return f'<div class="tester-actions"><a class="tbtn" href="{m.group(1)}">{ICONS["play"]}<span>{esc(WEB_PREVIEW.get(code, WEB_PREVIEW["en"])[1])}</span></a></div>'
 
+    def whoami_alpha(self, w):
+        """True while the web version is online and the Android alpha test of Who Am I? takes testers (site.json: whoamiAlpha)."""
+        return self.whoami_ready() and bool(self.cfg.get('whoamiAlpha', True)) and 'alphaTitle' in w
+
     def whoami_tester(self, code, w, cls=''):
-        """Become a tester of Who Am I?: send your Gmail address by WhatsApp or e-mail."""
-        if self.whoami_ready() or 'testTitle' not in w:
+        """Become a tester of Who Am I?: send your Gmail address by WhatsApp or e-mail.
+        Before the game is online: the 'coming soon' box (test*); once the web version is online: the alpha box (alpha*)."""
+        if self.whoami_alpha(w):
+            title, text, msg = w['alphaTitle'], w['alphaText'], w['alphaMsg']
+        elif self.whoami_ready() or 'testTitle' not in w:
             return ''
-        msg = w['testMsg'].replace('{name}', w['name'])
+        else:
+            title, text, msg = w['testTitle'], w['testText'], w['testMsg']
+        msg = msg.replace('{name}', w['name'])
         wa = 'https://wa.me/' + self.cfg['whatsapp'] + '?text=' + urllib.parse.quote(msg, safe='')
         mail = ('mailto:' + self.cfg['email'] + '?subject=' + urllib.parse.quote(w['name'] + ' – test', safe='')
                 + '&body=' + urllib.parse.quote(msg, safe=''))
         return f'''<div class="tester {cls}" id="testers">
-<h3>{ICONS['user']}{esc(w['testTitle'])}</h3>
-<p>{esc(w['testText'].replace('{name}', w['name']))}</p>
-<div class="tester-actions"><a class="tbtn" href="{esc(wa)}">{ICONS['chat']}<span>{esc(w['testTitle'])} · WhatsApp</span></a>
+<h3>{ICONS['user']}{esc(title)}</h3>
+<p>{esc(text.replace('{name}', w['name']))}</p>
+<div class="tester-actions"><a class="tbtn" href="{esc(wa)}">{ICONS['chat']}<span>{esc(title)} · WhatsApp</span></a>
 <a class="tbtn ghosty" href="{esc(mail)}">{ICONS['mail']}<span>E-mail</span></a></div>
 </div>'''
 
@@ -796,8 +805,7 @@ class Site:
 <p>{esc(w['text'])}</p>
 <ul class="ticks">{facts(w['facts'])}</ul>
 <p class="hub-state">{esc(who_state)}</p>
-<div class="cta-row"><a class="ghost" href="{L(self.whoami_path(code))}">{esc(w['name'])}</a>{'' if self.whoami_ready() or 'testTitle' not in w else '<a class="ghost" href="' + L(self.whoami_path(code)) + '#testers">' + ICONS['user'] + esc(w['testTitle']) + '</a>'}</div>
-{'' if self.whoami_ready() or 'testText' not in w else '<p class="hub-early">' + esc(w['testText'].replace('{name}', w['name'])) + '</p>'}
+{self.whoami_card_actions(code, w, L)}
 </article>
 </div>
 </div></section>
@@ -811,6 +819,24 @@ class Site:
         body = self.typography(code, body)
         head = self.typography(code, head)
         return f'<!doctype html>\n<html lang="{m["hreflang"]}" dir="{c["dir"]}">\n<head>\n{head}\n</head>\n<body class="hub">\n{body}\n</body>\n</html>\n'
+
+    def whoami_card_actions(self, code, w, L):
+        """The buttons of the Who Am I? card on the home page.
+        Online: 'Play now in your browser' (web version, limited features) + 'Become an alpha tester' and its box.
+        Not online yet: the game's page + 'Become a tester' (coming soon)."""
+        path = L(self.whoami_path(code))
+        if self.whoami_ready():
+            small = w.get('playWebSmall', '')
+            play = (f'<a class="store web" href="{path}">{ICONS["play"]}<span>'
+                    + (f'<small>{esc(small)}</small>' if small else '')
+                    + f'<b>{esc(w.get("playWeb", w["ready"]))}</b></span></a>')
+            alpha = ''
+            if self.whoami_alpha(w):
+                alpha = f'<a class="ghost" href="#testers">{ICONS["user"]}{esc(w["alphaTitle"])}</a>'
+            return f'<div class="cta-row">{play}{alpha}</div>\n{self.whoami_tester(code, w, "hub-test")}'
+        tester = '' if 'testTitle' not in w else f'<a class="ghost" href="{path}#testers">{ICONS["user"]}{esc(w["testTitle"])}</a>'
+        early = '' if 'testText' not in w else '<p class="hub-early">' + esc(w['testText'].replace('{name}', w['name'])) + '</p>'
+        return f'<div class="cta-row"><a class="ghost" href="{path}">{esc(w["name"])}</a>{tester}</div>\n{early}'
 
     @staticmethod
     def animation(up, name, w, h, alt, cls):

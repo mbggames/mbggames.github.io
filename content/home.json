@@ -40,7 +40,12 @@
         "waNotify": "Hello, please tell me when {name} by MBG Games is out: {url}",
         "testTitle": "Become a tester",
         "testText": "After the successful test of MBG Puzzles, the alpha test of {name} starts soon. Send us your Gmail address and we will add you.",
-        "testMsg": "Hello, I would like to test {name} by MBG Games. My Gmail address: "
+        "testMsg": "Hello, I would like to test {name} by MBG Games. My Gmail address: ",
+        "playWeb": "Play now in your browser",
+        "playWebSmall": "Web version · limited features",
+        "alphaTitle": "Become an alpha tester",
+        "alphaText": "You have the privilege: become a tester of the {name} alpha version for Android, before the full version is released. Send us your Gmail address and we will add you.",
+        "alphaMsg": "Hello, I would like to become an alpha tester of {name} by MBG Games. My Gmail address: "
       }
     },
     "about": {
@@ -108,7 +113,12 @@
         "waNotify": "Përshëndetje, më njoftoni kur të dalë {name} nga MBG Games: {url}",
         "testTitle": "Bëhu testues",
         "testText": "Pas testit të suksesshëm të MBG Puzzles, së shpejti fillon testi alfa i {name} Na dërgo adresën Gmail dhe do të të shtojmë.",
-        "testMsg": "Përshëndetje, dua të testoj {name} nga MBG Games. Adresa ime Gmail: "
+        "testMsg": "Përshëndetje, dua të testoj {name} nga MBG Games. Adresa ime Gmail: ",
+        "playWeb": "Luaj tani në shfletues",
+        "playWebSmall": "Versioni në ueb · veçori të kufizuara",
+        "alphaTitle": "Bëhu testues alfa",
+        "alphaText": "Ke privilegjin: bëhu testues i versionit alfa të {name} për Android, para se të dalë versioni i plotë. Na dërgo adresën Gmail dhe do të të shtojmë.",
+        "alphaMsg": "Përshëndetje, dua të bëhem testues alfa i {name} nga MBG Games. Adresa ime Gmail: "
       }
     },
     "about": {
@@ -176,7 +186,12 @@
         "waNotify": "Zdravo, javite mi kad izađe {name} od MBG Games: {url}",
         "testTitle": "Postani tester",
         "testText": "Nakon uspješnog testa MBG Puzzles, uskoro počinje alfa test igre {name} Pošalji nam svoju Gmail adresu i dodat ćemo te.",
-        "testMsg": "Zdravo, želim testirati {name} od MBG Games. Moja Gmail adresa: "
+        "testMsg": "Zdravo, želim testirati {name} od MBG Games. Moja Gmail adresa: ",
+        "playWeb": "Igraj sada u pregledniku",
+        "playWebSmall": "Web verzija · ograničene funkcije",
+        "alphaTitle": "Postani alfa tester",
+        "alphaText": "Imaš privilegiju: postani tester alfa verzije igre {name} za Android, prije nego što izađe puna verzija. Pošalji nam svoju Gmail adresu i dodat ćemo te.",
+        "alphaMsg": "Zdravo, želim postati alfa tester igre {name} od MBG Games. Moja Gmail adresa: "
       }
     },
     "about": {
@@ -244,7 +259,12 @@
         "waNotify": "Hallo, bitte sagen Sie mir Bescheid, wenn {name} von MBG Games erscheint: {url}",
         "testTitle": "Tester werden",
         "testText": "Nach dem erfolgreichen Test von MBG Puzzles beginnt bald der Alphatest von {name} Schick uns deine Gmail-Adresse, und wir nehmen dich auf.",
-        "testMsg": "Hallo, ich möchte {name} von MBG Games testen. Meine Gmail-Adresse: "
+        "testMsg": "Hallo, ich möchte {name} von MBG Games testen. Meine Gmail-Adresse: ",
+        "playWeb": "Jetzt im Browser spielen",
+        "playWebSmall": "Webversion · eingeschränkte Funktionen",
+        "alphaTitle": "Alpha-Tester werden",
+        "alphaText": "Du hast das Privileg: Teste die Alpha-Version von {name} für Android, bevor die Vollversion erscheint. Schick uns deine Gmail-Adresse, und wir fügen dich hinzu.",
+        "alphaMsg": "Hallo, ich möchte Alpha-Tester von {name} von MBG Games werden. Meine Gmail-Adresse: "
       }
     },
     "about": {
@@ -312,7 +332,12 @@
         "waNotify": "Hola, avísenme cuando salga {name} de MBG Games: {url}",
         "testTitle": "Hazte tester",
         "testText": "Tras la prueba exitosa de MBG Puzzles, pronto empieza la prueba alfa de {name} Envíanos tu dirección de Gmail y te añadimos.",
-        "testMsg": "Hola, quiero probar {name} de MBG Games. Mi dirección de Gmail: "
+        "testMsg": "Hola, quiero probar {name} de MBG Games. Mi dirección de Gmail: ",
+        "playWeb": "Juega ahora en el navegador",
+        "playWebSmall": "Versión web · funciones limitadas",
+        "alphaTitle": "Hazte probador alfa",
+        "alphaText": "Tienes el privilegio: prueba la versión alfa de {name} para Android antes de que salga la versión completa. Envíanos tu dirección de Gmail y te añadiremos.",
+        "alphaMsg": "Hola, me gustaría ser probador alfa de {name} de MBG Games. Mi dirección de Gmail: "
       }
     },
     "about": {
@@ -380,7 +405,12 @@
         "waNotify": "Bonjour, prévenez-moi quand {name} de MBG Games sortira : {url}",
         "testTitle": "Devenir testeur",
         "testText": "Après le test réussi de MBG Puzzles, le test alpha de {name} commence bientôt. Envoie-nous ton adresse Gmail et nous t’ajouterons.",
-        "testMsg": "Bonjour, je voudrais tester {name} de MBG Games. Mon adresse Gmail : "
+        "testMsg": "Bonjour, je voudrais tester {name} de MBG Games. Mon adresse Gmail : ",
+        "playWeb": "Jouer maintenant dans le navigateur",
+        "playWebSmall": "Version web · fonctions limitées",
+        "alphaTitle": "Devenez testeur alpha",
+        "alphaText": "Vous avez le privilège de tester la version alpha de {name} pour Android avant la sortie de la version complète. Envoyez-nous votre adresse Gmail et nous vous ajouterons.",
+        "alphaMsg": "Bonjour, je voudrais devenir testeur alpha de {name} de MBG Games. Mon adresse Gmail : "
       }
     },
     "about": {
@@ -448,7 +478,12 @@
         "waNotify": "Merhaba, MBG Games’in {name} oyunu çıkınca bana haber verin: {url}",
         "testTitle": "Test kullanıcısı ol",
         "testText": "MBG Puzzles’ın başarılı testinin ardından {name} alfa testi yakında başlıyor. Gmail adresini gönder, seni ekleyelim.",
-        "testMsg": "Merhaba, MBG Games’in {name} oyununu test etmek istiyorum. Gmail adresim: "
+        "testMsg": "Merhaba, MBG Games’in {name} oyununu test etmek istiyorum. Gmail adresim: ",
+        "playWeb": "Şimdi tarayıcıda oyna",
+        "playWebSmall": "Web sürümü · sınırlı özellikler",
+        "alphaTitle": "Alfa test kullanıcısı ol",
+        "alphaText": "Bu ayrıcalık senin: tam sürüm çıkmadan önce {name} oyununun Android alfa sürümünü test et. Gmail adresini bize gönder, seni ekleyelim.",
+        "alphaMsg": "Merhaba, MBG Games'in {name} oyununun alfa test kullanıcısı olmak istiyorum. Gmail adresim: "
       }
     },
     "about": {
@@ -516,7 +551,12 @@
         "waNotify": "Dzień dobry, proszę dać mi znać, gdy wyjdzie {name} od MBG Games: {url}",
         "testTitle": "Zostań testerem",
         "testText": "Po udanym teście MBG Puzzles wkrótce rusza test alfa gry {name} Wyślij nam swój adres Gmail, a dodamy cię.",
-        "testMsg": "Dzień dobry, chcę testować {name} od MBG Games. Mój adres Gmail: "
+        "testMsg": "Dzień dobry, chcę testować {name} od MBG Games. Mój adres Gmail: ",
+        "playWeb": "Zagraj teraz w przeglądarce",
+        "playWebSmall": "Wersja internetowa · ograniczone funkcje",
+        "alphaTitle": "Zostań testerem alfa",
+        "alphaText": "Masz ten przywilej: przetestuj wersję alfa {name} na Androida, zanim ukaże się pełna wersja. Wyślij nam swój adres Gmail, a dodamy Cię.",
+        "alphaMsg": "Dzień dobry, chcę zostać testerem alfa gry {name} od MBG Games. Mój adres Gmail: "
       }
     },
     "about": {
@@ -584,7 +624,12 @@
         "waNotify": "Olá, me avisem quando sair {name} da MBG Games: {url}",
         "testTitle": "Seja testador",
         "testText": "Depois do teste bem-sucedido do MBG Puzzles, o teste alfa de {name} começa em breve. Envie seu endereço do Gmail e nós adicionamos você.",
-        "testMsg": "Olá, quero testar {name} da MBG Games. Meu endereço do Gmail: "
+        "testMsg": "Olá, quero testar {name} da MBG Games. Meu endereço do Gmail: ",
+        "playWeb": "Jogue agora no navegador",
+        "playWebSmall": "Versão web · funções limitadas",
+        "alphaTitle": "Seja testador alfa",
+        "alphaText": "Você tem o privilégio de testar a versão alfa de {name} para Android antes do lançamento da versão completa. Envie-nos o seu endereço Gmail e nós o adicionaremos.",
+        "alphaMsg": "Olá, gostaria de ser testador alfa de {name} da MBG Games. Meu endereço Gmail: "
       }
     },
     "about": {
@@ -652,7 +697,12 @@
         "waNotify": "مرحبًا، أخبروني عند صدور «{name}» من MBG Games: {url}",
         "testTitle": "كن مختبِرًا",
         "testText": "بعد الاختبار الناجح لـ MBG Puzzles، يبدأ قريبًا اختبار ألفا للعبة «{name}». أرسل لنا عنوان Gmail وسنضيفك.",
-        "testMsg": "مرحبًا، أود اختبار «{name}» من MBG Games. عنوان Gmail الخاص بي: "
+        "testMsg": "مرحبًا، أود اختبار «{name}» من MBG Games. عنوان Gmail الخاص بي: ",
+        "playWeb": "العب الآن في المتصفح",
+        "playWebSmall": "نسخة الويب · ميزات محدودة",
+        "alphaTitle": "كن مختبِرًا لنسخة ألفا",
+        "alphaText": "لديك امتياز اختبار نسخة ألفا من {name} على أندرويد قبل صدور النسخة الكاملة. أرسل إلينا عنوان Gmail الخاص بك وسنضيفك.",
+        "alphaMsg": "مرحبًا، أودّ أن أصبح مختبِرًا لنسخة ألفا من {name} من MBG Games. عنوان Gmail الخاص بي: "
       }
     },
     "about": {
@@ -720,7 +770,12 @@
         "waNotify": "안녕하세요, MBG Games의 {name}가 출시되면 알려 주세요: {url}",
         "testTitle": "테스터 되기",
         "testText": "MBG Puzzles 테스트를 성공적으로 마치고, 곧 {name} 알파 테스트를 시작해요. Gmail 주소를 보내 주시면 추가해 드릴게요.",
-        "testMsg": "안녕하세요, MBG Games의 {name}를 테스트하고 싶어요. 제 Gmail 주소: "
+        "testMsg": "안녕하세요, MBG Games의 {name}를 테스트하고 싶어요. 제 Gmail 주소: ",
+        "playWeb": "지금 브라우저에서 플레이",
+        "playWebSmall": "웹 버전 · 일부 기능만 제공",
+        "alphaTitle": "알파 테스터 되기",
+        "alphaText": "특별한 기회: 정식 버전 출시 전에 Android용 {name} 알파 버전을 먼저 테스트해 보세요. Gmail 주소를 보내 주시면 추가해 드립니다.",
+        "alphaMsg": "안녕하세요, MBG Games의 {name} 알파 테스터가 되고 싶습니다. 제 Gmail 주소: "
       }
     },
     "about": {

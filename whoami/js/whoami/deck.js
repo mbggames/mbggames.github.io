@@ -36,7 +36,11 @@
       people: { creators: names(f.cr), cast: names(f.cast), members: names(f.mem), related: names(f.rel) },
       peopleComplete: !!(f.cr || f.mem), bothTags: list(f.bt), fictional: false
     };
-    return { id: 'd:' + id, qid: qid || null, cat: cat, subs: list(subs), level: level, kind: kind, label: label,
+    // 1.1.9: narrower subcategories from the tags - capital cities are "Capitals" too, painters "Painters"
+    var sl = list(subs);
+    if (facts.tags.indexOf('capital') !== -1 && sl.indexOf('capitals') === -1) sl.push('capitals');
+    if (kind === 'person' && facts.tags.indexOf('painter') !== -1 && sl.indexOf('painters') === -1) sl.push('painters');
+    return { id: 'd:' + id, qid: qid || null, cat: cat, subs: sl, level: level, kind: kind, label: label,
       aliases: names(aliases), facts: facts, source: 'deck' };
   }
 
